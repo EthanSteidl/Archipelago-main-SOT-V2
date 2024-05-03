@@ -147,7 +147,7 @@ class LocDetails:
 class SOTLocation(Location):
     game: str = "Sea of Thieves"
 
-    def __init__(self, locDetails: LocDetails, player: int, region, address: int | None = None):
+    def __init__(self, locDetails: LocDetails, player: int, region):
         super().__init__(player, locDetails.name, locDetails.id, region)
         self.locDetails = locDetails
 
