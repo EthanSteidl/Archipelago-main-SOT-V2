@@ -50,7 +50,6 @@ class SOTWebCollector:
             "Sec-Fetch-Mode": self.SEC_FETCH_MODE,
             "Sec-Fetch-Site": self.SEC_FETCH_SITE,
             "User-Agent": self.USER_AGENT,
-
             "Cache-Control": "max-age=0"
 
         }
@@ -63,8 +62,7 @@ class SOTWebCollector:
                 resp = requests.get('https://www.seaofthieves.com/api/profilev2/captaincy', headers=self.getHeaders())
                 text = resp.text
                 self.json = json.loads(text)
-                #with open('sottempdata.json', 'w') as f:
-                #    self.json.dump(self.json, f)
+
             except:
                 print("The query to the web server failed, resolution steps: (1) enter the correct cookie (2) open the Captaincy page on www.seaofthieves.com")
 
