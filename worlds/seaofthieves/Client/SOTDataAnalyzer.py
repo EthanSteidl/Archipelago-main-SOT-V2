@@ -13,16 +13,14 @@ from worlds.seaofthieves.Items.Items import ItemCollection
 class SOTDataAnalyzerSettings:
 
     def __init__(self, details: UserInformation.SotAnalyzerDetails):
-        self.details = details
+        self.details: UserInformation.SotAnalyzerDetails = details
 
-    def isPirateMode(self) -> bool:
-        return self.details.shipName == ""
+    def get_name_ship(self) -> str | None:
+        return self.details.get_ship()
 
-    def isShipMode(self) -> bool:
-        return not self.isPirateMode()
+    def get_name_pirate(self) -> str | None:
+        return self.details.get_pirate()
 
-    def getShipName(self) -> int:
-        return int(self.details.shipName)
 
 class OldNewValues:
     old: int = 0
@@ -59,10 +57,16 @@ class SOTDataAnalyzer:
         accolade = web_location.webJsonIdentifier.accolade
         stat = web_location.webJsonIdentifier.stat
         sub_stat = web_location.webJsonIdentifier.substat
-        if self.settings.isPirateMode():
+
+
+        #for each pirate
+        if self.settings.get_name_pirate() is not None:
             v = json_data['Pirate']['Alignments'][alignment]['Accolades'][accolade]['Stats'][stat]
+        elif self.settings.get_name_ship() is not None:
+            v = json_data['Ships'][self.settings.get_name_ship()]['Alignments'][alignment]['Accolades'][accolade]['Stats'][stat]
         else:
-            v = json_data['Ships'][self.settings.getShipName()]['Alignments'][alignment]['Accolades'][accolade]['Stats'][stat]
+            print("Error: Web Parser: No pirate Name or Ship Name defined")
+            return 0
 
         if sub_stat < 0:
             return v['Value']

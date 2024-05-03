@@ -7,7 +7,6 @@ from .Name import Name
 from worlds.seaofthieves.Locations.Locations import *
 from ..Locations.LocationCollection import LocationDetailsCollection
 from ...generic.Rules import add_rule, exclusion_rules
-from ..Locations.Hunter.ProvisionsCooked import BurntAboard
 from ..Items.Items import Items
 from ..Configurations import SotOptionsDerived
 
@@ -17,9 +16,6 @@ class SOTRegion(Region):
     def __init__(self, regionName: str, player: int, world, hint: str | None = None):
         super().__init__(regionName, player, world, hint)
 
-
-    def connectTwoWay(self, reg: Region) -> None:
-        self.connect(reg)
 
 class RegionAdder:
 
@@ -52,7 +48,6 @@ class RegionAdder:
 
     def add(self, regNameStr: str, world: MultiWorld):
 
-        #when the player adds a region, we add the following region to the world
         sotRegion = SOTRegion(regNameStr, self.player, world)
 
         locations: list[SOTLocation] = self.locationDetailsCollection.getLocationsForRegion(sotRegion.name, self.player)
@@ -74,26 +69,26 @@ class RegionAdder:
 
 def create_regions(world: MultiWorld, options: SotOptionsDerived.SotOptionsDerived, player: int, locationDetailsCollection: LocationDetailsCollection) -> RegionAdder:
 
-    adder = RegionAdder(player, locationDetailsCollection, options)
-    adder.add(Name.MENU, world)
-    adder.add(Name.PLAYER_SHIP, world)
-    adder.add(Name.OTHER_SHIP, world)
-    adder.add(Name.OPEN_SEA, world)
-    adder.add(Name.ROAR, world)
-    adder.add(Name.ISLANDS, world)
-    adder.add(Name.FORTRESSES, world)
-    adder.add(Name.FORT_OF_THE_DAMNED, world)
+    region_adder = RegionAdder(player, locationDetailsCollection, options)
+    region_adder.add(Name.MENU, world)
+    region_adder.add(Name.PLAYER_SHIP, world)
+    region_adder.add(Name.OTHER_SHIP, world)
+    region_adder.add(Name.OPEN_SEA, world)
+    region_adder.add(Name.ROAR, world)
+    region_adder.add(Name.ISLANDS, world)
+    region_adder.add(Name.FORTRESSES, world)
+    region_adder.add(Name.FORT_OF_THE_DAMNED, world)
 
-    adder.add(Name.DOMAIN_EM, world)
-    adder.add(Name.DOMAIN_AF, world)
-    adder.add(Name.DOMAIN_RB, world)
-    adder.add(Name.DOMAIN_MA, world)
-    adder.add(Name.DOMAIN_OOS, world)
-    adder.add(Name.DOMAIN_GH, world)
-    adder.add(Name.DOMAIN_SV, world)
-    adder.add(Name.DOMAIN_GF, world)
+    region_adder.add(Name.DOMAIN_EM, world)
+    region_adder.add(Name.DOMAIN_AF, world)
+    region_adder.add(Name.DOMAIN_RB, world)
+    region_adder.add(Name.DOMAIN_MA, world)
+    region_adder.add(Name.DOMAIN_OOS, world)
+    region_adder.add(Name.DOMAIN_GH, world)
+    region_adder.add(Name.DOMAIN_SV, world)
+    region_adder.add(Name.DOMAIN_GF, world)
 
-    return adder
+    return region_adder
 
 
 

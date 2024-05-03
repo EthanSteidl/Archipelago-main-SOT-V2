@@ -18,7 +18,6 @@ import random
 import re
 import string
 import subprocess
-
 import sys
 import time
 import typing
@@ -72,6 +71,30 @@ class SOT_CommandProcessor(ClientCommandProcessor):
 
         self.output("bring deathssss")
 
+        return True
+
+    def _cmd_linkShip(self, command: str) -> bool:
+
+        #command in form "shipName<->mscookie"
+        args = command.split("<->")
+        if len(args) < 2:
+            print("Invalid argument count of " + str(len(args)) + ". Expected 2.")
+            return False
+
+        shipName = args[0]
+        msCookie = args[1]
+        self.ctx.analyzer.addShip(shipName, msCookie)
+        return True
+    def _cmd_linkPirate(self, command: str) -> bool:
+        #command in form "shipName<->mscookie"
+        args = command.split("<->")
+        if len(args) < 2:
+            print("Invalid argument count of " + str(len(args)) + ". Expected 2.")
+            return False
+
+        name = args[0]
+        msCookie = args[1]
+        self.ctx.analyzer.addPirate(name, msCookie)
         return True
 
     def _cmd_shop(self) -> bool:
@@ -162,9 +185,13 @@ class SOT_Context(CommonContext):
             print(args)
 
         elif cmd == "ReceivedItems":
+
+
             receivedItemsPacket: ReceivedItemsPacket = ReceivedItemsPacket(args)
             if(receivedItemsPacket.items is not None):
                 self.items_received = receivedItemsPacket.items
+
+
 
         elif cmd == "PrintJSON":
             printJsonPacket: PrintJsonPacket = PrintJsonPacket(args)

@@ -42,25 +42,23 @@ Your world will always contain all 5 faction Seals. Your world will always award
 
 All other items are shuffled.
 
-Your items
+## How does the game know I complete a check?
+The SOT client periodically scans the stats of a ship from Microsoft's website. This is how the data is collected.
+When a value for a stat is incremented the client will reward you with the location check and inform the multiworld, this will then allow client sessions to get items at the location.
+
+
+In order to prevent players from playing out of logic, the client will only allow rewards for locations that are reachable in logic with the current items given to the player. For example, if you need the "Sail" item to get checks off the main island, the client will not allow you to finish checks of the main island. 
+
+
+This may cause frustration as Microsoft's stat server lags by roughly 5 minutes. So if you just did a check, it may take 5 minutes to recieve the item for the check.
+- BE VERY CAREFUL, currently implemented, if you know an item is on a check through a hint, do the check, then go to another location that allows use of that item, the client will assume its not collectable till the multwiorld sends you the item. So do not complete your stuff if the item is not sent to your client
 
 ## Unique Local Commands
 
-The following commands are only available when using the Starcraft 2 Client to play with Archipelago. You can list them any time in the client with `/help`.
+The following commands are only available when using the Sea of Thieves Client to play with Archipelago. You can list them any time in the client with `/help`.
 
-* `/download_data` Download the most recent release of the necessary files for playing SC2 with Archipelago. Will overwrite existing files
-* `/difficulty [difficulty]` Overrides the difficulty set for the world.
-    * Options: casual, normal, hard, brutal
-* `/game_speed [game_speed]` Overrides the game speed for the world
-    * Options: default, slower, slow, normal, fast, faster
-* `/color [faction] [color]` Changes your color for one of your playable factions.
-    * Faction options: raynor, kerrigan, primal, protoss, nova
-    * Color options: white, red, blue, teal, purple, yellow, orange, green, lightpink, violet, lightgrey, darkgreen, brown, lightgreen, darkgrey, pink, rainbow, random, default
-* `/option [option_name] [option_value]` Sets an option normally controlled by your yaml after generation.
-    * Run without arguments to list all options.
-    * Options pertain to automatic cutscene skipping, Kerrigan presence, Spear of Adun presence, starting resource amounts, controlling AI allies, etc.
-* `/disable_mission_check` Disables the check to see if a mission is available to play. Meant for co-op runs where one player can play the next mission in a chain the other player is doing.
-* `/play [mission_id]` Starts a Starcraft 2 mission based off of the mission_id provided
-* `/available` Get what missions are currently available to play
-* `/unfinished` Get what missions are currently available to play and have not had all locations checked
-* `/set_path [path]` Manually set the SC2 install directory (if the automatic detection fails)
+* `/shop` WIP, opens a shop for players to buy hints
+* `/buy #`, WIP, buys an item from the shop
+* `/linkShip --name <ship_name> --mscookie <#>`, WIP, Adds tracking of another ship to your multiworld as your player (If you want two players to be able to perform checks on different ships with a shared item/location pool)
+* `/linkPirate --name <pirate_name> --mscookie <#>`, WIP, Adds tracking of another pirate to your multiworld as your player (If you want two players to be able to perform checks on different ships with a shared item/location pool)
+* `/delinkAll`, WIP, Delinks all tracked accounts from the client

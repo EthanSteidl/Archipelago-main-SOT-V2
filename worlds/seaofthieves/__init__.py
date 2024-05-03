@@ -66,40 +66,8 @@ class SOTWorld(World):
 
 
     def pre_fill(self) -> None:
-
-        #right now we just have seals, so this works, but it wont soon
-
-        seal_items = self.itemCollection.items_not_randomized
-        # add_rule(self.multiworld.get_location(Seals.Seals.L_VOYAGE_COMP_GH_TOTAL, self.player), lambda state: state.has_all([Items.voyages_gh.name].copy(), self.player))
-        # add_rule(self.multiworld.get_location(Seals.Seals.L_VOYAGE_COMP_MA_TOTAL, self.player),
-        #          lambda state: state.has_all([Items.voyages_ma.name].copy(), self.player))
-        # add_rule(self.multiworld.get_location(Seals.Seals.L_VOYAGE_COMP_OOS_TOTAL, self.player),
-        #          lambda state: state.has_all([Items.voyages_oos.name].copy(), self.player))
-        # add_rule(self.multiworld.get_location(Seals.Seals.L_VOYAGE_COMP_AF_TOTAL, self.player),
-        #          lambda state: state.has_all([Items.voyages_af.name].copy(), self.player))
-        seal_locations = [
-            self.multiworld.get_location(Seals.Seals.L_VOYAGE_COMP_GH_TOTAL, self.player),
-            self.multiworld.get_location(Seals.Seals.L_VOYAGE_COMP_MA_TOTAL, self.player),
-            self.multiworld.get_location(Seals.Seals.L_VOYAGE_COMP_OOS_TOTAL, self.player),
-            self.multiworld.get_location(Seals.Seals.L_VOYAGE_COMP_AF_TOTAL, self.player),
-            self.multiworld.get_location(Seals.Seals.L_VOYAGE_COMP_RB_TOTAL, self.player)
-        ]
-
-        for i in seal_items:
-            self.item_name_to_id[i.name] = i.code
-
-        all_state = self.multiworld.get_all_state(use_cache=True)
-
-        self.random.shuffle(seal_locations)
-
-        fill_restrictive(self.multiworld, all_state, seal_locations, seal_items, True, lock=True,
-                         name="SOT Seals")
-
-        fod_location = self.multiworld.get_location(QuestMenu.MenuQuestAll.L_PIRATE_FOD, self.player)
-        self.item_name_to_id[Items.pirate_legend.name] = Items.pirate_legend.id
-        itm = self.create_item(Items.pirate_legend.name)
-        fill_restrictive(self.multiworld, all_state, [fod_location], [itm], True, lock=True,
-                         name="SOT Seals")
+        self.pre_fill_seals()
+        return
 
 
     def create_regions(self):
@@ -221,6 +189,32 @@ class SOTWorld(World):
             return '{} in world {} holds your {}'.format(loc_name, sending_world, item_name)
         return '{} holds {} for player {}'.format(loc_name, item_name, for_player)
 
+    def pre_fill_seals(self) -> None:
 
+        #right now we just have seals, so this works, but it wont soon
 
+        seal_items = self.itemCollection.items_not_randomized
+        seal_locations = [
+            self.multiworld.get_location(Seals.Seals.L_VOYAGE_COMP_GH_TOTAL, self.player),
+            self.multiworld.get_location(Seals.Seals.L_VOYAGE_COMP_MA_TOTAL, self.player),
+            self.multiworld.get_location(Seals.Seals.L_VOYAGE_COMP_OOS_TOTAL, self.player),
+            self.multiworld.get_location(Seals.Seals.L_VOYAGE_COMP_AF_TOTAL, self.player),
+            self.multiworld.get_location(Seals.Seals.L_VOYAGE_COMP_RB_TOTAL, self.player)
+        ]
+
+        for i in seal_items:
+            self.item_name_to_id[i.name] = i.code
+
+        all_state = self.multiworld.get_all_state(use_cache=True)
+
+        self.random.shuffle(seal_locations)
+
+        fill_restrictive(self.multiworld, all_state, seal_locations, seal_items, True, lock=True,
+                         name="SOT Seals")
+
+        fod_location = self.multiworld.get_location(QuestMenu.MenuQuestAll.L_PIRATE_FOD, self.player)
+        self.item_name_to_id[Items.pirate_legend.name] = Items.pirate_legend.id
+        itm = self.create_item(Items.pirate_legend.name)
+        fill_restrictive(self.multiworld, all_state, [fod_location], [itm], True, lock=True,
+                         name="SOT Seals")
 
