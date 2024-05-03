@@ -105,7 +105,9 @@ class SOTWorld(World):
 
         if fillerCount > 0:
             for i in range(0,fillerCount-1):
-                self.multiworld.itempool.append(self.getFillerItem())
+                fillItem = self.getFillerItem()
+                self.multiworld.itempool.append(fillItem)
+                self.item_name_to_id[fillItem.name] = fillItem.code
 
 
     def getFillerItem(self):
@@ -116,7 +118,7 @@ class SOTWorld(World):
 
 
     def get_filler_item_name(self) -> str:
-        return Items.filler.name
+        return self.getFillerItem().name
 
 
     def generate_output(self, output_directory: str):
