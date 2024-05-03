@@ -32,5 +32,8 @@ Once you are here, perform the following steps to generate a game
 - "--ship id" example "--ship 1"
 - "--mscookie sometext" example "--mscookie asefaw9hfwhafw4"
 - Example full command "python SotCustomClient.py --address 192.0.0.1:25565 --ship 1 --mscookie 123123"
+
+Your ship id is found by going to https://www.seaofthieves.com/profile/captaincy/your-ships then number each ship from left to right from 0..X
+For example, I have two ships "Falcon" and "Avalon", my ship id of "Avalon" is 1 while "Falcon" is 0
 11. Your client should connect and not crash. If it connects, then crashes this is because you gave an invalid ship id for the mscookie you provided, please verify these are correct.
 12. What will happen now is your Multiworld will update with things done in SOT. There is a 5ish minute delay due to a technical limitation I am looking into, but just know this is a thing

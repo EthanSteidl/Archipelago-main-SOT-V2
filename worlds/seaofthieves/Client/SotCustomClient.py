@@ -226,8 +226,11 @@ class SOT_Context(CommonContext):
 
         loc_details_possible: list[LocDetails] = self.locationsReachableWithCurrentItems()
         for loc_detail in loc_details_possible:
+            print("...Allow tracking of location " + str(loc_detail.id))
             self.analyzer.allowTrackingOfLocation(loc_detail)
+        print("...ack items recieved")
         self.acknowledgeItemsReceived()
+        print("...Checking if checks have been completed - FIN")
 
     async def collectLocationsAndSendInformation(self):
         print(".....Sending completed checks to server")
@@ -278,6 +281,7 @@ def getSeaOfThievesDataFromArguments() -> UserInformation.UserInformation:
     parser = argparse.ArgumentParser()
     parser.add_argument('--address', dest='address', type=str, help='ip address : port of host')
     parser.add_argument('--ship', dest='ship', type=str, help='Player ship name')
+    parser.add_argument('--user', dest='username', type=str, help='Player username')
     parser.add_argument('--mscookie', dest='msCookie', type=str,
                         help='Microsoft login cookie given to www.seaofthieves.com', nargs='+')
     args = parser.parse_args()
@@ -292,8 +296,8 @@ def getSeaOfThievesDataFromArguments() -> UserInformation.UserInformation:
         exit()
 
     sotLoginCredentials: UserInformation.SotLoginCredentials = UserInformation.SotLoginCredentials(' '.join(args.msCookie))
-    sotAnalyzerDetails: UserInformation.SotAnalyzerDetails = UserInformation.SotAnalyzerDetails(args.ship)
-    userInfo = UserInformation.UserInformation(sotLoginCredentials, sotAnalyzerDetails, args.address)
+    sotAnalyzerDetails: UserInformation.SotAnalyzerDetails = UserInformation.SotAnalyzerDetails(args.ship, None)
+    userInfo = UserInformation.UserInformation(sotLoginCredentials, sotAnalyzerDetails, args.address, args.username)
     return userInfo
 
 async def every(__seconds: float, func, *args, **kwargs):
@@ -325,13 +329,14 @@ class Version(NamedTuple):
     build: int
 async def fConnectToRoom(ctx : SOT_Context):
 
+    username = ctx.userInformation.username
     await ctx.send_msgs([
         {
             "cmd": "Connect",
             "game": "Sea of Thieves",
             "password": "",
-            "name": "EthanSotReal",
-            "uuid": "234234234",
+            "name": username,
+            "uuid": username,
             "items_handling": 0b111,
             "slot_data": True,
             "tags": [],

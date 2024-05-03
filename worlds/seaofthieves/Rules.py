@@ -73,7 +73,6 @@ def set_rules(world: MultiWorld, options: SOTOptions, player: int, locCollection
     locCollection.applyOptions(options)
     regionAdder.addRulesForLocationsInRegions(world)
 
-    #world.completion_condition[player] = lambda state: state.can_reach(MenuQuestAll.L_PIRATE_FOD, "Location", player)
     world.completion_condition[player] = lambda state: state.has(Items.pirate_legend.name, player)
 
 

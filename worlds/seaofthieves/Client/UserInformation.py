@@ -25,7 +25,8 @@ class SotAnalyzerDetails:
 
 class UserInformation:
 
-    def __init__(self, sotLoginCreds: SotLoginCredentials, sotAnalyzerDetails: SotAnalyzerDetails, address: str):
+    def __init__(self, sotLoginCreds: SotLoginCredentials, sotAnalyzerDetails: SotAnalyzerDetails, address: str, username: str):
         self.loginCreds = sotLoginCreds
         self.analyzerDetails = sotAnalyzerDetails
         self.address = address
+        self.username = username

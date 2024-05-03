@@ -63,7 +63,7 @@ class SOTDataAnalyzer:
         if self.settings.get_name_pirate() is not None:
             v = json_data['Pirate']['Alignments'][alignment]['Accolades'][accolade]['Stats'][stat]
         elif self.settings.get_name_ship() is not None:
-            v = json_data['Ships'][self.settings.get_name_ship()]['Alignments'][alignment]['Accolades'][accolade]['Stats'][stat]
+            v = json_data['Ships'][int(self.settings.get_name_ship())]['Alignments'][alignment]['Accolades'][accolade]['Stats'][stat]
         else:
             print("Error: Web Parser: No pirate Name or Ship Name defined")
             return 0
