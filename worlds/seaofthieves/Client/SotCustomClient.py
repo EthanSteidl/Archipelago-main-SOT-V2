@@ -53,8 +53,11 @@ async def watchGameForever(ctx):
             if firstpass:
                 firstpass = False
             else:
-                ctx.updateAnalyzerWithLocationsPossible()
-                await ctx.collectLocationsAndSendInformation()
+                try:
+                    ctx.updateAnalyzerWithLocationsPossible()
+                    await ctx.collectLocationsAndSendInformation()
+                except Exception as e:
+                    print("Fatal error occured: ", e)
 
         await asyncio.sleep(4)
 
@@ -222,18 +225,13 @@ class SOT_Context(CommonContext):
         return locations
 
     def updateAnalyzerWithLocationsPossible(self):
-        print("...Checking if checks have been completed")
 
         loc_details_possible: list[LocDetails] = self.locationsReachableWithCurrentItems()
         for loc_detail in loc_details_possible:
-            print("...Allow tracking of location " + str(loc_detail.id))
             self.analyzer.allowTrackingOfLocation(loc_detail)
-        print("...ack items recieved")
         self.acknowledgeItemsReceived()
-        print("...Checking if checks have been completed - FIN")
 
     async def collectLocationsAndSendInformation(self):
-        print(".....Sending completed checks to server")
 
         # Sync server itmes to us
         await self.send_msgs([

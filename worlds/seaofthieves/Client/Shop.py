@@ -14,11 +14,16 @@ class Shop:
         }
         pass
 
+    def menu_text(self):
+        st : str = ""
+        for key in self.menu.keys():
+            st += key + " " + self.menu[key][0] + "Gold: " + str(self.menu[key][1]) + " Dabloons: " + str(self.menu[key][2]) + "\n"
+        return st
 
     def info(self, pinvent: PlayerInventory):
         print("Shop")
         print("Your Purse" + pinvent.purseString())
-        print(self.menu)
+        print(self.menu_text())
         print("Enter /buy num to purchase. EX: /buy 2")
 
 
