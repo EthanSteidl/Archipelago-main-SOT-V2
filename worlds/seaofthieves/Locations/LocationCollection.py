@@ -36,24 +36,6 @@ class LocationDetailsCollection:
         LocDetails.resetSeedId()
         self.options = SotOptionsDerived.SotOptionsDerived()
 
-
-    def getLocationForSeals(self, player, world) -> list[SOTLocation]:
-
-        lst: list[SOTLocation] = []
-        for locName in self.checkTypeToLocDetail["SettingsSeals"].keys():
-
-            loc_det: LocDetails = self.checkTypeToLocDetail["SettingsSeals"][locName]
-
-            reg = world.get_region(loc_det.webLocationCollection.getFirstRegion(), player)
-            sot_loc = SOTLocation(loc_det, player, reg, None)
-
-            reg.locations.append(sot_loc)
-
-            lst.append(sot_loc)
-        return lst
-
-
-
     def getLocCount(self):
         return self.count
 

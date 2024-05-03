@@ -13,7 +13,7 @@ from ..Configurations import SotOptionsDerived
 class SOTRegion(Region):
     subregions: typing.List[Region] = []
 
-    def __init__(self, regionName: str, player: int, world, hint: str | None = None):
+    def __init__(self, regionName: str, player: int, world, hint: typing.Optional[str] = None):
         super().__init__(regionName, player, world, hint)
 
 

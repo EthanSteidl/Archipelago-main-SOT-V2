@@ -1,3 +1,4 @@
+import typing
 
 from ..Options import SOTOptions
 from ..Locations.Feared import FearedQuestSeaForts, CannonsFired
@@ -13,7 +14,7 @@ from ..Locations.Goldseaker import Chests
 class SotOptionsDerived:
 
 
-    def __init__(self, sotOptions: SOTOptions | None = None):
+    def __init__(self, sotOptions: typing.Optional[SOTOptions] = None):
         self.burntAboardSettings: BurntAboard.SettingsHunterBurntAboard
         self.cookedAboardSettings: CookedAboard.SettingsHunterCookedAboard
         self.eatenAboardSettings: EatenAboard.SettingsHunterEatenAboard

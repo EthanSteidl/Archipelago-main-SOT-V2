@@ -77,6 +77,8 @@ class SOT_CommandProcessor(ClientCommandProcessor):
         return True
 
     def _cmd_linkShip(self, command: str) -> bool:
+        print("Not Implemented")
+        return False
 
         #command in form "shipName<->mscookie"
         args = command.split("<->")
@@ -89,6 +91,9 @@ class SOT_CommandProcessor(ClientCommandProcessor):
         self.ctx.analyzer.addShip(shipName, msCookie)
         return True
     def _cmd_linkPirate(self, command: str) -> bool:
+        print("Not Implemented")
+        return False
+
         #command in form "shipName<->mscookie"
         args = command.split("<->")
         if len(args) < 2:
