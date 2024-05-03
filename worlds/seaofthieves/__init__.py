@@ -101,10 +101,11 @@ class SOTWorld(World):
         for detail in ItemCollection.seals:
             self.itemCollection.items_not_randomized.append(SOTItem(detail.name, ItemClassification.progression, detail.id, self.player))
 
-        fillerCount = thisWorldsLocCount - items_to_add_to_pool - len(self.itemCollection.items_not_randomized)
+        fillerCount = thisWorldsLocCount - items_to_add_to_pool - len(ItemCollection.seals)
 
-        for i in range(0,fillerCount-1):
-            self.multiworld.itempool.append(self.getFillerItem())
+        if fillerCount > 0:
+            for i in range(0,fillerCount-1):
+                self.multiworld.itempool.append(self.getFillerItem())
 
 
     def getFillerItem(self):
