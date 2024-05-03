@@ -34,11 +34,11 @@ class SOTDataAnalyzer:
     def __init__(self, userInfo: UserInformation.UserInformation):
         self.collector = SOTWebCollector.SOTWebCollector(userInfo.loginCreds)
         self.settings = SOTDataAnalyzerSettings(userInfo.analyzerDetails)
-        self.trackedLocations: dict[int,LocDetails] = {}
+        self.trackedLocations: typing.Dict[int,LocDetails] = {}
         #maps item id -> idx -> value
-        self.trackedLocationsData: dict[int,dict[int,OldNewValues]] = {}
+        self.trackedLocationsData: typing.Dict[int,typing.Dict[int,OldNewValues]] = {}
 
-        self.banned: dict[int,bool] = {}
+        self.banned: typing.Dict[int,bool] = {}
 
     def __readElementFromWebLocation(self, web_location: WebLocation, json_data):
 
@@ -137,7 +137,7 @@ class SOTDataAnalyzer:
 
 
 
-    def getAllCompletedChecks(self) -> dict[int, bool]:
+    def getAllCompletedChecks(self) -> typing.Dict[int, bool]:
 
         returndict = {}
         # location id to yes/no
@@ -147,7 +147,7 @@ class SOTDataAnalyzer:
             for index in self.trackedLocationsData[locId].keys():
                 oldNewData: OldNewValues = self.trackedLocationsData[locId][index]
                 if(oldNewData.old != oldNewData.new):
-                    returndict[locId] = True
+                    returntyping.Dict[locId] = True
 
         return returndict
 

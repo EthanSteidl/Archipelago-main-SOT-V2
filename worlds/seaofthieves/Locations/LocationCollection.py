@@ -27,7 +27,7 @@ class LocationDetailsCollection:
     count = 0
 
     #this maps Settings Class -> [locName -> LocDets]
-    checkTypeToLocDetail: dict[str, dict[str, LocDetails]] = {}
+    checkTypeToLocDetail: typing.Dict[str, typing.Dict[str, LocDetails]] = {}
     options: SotOptionsDerived.SotOptionsDerived
 
     hintWebLocations: [LocDetails] = []
@@ -39,15 +39,15 @@ class LocationDetailsCollection:
     def getLocCount(self):
         return self.count
 
-    def toDict(self) -> dict[str, int]:
-        dic: dict[str, int] = {}
+    def toDict(self) -> typing.Dict[str, int]:
+        dic: typing.Dict[str, int] = {}
         for checkTypeKey in self.checkTypeToLocDetail.keys():
             for loc_name in self.checkTypeToLocDetail[checkTypeKey].keys():
                 dic[self.checkTypeToLocDetail[checkTypeKey][loc_name].name] = self.checkTypeToLocDetail[checkTypeKey][loc_name].id
 
         return dic
 
-    def toDictAllPossible(self) -> dict[str,int]:
+    def toDictAllPossible(self) -> typing.Dict[str,int]:
 
         #TODO this will cause items not in the randomizer to not be in the spoiler log,
         #should probably change this to be the complete list

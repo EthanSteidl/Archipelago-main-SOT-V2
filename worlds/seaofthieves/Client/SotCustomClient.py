@@ -247,7 +247,7 @@ class SOT_Context(CommonContext):
 
         # Use those items to check if we can finish anything
         self.analyzer.update()
-        completedChecks: dict[int, bool] = self.analyzer.getAllCompletedChecks()
+        completedChecks: typing.Dict[int, bool] = self.analyzer.getAllCompletedChecks()
         for k in completedChecks.keys():
             if completedChecks[k]:
                 print("Completed -> " + str(k))
