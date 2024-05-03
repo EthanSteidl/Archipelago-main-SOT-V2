@@ -5,4 +5,4 @@ class ReceivedItemsPacket:
 
     def __init__(self, dict: dict):
         self.index: int | None = dict.get('index')
-        self.items: list[NetworkItem] | None = dict.get('items')
+        self.items: typing.List[NetworkItem] | None = dict.get('items')

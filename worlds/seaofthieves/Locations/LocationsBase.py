@@ -5,7 +5,7 @@ class LocationsBase:
 
 
     def __init__(self):
-        self.locations: list[LocDetails] = []
+        self.locations: typing.List[LocDetails] = []
 
     def getLocations(self):
         return self.locations

@@ -1,3 +1,5 @@
+import typing
+
 from BaseClasses import Item
 
 
@@ -70,12 +72,12 @@ em_flags = [Items.emissary_gh, Items.emissary_ma, Items.emissary_rb, Items.emiss
 
 class ItemCollection:
 
-    items_not_randomized: list[SOTItem] = []
+    items_not_randomized: typing.List[SOTItem] = []
 
-    lst: list[ItemDetail] = [Items.sail, Items.sail_inferno, Items.voyage_fortress, Items.voyages_gh, Items.voyages_ma, Items.voyages_oos, Items.voyages_af, Items.voyage_of_destiny, Items.personal_weapons, Items.ship_weapons, Items.fishing_rod,
+    lst: typing.List[ItemDetail] = [Items.sail, Items.sail_inferno, Items.voyage_fortress, Items.voyages_gh, Items.voyages_ma, Items.voyages_oos, Items.voyages_af, Items.voyage_of_destiny, Items.personal_weapons, Items.ship_weapons, Items.fishing_rod,
                        Items.emissary_gh, Items.emissary_ma, Items.emissary_oos, Items.emissary_af, Items.emissary_rb, Items.shovel, Items.voyages_rb]
 
-    seals: list[ItemDetail] = [Items.seal_oos,Items.seal_rb, Items.seal_af, Items.seal_ma, Items.seal_gh]
+    seals: typing.List[ItemDetail] = [Items.seal_oos,Items.seal_rb, Items.seal_af, Items.seal_ma, Items.seal_gh]
 
     #Note seals are not added cause we dont want them randomzed in the general pool
 
@@ -101,8 +103,8 @@ class ItemCollection:
 class ItemReqEvalAnd:
 
 
-    def __init__(self, condition: list[ItemDetail]):
-        self.condition: list[ItemDetail] = condition
+    def __init__(self, condition: typing.List[ItemDetail]):
+        self.condition: typing.List[ItemDetail] = condition
         pass
 
     def evaluate(self, itemsToEvalWith: set[str]) -> bool:
@@ -112,7 +114,7 @@ class ItemReqEvalAnd:
         return True
 
 
-    def getAllItemDetails(self) -> list[ItemDetail]:
+    def getAllItemDetails(self) -> typing.List[ItemDetail]:
         ret = []
         for itm in self.condition:
             ret.append(itm)
@@ -132,7 +134,7 @@ class ItemReqEvalAnd:
 
 class ItemReqEvalOr:
 
-    def __init__(self, conditions: list[ItemReqEvalAnd]):
+    def __init__(self, conditions: typing.List[ItemReqEvalAnd]):
         self.conditions = conditions
 
     def evaluate(self, itemsToEvalWith: set[str]) -> bool:

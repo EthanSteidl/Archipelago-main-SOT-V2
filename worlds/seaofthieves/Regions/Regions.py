@@ -9,6 +9,7 @@ from ..Locations.LocationCollection import LocationDetailsCollection
 from ...generic.Rules import add_rule, exclusion_rules
 from ..Items.Items import Items
 from ..Configurations import SotOptionsDerived
+import typing
 
 class SOTRegion(Region):
     subregions: typing.List[Region] = []
@@ -50,7 +51,7 @@ class RegionAdder:
 
         sotRegion = SOTRegion(regNameStr, self.player, world)
 
-        locations: list[SOTLocation] = self.locationDetailsCollection.getLocationsForRegion(sotRegion.name, self.player)
+        locations: typing.List[SOTLocation] = self.locationDetailsCollection.getLocationsForRegion(sotRegion.name, self.player)
         for loc in locations:
             loc.parent_region = sotRegion
         sotRegion.locations.extend(locations)

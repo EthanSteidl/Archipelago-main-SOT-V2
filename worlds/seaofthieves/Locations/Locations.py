@@ -6,7 +6,7 @@ from enum import Enum
 from ..Items.Items import ItemReqEvalOr, ItemReqEvalAnd
 from ..Regions.RegionCollection import RegionNameCollection
 from ...generic.Rules import add_rule, exclusion_rules
-
+import typing
 
 class WebItemJsonIdentifier:
     def __init__(self, alignment: int, accolade: int, stat:int, substat: int = -1, valid: bool = True):
@@ -57,9 +57,9 @@ class WebLocation:
 
 
 
-class WebLocationCollection(list[WebLocation]):
+class WebLocationCollection(typing.List[WebLocation]):
 
-    def __init__(self, lst: list[WebLocation]):
+    def __init__(self, lst: typing.List[WebLocation]):
         super().__init__()
         self.extend(lst)
 
@@ -83,7 +83,7 @@ class WebLocationCollection(list[WebLocation]):
             cnt = cnt+1
         return dic
     # def mergeOrLogic(self):
-    #     cum_conditions: list[ItemReqEvalAnd] = []
+    #     cum_conditions: typing.List[ItemReqEvalAnd] = []
     #     for wloc in self:
     #         cum_conditions.extend(wloc.itemLogic.conditions)
     #     self.mergedLogic = ItemReqEvalOr(cum_conditions)

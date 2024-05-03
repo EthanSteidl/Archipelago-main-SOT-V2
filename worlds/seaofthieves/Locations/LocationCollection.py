@@ -21,7 +21,7 @@ from .Servant import Servant
 from .Guardian import Guardian
 from .IllFated import IllFated
 from .Feared import CannonsFired
-
+import typing
 class LocationDetailsCollection:
 
     count = 0
@@ -54,11 +54,11 @@ class LocationDetailsCollection:
         return self.toDict()
 
 
-    def findDetailsCheckable(self, itemSet: set[str]) -> list[LocDetails]:
+    def findDetailsCheckable(self, itemSet: set[str]) -> typing.List[LocDetails]:
 
         #TODO check region reqs as well
 
-        ret_list: list[LocDetails] = []
+        ret_list: typing.List[LocDetails] = []
 
         #checks onlys location requirements, does not includ region reqs
         for checkTypeKey in self.checkTypeToLocDetail.keys():
@@ -86,17 +86,17 @@ class LocationDetailsCollection:
 
 
 
-    def addLocationsToSelf(self, lst: list[LocDetails], settingsClass: str):
+    def addLocationsToSelf(self, lst: typing.List[LocDetails], settingsClass: str):
         for i in range(len(lst)):
             self.addLocationToSelf(lst[i], settingsClass)
 
-    def addHintsToSelf(self, lst: list[LocDetails], settingsClass: str):
+    def addHintsToSelf(self, lst: typing.List[LocDetails], settingsClass: str):
         for i in range(len(lst)):
             self.addHintToSelf(lst[i], settingsClass)
 
-    def getLocationsForRegion(self, regName: str, player: int) -> list[SOTLocation]:
+    def getLocationsForRegion(self, regName: str, player: int) -> typing.List[SOTLocation]:
 
-        lst: list[SOTLocation] = []
+        lst: typing.List[SOTLocation] = []
         for settingString in self.checkTypeToLocDetail.keys():
             for locName in self.checkTypeToLocDetail[settingString].keys():
 

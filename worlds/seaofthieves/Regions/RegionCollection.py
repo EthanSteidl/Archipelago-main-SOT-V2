@@ -1,5 +1,5 @@
 from .Name import Name
-
+import typing
 
 class RegionNameCollection:
 
@@ -10,7 +10,7 @@ class RegionNameCollection:
         self.regions = {}
         self.regions[name] = True
 
-    def addFromList(self, names: list[Name]):
+    def addFromList(self, names: typing.List[Name]):
         self.regions = {}
         for i in range(len(names)):
             self.regions[names[i]] = True
@@ -18,8 +18,8 @@ class RegionNameCollection:
     def contains(self, name: Name):
         return name in self.regions
 
-    def getAllRegionStrings(self) -> list[str]:
-        ret: list[str] = []
+    def getAllRegionStrings(self) -> typing.List[str]:
+        ret: typing.List[str] = []
         for key in self.regions.keys():
             ret.append(key)
         return ret

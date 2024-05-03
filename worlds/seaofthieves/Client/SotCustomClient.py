@@ -148,7 +148,7 @@ class SOT_Context(CommonContext):
     def _canReachWebLocation(self, currentItemIds: set[int], web_loc: WebLocation):
         pass
 
-    def locationsReachableWithCurrentItems(self) -> list[LocDetails]:
+    def locationsReachableWithCurrentItems(self) -> typing.List[LocDetails]:
 
         returnList: set[str] = set()
         currentItems: set[str] = set()
@@ -231,7 +231,7 @@ class SOT_Context(CommonContext):
 
     def updateAnalyzerWithLocationsPossible(self):
 
-        loc_details_possible: list[LocDetails] = self.locationsReachableWithCurrentItems()
+        loc_details_possible: typing.List[LocDetails] = self.locationsReachableWithCurrentItems()
         for loc_detail in loc_details_possible:
             self.analyzer.allowTrackingOfLocation(loc_detail)
         self.acknowledgeItemsReceived()

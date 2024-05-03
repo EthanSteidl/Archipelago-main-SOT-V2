@@ -5,14 +5,14 @@ class PrintJsonPacket:
 
     def __init__(self, dict):
         self.countdown: int = dict.get('countdown')
-        self.tags: list[str] | None = dict.get('tags')
+        self.tags: typing.List[str] | None = dict.get('tags')
         self.message: str | None = dict.get('message')
         self.slot: int | None = dict.get('slot')
         self.team: int | None = dict.get('team')
         self.found: bool | None = dict.get('found')
         self.receiving: int | None = dict.get('receiving')
         self.type: str | None = dict.get('type')
-        self.data: list[JSONMessagePart] | None = dict.get('data')
+        self.data: typing.List[JSONMessagePart] | None = dict.get('data')
         self.item: NetworkItem | None = dict.get('item')
 
     def print(self):
