@@ -107,7 +107,7 @@ class ItemReqEvalAnd:
         self.condition: typing.List[ItemDetail] = condition
         pass
 
-    def evaluate(self, itemsToEvalWith: set[str]) -> bool:
+    def evaluate(self, itemsToEvalWith: typing.Set[str]) -> bool:
         for itm_detail in self.condition:
             if(itm_detail.name not in itemsToEvalWith):
                 return False
@@ -137,7 +137,7 @@ class ItemReqEvalOr:
     def __init__(self, conditions: typing.List[ItemReqEvalAnd]):
         self.conditions = conditions
 
-    def evaluate(self, itemsToEvalWith: set[str]) -> bool:
+    def evaluate(self, itemsToEvalWith: typing.Set[str]) -> bool:
         if len(self.conditions) == 0:
             return True
         for c in self.conditions:

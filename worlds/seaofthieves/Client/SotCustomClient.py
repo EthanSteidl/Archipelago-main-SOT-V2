@@ -145,13 +145,13 @@ class SOT_Context(CommonContext):
     def processItemUpdateForClient(self) -> None:
         pass
 
-    def _canReachWebLocation(self, currentItemIds: set[int], web_loc: WebLocation):
+    def _canReachWebLocation(self, currentItemIds: typing.Set[int], web_loc: WebLocation):
         pass
 
     def locationsReachableWithCurrentItems(self) -> typing.List[LocDetails]:
 
-        returnList: set[str] = set()
-        currentItems: set[str] = set()
+        returnList: typing.Set[str] = set()
+        currentItems: typing.Set[str] = set()
 
         # check out our current items
         for item in self.items_received:
@@ -220,8 +220,8 @@ class SOT_Context(CommonContext):
                 print("Server gave us -> " + str(itm.item))
         self.known_items_received = self.items_received
 
-    def getAndClearNewLocationsReached(self) -> set[int]:
-        locations: set[int] = set()
+    def getAndClearNewLocationsReached(self) -> typing.Set[int]:
+        locations: typing.Set[int] = set()
         checks = self.analyzer.getAllChecks()
         for locId, isChecked in checks.items():
             if(isChecked):

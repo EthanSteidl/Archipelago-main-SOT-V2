@@ -54,7 +54,7 @@ class LocationDetailsCollection:
         return self.toDict()
 
 
-    def findDetailsCheckable(self, itemSet: set[str]) -> typing.List[LocDetails]:
+    def findDetailsCheckable(self, itemSet: typing.Set[str]) -> typing.List[LocDetails]:
 
         #TODO check region reqs as well
 

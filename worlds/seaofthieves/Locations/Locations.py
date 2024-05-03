@@ -36,7 +36,7 @@ class WebLocation:
         self.regionCollection = regionCollection
         self.itemLogic : ItemReqEvalOr = itemLogic
 
-    def evaluate(self, itemSet: set[str]) -> bool:
+    def evaluate(self, itemSet: typing.Set[str]) -> bool:
         return self.itemLogic.evaluate(itemSet)
 
     def toDic(self):
@@ -66,7 +66,7 @@ class WebLocationCollection(typing.List[WebLocation]):
     def getFirstRegion(self):
         return self[0].regionCollection.getFirst()
 
-    def isAnyReachable(self, itemSet: set[str]) -> bool:
+    def isAnyReachable(self, itemSet: typing.Set[str]) -> bool:
         for web_loc in self:
            if(web_loc.evaluate(itemSet)):
                return True
