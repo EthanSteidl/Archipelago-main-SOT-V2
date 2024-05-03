@@ -1,0 +1,13 @@
+﻿[root at 2024-04-15 23:37:12,442]: Archipelago (0.4.5) logging initialized on Windows-10-10.0.22631-SP0 running Python 3.11.3
+[Client at 2024-04-15 23:37:12,448]: Connecting to Archipelago server at ws://192.168.0.210:38281
+[Client at 2024-04-15 23:37:12,461]: Connected
+[Client at 2024-04-15 23:37:12,462]: --------------------------------
+[Client at 2024-04-15 23:37:12,462]: Room Information:
+[Client at 2024-04-15 23:37:12,462]: --------------------------------
+[Client at 2024-04-15 23:37:12,462]: Server protocol version: 0.4.5, generator version: 0.4.5, tags: AP
+[Client at 2024-04-15 23:37:12,462]: Release permission: auto
+[Client at 2024-04-15 23:37:12,462]: Remaining permission: goal
+[Client at 2024-04-15 23:37:12,462]: Collect permission: auto
+[Client at 2024-04-15 23:37:12,462]: A !hint costs 10% of your total location count as points and you get 1 for each location checked. Use !hint for more information.
+[FileLog at 2024-04-15 23:37:12,464]: EthanSotReal (Team #1) playing Sea of Thieves has joined. Client(1.1.1), [].
+[FileLog at 2024-04-15 23:37:12,464]: Now that you are connected, you can use !help to list commands to run via the server. If your client supports it, you may have additional local commands you can list with /help.

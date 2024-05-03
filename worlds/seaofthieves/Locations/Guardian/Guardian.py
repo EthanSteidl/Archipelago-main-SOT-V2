@@ -1,0 +1,76 @@
+from ..Locations import LocDetails, WebLocation, WebLocationCollection, WebItemJsonIdentifier
+from ..LocationsBase import LocationsBase
+from ...Regions.RegionCollection import RegionNameCollection
+from ...Regions.Name import Name
+from ...Items.Items import ItemReqEvalOr, ItemReqEvalAnd, Items
+from ...Locations.LocationSettingOption import LocationSettingOption
+class SettingsVoyageQuestGa:
+
+    class Any(LocationSettingOption):
+        pass
+
+    class Sloop(LocationSettingOption):
+        pass
+
+    class Brig(LocationSettingOption):
+        pass
+
+    class Gal(LocationSettingOption):
+        pass
+
+    def __init__(self, any=Any.DEFAULT, sloop=Sloop.DEFAULT, brig=Brig.DEFAULT, gal=Gal.DEFAULT):
+        self.any = any
+        self.sloop = sloop
+        self.brig = brig
+        self.gal = gal
+
+
+class VoyageQuestGa(LocationsBase):
+
+    L_SERV_GUARDIANS_SUNK = "As a Guardian, sink a Servant"
+    L_SERV_GUARDIANS_SUNK_SLOOP = "As a Guardian, sink a Servant Galleon (SV)"
+    L_SERV_GUARDIANS_SUNK_BRIG = "As a Guardian, Sink a Servant Brigantine (SV)"
+    L_SERV_GUARDIANS_SUNK_GALL = "As a Guardian, Sink a Servant Sloop (SV)"
+
+    def __init__(self, settings: SettingsVoyageQuestGa):
+        super().__init__()
+        self.x = [7, 0, 1]
+        self.settings = settings
+
+        if self.settings.any is not SettingsVoyageQuestGa.Any.OFF:
+            reg = RegionNameCollection()
+            reg.addFromList([Name.DOMAIN_SV])
+            lgc = ItemReqEvalOr([ItemReqEvalAnd([Items.ship_weapons, Items.personal_weapons, Items.sail])])
+            wlc = WebLocationCollection([
+                WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], 0), reg, lgc)
+            ])
+            self.locations.append(LocDetails(self.L_SERV_GUARDIANS_SUNK_SLOOP, wlc))
+
+        if self.settings.sloop is not SettingsVoyageQuestGa.Sloop.OFF:
+            reg = RegionNameCollection()
+            reg.addFromList([Name.DOMAIN_SV])
+            lgc = ItemReqEvalOr([ItemReqEvalAnd([Items.ship_weapons, Items.personal_weapons, Items.sail])])
+            wlc = WebLocationCollection([
+                WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 0), reg, lgc)
+            ])
+            self.locations.append(LocDetails(self.L_SERV_GUARDIANS_SUNK_SLOOP, wlc))
+
+        if self.settings.brig is not SettingsVoyageQuestGa.Brig.OFF:
+            reg = RegionNameCollection()
+            reg.addFromList([Name.DOMAIN_SV])
+            lgc = ItemReqEvalOr([ItemReqEvalAnd([Items.ship_weapons, Items.personal_weapons, Items.sail])])
+            wlc = WebLocationCollection([
+                WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 1), reg, lgc)
+            ])
+            self.locations.append(LocDetails(self.L_SERV_GUARDIANS_SUNK_BRIG, wlc))
+
+        if self.settings.gal is not SettingsVoyageQuestGa.Gal.OFF:
+            reg = RegionNameCollection()
+            reg.addFromList([Name.DOMAIN_SV])
+            lgc = ItemReqEvalOr([ItemReqEvalAnd([Items.ship_weapons, Items.personal_weapons, Items.sail])])
+            wlc = WebLocationCollection([
+                WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 3), reg, lgc)
+            ])
+            self.locations.append(LocDetails(self.L_SERV_GUARDIANS_SUNK_GALL, wlc))
+
+

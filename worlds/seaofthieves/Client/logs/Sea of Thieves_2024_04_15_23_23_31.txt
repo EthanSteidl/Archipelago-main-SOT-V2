@@ -1,0 +1,73 @@
+﻿[root at 2024-04-15 23:23:31,908]: Archipelago (0.4.5) logging initialized on Windows-10-10.0.22631-SP0 running Python 3.11.3
+[Client at 2024-04-15 23:23:31,923]: Connecting to Archipelago server at ws://192.168.0.210:38281
+[Client at 2024-04-15 23:23:31,946]: Connected
+[Client at 2024-04-15 23:23:31,947]: --------------------------------
+[Client at 2024-04-15 23:23:31,947]: Room Information:
+[Client at 2024-04-15 23:23:31,947]: --------------------------------
+[Client at 2024-04-15 23:23:31,947]: Server protocol version: 0.4.5, generator version: 0.4.5, tags: AP
+[Client at 2024-04-15 23:23:31,948]: Release permission: auto
+[Client at 2024-04-15 23:23:31,948]: Remaining permission: goal
+[Client at 2024-04-15 23:23:31,948]: Collect permission: auto
+[Client at 2024-04-15 23:23:31,948]: A !hint costs 10% of your total location count as points and you get 1 for each location checked. Use !hint for more information.
+[FileLog at 2024-04-15 23:23:31,951]: EthanSotReal (Team #1) playing Sea of Thieves has joined. Client(1.1.1), [].
+[FileLog at 2024-04-15 23:23:31,951]: Now that you are connected, you can use !help to list commands to run via the server. If your client supports it, you may have additional local commands you can list with /help.
+[FileLog at 2024-04-15 23:23:45,567]: EthanSotReal found their Personal Weapons (Sell (OoS) 7)
+[FileLog at 2024-04-15 23:23:45,567]: EthanSotReal sent Unknown item (ID:30040039) to JrodSotReal (Sell (OoS) 8)
+[FileLog at 2024-04-15 23:23:45,567]: EthanSotReal found their Unknown item (ID:30040022) (Sell (OoS) 9)
+[FileLog at 2024-04-15 23:23:45,569]: EthanSotReal sent Unknown item (ID:30040017) to JrodSotReal (Sell (OoS) 10)
+[FileLog at 2024-04-15 23:23:45,569]: EthanSotReal found their Unknown item (ID:30040018) (Sell (MA) 1)
+[FileLog at 2024-04-15 23:23:45,569]: EthanSotReal found their Unknown item (ID:30040005) (Sell (MA) 2)
+[FileLog at 2024-04-15 23:23:45,570]: EthanSotReal sent Unknown item (ID:30040037) to JrodSotReal (Sell (MA) 3)
+[FileLog at 2024-04-15 23:23:45,570]: EthanSotReal found their Voyages of Gold Hoarders (Sell (MA) 4)
+[FileLog at 2024-04-15 23:23:45,570]: EthanSotReal found their Unknown item (ID:30040083) (Sell (MA) 5)
+[FileLog at 2024-04-15 23:23:45,570]: EthanSotReal found their Unknown item (ID:30040060) (Sell (MA) 6)
+[FileLog at 2024-04-15 23:23:45,571]: EthanSotReal sent Unknown item (ID:30040073) to JrodSotReal (Sell (MA) 7)
+[FileLog at 2024-04-15 23:23:45,571]: EthanSotReal sent Unknown item (ID:30040041) to JrodSotReal (Sell (MA) 8)
+[FileLog at 2024-04-15 23:23:45,571]: EthanSotReal sent Unknown item (ID:30040023) to JrodSotReal (Sell (MA) 9)
+[FileLog at 2024-04-15 23:23:45,572]: EthanSotReal found their Unknown item (ID:30040020) (Sell (MA) 10)
+[FileLog at 2024-04-15 23:23:45,572]: EthanSotReal sent Unknown item (ID:30040044) to JrodSotReal (Sell (AF) 1)
+[FileLog at 2024-04-15 23:23:45,572]: EthanSotReal found their Voyages of Fortresses (Sell (AF) 2)
+[FileLog at 2024-04-15 23:23:45,573]: EthanSotReal found their Unknown item (ID:30040021) (Sell (AF) 3)
+[FileLog at 2024-04-15 23:23:45,573]: EthanSotReal found their Unknown item (ID:30040009) (Sell (AF) 4)
+[FileLog at 2024-04-15 23:23:45,573]: EthanSotReal sent Unknown item (ID:30040028) to JrodSotReal (Sell (AF) 5)
+[FileLog at 2024-04-15 23:23:45,574]: EthanSotReal found their Unknown item (ID:30040074) (Sell (RB) 1)
+[FileLog at 2024-04-15 23:23:45,574]: EthanSotReal found their Unknown item (ID:30040024) (Sell (RB) 2)
+[FileLog at 2024-04-15 23:23:45,574]: EthanSotReal found their Unknown item (ID:30040037) (Item in your pocket)
+[FileLog at 2024-04-15 23:23:45,575]: EthanSotReal sent Emissary of Souls to JrodSotReal (Sell (GH) 1)
+[FileLog at 2024-04-15 23:23:45,575]: EthanSotReal sent Unknown item (ID:30040058) to JrodSotReal (Sell (GH) 2)
+[FileLog at 2024-04-15 23:23:45,575]: EthanSotReal found their Unknown item (ID:30040007) (Sell (GH) 3)
+[FileLog at 2024-04-15 23:23:45,576]: EthanSotReal found their Unknown item (ID:30040056) (Sell (GH) 4)
+[FileLog at 2024-04-15 23:23:45,576]: EthanSotReal found their Unknown item (ID:30040078) (Sell (GH) 5)
+[FileLog at 2024-04-15 23:23:45,576]: EthanSotReal found their Unknown item (ID:30040043) (Sell (GH) 6)
+[FileLog at 2024-04-15 23:23:45,577]: EthanSotReal sent Unknown item (ID:30040082) to JrodSotReal (Sell (GH) 7)
+[FileLog at 2024-04-15 23:23:45,577]: EthanSotReal sent Unknown item (ID:30040067) to JrodSotReal (Sell (GH) 8)
+[FileLog at 2024-04-15 23:23:45,577]: EthanSotReal found their Unknown item (ID:30040044) (Sell (GH) 9)
+[FileLog at 2024-04-15 23:23:45,577]: EthanSotReal sent Unknown item (ID:30040053) to JrodSotReal (Sell (GH) 10)
+[FileLog at 2024-04-15 23:23:45,579]: EthanSotReal found their Unknown item (ID:30040040) (Sell (OoS) 1)
+[FileLog at 2024-04-15 23:23:45,579]: EthanSotReal sent Unknown item (ID:30040061) to JrodSotReal (Sell (OoS) 2)
+[FileLog at 2024-04-15 23:23:45,580]: EthanSotReal sent Unknown item (ID:30040065) to JrodSotReal (Sell (OoS) 3)
+[FileLog at 2024-04-15 23:23:45,580]: EthanSotReal sent Voyages of Gold Hoarders to JrodSotReal (Sell (OoS) 4)
+[FileLog at 2024-04-15 23:23:45,580]: EthanSotReal sent Unknown item (ID:30040014) to JrodSotReal (Sell (OoS) 5)
+[FileLog at 2024-04-15 23:23:45,580]: EthanSotReal sent Unknown item (ID:30040048) to JrodSotReal (Sell (OoS) 6)
+[Client at 2024-04-15 23:24:16,260]: Lost connection to the multiworld server, type /connect to reconnect
+Traceback (most recent call last):
+  File "C:\Users\Ethan\Desktop\code\Archipelago-main\Archipelago-main\CommonClient.py", line 662, in server_loop
+    async for data in ctx.server.socket:
+  File "C:\Users\Ethan\Desktop\code\Archipelago-main\Archipelago-main\venv\Lib\site-packages\websockets\legacy\protocol.py", line 498, in __aiter__
+    yield await self.recv()
+          ^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ethan\Desktop\code\Archipelago-main\Archipelago-main\venv\Lib\site-packages\websockets\legacy\protocol.py", line 568, in recv
+    await self.ensure_open()
+  File "C:\Users\Ethan\Desktop\code\Archipelago-main\Archipelago-main\venv\Lib\site-packages\websockets\legacy\protocol.py", line 939, in ensure_open
+    raise self.connection_closed_exc()
+websockets.exceptions.ConnectionClosedError: received 1011 (internal error) keepalive ping timeout; then sent 1011 (internal error) keepalive ping timeout
+[root at 2024-04-15 23:24:36,414]: 'utf-8' codec can't decode byte 0xff in position 0: invalid start byte
+Traceback (most recent call last):
+  File "C:\Users\Ethan\Desktop\code\Archipelago-main\Archipelago-main\Utils.py", line 551, in queuer
+    text = stream.readline().strip()
+           ^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\JetBrains\PyCharm Community Edition 2023.1\plugins\python-ce\helpers\pydev\_pydev_bundle\pydev_stdin.py", line 117, in readline
+    result = self.original_stdin.readline(*args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen codecs>", line 322, in decode
+UnicodeDecodeError: 'utf-8' codec can't decode byte 0xff in position 0: invalid start byte

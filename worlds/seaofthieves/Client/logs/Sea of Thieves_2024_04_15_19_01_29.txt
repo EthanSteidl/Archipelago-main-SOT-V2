@@ -1,0 +1,36 @@
+﻿[root at 2024-04-15 19:01:29,536]: Archipelago (0.4.5) logging initialized on Windows-10-10.0.22631-SP0 running Python 3.11.3
+[Client at 2024-04-15 19:01:29,543]: Connecting to Archipelago server at ws://192.168.0.210:38281
+[Client at 2024-04-15 19:01:31,596]: Connection refused by the server. May not be running Archipelago on that address or port.
+Traceback (most recent call last):
+  File "C:\Users\Ethan\Desktop\code\Archipelago-main\Archipelago-main\CommonClient.py", line 653, in server_loop
+    socket = await websockets.connect(address, port=port, ping_timeout=None, ping_interval=None,
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ethan\Desktop\code\Archipelago-main\Archipelago-main\venv\Lib\site-packages\websockets\legacy\client.py", line 647, in __await_impl_timeout__
+    return await self.__await_impl__()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ethan\Desktop\code\Archipelago-main\Archipelago-main\venv\Lib\site-packages\websockets\legacy\client.py", line 651, in __await_impl__
+    _transport, _protocol = await self._create_connection()
+                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ethan\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 1085, in create_connection
+    raise exceptions[0]
+  File "C:\Users\Ethan\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 1069, in create_connection
+    sock = await self._connect_sock(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ethan\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 973, in _connect_sock
+    await self.sock_connect(sock, address)
+  File "C:\Users\Ethan\AppData\Local\Programs\Python\Python311\Lib\asyncio\proactor_events.py", line 726, in sock_connect
+    return await self._proactor.connect(sock, address)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ethan\AppData\Local\Programs\Python\Python311\Lib\asyncio\windows_events.py", line 846, in _poll
+    value = callback(transferred, key, ov)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ethan\AppData\Local\Programs\Python\Python311\Lib\asyncio\windows_events.py", line 633, in finish_connect
+    ov.getresult()
+ConnectionRefusedError: [WinError 1225] The remote computer refused the network connection
+[root at 2024-04-15 19:09:15,288]: 'utf-8' codec can't decode byte 0xff in position 0: invalid start byte
+Traceback (most recent call last):
+  File "C:\Users\Ethan\Desktop\code\Archipelago-main\Archipelago-main\Utils.py", line 551, in queuer
+    text = stream.readline().strip()
+           ^^^^^^^^^^^^^^^^^
+  File "<frozen codecs>", line 322, in decode
+UnicodeDecodeError: 'utf-8' codec can't decode byte 0xff in position 0: invalid start byte

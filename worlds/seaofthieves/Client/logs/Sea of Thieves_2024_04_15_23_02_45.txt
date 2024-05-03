@@ -1,0 +1,23 @@
+﻿[root at 2024-04-15 23:02:45,418]: Archipelago (0.4.5) logging initialized on Windows-10-10.0.22631-SP0 running Python 3.11.3
+[Client at 2024-04-15 23:02:45,432]: Connecting to Archipelago server at ws://192.168.0.210:38281
+[Client at 2024-04-15 23:02:45,453]: Connected
+[Client at 2024-04-15 23:02:45,454]: --------------------------------
+[Client at 2024-04-15 23:02:45,454]: Room Information:
+[Client at 2024-04-15 23:02:45,454]: --------------------------------
+[Client at 2024-04-15 23:02:45,454]: Server protocol version: 0.4.5, generator version: 0.4.5, tags: AP
+[Client at 2024-04-15 23:02:45,454]: Release permission: auto
+[Client at 2024-04-15 23:02:45,454]: Remaining permission: goal
+[Client at 2024-04-15 23:02:45,454]: Collect permission: auto
+[Client at 2024-04-15 23:02:45,454]: A !hint costs 10% of your total location count as points and you get 1 for each location checked. Use !hint for more information.
+[FileLog at 2024-04-15 23:02:45,457]: EthanSotReal (Team #1) playing Sea of Thieves has joined. Client(1.1.1), [].
+[FileLog at 2024-04-15 23:02:45,457]: Now that you are connected, you can use !help to list commands to run via the server. If your client supports it, you may have additional local commands you can list with /help.
+[root at 2024-04-15 23:03:24,686]: 'utf-8' codec can't decode byte 0xff in position 0: invalid start byte
+Traceback (most recent call last):
+  File "C:\Users\Ethan\Desktop\code\Archipelago-main\Archipelago-main\Utils.py", line 551, in queuer
+    text = stream.readline().strip()
+           ^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\JetBrains\PyCharm Community Edition 2023.1\plugins\python-ce\helpers\pydev\_pydev_bundle\pydev_stdin.py", line 117, in readline
+    result = self.original_stdin.readline(*args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen codecs>", line 322, in decode
+UnicodeDecodeError: 'utf-8' codec can't decode byte 0xff in position 0: invalid start byte
