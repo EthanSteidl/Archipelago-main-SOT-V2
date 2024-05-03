@@ -87,8 +87,6 @@ class SOTDataAnalyzer:
         self.__updateWebDataForAll(json_data)
 
     def __updateWebDataForAll(self, json_data) -> None:
-        total_eaten = json_data['Pirate']['Alignments'][3]['Accolades'][1]['Stats'][0]
-        print("Prov Eaten: " + str(total_eaten))
         for loc_det in self.trackedLocations.keys():
             self.__updateWebDataForLocation(self.trackedLocations[loc_det], json_data)
 
