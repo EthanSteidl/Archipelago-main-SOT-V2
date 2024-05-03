@@ -31,7 +31,8 @@ Once you are here, perform the following steps to generate a game
 - "--address ip:port" example: "--address 192.0.0.1:25565"
 - "--ship id" example "--ship 1"
 - "--mscookie sometext" example "--mscookie asefaw9hfwhafw4"
-- Example full command "python SotCustomClient.py --address 192.0.0.1:25565 --ship 1 --mscookie 123123"
+- "--user name" example "--user PlayerNameForP1"
+- Example full command "python SotCustomClient.py --address 192.0.0.1:25565 --ship 1 --user PlayerNameForP1" --mscookie 123123"
 
 Your ship id is found by going to https://www.seaofthieves.com/profile/captaincy/your-ships then number each ship from left to right from 0..X
 For example, I have two ships "Falcon" and "Avalon", my ship id of "Avalon" is 1 while "Falcon" is 0
