@@ -103,8 +103,9 @@ class SOTWorld(World):
 
         fillerCount = thisWorldsLocCount - items_to_add_to_pool - len(self.itemCollection.items_not_randomized)
 
-        for i in range(0,fillerCount):
+        for i in range(0,fillerCount-1):
             self.multiworld.itempool.append(self.getFillerItem())
+
 
     def getFillerItem(self):
         self.starting_id += 1
