@@ -117,7 +117,10 @@ class LocDetails:
         for web_location in self.webLocationCollection:
             # look at each set of items that can get the thing for this spot / region combination
             for and_condition in web_location.itemLogic.conditions:
-                rules.append(and_condition.getLambda(player))
+                try:
+                    rules.append(and_condition.getLambda(player))
+                except:
+                    pass
         if rules:
             if len(rules) == 1:
                 return rules[0]

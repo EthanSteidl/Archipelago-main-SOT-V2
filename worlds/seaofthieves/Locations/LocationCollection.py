@@ -164,7 +164,9 @@ class LocationDetailsCollection:
 
     def addAllGoldSeaker(self):
         self.addGoldSeakerTreasuresSold()
-        self.addGoldSeakerChests()
+
+        #TODO this is buggy
+        #self.addGoldSeakerChests()
     def addGoldSeakerTreasuresSold(self):
         self.addLocationsToSelf(TreasuresSold.TreasuresSold().getLocations(), "SettingsTreasuresSold")
     def addGoldSeakerChests(self):
