@@ -4,6 +4,7 @@ import json
 import SOTWebCollector
 import recursive_diff
 import time
+import typing
 
 import UserInformation
 from worlds.seaofthieves.Locations.Locations import WebLocation
@@ -147,7 +148,7 @@ class SOTDataAnalyzer:
             for index in self.trackedLocationsData[locId].keys():
                 oldNewData: OldNewValues = self.trackedLocationsData[locId][index]
                 if(oldNewData.old != oldNewData.new):
-                    returntyping.Dict[locId] = True
+                    returndict[locId] = True
 
         return returndict
 
