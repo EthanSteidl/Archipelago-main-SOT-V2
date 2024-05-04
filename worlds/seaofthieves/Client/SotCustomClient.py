@@ -2,11 +2,11 @@ from __future__ import annotations
 # CommonClient import first to trigger ModuleUpdater
 import json
 import multiprocessing
-
+import winsound
 from worlds.seaofthieves.Locations.Locations import WebLocation
 from worlds.seaofthieves.Locations.LocationCollection import LocationDetailsCollection, LocDetails
 from worlds.seaofthieves.Items.Items import ItemCollection
-from worlds.seaofthieves.Items.Items import Items
+from worlds.seaofthieves.Items.Items import Items, ItemDetail
 
 import Shop
 import PlayerInventory
@@ -40,6 +40,7 @@ import Utils
 from typing import NamedTuple
 from worlds.seaofthieves.Client.NetworkProtocol.PrintJsonPacket import PrintJsonPacket
 from worlds.seaofthieves.Client.NetworkProtocol.ReceivedItemsPacket import ReceivedItemsPacket
+from worlds.seaofthieves.Client.NetworkProtocol.SetReply import SetReplyPacket
 import Balance
 class Version(NamedTuple):
     major: int
@@ -53,6 +54,7 @@ async def watchGameForever(ctx):
 
         if ctx.connected_to_server:
             if firstpass:
+                await ctx.init_notif_weapons()
                 firstpass = False
             else:
                 try:
@@ -122,6 +124,17 @@ class SOT_CommandProcessor(ClientCommandProcessor):
         for loc in loc_details_possible:
             print(loc.name)
 
+    def _cmd_cshop(self):
+        self.ctx.combatShop.info(self.ctx.playerInventory)
+        return True
+
+    def _cmd_cbuy(self, menu_line_number):
+        menu_line_number = str(menu_line_number)
+        detail: ItemDetail = self.ctx.combatShop.executeAction(menu_line_number, self.ctx.playerInventory)
+        self.ctx.set(detail.id, 1)
+
+    def _cmd_mrkrabs(self):
+        self.ctx.playerInventory.addBalanceClient(Balance.Balance(10000000,10000000,1000000))
 
 
 
@@ -141,11 +154,27 @@ class SOT_Context(CommonContext):
 
         self.itemCollection = ItemCollection()
         self.shop = Shop.Shop()
+        self.combatShop = Shop.CombatShop()
         self.playerInventory = PlayerInventory.PlayerInventory()
         self.connected_to_server = False
 
         self.originalBalance: Balance.Balance | None = None
 
+
+    async def init_notif_weapons(self):
+        keys: typing.List[str] = []
+        if len(ItemCollection.combat) <= 0:
+            return
+        for det in ItemCollection.combat:
+            keys.append(str(det.id))
+
+            await self.send_msgs([
+                {
+                    "cmd": "SetNotify",
+                    "keys": keys,
+                }
+            ])
+        return
 
     def locationsReachableWithCurrentItems(self) -> typing.List[LocDetails]:
 
@@ -206,12 +235,24 @@ class SOT_Context(CommonContext):
             printJsonPacket: PrintJsonPacket = PrintJsonPacket(args)
             printJsonPacket.print()
 
+        elif cmd == "SetReply":
+            setReplyPacket: SetReplyPacket = SetReplyPacket(args)
+            if(setReplyPacket.value != 0 and setReplyPacket.original_value == 0):
+                self.playAudio(setReplyPacket.key)
+
         else:
             print("Error: Server requested unsupported feature '{0}'".format(cmd))
 
             #this is where you read slot data if any
 
-
+    def playAudio(self, key: str):
+        if(key == str(Items.Combat.c_tac_missle.id)):
+            winsound.PlaySound('Sounds\\warning_fixed.wav', winsound.SND_FILENAME)
+            winsound.PlaySound('Sounds\\tac_missle_fixed.wav', winsound.SND_FILENAME)
+        if(key == str(Items.Combat.c_orbital_rail)):
+            winsound.PlaySound('Sounds\\warning_fixed.wav', winsound.SND_FILENAME)
+            winsound.PlaySound('Sounds\\orbital_rail_fixed.wav', winsound.SND_FILENAME)
+        return
     def applyMoneyIfMoney(self, itm: NetworkItem):
         gold_ids: typing.Dict[int, int] = {Items.Filler.gold_50.id: Items.Filler.gold_50.numeric_value,
                     Items.Filler.gold_100.id: Items.Filler.gold_100.numeric_value,
@@ -259,9 +300,21 @@ class SOT_Context(CommonContext):
         if self.originalBalance is None:
             self.originalBalance = newBalance
 
-        playerBalance: Balance.Balance = newBalance - self.originalBalance
-        self.playerInventory.setBalanceSot(playerBalance)
+        newBalance = newBalance - self.originalBalance
+        self.playerInventory.setBalanceSot(newBalance)
 
+
+    async def set(self, key, value):
+        # Sync server itmes to us
+        await self.send_msgs([
+            {
+                "cmd": "Set",
+                "key": key,
+                "default": 0,
+                "want_reply": 1,
+                "operations": [{"operation": "replace", "value": value}]
+            }
+        ])
     async def collectLocationsAndSendInformation(self):
 
         # Sync server itmes to us

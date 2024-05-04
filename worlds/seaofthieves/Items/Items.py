@@ -13,7 +13,7 @@ class ItemDetail:
     seedId: int = 8000000
     id:int = seedId
 
-    def __init__(self, name):
+    def __init__(self, name, numeric = 0):
         self.name = name
         self.id = ItemDetail.seedId
         ItemDetail.seedId += 1
@@ -21,7 +21,7 @@ class ItemDetail:
 
 
         #extra property to hold numerical data for things like money
-        self.numeric_value = 0
+        self.numeric_value = numeric
 
     def __str__(self):
         return self.id
@@ -29,6 +29,12 @@ class ItemDetail:
 
 class Items:
 
+    class Combat:
+        c_tac_missle = ItemDetail("Tactical Missil Launcher", 20000)
+        c_orbital_rail = ItemDetail("Orbital Railcannon", 60000)
+        c_nuke = ItemDetail("Nuculear Silo", 50000)
+        c_def_plasma = ItemDetail("Plasma Deflector", 30000)
+        c_torp_bomber = ItemDetail("Angler", 10000)
     class Filler:
         gold_50 = ItemDetail("50 Gold")
         gold_50.numeric_value = 50
@@ -88,6 +94,7 @@ class ItemCollection:
 
     other: typing.List[ItemDetail] = [Items.Filler.gold_50, Items.Filler.gold_100, Items.Filler.gold_500, Items.pirate_legend]
 
+    combat: typing.List[ItemDetail] = [Items.Combat.c_tac_missle, Items.Combat.c_nuke, Items.Combat.c_def_plasma, Items.Combat.c_torp_bomber, Items.Combat.c_orbital_rail]
     #Note seals are not added cause we dont want them randomzed in the general pool
 
     def remove(self, v: ItemDetail):

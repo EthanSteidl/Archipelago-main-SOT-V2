@@ -9,16 +9,16 @@ class Balance:
         self.imageUrl = ""
 
     def __sub__(self, other):
-        self.ancientCoins -= other.ancientCoins
-        self.dabloons -= other.dabloons
-        self.gold -= other.gold
-        return self
+        ac = self.ancientCoins - other.ancientCoins
+        db = self.dabloons - other.dabloons
+        g = self.gold - other.gold
+        return Balance(ac, db, g)
 
     def __add__(self, other):
-        self.ancientCoins += other.ancientCoins
-        self.dabloons += other.dabloons
-        self.gold += other.gold
-        return self
+        ac = self.ancientCoins + other.ancientCoins
+        db = self.dabloons + other.dabloons
+        g = self.gold + other.gold
+        return Balance(ac, db, g)
 
     def isInDebt(self) -> bool:
         if self.ancientCoins < 0 or self.dabloons < 0 or self.gold < 0:
