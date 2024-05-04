@@ -22,3 +22,6 @@ class PlayerInventory:
 
     def canAfford(self, bal: Balance.Balance) -> bool:
         return not (self.getNominalBalance() - bal).isInDebt()
+
+    def spend(self, bal: Balance.Balance) -> None:
+        self.balanceSpent = self.balanceSpent + bal

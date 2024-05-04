@@ -1,5 +1,5 @@
 import typing
-
+import Balance
 from PlayerInventory import PlayerInventory
 
 HINT_IDX = "HINT_IDX"
@@ -13,16 +13,18 @@ class Shop:
         self.hints_personal_progression: typing.Dict[str,str] = {}
         self.hints_other_progression: typing.Dict[str, str] = {}
         self.menu = {
-            "1": ("Buy Generic Hint",0,0),
-            "2": ("Buy Personal Progression Hint", 0, 0),
-            "3": ("Buy Progression Hint for Another", 0, 0),
+            "1": ("Buy Generic Hint",10000,0),
+            "2": ("Buy Personal Progression Hint", 15000, 25),
+            "3": ("Buy Progression Hint for Another", 20000, 100),
+            #"4": ("Move Random Progression Item in your world to Lower Sphere", 20000, 100),
+            #"5": ("Move Random Progression Item in another's world to Lower Sphere (SOT Only)", 20000, 300)
         }
         pass
 
     def menu_text(self):
         st : str = ""
         for key in self.menu.keys():
-            st += "[ " + key + " ] " + self.menu[key][0] + "[" + str(self.menu[key][1]) + " gold] [" + str(self.menu[key][2]) + " dabloons] \n"
+            st += "[ " + key + " ] " + self.menu[key][0] + " [" + str(self.menu[key][1]) + " gold] [" + str(self.menu[key][2]) + " dabloons] \n"
         return st
 
     def set_hints_generic(self, progHints: typing.Dict[str,str]):
@@ -62,8 +64,9 @@ class Shop:
             print("Invalid Option")
             return
 
-        if playerInventory.has(self.menu[menu_line_number][1], self.menu[menu_line_number][2]):
-            playerInventory.subtract(self.menu[menu_line_number][1], self.menu[menu_line_number][2])
+        purchase: Balance.Balance = Balance.Balance(0, self.menu[menu_line_number][2], self.menu[menu_line_number][1])
+        if playerInventory.canAfford(purchase):
+            playerInventory.spend(purchase)
 
             if menu_line_number == "1":
                 print(self.get_next_hint(self.hints_generic))
