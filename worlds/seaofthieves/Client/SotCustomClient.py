@@ -174,6 +174,7 @@ class SOT_Context(CommonContext):
             self.connected_to_server = True
             print("We have connected!!!!")
             self.discoveryHints = args["slot_data"]
+            self.shop.set_hints_progression(self.discoveryHints['HINTS'])
             print(args)
 
         elif cmd == "LocationInfo":

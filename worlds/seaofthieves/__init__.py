@@ -32,6 +32,7 @@ class SOTWorld(World):
     """
 
 
+    MAX_ISLANDS = 20 #number of hints
     game = "Sea of Thieves"
     topology_present = False
 
@@ -147,7 +148,7 @@ class SOTWorld(World):
         # The client needs to know where each seal is
         dic = {}
         #dic["SEAL"] = self.sealHints()
-        #dic["HINTS"] = self.genericHints()
+        dic["HINTS"] = self.generalHints()
         return dic
 
     def generalHints(self):
@@ -172,7 +173,7 @@ class SOTWorld(World):
         #TODO hints specific to SEALS
         return {}
 
-    def createHint(self, loc: Location) -> str:
+    def create_hint(self, loc: Location) -> str:
         loc_name = loc.name
         item_name = loc.item.name
         for_player = loc.item.player
