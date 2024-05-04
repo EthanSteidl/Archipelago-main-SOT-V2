@@ -6,6 +6,7 @@ import multiprocessing
 from worlds.seaofthieves.Locations.Locations import WebLocation
 from worlds.seaofthieves.Locations.LocationCollection import LocationDetailsCollection, LocDetails
 from worlds.seaofthieves.Items.Items import ItemCollection
+from worlds.seaofthieves.Items.Items import Items
 
 import Shop
 import PlayerInventory
@@ -113,6 +114,12 @@ class SOT_CommandProcessor(ClientCommandProcessor):
         menu_line_number = str(menu_line_number)
         self.ctx.shop.executeAction(menu_line_number, self.ctx.playerInventory)
 
+    def _cmd_locs(self):
+        loc_details_possible: typing.List[LocDetails] = self.ctx.locationsReachableWithCurrentItems()
+        print("You can check " + str(len(loc_details_possible)) + " more locations. ")
+        for loc in loc_details_possible:
+            print(loc.name)
+
 
 
 
@@ -172,9 +179,10 @@ class SOT_Context(CommonContext):
 
         elif cmd == "Connected":
             self.connected_to_server = True
-            print("We have connected!!!!")
             self.discoveryHints = args["slot_data"]
-            self.shop.set_hints_progression(self.discoveryHints['HINTS'])
+            self.shop.set_hints_generic(self.discoveryHints['HINTS_GENERAL'])
+            self.shop.set_hints_personal_progression(self.discoveryHints['HINTS_PERSONAL_PROG'])
+            self.shop.set_hints_other_progression(self.discoveryHints['HINTS_OTHER_PROG'])
             print(args)
 
         elif cmd == "LocationInfo":
@@ -182,8 +190,9 @@ class SOT_Context(CommonContext):
             # TODO we should acknowledge the items have been recieved and stop sending them again
 
         elif cmd == "RoomUpdate":
-            print("We got a room update")
-            print(args)
+            pass
+            #print("We got a room update")
+            #print(args)
 
         elif cmd == "Bounced":
             #do nothing
@@ -212,13 +221,21 @@ class SOT_Context(CommonContext):
             #this is where you read slot data if any
 
 
+    def applyMoneyIfMoney(self, itm: NetworkItem):
+        gold_ids: typing.Dict[int, int] = {Items.Filler.gold_50.id: Items.Filler.gold_50.numeric_value,
+                    Items.Filler.gold_100.id: Items.Filler.gold_100.numeric_value,
+                    Items.Filler.gold_500.id: Items.Filler.gold_500.numeric_value}
+        id = itm.item
+        if id in gold_ids.keys():
+            self.playerInventory.add(gold_ids[id], 0)
 
-
+        return
 
     def acknowledgeItemsReceived(self):
         for itm in self.items_received:
             if(itm not in self.known_items_received):
                 print("Server gave us -> " + str(itm.item))
+                self.applyMoneyIfMoney(itm)
         self.known_items_received = self.items_received
 
     def getAndClearNewLocationsReached(self) -> typing.Set[int]:

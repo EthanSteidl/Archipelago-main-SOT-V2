@@ -19,6 +19,10 @@ class ItemDetail:
         ItemDetail.seedId += 1
         self.req_qty = 1
 
+
+        #extra property to hold numerical data for things like money
+        self.numeric_value = 0
+
     def __str__(self):
         return self.id
 
@@ -27,8 +31,11 @@ class Items:
 
     class Filler:
         gold_50 = ItemDetail("50 Gold")
+        gold_50.numeric_value = 50
         gold_100 = ItemDetail("100 Gold")
+        gold_100.numeric_value = 100
         gold_500 = ItemDetail("500 Gold")
+        gold_500.numeric_value = 500
 
     upgrade_cnt_gh = ItemDetail("Sell Item (GH)")
     upgrade_cnt_ma = ItemDetail("Sell Item (MA)")

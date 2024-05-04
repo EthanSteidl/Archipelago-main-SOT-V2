@@ -53,8 +53,6 @@ class SOTWorld(World):
     options_dataclass = SOTOptions
     regionAdder: RegionAdder
 
-    starting_id = 30040000
-
     def generate_early(self) -> None:
         self.sotOptionsDerived = SotOptionsDerived.SotOptionsDerived(self.options)
         self.locationCollection.applyOptions(self.sotOptionsDerived)
@@ -111,10 +109,9 @@ class SOTWorld(World):
 
 
     def getFillerItem(self):
-        self.starting_id += 1
         filler_list = [Items.Filler.gold_50, Items.Filler.gold_100, Items.Filler.gold_500]
         det: ItemDetail = self.multiworld.random.choice(filler_list)
-        return SOTItem(det.name, ItemClassification.filler,  self.starting_id, self.player)
+        return SOTItem(det.name, ItemClassification.filler,  det.id, self.player)
 
 
     def get_filler_item_name(self) -> str:
@@ -147,15 +144,17 @@ class SOTWorld(World):
     def fill_slot_data(self):
         # The client needs to know where each seal is
         dic = {}
+        hint_max = 200
         #dic["SEAL"] = self.sealHints()
-        dic["HINTS"] = self.generalHints()
+        dic["HINTS_GENERAL"] = self.generalHints(hint_max)
+        dic["HINTS_PERSONAL_PROG"] = self.personalProgressionHints(hint_max)
+        dic["HINTS_OTHER_PROG"] = self.otherProgressionHints(hint_max)
         return dic
 
-    def generalHints(self):
+    def generalHints(self, max):
 
         cnt = 0
         hints = {}
-        max_hint_count = self.MAX_ISLANDS
 
         for sphere in self.multiworld.get_spheres():
             for sphere_location in sphere:
@@ -163,11 +162,38 @@ class SOTWorld(World):
 
                     hints[str(cnt)] = self.create_hint(sphere_location)
                     cnt += 1
-                    if(cnt >= max_hint_count):
+                    if(cnt >= max):
                         return hints
 
         return hints
 
+    def personalProgressionHints(self, max):
+        cnt = 0
+        hints = {}
+
+        for sphere in self.multiworld.get_spheres():
+            for sphere_location in sphere:
+                if (sphere_location.player == self.player or sphere_location.item.player == self.player) and sphere_location.item.classification == ItemClassification.progression:
+
+                    hints[str(cnt)] = self.create_hint(sphere_location)
+                    cnt += 1
+                    if(cnt >= max):
+                        return hints
+        return hints
+
+    def otherProgressionHints(self, max):
+        cnt = 0
+        hints = {}
+
+        for sphere in self.multiworld.get_spheres():
+            for sphere_location in sphere:
+                if (sphere_location.player != self.player and sphere_location.item.player != self.player) and sphere_location.item.classification == ItemClassification.progression:
+
+                    hints[str(cnt)] = self.create_hint(sphere_location)
+                    cnt += 1
+                    if(cnt >= max):
+                        return hints
+        return hints
     def sealHints(self):
 
         #TODO hints specific to SEALS

@@ -7,6 +7,7 @@ import random
 import json
 import UserInformation
 
+QUERY_PERIOD_SECONDS = 7
 
 class SOTWebCollector:
     AUTH = r'www.seaofthieves.com'
@@ -57,7 +58,7 @@ class SOTWebCollector:
 
 
     def getJson(self):
-        if(self.json is None or self.lastQueryTimeSeconds+5 < time.time() ):
+        if(self.json is None or self.lastQueryTimeSeconds+QUERY_PERIOD_SECONDS < time.time() ):
             try:
                 resp = requests.get('https://www.seaofthieves.com/api/profilev2/captaincy', headers=self.getHeaders())
                 text = resp.text

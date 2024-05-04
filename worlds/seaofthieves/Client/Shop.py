@@ -2,17 +2,20 @@ import typing
 
 from PlayerInventory import PlayerInventory
 
-
+HINT_IDX = "HINT_IDX"
 class Shop:
+
 
 
     def __init__(self):
 
-        self.hints_progression: typing.Dict[str,str] = {}
+        self.hints_generic: typing.Dict[str, str] = {}
+        self.hints_personal_progression: typing.Dict[str,str] = {}
+        self.hints_other_progression: typing.Dict[str, str] = {}
         self.menu = {
             "1": ("Buy Generic Hint",0,0),
-            "2": ("Buy Unknown Progression Hint", 0, 0),
-            "3": ("Buy Unknown Progression Hint for Another", 0, 0),
+            "2": ("Buy Personal Progression Hint", 0, 0),
+            "3": ("Buy Progression Hint for Another", 0, 0),
             "0": ("Exit", 0, 0)
         }
         pass
@@ -20,19 +23,36 @@ class Shop:
     def menu_text(self):
         st : str = ""
         for key in self.menu.keys():
-            st += key + " " + self.menu[key][0] + "Gold: " + str(self.menu[key][1]) + " Dabloons: " + str(self.menu[key][2]) + "\n"
+            st += "[ " + key + " ] " + self.menu[key][0] + "[" + str(self.menu[key][1]) + " gold] [" + str(self.menu[key][2]) + " dabloons] \n"
         return st
 
-    def set_hints_progression(self, progHints: typing.Dict[str,str]):
-        self.hints_progression = progHints
-        self.hints_progression['next_hint'] = '0'
+    def set_hints_generic(self, progHints: typing.Dict[str,str]):
+        self.hints_generic = progHints
+        self.hints_generic[HINT_IDX] = '0'
 
+    def set_hints_personal_progression(self, progHints: typing.Dict[str,str]):
+        self.hints_personal_progression = progHints
+        self.hints_personal_progression[HINT_IDX] = '0'
+
+    def set_hints_other_progression(self, progHints: typing.Dict[str,str]):
+        self.hints_other_progression = progHints
+        self.hints_other_progression[HINT_IDX] = '0'
     def info(self, pinvent: PlayerInventory):
-        print("Shop")
+        print("===========================================")
         print("Your Purse" + pinvent.purseString())
         print(self.menu_text())
-        print("Enter /buy num to purchase. EX: /buy 2")
+        print("===========================================")
+        print("Enter /buy # to purchase.")
 
+    def get_next_hint(self, hints: typing.Dict[str, str]) -> str:
+        output: str = ""
+        key = str(hints[HINT_IDX])
+        if key in hints.keys():
+            output = hints[key]
+            hints[HINT_IDX] = str(int(key) + 1)
+        else:
+            output = "No hints remaining in this category."
+        return output
 
 
     def executeAction(self, menu_line_number: str, playerInventory: PlayerInventory):
@@ -47,16 +67,13 @@ class Shop:
             playerInventory.subtract(self.menu[menu_line_number][1], self.menu[menu_line_number][2])
 
             if menu_line_number == "1":
-                print("Not Implemented: Bought Hint")
+                print(self.get_next_hint(self.hints_generic))
 
             elif menu_line_number == "2":
-                key = str(self.hints_progression['next_hint'])
-                if key in self.hints_progression.keys():
-                    print(self.hints_progression[key])
-                    self.hints_progression['next_hint'] = str(int(key) + 1)
+                print(self.get_next_hint(self.hints_personal_progression))
 
             elif menu_line_number == "3":
-                print("Not Implemented: Bought Progression for Another")
+                print(self.get_next_hint(self.hints_other_progression))
 
             else:
                 print("Shop error, refunding tokens")

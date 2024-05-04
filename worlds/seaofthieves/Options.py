@@ -78,39 +78,6 @@ class EmFlagRec(Range):
 @dataclass
 class SOTOptions(PerGameCommonOptions):
 
-    """
-    Ideally the otpions look like this:
-
-    Victory Condition: 1) Defeat Fort of the Damned
-    Seal Requirement to Access FOD: 0-5
-
-
-    Treasurysanity: Yes/No              #
-    -- Individual Treasuries (Yes/No)
-
-    Fortresssanity: Yes/No
-    -- Individual Fortress?: Yes/No
-
-    Fishingsanity: Yes/No
-    -- Individual Type/Descriptor (Likely will not complete)?: Yes/No
-
-    Munchsanity: Yes/No
-    -- Individual Fruit?: Yes/No
-    -- Individual Fish?: Yes/No
-    -- Individual Seamonster?: Yes/No
-    -- Individual Land Animal?: Yes/No
-
-    Cooksanity: Yes/No
-    -- Individual Fish?: Yes/No
-    -- Individual Seamonster?: Yes/No
-    -- Individual Land Animal?: Yes/No
-
-    Burnsanity: Yes/No
-    -- Individual Fish?: Yes/No
-    -- Individual Seamonster?: Yes/No
-    -- Individual Land Animal?: Yes/No
-    """
-
     sealCount: SealsRequired
 
     servantSanity: Servantoptions.ServantSanity
@@ -142,13 +109,6 @@ class SOTOptions(PerGameCommonOptions):
     burnSanitySeamonster: Foodoptions.BurnSanitySeamonster
     burnSanityLandAnimal: Foodoptions.BurnSanityLandAnimal
 
-    # TODO
-    #
-
-
-
-    # TODO
-    # treasurySanity: OptionsTreasury.TreasurySanity
 
 
 

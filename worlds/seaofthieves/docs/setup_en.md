@@ -8,33 +8,18 @@
 
 ## Setup Procedure
 
-This guide covers running the game from source as other forms are not yet supported
+1. Configure your Options by navigating to supported games, Sea of Thieves, and clicking options. Then once configured, export your YAML file. Do this for each player in your game
+2. Host a world from your YAML files
+3. You must now login to https://www.seaofthieves.com/profile/captaincy/. Once you login, your browser is sent a Microsoft authentication cookie that prevents you from needing to login again.
+4. While on the website, open the developer tools and look at the network information. There is an XHR request named "captaincy", if you do not see one, hard refresh your page.
+5. View the "Request Headers" section of the "captaincy" HXR GET request. In the header is a field named "Cookie". Copy the value of the cookie you will need it later. This cookie is long.
+8. You will need to run the client from the command line with arguments. The client is named "SotCustomClient.py". The command you will run should look like this:
+"python SotCustomClient.py --address <ip:port> --ship <id> --user <player_name> --mscookie <cookie>"
 
-Navigate to the website linked above and login to view captaincy details.
-Once on the page that displays "Pirate Milestones" and "Ship Milestones", do not click any further. (Going further causes Microsofts web server to cache our data and makes the randomizer update slower in game)
+For example, if the server is running at 192.0.0.1:25565, my player's name is Ethan, I want to use my first ship, and my cookie is some text "23545....", I would run the following command in CMD.
+"python SotCustomClient.py --address 192.0.0.1:25565 --ship 0 --user Ethan --mscookie 23545...."
 
-Open the developer tools in browser, navigate to the Network tab, and refresh the page.
-You should see an XHR packet with the name "captaincy", select this and vew the request header information. There is a variable named "Cookie" copy this text string.
-
-
-Once you are here, perform the following steps to generate a game
-1. Run WebHost.py
-2. Navigate to your browser and visit the localhost
-3. Go to Supported Games and click on Options
-4. Once your options are selected, click export options
-5. Take your YAML file and place it into the Players folder of this code
-6. Run Generate.py
-7. There should now be an output file containing your world
-8. If you are hosting a session, run MultiServer.py with your output files
-9. Verify step 8 worked by looking in the terminal and seeing everything looks good
-10. Each player must now run the python file "SotCustomClient.py" with the propper command line arguments and all will work.
-- "--address ip:port" example: "--address 192.0.0.1:25565"
-- "--ship id" example "--ship 1"
-- "--mscookie sometext" example "--mscookie asefaw9hfwhafw4"
-- "--user name" example "--user PlayerNameForP1"
-- Example full command "python SotCustomClient.py --address 192.0.0.1:25565 --ship 1 --user PlayerNameForP1" --mscookie 123123"
-
-Your ship id is found by going to https://www.seaofthieves.com/profile/captaincy/your-ships then number each ship from left to right from 0..X
-For example, I have two ships "Falcon" and "Avalon", my ship id of "Avalon" is 1 while "Falcon" is 0
-11. Your client should connect and not crash. If it connects, then crashes this is because you gave an invalid ship id for the mscookie you provided, please verify these are correct.
-12. What will happen now is your Multiworld will update with things done in SOT. There is a 5ish minute delay due to a technical limitation I am looking into, but just know this is a thing
+9. The client should run and connect you to the room at this point. Once connected, you should not see errors related to polling the SOT API. If you do, then you likely did one of the following wrong
+- The Ship id you gave does not exist, they are numbered starting from 0 in order left to right on the website https://www.seaofthieves.com/profile/captaincy/your-ships.
+- The cookie you copied is out of date or you copy/pasted it incorrectly
+10. Everython should now function
