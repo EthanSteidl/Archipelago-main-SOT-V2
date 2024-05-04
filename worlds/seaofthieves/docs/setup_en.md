@@ -22,4 +22,4 @@ For example, if the server is running at 192.0.0.1:25565, my player's name is Et
 9. The client should run and connect you to the room at this point. Once connected, you should not see errors related to polling the SOT API. If you do, then you likely did one of the following wrong
 - The Ship id you gave does not exist, they are numbered starting from 0 in order left to right on the website https://www.seaofthieves.com/profile/captaincy/your-ships.
 - The cookie you copied is out of date or you copy/pasted it incorrectly
-10. Everython should now function
+10. Everything should now function
