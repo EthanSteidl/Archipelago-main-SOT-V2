@@ -16,7 +16,6 @@ class Shop:
             "1": ("Buy Generic Hint",0,0),
             "2": ("Buy Personal Progression Hint", 0, 0),
             "3": ("Buy Progression Hint for Another", 0, 0),
-            "0": ("Exit", 0, 0)
         }
         pass
 
@@ -39,7 +38,7 @@ class Shop:
         self.hints_other_progression[HINT_IDX] = '0'
     def info(self, pinvent: PlayerInventory):
         print("===========================================")
-        print("Your Purse" + pinvent.purseString())
+        print("Your Balance" + pinvent.getNominalBalance().displayString())
         print(self.menu_text())
         print("===========================================")
         print("Enter /buy # to purchase.")

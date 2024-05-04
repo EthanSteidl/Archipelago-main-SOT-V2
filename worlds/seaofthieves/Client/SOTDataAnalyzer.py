@@ -10,7 +10,7 @@ import UserInformation
 from worlds.seaofthieves.Locations.Locations import WebLocation
 from worlds.seaofthieves.Locations.LocationCollection import LocationDetailsCollection, LocDetails
 from worlds.seaofthieves.Items.Items import ItemCollection
-
+import Balance
 class SOTDataAnalyzerSettings:
 
     def __init__(self, details: UserInformation.SotAnalyzerDetails):
@@ -153,4 +153,9 @@ class SOTDataAnalyzer:
         return returndict
 
 
+
     # endregion
+
+    def getBalance(self) -> Balance.Balance:
+        js: json = self.collector.getBalance()
+        return Balance.fromJson(js)

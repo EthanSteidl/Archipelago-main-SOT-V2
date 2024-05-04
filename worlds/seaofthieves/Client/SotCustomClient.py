@@ -40,6 +40,7 @@ import Utils
 from typing import NamedTuple
 from worlds.seaofthieves.Client.NetworkProtocol.PrintJsonPacket import PrintJsonPacket
 from worlds.seaofthieves.Client.NetworkProtocol.ReceivedItemsPacket import ReceivedItemsPacket
+import Balance
 class Version(NamedTuple):
     major: int
     minor: int
@@ -55,6 +56,7 @@ async def watchGameForever(ctx):
                 firstpass = False
             else:
                 try:
+                    ctx.updateSotPlayerBalance()
                     ctx.updateAnalyzerWithLocationsPossible()
                     await ctx.collectLocationsAndSendInformation()
                 except Exception as e:
@@ -142,18 +144,8 @@ class SOT_Context(CommonContext):
         self.playerInventory = PlayerInventory.PlayerInventory()
         self.connected_to_server = False
 
+        self.originalBalance: Balance.Balance | None = None
 
-    def updateClientStatus(self, status: ClientStatus):
-        self.send_msgs([{"cmd": 'StatusUpdate', "status": status}])
-
-    def isItemUpdateForReceiving(self) -> bool:
-        return len(self.known_items_received) < len(self.items_received)
-
-    def processItemUpdateForClient(self) -> None:
-        pass
-
-    def _canReachWebLocation(self, currentItemIds: typing.Set[int], web_loc: WebLocation):
-        pass
 
     def locationsReachableWithCurrentItems(self) -> typing.List[LocDetails]:
 
@@ -199,8 +191,7 @@ class SOT_Context(CommonContext):
             pass
 
         elif cmd == "Retrieved":
-            print("Retrieved packet?")
-            print(args)
+            pass
 
         elif cmd == "ReceivedItems":
 
@@ -227,14 +218,21 @@ class SOT_Context(CommonContext):
                     Items.Filler.gold_500.id: Items.Filler.gold_500.numeric_value}
         id = itm.item
         if id in gold_ids.keys():
-            self.playerInventory.add(gold_ids[id], 0)
+            gold_val = gold_ids[id]
+            ac = 0
+            db = 0
+
+            #TODO remove this 50
+            gold_val += 50
+            ac += 1
+            db +=5
+            self.playerInventory.addBalanceClient(Balance.Balance(ac, db, gold_val))
 
         return
 
     def acknowledgeItemsReceived(self):
         for itm in self.items_received:
             if(itm not in self.known_items_received):
-                print("Server gave us -> " + str(itm.item))
                 self.applyMoneyIfMoney(itm)
         self.known_items_received = self.items_received
 
@@ -253,6 +251,16 @@ class SOT_Context(CommonContext):
         for loc_detail in loc_details_possible:
             self.analyzer.allowTrackingOfLocation(loc_detail)
         self.acknowledgeItemsReceived()
+
+
+    def updateSotPlayerBalance(self):
+        newBalance = self.analyzer.getBalance()
+
+        if self.originalBalance is None:
+            self.originalBalance = newBalance
+
+        playerBalance: Balance.Balance = newBalance - self.originalBalance
+        self.playerInventory.setBalanceSot(playerBalance)
 
     async def collectLocationsAndSendInformation(self):
 

@@ -1,22 +1,24 @@
-from Purse import Purse
 
 
+import Balance
 class PlayerInventory:
 
 
     def __init__(self):
-        self.purse = Purse()
 
-    def purseString(self) -> str:
-        return self.purse.purseString()
+        #the idea here is to track how much money is made in SOT, how much fake money the client has, and how much total we have spent
+        self.balanceSot = Balance.Balance(0,0,0)
+        self.balanceClient = Balance.Balance(0,0,0)
+        self.balanceSpent = Balance.Balance(0,0,0)
 
-    def add(self, gold: int, dabloons: int):
-        self.purse.gainGold(gold)
-        self.purse.gainDabloons(dabloons)
+    def setBalanceSot(self, bal: Balance.Balance):
+        self.balanceSot = bal
 
-    def subtract(self, gold: int, dabloons: int):
-        self.purse.spendGold(gold)
-        self.purse.spendDabloons(dabloons)
+    def addBalanceClient(self, bal: Balance.Balance):
+        self.balanceClient = self.balanceClient + bal
 
-    def has(self, gold: int, dabloons: int) -> bool:
-        return self.purse.gold >= gold and self.purse.dabloons >= dabloons
+    def getNominalBalance(self) -> Balance.Balance:
+        return self.balanceSot + self.balanceClient - self.balanceSpent
+
+    def canAfford(self, bal: Balance.Balance) -> bool:
+        return not (self.getNominalBalance() - bal).isInDebt()

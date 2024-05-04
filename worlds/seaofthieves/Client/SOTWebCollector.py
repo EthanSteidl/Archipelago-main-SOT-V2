@@ -32,6 +32,9 @@ class SOTWebCollector:
         self.lastQueryTimeSeconds = -10000
         self.json = {}
 
+        self.lastQueryTimeBalanceSeconds = -10000
+        self.balance = {}
+
     def getHeaders(self):
         headers = {
             "authority": self.AUTH,
@@ -69,3 +72,16 @@ class SOTWebCollector:
 
             self.lastQueryTimeSeconds = time.time()
         return self.json
+
+    def getBalance(self):
+        if(self.balance is None or self.lastQueryTimeBalanceSeconds+QUERY_PERIOD_SECONDS < time.time() ):
+            try:
+                resp = requests.get('https://www.seaofthieves.com/api/profilev2/balance', headers=self.getHeaders())
+                text = resp.text
+                self.balance = json.loads(text)
+
+            except:
+                print("The query to the web server failed, resolution steps: (1) enter the correct cookie (2) open the Captaincy page on www.seaofthieves.com")
+
+            self.lastQueryTimeBalanceSeconds = time.time()
+        return self.balance
