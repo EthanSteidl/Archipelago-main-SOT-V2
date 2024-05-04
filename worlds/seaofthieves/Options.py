@@ -2,15 +2,15 @@ import typing
 from dataclasses import dataclass
 from Options import PerGameCommonOptions, Range
 from Options import DefaultOnToggle
-from .Configurations import OptionsFood
-from .Configurations.OptionsSeal import *
-from .Configurations.OptionsEm import *
-from .Configurations import OptionsFish
-from .Configurations import OptionsForts
-from .Configurations import OptionsTreasury
-from .Configurations import OptionsServant
-from .Configurations import OptionsGuardian
-from .Configurations import OptionsIllFated, Cannons, OptionsSell
+from .Configurations import Foodoptions
+from .Configurations.Sealoptions import *
+from .Configurations.Emoptions import *
+from .Configurations import Fishoptions
+from .Configurations import Fortsoptions
+from .Configurations import Treasuryoptions
+from .Configurations import Servantoptions
+from .Configurations import Guardianoptions
+from .Configurations import IllFatedoptions, Cannonsoptions, Selloptions
 
 
 class ShuffleEmissaryFlags(DefaultOnToggle):
@@ -113,34 +113,34 @@ class SOTOptions(PerGameCommonOptions):
 
     sealCount: SealsRequired
 
-    servantSanity: OptionsServant.ServantSanity
-    guardianSanity: OptionsGuardian.GuardianSanity
-    fortressSanity: OptionsForts.FortressSanity
-    illFated: OptionsIllFated.IllFated
-    cannonSanity: Cannons.CannonSanity
-    fishSanity: OptionsFish.FishSanity
-    sellSettingsGh: OptionsSell.GhSellRange
-    sellSettingsMa: OptionsSell.MaSellRange
-    sellSettingsOos: OptionsSell.OosSellRange
-    sellSettingsAf: OptionsSell.AfSellRange
-    sellSettingsRb: OptionsSell.RbSellRange
+    servantSanity: Servantoptions.ServantSanity
+    guardianSanity: Guardianoptions.GuardianSanity
+    fortressSanity: Fortsoptions.FortressSanity
+    illFated: IllFatedoptions.IllFated
+    cannonSanity: Cannonsoptions.CannonSanity
+    fishSanity: Fishoptions.FishSanity
+    sellSettingsGh: Selloptions.GhSellRange
+    sellSettingsMa: Selloptions.MaSellRange
+    sellSettingsOos: Selloptions.OosSellRange
+    sellSettingsAf: Selloptions.AfSellRange
+    sellSettingsRb: Selloptions.RbSellRange
 
-    foodSanity: OptionsFood.MunchSanity
-    foodSanityFruit: OptionsFood.MunchSanityFruit
-    foodSanityFish: OptionsFood.MunchSanityFish
-    foodSanitySeamonster: OptionsFood.MunchSanitySeamonster
-    foodSanityLandAnimal: OptionsFood.MunchSanityLandAnimal
-    foodSanityBug: OptionsFood.MunchSanityBug
+    foodSanity: Foodoptions.MunchSanity
+    foodSanityFruit: Foodoptions.MunchSanityFruit
+    foodSanityFish: Foodoptions.MunchSanityFish
+    foodSanitySeamonster: Foodoptions.MunchSanitySeamonster
+    foodSanityLandAnimal: Foodoptions.MunchSanityLandAnimal
+    foodSanityBug: Foodoptions.MunchSanityBug
 
-    cookSanity: OptionsFood.CookSanity
-    cookSanityFish: OptionsFood.CookSanityFish
-    cookSanitySeamonster: OptionsFood.CookSanitySeamonster
-    cookSanityLandAnimal: OptionsFood.CookSanityLandAnimal
+    cookSanity: Foodoptions.CookSanity
+    cookSanityFish: Foodoptions.CookSanityFish
+    cookSanitySeamonster: Foodoptions.CookSanitySeamonster
+    cookSanityLandAnimal: Foodoptions.CookSanityLandAnimal
 
-    burnSanity: OptionsFood.BurnSanity
-    burnSanityFish: OptionsFood.BurnSanityFish
-    burnSanitySeamonster: OptionsFood.BurnSanitySeamonster
-    burnSanityLandAnimal: OptionsFood.BurnSanityLandAnimal
+    burnSanity: Foodoptions.BurnSanity
+    burnSanityFish: Foodoptions.BurnSanityFish
+    burnSanitySeamonster: Foodoptions.BurnSanitySeamonster
+    burnSanityLandAnimal: Foodoptions.BurnSanityLandAnimal
 
     # TODO
     #

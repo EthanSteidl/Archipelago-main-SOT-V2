@@ -107,7 +107,6 @@ class SOTWorld(World):
             for i in range(0,fillerCount-1):
                 fillItem = self.getFillerItem()
                 self.multiworld.itempool.append(fillItem)
-                self.item_name_to_id[fillItem.name] = fillItem.code
 
 
     def getFillerItem(self):
@@ -138,16 +137,6 @@ class SOTWorld(World):
             "slot_data": self.fill_slot_data(),
             "Location_to_item": maps,
             #"location_to_item": {self.location_name_to_id[i.name] : self.item_name_to_id[i.item.name] for i in self.multiworld.get_locations()},
-            "data_package": {
-                "data": {
-                    "games": {
-                        self.game: {
-                            "item_name_to_id": self.item_name_to_id,
-                            "location_name_to_id": self.location_name_to_id
-                        }
-                    }
-                }
-            }
         }
         filename = f"{self.multiworld.get_out_file_name_base(self.player)}.apsmSOT"
         with open(os.path.join(output_directory, filename), 'w') as f:

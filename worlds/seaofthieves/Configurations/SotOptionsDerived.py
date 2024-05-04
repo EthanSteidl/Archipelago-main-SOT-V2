@@ -159,10 +159,10 @@ class SotOptionsDerived:
         return BurntAboard.SettingsHunterBurntAboard(compAny, fish, landAnimal, seamonster)
 
     def __getCookedAboardSettings(self, sotOptions: SOTOptions):
-        compAny: int = sotOptions.cookSanity
-        fish: int = sotOptions.cookSanityFish
-        seamonster: int = sotOptions.cookSanitySeamonster
-        landAnimal: int = sotOptions.cookSanityLandAnimal
+        compAny: int = int(sotOptions.cookSanity)
+        fish: int = int(sotOptions.cookSanityFish)
+        seamonster: int = int(sotOptions.cookSanitySeamonster)
+        landAnimal: int = int(sotOptions.cookSanityLandAnimal)
 
         # if we have foodsanity on, we dont want a generic check if we want specific things
         if (fish + seamonster + landAnimal > 0):

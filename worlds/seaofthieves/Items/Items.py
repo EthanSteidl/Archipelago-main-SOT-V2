@@ -79,6 +79,8 @@ class ItemCollection:
 
     seals: typing.List[ItemDetail] = [Items.seal_oos,Items.seal_rb, Items.seal_af, Items.seal_ma, Items.seal_gh]
 
+    other: typing.List[ItemDetail] = [Items.Filler.gold_50, Items.Filler.gold_100, Items.Filler.gold_500, Items.pirate_legend]
+
     #Note seals are not added cause we dont want them randomzed in the general pool
 
     def remove(self, v: ItemDetail):
@@ -87,7 +89,10 @@ class ItemCollection:
         dic: dict = {}
         for i in range(0, len(self.lst)):
             dic[self.lst[i].name] = self.lst[i].id
-
+        for i in range(0, len(self.seals)):
+            dic[self.seals[i].name] = self.seals[i].id
+        for i in range(0, len(self.other)):
+            dic[self.other[i].name] = self.other[i].id
         #for i in range(0, len(self.seals)):
         #   dic[self.seals[i].name] = self.seals[i].id
 
