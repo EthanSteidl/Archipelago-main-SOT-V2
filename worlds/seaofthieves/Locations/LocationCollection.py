@@ -185,7 +185,7 @@ class LocationDetailsCollection:
     def addAllHunter(self):
         self.addHunterBurnt()
         self.addHunterCooked()
-        self.addHunterTotal()
+        #self.addHunterTotal() #This should probably be deleted
         self.addHunterEaten()
 
     def addHunterBurnt(self):
