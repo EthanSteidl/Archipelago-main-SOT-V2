@@ -113,7 +113,7 @@ components: List[Component] = [
     Component('MMBN3 Client', 'MMBN3Client', file_identifier=SuffixIdentifier('.apbn3')),
 
     # Sea of Thieves
-    Component('Sea of Thieves', 'SOTClient')
+    Component('Sea of Thieves Client', 'SOTClient', cli=True, icon='sot', component_type=Type.CLIENT)
 ]
 
 
@@ -121,4 +121,5 @@ icon_paths = {
     'icon': local_path('data', 'icon.png'),
     'mcicon': local_path('data', 'mcicon.png'),
     'discord': local_path('data', 'discord-mark-blue.png'),
+    'sot': local_path('data', 'sot.jpg'),
 }
