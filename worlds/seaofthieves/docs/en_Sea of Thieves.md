@@ -57,8 +57,14 @@ This may cause frustration as Microsoft's stat server lags by roughly 5 minutes.
 
 The following commands are only available when using the Sea of Thieves Client to play with Archipelago. You can list them any time in the client with `/help`.
 
-* `/shop` WIP, opens a shop for players to buy hints
-* `/buy #`, WIP, buys an item from the shop
+* `/shop` Opens the hop
+* `/buy #` Buys an item from the shop
 * `/linkShip --name <ship_name> --mscookie <#>`, WIP, Adds tracking of another ship to your multiworld as your player (If you want two players to be able to perform checks on different ships with a shared item/location pool)
 * `/linkPirate --name <pirate_name> --mscookie <#>`, WIP, Adds tracking of another pirate to your multiworld as your player (If you want two players to be able to perform checks on different ships with a shared item/location pool)
 * `/delinkAll`, WIP, Delinks all tracked accounts from the client
+
+The following commands are debug commands
+
+* `/cshop` Opens the combat shop
+* `/cbuy #` Buys an item from the combat shop
+* `/mrkrabs` Gives you a large amount of money

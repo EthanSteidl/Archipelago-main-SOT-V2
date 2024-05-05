@@ -30,14 +30,17 @@ class SOTDataAnalyzer:
     collector : SOTWebCollector
     settings : SOTDataAnalyzerSettings
 
-    def __init__(self, userInfo: UserInformation.UserInformation):
-        self.collector = SOTWebCollector.SOTWebCollector(userInfo.loginCreds)
+    def __init__(self, userInfo: UserInformation.UserInformation, queryperiod: int | None = None):
+        self.collector = SOTWebCollector.SOTWebCollector(userInfo.loginCreds, queryperiod)
         self.settings = SOTDataAnalyzerSettings(userInfo.analyzerDetails)
         self.trackedLocations: typing.Dict[int,LocDetails] = {}
         #maps item id -> idx -> value
         self.trackedLocationsData: typing.Dict[int,typing.Dict[int,OldNewValues]] = {}
 
         self.banned: typing.Dict[int,bool] = {}
+
+
+
 
     def __readElementFromWebLocation(self, web_location: WebLocation, json_data):
 
@@ -157,3 +160,5 @@ class SOTDataAnalyzer:
     def getBalance(self) -> Balance.Balance:
         js: json = self.collector.getBalance()
         return Balance.fromJson(js)
+
+

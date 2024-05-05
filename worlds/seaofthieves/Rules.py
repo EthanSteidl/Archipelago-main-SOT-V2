@@ -70,7 +70,6 @@ def set_rules(world: MultiWorld, options: SOTOptions, player: int, locCollection
     regionAdder.connect2(world, Name.DOMAIN_EM, Name.DOMAIN_GF,
                          lambda state: state.has(Items.emissary_af.name, player))
 
-    locCollection.applyOptions(options)
     regionAdder.addRulesForLocationsInRegions(world)
 
     world.completion_condition[player] = lambda state: state.has(Items.pirate_legend.name, player)

@@ -3,6 +3,7 @@ from worlds.seaofthieves.Items.Items import *
 from worlds.seaofthieves.Locations.Locations import *
 from .Options import SOTOptions
 from .Rules import set_rules
+import base64
 from worlds.seaofthieves.Regions.Regions import create_regions
 from BaseClasses import Item, Tutorial, ItemClassification, LocationProgressType
 from worlds.AutoWorld import World, WebWorld
@@ -15,6 +16,7 @@ from ..generic.Rules import add_rule, exclusion_rules
 from .Configurations import SotOptionsDerived
 from .Locations.Menu import QuestMenu
 import collections
+import pickle
 class SOTWeb(WebWorld):
     tutorials = [Tutorial(
         "Multiworld Setup Guide",
@@ -46,7 +48,7 @@ class SOTWorld(World):
     #locationOptions: LocationOptions = LocationOptions()
     locationCollection = LocationDetailsCollection()
     locationCollection.addAll()
-    location_name_to_id = locationCollection.toDictAllPossible()
+    location_name_to_id = locationCollection.toDict()
 
     #location_name_to_id = {}
     data_version = 1
@@ -136,6 +138,11 @@ class SOTWorld(World):
             "Location_to_item": maps,
             #"location_to_item": {self.location_name_to_id[i.name] : self.item_name_to_id[i.item.name] for i in self.multiworld.get_locations()},
         }
+
+        options_filename = f"{self.multiworld.get_out_file_name_base(self.player)}_Options.apsmSOTOPT"
+        with open(os.path.join(output_directory, options_filename), 'wb') as f:
+            pickle.dump(self.sotOptionsDerived, f)
+
         filename = f"{self.multiworld.get_out_file_name_base(self.player)}.apsmSOT"
         with open(os.path.join(output_directory, filename), 'w') as f:
             json.dump(data, f)
@@ -145,6 +152,7 @@ class SOTWorld(World):
         # The client needs to know where each seal is
         dic = {}
         hint_max = 200
+
         #dic["SEAL"] = self.sealHints()
         dic["HINTS_GENERAL"] = self.generalHints(hint_max)
         dic["HINTS_PERSONAL_PROG"] = self.personalProgressionHints(hint_max)

@@ -47,14 +47,8 @@ class LocationDetailsCollection:
 
         return dic
 
-    def toDictAllPossible(self) -> typing.Dict[str,int]:
 
-        #TODO this will cause items not in the randomizer to not be in the spoiler log,
-        #should probably change this to be the complete list
-        return self.toDict()
-
-
-    def findDetailsCheckable(self, itemSet: typing.Set[str]) -> typing.List[LocDetails]:
+    def findDetailsCheckable(self, itemSet: typing.Set[str], forceAll: bool = False) -> typing.List[LocDetails]:
 
         #TODO check region reqs as well
 
@@ -64,7 +58,7 @@ class LocationDetailsCollection:
         for checkTypeKey in self.checkTypeToLocDetail.keys():
             for loc_name in self.checkTypeToLocDetail[checkTypeKey].keys():
                 loc_details = self.checkTypeToLocDetail[checkTypeKey][loc_name]
-                if(loc_details.webLocationCollection.isAnyReachable(itemSet)):
+                if(forceAll or loc_details.webLocationCollection.isAnyReachable(itemSet)):
                     ret_list.append(loc_details)
 
 

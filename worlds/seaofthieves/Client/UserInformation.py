@@ -1,3 +1,6 @@
+from worlds.seaofthieves.Configurations.SotOptionsDerived import SotOptionsDerived
+
+
 class SotLoginCredentials:
 
     def __init__(self, msCookie: str):
@@ -25,8 +28,9 @@ class SotAnalyzerDetails:
 
 class UserInformation:
 
-    def __init__(self, sotLoginCreds: SotLoginCredentials, sotAnalyzerDetails: SotAnalyzerDetails, address: str, username: str):
-        self.loginCreds = sotLoginCreds
-        self.analyzerDetails = sotAnalyzerDetails
-        self.address = address
-        self.username = username
+    def __init__(self, sotLoginCreds: SotLoginCredentials, sotAnalyzerDetails: SotAnalyzerDetails, address: str, username: str, options: SotOptionsDerived):
+        self.loginCreds: SotLoginCredentials = sotLoginCreds
+        self.analyzerDetails: SotAnalyzerDetails = sotAnalyzerDetails
+        self.address: str = address
+        self.username: str = username
+        self.options: SotOptionsDerived = options

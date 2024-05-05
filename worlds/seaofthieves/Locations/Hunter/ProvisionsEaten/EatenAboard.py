@@ -92,9 +92,13 @@ class HunterEatenAboard(LocationsBase):
         super().__init__()
         self.x = [3, 1, 1]
         self.settings = settings
+        self.settings.landMeat = SettingsHunterEatenAboard.LandMeat.UNIQUE
+        self.settings.bug = SettingsHunterEatenAboard.Bug.UNIQUE
+        self.settings.fish = SettingsHunterEatenAboard.Fish.UNIQUE
+        self.settings.fruit = SettingsHunterEatenAboard.Fruit.UNIQUE
 
         if self.settings.any is not SettingsHunterEatenAboard.Any.OFF:
-            self.add_any_sets()
+           self.add_any_sets()
 
         if self.settings.fish is not SettingsHunterEatenAboard.Fish.OFF:
             self.add_fish_sets()

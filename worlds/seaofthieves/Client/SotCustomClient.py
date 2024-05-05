@@ -8,7 +8,9 @@ from worlds.seaofthieves.Locations.LocationCollection import LocationDetailsColl
 from worlds.seaofthieves.Items.Items import ItemCollection
 from worlds.seaofthieves.Items.Items import Items, ItemDetail
 from worlds.seaofthieves.Client.Shop import Shop,CombatShop
+from worlds.seaofthieves.Configurations.SotOptionsDerived import SotOptionsDerived
 import worlds.seaofthieves.Client.PlayerInventory as PlayerInventory
+import pickle
 import asyncio
 import copy
 import json
@@ -153,7 +155,6 @@ class SOT_Context(CommonContext):
         self.known_items_received = [] #used to track measured received counts
 
         self.locationDetailsCollection = LocationDetailsCollection()
-        self.locationDetailsCollection.addAll()
         self.discoveryHints = {}
 
         self.itemCollection = ItemCollection()
@@ -164,6 +165,8 @@ class SOT_Context(CommonContext):
         self.connected_to_server = False
 
         self.originalBalance: Balance.Balance | None = None
+
+        self.options: SotOptionsDerived = SotOptionsDerived()
 
 
     async def init_notif_weapons(self):
@@ -196,7 +199,7 @@ class SOT_Context(CommonContext):
                 currentItems.add(name)
 
 
-        return self.locationDetailsCollection.findDetailsCheckable(currentItems)
+        return self.locationDetailsCollection.findDetailsCheckable(currentItems, True)
 
 
     def on_package(self, cmd: str, args: dict):
@@ -209,6 +212,9 @@ class SOT_Context(CommonContext):
             self.shop.set_hints_generic(self.discoveryHints['HINTS_GENERAL'])
             self.shop.set_hints_personal_progression(self.discoveryHints['HINTS_PERSONAL_PROG'])
             self.shop.set_hints_other_progression(self.discoveryHints['HINTS_OTHER_PROG'])
+
+            self.locationDetailsCollection.applyOptions(self.options)
+            self.locationDetailsCollection.addAll()
             print(args)
 
         elif cmd == "LocationInfo":
@@ -264,11 +270,6 @@ class SOT_Context(CommonContext):
             gold_val = gold_ids[id]
             ac = 0
             db = 0
-
-            #TODO remove this 50
-            gold_val += 50
-            ac += 1
-            db +=5
             self.playerInventory.addBalanceClient(Balance.Balance(ac, db, gold_val))
 
         return
@@ -369,6 +370,8 @@ def getSeaOfThievesDataFromArguments() -> UserInformation.UserInformation:
     parser.add_argument('--user', dest='username', type=str, help='Player username')
     parser.add_argument('--mscookie', dest='msCookie', type=str,
                         help='Microsoft login cookie given to www.seaofthieves.com', nargs='+')
+    parser.add_argument('--options', dest='options', type=str,
+                        help='Options YAML file', nargs='+')
     args = parser.parse_args()
     if args.msCookie is not None:
         filepath = args.msCookie[0]
@@ -396,16 +399,26 @@ def getSeaOfThievesDataFromArguments() -> UserInformation.UserInformation:
             while not os.path.exists(filepath):
                 filepath = input('File not found. Enter an absolute Filepath to a text file containing your mscookie : ')
             file = open(filepath, "r")
-            args.msCookie
             real_cookie = str(file.read())
             file.close()
         if (args.username is None):
             args.username = input('Enter user : ')
 
 
+    if args.options is not None:
+        filepath = args.options[0]
+        while not os.path.exists(filepath):
+            filepath = input('File not found. Enter an absolute Filepath to a text file containing your options.yaml : ')
+        file = open(filepath, "rb")
+        options = pickle.load(file)
+        file.close()
+    else:
+        print("Missing options argument")
+        exit(1)
+
     sotLoginCredentials: UserInformation.SotLoginCredentials = UserInformation.SotLoginCredentials(real_cookie)
     sotAnalyzerDetails: UserInformation.SotAnalyzerDetails = UserInformation.SotAnalyzerDetails(args.ship, None)
-    userInfo = UserInformation.UserInformation(sotLoginCredentials, sotAnalyzerDetails, args.address, args.username)
+    userInfo = UserInformation.UserInformation(sotLoginCredentials, sotAnalyzerDetails, args.address, args.username, options)
     return userInfo
 
 async def every(__seconds: float, func, *args, **kwargs):
