@@ -22,6 +22,7 @@ class ItemDetail:
 
         #extra property to hold numerical data for things like money
         self.numeric_value = numeric
+        self.sound_file: str = ""
 
     def __str__(self):
         return self.id
@@ -31,10 +32,21 @@ class Items:
 
     class Combat:
         c_tac_missle = ItemDetail("Tactical Missil Launcher", 20000)
+        c_tac_missle.sound_file = "tac_missle_fixed.wav"
+
         c_orbital_rail = ItemDetail("Orbital Railcannon", 60000)
+        c_orbital_rail.sound_file = "orbital_rail_fixed.wav"
+
         c_nuke = ItemDetail("Nuculear Silo", 50000)
+        c_nuke.sound_file = ""
+
         c_def_plasma = ItemDetail("Plasma Deflector", 30000)
-        c_torp_bomber = ItemDetail("Angler", 10000)
+        c_def_plasma.sound_file = ""
+
+        c_torp_bomber = ItemDetail("Nuclear Bombing Fleet", 80000)
+        c_torp_bomber.sound_file = "nuke_bomber_fleet_fixed.wav"
+
+        c_submarines = ItemDetail("Kraken", 50000)
     class Filler:
         gold_50 = ItemDetail("50 Gold")
         gold_50.numeric_value = 50
@@ -59,6 +71,7 @@ class Items:
     voyages_oos = ItemDetail("Voyages of Souls")
     voyages_af = ItemDetail("Voyages of Athena")
     voyages_rb = ItemDetail("Voyages of Reaper")
+    voyages_rb.sound_file = "voyages_of_reaper_fixed.wav"
 
     emissary_gh = ItemDetail("Emissary of Gold Hoarders")
     emissary_ma = ItemDetail("Emissary of Merchants")

@@ -78,8 +78,6 @@ class SOTWebCollector:
             try:
                 resp = requests.get('https://www.seaofthieves.com/api/profilev2/balance', headers=self.getHeaders())
                 text = resp.text
-                print("tried request")
-                print(text)
                 self.balance = json.loads(text)
 
             except:

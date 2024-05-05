@@ -7,8 +7,7 @@ from worlds.seaofthieves.Locations.Locations import WebLocation
 from worlds.seaofthieves.Locations.LocationCollection import LocationDetailsCollection, LocDetails
 from worlds.seaofthieves.Items.Items import ItemCollection
 from worlds.seaofthieves.Items.Items import Items, ItemDetail
-
-from .Shop import Shop,CombatShop
+from worlds.seaofthieves.Client.Shop import Shop,CombatShop
 import worlds.seaofthieves.Client.PlayerInventory as PlayerInventory
 import asyncio
 import copy
@@ -59,11 +58,8 @@ async def watchGameForever(ctx):
             else:
                 try:
                     ctx.updateSotPlayerBalance()
-                    print("1")
                     ctx.updateAnalyzerWithLocationsPossible()
-                    print("2")
                     await ctx.collectLocationsAndSendInformation()
-                    print("3")
                 except Exception as e:
                     print("Fatal error occured: ", e)
 
@@ -134,7 +130,7 @@ class SOT_CommandProcessor(ClientCommandProcessor):
     def _cmd_cbuy(self, menu_line_number):
         menu_line_number = str(menu_line_number)
         detail: ItemDetail = self.ctx.combatShop.executeAction(menu_line_number, self.ctx.playerInventory)
-        self.ctx.set(detail.id, 1)
+        self.ctx.set(detail.name, 1)
 
     def _cmd_mrkrabs(self):
         self.ctx.playerInventory.addBalanceClient(Balance.Balance(10000000,10000000,1000000))
@@ -169,7 +165,7 @@ class SOT_Context(CommonContext):
         if len(ItemCollection.combat) <= 0:
             return
         for det in ItemCollection.combat:
-            keys.append(str(det.id))
+            keys.append(str(det.name))
 
             await self.send_msgs([
                 {
@@ -370,8 +366,9 @@ def getSeaOfThievesDataFromArguments() -> UserInformation.UserInformation:
     parser.add_argument('--mscookie', dest='msCookie', type=str,
                         help='Microsoft login cookie given to www.seaofthieves.com', nargs='+')
     args = parser.parse_args()
-
-    if( args.address is None or args.ship is None or args.msCookie is None or args.user is None):
+    if args.msCookie is not None:
+        real_cookie = ' '.join(args.msCookie)
+    if( args.address is None or args.ship is None or args.msCookie is None or args.username is None):
         print("Error: Expected command line arguments")
         print("Required \"--address <ipaddress:port>\"")
         print("Required \"--ship <shipNumber>\"")
@@ -389,13 +386,14 @@ def getSeaOfThievesDataFromArguments() -> UserInformation.UserInformation:
             while not os.path.exists(filepath):
                 filepath = input('File not found. Enter an absolute Filepath to a text file containing your mscookie : ')
             file = open(filepath, "r")
-            args.msCookie = file.read()
+            args.msCookie
+            real_cookie = str(file.read())
             file.close()
         if (args.username is None):
             args.username = input('Enter user : ')
 
 
-    sotLoginCredentials: UserInformation.SotLoginCredentials = UserInformation.SotLoginCredentials(' '.join(args.msCookie))
+    sotLoginCredentials: UserInformation.SotLoginCredentials = UserInformation.SotLoginCredentials(real_cookie)
     sotAnalyzerDetails: UserInformation.SotAnalyzerDetails = UserInformation.SotAnalyzerDetails(args.ship, None)
     userInfo = UserInformation.UserInformation(sotLoginCredentials, sotAnalyzerDetails, args.address, args.username)
     return userInfo
