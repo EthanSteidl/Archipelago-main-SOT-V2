@@ -92,19 +92,16 @@ class SOTOptions(PerGameCommonOptions):
     sellSettingsAf: Selloptions.AfSellRange
     sellSettingsRb: Selloptions.RbSellRange
 
-    foodSanity: Foodoptions.MunchSanity
     foodSanityFruit: Foodoptions.MunchSanityFruit
     foodSanityFish: Foodoptions.MunchSanityFish
     foodSanitySeamonster: Foodoptions.MunchSanitySeamonster
     foodSanityLandAnimal: Foodoptions.MunchSanityLandAnimal
     foodSanityBug: Foodoptions.MunchSanityBug
 
-    cookSanity: Foodoptions.CookSanity
     cookSanityFish: Foodoptions.CookSanityFish
     cookSanitySeamonster: Foodoptions.CookSanitySeamonster
     cookSanityLandAnimal: Foodoptions.CookSanityLandAnimal
 
-    burnSanity: Foodoptions.BurnSanity
     burnSanityFish: Foodoptions.BurnSanityFish
     burnSanitySeamonster: Foodoptions.BurnSanitySeamonster
     burnSanityLandAnimal: Foodoptions.BurnSanityLandAnimal

@@ -108,16 +108,16 @@ class HunterCookedAboard(LocationsBase):
         self.x = [3, 0, 1]
         self.settings = settings
 
-        if self.settings.Any is not SettingsHunterCookedAboard.Any.OFF:
+        if self.settings.completeAny is not SettingsHunterCookedAboard.Any.OFF:
             self.add_any_sets()
 
-        if self.settings.Fish is not SettingsHunterCookedAboard.Fish.OFF:
+        if self.settings.fishCategory is not SettingsHunterCookedAboard.Fish.OFF:
             self.add_fish_sets()
 
-        if self.settings.LandMeat is not SettingsHunterCookedAboard.LandMeat.OFF:
+        if self.settings.landMeat is not SettingsHunterCookedAboard.LandMeat.OFF:
             self.add_meat_set_land()
 
-        if self.settings.BigFish is not SettingsHunterCookedAboard.BigFish.OFF:
+        if self.settings.bigFish is not SettingsHunterCookedAboard.BigFish.OFF:
             self.add_fish_set_big()
 
     def add_any_sets(self):

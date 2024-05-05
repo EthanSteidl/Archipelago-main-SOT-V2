@@ -147,10 +147,10 @@ class SotOptionsDerived:
         return FearedQuestSeaForts.SettingsFearedQuestSeaForts(completeAny, royal, imp, gold, brine, traitor, mercy)
 
     def __getBurntAboardSettings(self, sotOptions: SOTOptions):
-        compAny: int = sotOptions.burnSanity
-        fish: int = sotOptions.burnSanityFish
-        seamonster: int = sotOptions.burnSanitySeamonster
-        landAnimal: int = sotOptions.burnSanityLandAnimal
+        compAny: int = 1
+        fish: int = int(sotOptions.burnSanityFish)
+        seamonster: int = int(sotOptions.burnSanitySeamonster)
+        landAnimal: int = int(sotOptions.burnSanityLandAnimal)
 
         #if we have foodsanity on, we dont want a generic check if we want specific things
         if( fish + seamonster + landAnimal > 0):
@@ -159,7 +159,7 @@ class SotOptionsDerived:
         return BurntAboard.SettingsHunterBurntAboard(compAny, fish, landAnimal, seamonster)
 
     def __getCookedAboardSettings(self, sotOptions: SOTOptions):
-        compAny: int = int(sotOptions.cookSanity)
+        compAny: int = 1
         fish: int = int(sotOptions.cookSanityFish)
         seamonster: int = int(sotOptions.cookSanitySeamonster)
         landAnimal: int = int(sotOptions.cookSanityLandAnimal)
@@ -171,12 +171,12 @@ class SotOptionsDerived:
         return CookedAboard.SettingsHunterCookedAboard(compAny, fish, landAnimal, seamonster)
 
     def __getEatenAboardSettings(self, sotOptions: SOTOptions):
-        compAny: int = sotOptions.foodSanity
-        fish: int = sotOptions.foodSanityFish
-        seamonster: int = sotOptions.foodSanitySeamonster
-        landAnimal: int = sotOptions.foodSanityLandAnimal
-        bug: int = sotOptions.foodSanityBug
-        fruit: int = sotOptions.foodSanityFruit
+        compAny: int = 1
+        fish: int = int(sotOptions.foodSanityFish)
+        seamonster: int = int(sotOptions.foodSanitySeamonster)
+        landAnimal: int = int(sotOptions.foodSanityLandAnimal)
+        bug: int = int(sotOptions.foodSanityBug)
+        fruit: int = int(sotOptions.foodSanityFruit)
 
         # if we have foodsanity on, we dont want a generic check if we want specific things
         if (fish + seamonster + landAnimal + bug + fruit> 0):
