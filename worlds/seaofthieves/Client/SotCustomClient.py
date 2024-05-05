@@ -369,13 +369,14 @@ def getSeaOfThievesDataFromArguments() -> UserInformation.UserInformation:
     args = parser.parse_args()
 
     if( args.address is None or args.ship is None or args.msCookie is None or args.user is None):
-        print("Error: Expected 3 command line arguments")
+        print("Error: Expected command line arguments")
         print("Required \"--address <ipaddress:port>\"")
         print("Required \"--ship <shipNumber>\"")
         print("Required \"--mscookie <cookie>\"")
         print("Required \"--user <username>\"")
         print("Example Command: python SotCustomClient.py --address 127.0.0.1:25255 --ship 1 --mscookie 1j23iuo1j23p1h2j3p1h")
 
+        print("\nEnter missing arguments now.")
         if(args.address is None):
             args.address = input('Enter address:port : ')
         if (args.ship is None):
