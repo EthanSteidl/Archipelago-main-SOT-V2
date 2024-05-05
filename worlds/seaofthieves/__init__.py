@@ -50,6 +50,7 @@ class SOTWorld(World):
     locationCollection.addAll()
     location_name_to_id = locationCollection.toDict()
 
+
     #location_name_to_id = {}
     data_version = 1
     options_dataclass = SOTOptions
@@ -57,7 +58,10 @@ class SOTWorld(World):
 
     def generate_early(self) -> None:
         self.sotOptionsDerived = SotOptionsDerived.SotOptionsDerived(self.options)
+        self.locationCollection = LocationDetailsCollection()
         self.locationCollection.applyOptions(self.sotOptionsDerived)
+        self.locationCollection.addAll()
+        #self.location_name_to_id = {} #self.locationCollection.toDict()
 
 
         return

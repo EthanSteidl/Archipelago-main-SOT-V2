@@ -77,16 +77,16 @@ class HunterBurntAboard(LocationsBase):
         self.x = [3, 0, 2]
         self.settings = settings
 
-        if self.settings.Any is not SettingsHunterBurntAboard.Any.OFF:
+        if int(self.settings.completeAny) is not SettingsHunterBurntAboard.Any.OFF:
             self.add_any_sets()
 
-        if self.settings.Fish is not SettingsHunterBurntAboard.Fish.OFF:
+        if int(self.settings.fishCategory) is not SettingsHunterBurntAboard.Fish.OFF:
             self.add_fish_sets()
 
-        if self.settings.LandMeat is not SettingsHunterBurntAboard.LandMeat.OFF:
+        if int(self.settings.landMeat) is not SettingsHunterBurntAboard.LandMeat.OFF:
             self.add_meat_set_land()
 
-        if self.settings.BigFish is not SettingsHunterBurntAboard.BigFish.OFF:
+        if int(self.settings.bigFish) is not SettingsHunterBurntAboard.BigFish.OFF:
             self.add_fish_set_big()
 
     def add_any_sets(self):
@@ -99,18 +99,21 @@ class HunterBurntAboard(LocationsBase):
         self.locations.append(LocDetails(self.L_H_BURN, wlc))
 
     def add_fish_sets(self):
-        if self.settings.Fish == SettingsHunterBurntAboard.Fish.OFF:
+
+        setting = int(self.settings.fishCategory)
+
+        if setting == SettingsHunterBurntAboard.Fish.OFF:
             return
 
-        if self.settings.Fish == SettingsHunterBurntAboard.Fish.ON:
+        if setting == SettingsHunterBurntAboard.Fish.ON:
             #TODO Not implemented, need a thing with a weblocation of all the fishes
             return
 
-        if (self.settings.Fish == SettingsHunterBurntAboard.Fish.CATEGORICAL_NAME or
-            self.settings.Fish == SettingsHunterBurntAboard.Fish.UNIQUE):
+        if (setting == SettingsHunterBurntAboard.Fish.CATEGORICAL_NAME or
+            setting == SettingsHunterBurntAboard.Fish.UNIQUE):
 
             unique = 0
-            if(self.settings.Fish == SettingsHunterBurntAboard.Fish.UNIQUE):
+            if(setting == SettingsHunterBurntAboard.Fish.UNIQUE):
                 unique = 1
 
             self.add_fish_set_pondie()
@@ -127,30 +130,35 @@ class HunterBurntAboard(LocationsBase):
         self.add_meat_set_land()
 
     def addFishSetLoc(self, name: str, wlc: WebLocationCollection):
-        if self.settings.fishCategory == SettingsHunterBurntAboard.Fish.OFF:
+
+        setting = int(self.settings.fishCategory)
+        if setting == SettingsHunterBurntAboard.Fish.OFF:
             return
-        elif self.settings.fishCategory == SettingsHunterBurntAboard.Fish.ON:
+        elif setting == SettingsHunterBurntAboard.Fish.ON:
             #TODO not implemented
             return
-        elif self.settings.fishCategory == SettingsHunterBurntAboard.Fish.CATEGORICAL_NAME:
+        elif setting == SettingsHunterBurntAboard.Fish.CATEGORICAL_NAME:
             self.locations.append(LocDetails(name, wlc))
-        elif self.settings.fishCategory == SettingsHunterBurntAboard.Fish.UNIQUE:
+        elif setting == SettingsHunterBurntAboard.Fish.UNIQUE:
             self.addUniques(name, wlc)
 
     def addLandMeatSetLoc(self, name: str, wlc: WebLocationCollection):
-        if self.settings.landMeat == SettingsHunterBurntAboard.LandMeat.OFF:
+        setting = int(self.settings.landMeat)
+        if setting == SettingsHunterBurntAboard.LandMeat.OFF:
             return
-        elif self.settings.landMeat == SettingsHunterBurntAboard.LandMeat.ON:
+        elif setting == SettingsHunterBurntAboard.LandMeat.ON:
             self.locations.append(LocDetails(name, wlc))
-        elif self.settings.landMeat == SettingsHunterBurntAboard.LandMeat.UNIQUE:
+        elif setting == SettingsHunterBurntAboard.LandMeat.UNIQUE:
             self.addUniques(name, wlc)
 
     def addBigFishLoc(self, name: str, wlc: WebLocationCollection):
-        if self.settings.bigFish == SettingsHunterBurntAboard.BigFish.OFF:
+
+        setting = int(self.settings.bigFish)
+        if setting == SettingsHunterBurntAboard.BigFish.OFF:
             return
-        elif self.settings.bigFish == SettingsHunterBurntAboard.BigFish.ON:
+        elif setting == SettingsHunterBurntAboard.BigFish.ON:
             self.locations.append(LocDetails(name, wlc))
-        elif self.settings.bigFish == SettingsHunterBurntAboard.BigFish.UNIQUE:
+        elif setting == SettingsHunterBurntAboard.BigFish.UNIQUE:
             self.addUniques(name, wlc)
 
     def add_fish_set_pondie(self):

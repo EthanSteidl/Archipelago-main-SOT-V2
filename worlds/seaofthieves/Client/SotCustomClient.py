@@ -77,6 +77,10 @@ class SOT_CommandProcessor(ClientCommandProcessor):
 
         return True
 
+    def _cmd_forceunlock(self) -> bool:
+        self.output("All location restrictions removed, tracking all. (Activates in 10 seconds)")
+        self.ctx.forceUnlock = True
+
     def _cmd_poggin(self) -> bool:
 
         self.output("bring deathssss")
@@ -140,7 +144,8 @@ class SOT_CommandProcessor(ClientCommandProcessor):
 
 
     def _cmd_mrkrabs(self):
-        self.ctx.playerInventory.addBalanceClient(Balance.Balance(10000000,10000000,1000000))
+        print("You now have alot of money.")
+        self.ctx.playerInventory.addBalanceClient(Balance.Balance(100000000,100000000,10000000))
 
 
 
@@ -168,6 +173,8 @@ class SOT_Context(CommonContext):
 
         self.options: SotOptionsDerived = SotOptionsDerived()
 
+        self.forceUnlock = False
+
 
     async def init_notif_weapons(self):
         keys: typing.List[str] = []
@@ -184,7 +191,7 @@ class SOT_Context(CommonContext):
             ])
         return
 
-    def locationsReachableWithCurrentItems(self) -> typing.List[LocDetails]:
+    def locationsReachableWithCurrentItems(self, forceUnlock: bool = False) -> typing.List[LocDetails]:
 
         returnList: typing.Set[str] = set()
         currentItems: typing.Set[str] = set()
@@ -199,7 +206,7 @@ class SOT_Context(CommonContext):
                 currentItems.add(name)
 
 
-        return self.locationDetailsCollection.findDetailsCheckable(currentItems, True)
+        return self.locationDetailsCollection.findDetailsCheckable(currentItems, forceUnlock)
 
 
     def on_package(self, cmd: str, args: dict):
@@ -223,11 +230,8 @@ class SOT_Context(CommonContext):
 
         elif cmd == "RoomUpdate":
             pass
-            #print("We got a room update")
-            #print(args)
 
         elif cmd == "Bounced":
-            #do nothing
             pass
 
         elif cmd == "Retrieved":
@@ -291,7 +295,7 @@ class SOT_Context(CommonContext):
 
     def updateAnalyzerWithLocationsPossible(self):
 
-        loc_details_possible: typing.List[LocDetails] = self.locationsReachableWithCurrentItems()
+        loc_details_possible: typing.List[LocDetails] = self.locationsReachableWithCurrentItems(self.forceUnlock)
         for loc_detail in loc_details_possible:
             self.analyzer.allowTrackingOfLocation(loc_detail)
         self.acknowledgeItemsReceived()

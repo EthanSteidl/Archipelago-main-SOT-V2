@@ -24,17 +24,17 @@ from .Feared import CannonsFired
 import typing
 class LocationDetailsCollection:
 
-    count = 0
-
-    #this maps Settings Class -> [locName -> LocDets]
-    checkTypeToLocDetail: typing.Dict[str, typing.Dict[str, LocDetails]] = {}
-    options: SotOptionsDerived.SotOptionsDerived
-
-    hintWebLocations: [LocDetails] = []
 
     def __init__(self):
         LocDetails.resetSeedId()
-        self.options = SotOptionsDerived.SotOptionsDerived()
+        self.options: SotOptionsDerived.SotOptionsDerived = SotOptionsDerived.SotOptionsDerived()
+
+        self.count = 0
+
+        # this maps Settings Class -> [locName -> LocDets]
+        self.checkTypeToLocDetail: typing.Dict[str, typing.Dict[str, LocDetails]] = {}
+
+        self.hintWebLocations: [LocDetails] = []
 
     def getLocCount(self):
         return self.count

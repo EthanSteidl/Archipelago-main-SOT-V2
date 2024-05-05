@@ -92,27 +92,23 @@ class HunterEatenAboard(LocationsBase):
         super().__init__()
         self.x = [3, 1, 1]
         self.settings = settings
-        self.settings.landMeat = SettingsHunterEatenAboard.LandMeat.UNIQUE
-        self.settings.bug = SettingsHunterEatenAboard.Bug.UNIQUE
-        self.settings.fish = SettingsHunterEatenAboard.Fish.UNIQUE
-        self.settings.fruit = SettingsHunterEatenAboard.Fruit.UNIQUE
 
-        if self.settings.any is not SettingsHunterEatenAboard.Any.OFF:
+        if int(self.settings.any) is not SettingsHunterEatenAboard.Any.OFF:
            self.add_any_sets()
 
-        if self.settings.fish is not SettingsHunterEatenAboard.Fish.OFF:
+        if int(self.settings.fish) is not SettingsHunterEatenAboard.Fish.OFF:
             self.add_fish_sets()
 
-        if self.settings.landMeat is not SettingsHunterEatenAboard.LandMeat.OFF:
+        if int(self.settings.landMeat) is not SettingsHunterEatenAboard.LandMeat.OFF:
             self.add_meat_set_land()
 
-        if self.settings.bigFish is not SettingsHunterEatenAboard.BigFish.OFF:
+        if int(self.settings.bigFish) is not SettingsHunterEatenAboard.BigFish.OFF:
             self.add_fish_set_big()
 
-        if self.settings.fruit is not SettingsHunterEatenAboard.Fruit.OFF:
+        if int(self.settings.fruit) is not SettingsHunterEatenAboard.Fruit.OFF:
             self.add_fruit_set()
 
-        if self.settings.bug is not SettingsHunterEatenAboard.Bug.OFF:
+        if int(self.settings.bug) is not SettingsHunterEatenAboard.Bug.OFF:
             self.add_bug_set()
 
     def add_any_sets(self):
@@ -138,46 +134,46 @@ class HunterEatenAboard(LocationsBase):
         self.add_meat_set_land()
 
     def addFishSetLoc(self, name: str, wlc: WebLocationCollection):
-        if self.settings.fish == SettingsHunterEatenAboard.Fish.OFF:
+        if int(self.settings.fish) == SettingsHunterEatenAboard.Fish.OFF:
             return
-        elif self.settings.fish == SettingsHunterEatenAboard.Fish.ON:
+        elif int(self.settings.fish) == SettingsHunterEatenAboard.Fish.ON:
             #TODO not implemented
             return
-        elif self.settings.fish == SettingsHunterEatenAboard.Fish.CATEGORICAL_NAME:
+        elif int(self.settings.fish) == SettingsHunterEatenAboard.Fish.CATEGORICAL_NAME:
             self.locations.append(LocDetails(name, wlc))
-        elif self.settings.fish == SettingsHunterEatenAboard.Fish.UNIQUE:
+        elif int(self.settings.fish) == SettingsHunterEatenAboard.Fish.UNIQUE:
             self.addUniques(name, wlc)
 
     def addLandMeatSetLoc(self, name: str, wlc: WebLocationCollection):
-        if self.settings.landMeat == SettingsHunterEatenAboard.LandMeat.OFF:
+        if int(self.settings.landMeat) == SettingsHunterEatenAboard.LandMeat.OFF:
             return
-        elif self.settings.landMeat == SettingsHunterEatenAboard.LandMeat.ON:
+        elif int(self.settings.landMeat) == SettingsHunterEatenAboard.LandMeat.ON:
             self.locations.append(LocDetails(name, wlc))
-        elif self.settings.landMeat == SettingsHunterEatenAboard.LandMeat.UNIQUE:
+        elif int(self.settings.landMeat) == SettingsHunterEatenAboard.LandMeat.UNIQUE:
             self.addUniques(name, wlc)
 
     def addBigFishLoc(self, name: str, wlc: WebLocationCollection):
-        if self.settings.bigFish == SettingsHunterEatenAboard.BigFish.OFF:
+        if int(self.settings.bigFish) == SettingsHunterEatenAboard.BigFish.OFF:
             return
-        elif self.settings.bigFish == SettingsHunterEatenAboard.BigFish.ON:
+        elif int(self.settings.bigFish) == SettingsHunterEatenAboard.BigFish.ON:
             self.locations.append(LocDetails(name, wlc))
-        elif self.settings.bigFish == SettingsHunterEatenAboard.BigFish.UNIQUE:
+        elif int(self.settings.bigFish) == SettingsHunterEatenAboard.BigFish.UNIQUE:
             self.addUniques(name, wlc)
 
     def addBugSetLoc(self, name: str, wlc: WebLocationCollection):
-        if self.settings.bug == SettingsHunterEatenAboard.Bug.OFF:
+        if int(self.settings.bug) == SettingsHunterEatenAboard.Bug.OFF:
             return
-        elif self.settings.bug == SettingsHunterEatenAboard.Bug.ON:
+        elif int(self.settings.bug) == SettingsHunterEatenAboard.Bug.ON:
             self.locations.append(LocDetails(name, wlc))
-        elif self.settings.bug == SettingsHunterEatenAboard.Bug.UNIQUE:
+        elif int(self.settings.bug) == SettingsHunterEatenAboard.Bug.UNIQUE:
             self.addUniques(name, wlc)
 
     def addFruitSetLoc(self, name: str, wlc: WebLocationCollection):
-        if self.settings.fruit == SettingsHunterEatenAboard.Fruit.OFF:
+        if int(self.settings.fruit) == SettingsHunterEatenAboard.Fruit.OFF:
             return
-        elif self.settings.fruit == SettingsHunterEatenAboard.Fruit.ON:
+        elif int(self.settings.fruit) == SettingsHunterEatenAboard.Fruit.ON:
             self.locations.append(LocDetails(name, wlc))
-        elif self.settings.fruit == SettingsHunterEatenAboard.Fruit.UNIQUE:
+        elif int(self.settings.fruit) == SettingsHunterEatenAboard.Fruit.UNIQUE:
             self.addUniques(name, wlc)
     def add_fish_set_pondie(self):
 
