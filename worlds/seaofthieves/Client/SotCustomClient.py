@@ -8,8 +8,8 @@ from worlds.seaofthieves.Locations.LocationCollection import LocationDetailsColl
 from worlds.seaofthieves.Items.Items import ItemCollection
 from worlds.seaofthieves.Items.Items import Items, ItemDetail
 
-import Shop
-import PlayerInventory
+from .Shop import Shop,CombatShop
+import worlds.seaofthieves.Client.PlayerInventory as PlayerInventory
 import asyncio
 import copy
 import json
@@ -27,10 +27,10 @@ from CommonClient import CommonContext, server_loop, ClientCommandProcessor, gui
 from Utils import init_logging, is_windows, async_start
 import sys
 import threading
-import SOTDataAnalyzer
+import worlds.seaofthieves.Client.SOTDataAnalyzer as SOTDataAnalyzer
 import typing
 from NetUtils import ClientStatus, NetworkItem, JSONtoTextParser, JSONMessagePart, add_json_item, add_json_location, add_json_text, JSONTypes
-import UserInformation
+import worlds.seaofthieves.Client.UserInformation as UserInformation
 import argparse
 import time
 import asyncio
@@ -41,7 +41,7 @@ from typing import NamedTuple
 from worlds.seaofthieves.Client.NetworkProtocol.PrintJsonPacket import PrintJsonPacket
 from worlds.seaofthieves.Client.NetworkProtocol.ReceivedItemsPacket import ReceivedItemsPacket
 from worlds.seaofthieves.Client.NetworkProtocol.SetReply import SetReplyPacket
-import Balance
+import worlds.seaofthieves.Client.Balance as Balance
 class Version(NamedTuple):
     major: int
     minor: int
@@ -153,8 +153,8 @@ class SOT_Context(CommonContext):
         self.discoveryHints = {}
 
         self.itemCollection = ItemCollection()
-        self.shop = Shop.Shop()
-        self.combatShop = Shop.CombatShop()
+        self.shop = Shop()
+        self.combatShop = CombatShop()
         self.playerInventory = PlayerInventory.PlayerInventory()
         self.connected_to_server = False
 
@@ -368,14 +368,23 @@ def getSeaOfThievesDataFromArguments() -> UserInformation.UserInformation:
                         help='Microsoft login cookie given to www.seaofthieves.com', nargs='+')
     args = parser.parse_args()
 
-    if( args.address is None or args.ship is None or args.msCookie is None):
+    if( args.address is None or args.ship is None or args.msCookie is None or args.user is None):
         print("Error: Expected 3 command line arguments")
         print("Required \"--address <ipaddress:port>\"")
         print("Required \"--ship <shipNumber>\"")
         print("Required \"--mscookie <cookie>\"")
+        print("Required \"--user <username>\"")
         print("Example Command: python SotCustomClient.py --address 127.0.0.1:25255 --ship 1 --mscookie 1j23iuo1j23p1h2j3p1h")
-        print("To run this file you must have ptyhon installed, then modify the command line arguments of this executable to the above. The address is the connection address of the server. The ship param is the ship number you want to monitor. The MSCOOKIE is your microsoft auth cookie.")
-        exit()
+
+        if(args.address is None):
+            args.address = input('Enter address:port : ')
+        if (args.ship is None):
+            args.ship = input('Enter ship Number : ')
+        if (args.msCookie is None):
+            args.msCookie = input('Enter mscookie : ')
+        if (args.username is None):
+            args.username = input('Enter user : ')
+
 
     sotLoginCredentials: UserInformation.SotLoginCredentials = UserInformation.SotLoginCredentials(' '.join(args.msCookie))
     sotAnalyzerDetails: UserInformation.SotAnalyzerDetails = UserInformation.SotAnalyzerDetails(args.ship, None)

@@ -5,7 +5,8 @@ import requests
 import time
 import random
 import json
-import UserInformation
+import worlds.seaofthieves.Client.UserInformation as UserInformation
+
 
 QUERY_PERIOD_SECONDS = 7
 

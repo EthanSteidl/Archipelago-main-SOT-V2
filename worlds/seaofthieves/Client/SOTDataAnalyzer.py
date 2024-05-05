@@ -1,16 +1,14 @@
 
 
 import json
-import SOTWebCollector
-import recursive_diff
-import time
+import worlds.seaofthieves.Client.SOTWebCollector as SOTWebCollector
 import typing
 
-import UserInformation
+import worlds.seaofthieves.Client.UserInformation as UserInformation
 from worlds.seaofthieves.Locations.Locations import WebLocation
 from worlds.seaofthieves.Locations.LocationCollection import LocationDetailsCollection, LocDetails
 from worlds.seaofthieves.Items.Items import ItemCollection
-import Balance
+import worlds.seaofthieves.Client.Balance as Balance
 class SOTDataAnalyzerSettings:
 
     def __init__(self, details: UserInformation.SotAnalyzerDetails):
