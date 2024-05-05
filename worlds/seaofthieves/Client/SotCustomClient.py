@@ -59,8 +59,11 @@ async def watchGameForever(ctx):
             else:
                 try:
                     ctx.updateSotPlayerBalance()
+                    print("1")
                     ctx.updateAnalyzerWithLocationsPossible()
+                    print("2")
                     await ctx.collectLocationsAndSendInformation()
+                    print("3")
                 except Exception as e:
                     print("Fatal error occured: ", e)
 
@@ -382,7 +385,12 @@ def getSeaOfThievesDataFromArguments() -> UserInformation.UserInformation:
         if (args.ship is None):
             args.ship = input('Enter ship Number : ')
         if (args.msCookie is None):
-            args.msCookie = input('Enter mscookie : ')
+            filepath = input('Enter an absolute Filepath to a text file containing your mscookie : ')
+            while not os.path.exists(filepath):
+                filepath = input('File not found. Enter an absolute Filepath to a text file containing your mscookie : ')
+            file = open(filepath, "r")
+            args.msCookie = file.read()
+            file.close()
         if (args.username is None):
             args.username = input('Enter user : ')
 

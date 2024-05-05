@@ -29,4 +29,5 @@ class Balance:
         return "Gold: {} Dabloons: {} AncientCoins: {}".format(self.gold, self.dabloons, self.ancientCoins)
 
 def fromJson(js: json) -> Balance:
+    print(js)
     return Balance(js["ancientCoins"], js["doubloons"], js["gold"])
