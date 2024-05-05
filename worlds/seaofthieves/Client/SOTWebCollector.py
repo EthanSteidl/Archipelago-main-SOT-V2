@@ -7,7 +7,6 @@ import random
 import json
 import worlds.seaofthieves.Client.UserInformation as UserInformation
 
-
 QUERY_PERIOD_SECONDS = 7
 
 class SOTWebCollector:
