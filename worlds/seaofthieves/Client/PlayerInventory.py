@@ -25,3 +25,6 @@ class PlayerInventory:
 
     def spend(self, bal: Balance) -> None:
         self.balanceSpent = self.balanceSpent + bal
+
+    def add(self, bal: Balance) -> None:
+        self.balanceSpent = self.balanceSpent - bal

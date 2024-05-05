@@ -120,8 +120,6 @@ class CombatShop:
 
     def executeAction(self, menu_line_number: str, playerInventory: PlayerInventory) -> ItemDetail | None:
         #https://speechgen.io/ https://voicechanger.io/ Sara +2 pitch normal speed astronaut
-        winsound.PlaySound('Sounds\\warning_fixed.wav', winsound.SND_FILENAME)
-        winsound.PlaySound('Sounds\\tac_missle_fixed.wav', winsound.SND_FILENAME)
 
         print(os.getcwd())
         if menu_line_number == "0":
@@ -131,7 +129,7 @@ class CombatShop:
             print("Invalid Option")
             return None
 
-        purchase: Balance.Balance = Balance.Balance(0, self.menu[menu_line_number][2], self.menu[menu_line_number][1])
+        purchase: Balance = Balance(0, self.menu[menu_line_number][2], self.menu[menu_line_number][1])
         if playerInventory.canAfford(purchase):
             playerInventory.spend(purchase)
 
@@ -157,7 +155,7 @@ class CombatShop:
 
             else:
                 print("Shop error, refunding tokens")
-                playerInventory.add(self.menu[menu_line_number][1], self.menu[menu_line_number][2])
+                playerInventory.add(purchase)
 
         else:
             print("Cannot afford selected option")

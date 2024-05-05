@@ -54,6 +54,7 @@ async def watchGameForever(ctx):
         if ctx.connected_to_server:
             if firstpass:
                 await ctx.init_notif_weapons()
+                ctx.itemDets = ctx.itemCollection.getDictDetail()
                 firstpass = False
             else:
                 try:
@@ -129,8 +130,12 @@ class SOT_CommandProcessor(ClientCommandProcessor):
 
     def _cmd_cbuy(self, menu_line_number):
         menu_line_number = str(menu_line_number)
-        detail: ItemDetail = self.ctx.combatShop.executeAction(menu_line_number, self.ctx.playerInventory)
-        self.ctx.set(detail.name, 1)
+        detail: ItemDetail | None = self.ctx.combatShop.executeAction(menu_line_number, self.ctx.playerInventory)
+        if detail is None:
+            return
+
+        asyncio.ensure_future(self.ctx.set(detail.name, 1))
+
 
     def _cmd_mrkrabs(self):
         self.ctx.playerInventory.addBalanceClient(Balance.Balance(10000000,10000000,1000000))
@@ -152,6 +157,7 @@ class SOT_Context(CommonContext):
         self.discoveryHints = {}
 
         self.itemCollection = ItemCollection()
+        self.itemDets: typing.Dict[str, ItemDetail] = {}
         self.shop = Shop()
         self.combatShop = CombatShop()
         self.playerInventory = PlayerInventory.PlayerInventory()
@@ -245,12 +251,9 @@ class SOT_Context(CommonContext):
             #this is where you read slot data if any
 
     def playAudio(self, key: str):
-        if(key == str(Items.Combat.c_tac_missle.id)):
-            winsound.PlaySound('Sounds\\warning_fixed.wav', winsound.SND_FILENAME)
-            winsound.PlaySound('Sounds\\tac_missle_fixed.wav', winsound.SND_FILENAME)
-        if(key == str(Items.Combat.c_orbital_rail)):
-            winsound.PlaySound('Sounds\\warning_fixed.wav', winsound.SND_FILENAME)
-            winsound.PlaySound('Sounds\\orbital_rail_fixed.wav', winsound.SND_FILENAME)
+        if key in self.itemDets.keys() and self.itemDets[key].sound_file != "":
+            fpath = '..\\Items\\Sounds\\' + self.itemDets[key].sound_file
+            winsound.PlaySound(fpath, winsound.SND_FILENAME)
         return
     def applyMoneyIfMoney(self, itm: NetworkItem):
         gold_ids: typing.Dict[int, int] = {Items.Filler.gold_50.id: Items.Filler.gold_50.numeric_value,
@@ -359,6 +362,7 @@ class SOT_Context(CommonContext):
 
 
 def getSeaOfThievesDataFromArguments() -> UserInformation.UserInformation:
+
     parser = argparse.ArgumentParser()
     parser.add_argument('--address', dest='address', type=str, help='ip address : port of host')
     parser.add_argument('--ship', dest='ship', type=str, help='Player ship name')
@@ -367,7 +371,13 @@ def getSeaOfThievesDataFromArguments() -> UserInformation.UserInformation:
                         help='Microsoft login cookie given to www.seaofthieves.com', nargs='+')
     args = parser.parse_args()
     if args.msCookie is not None:
-        real_cookie = ' '.join(args.msCookie)
+        filepath = args.msCookie[0]
+        while not os.path.exists(filepath):
+            filepath = input('File not found. Enter an absolute Filepath to a text file containing your mscookie : ')
+        file = open(filepath, "r")
+        args.msCookie
+        real_cookie = str(file.read())
+        file.close()
     if( args.address is None or args.ship is None or args.msCookie is None or args.username is None):
         print("Error: Expected command line arguments")
         print("Required \"--address <ipaddress:port>\"")

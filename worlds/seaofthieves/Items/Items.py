@@ -112,6 +112,19 @@ class ItemCollection:
 
     def remove(self, v: ItemDetail):
         self.lst.remove(v)
+
+    def getDictDetail(self):
+        dic: dict = {}
+        for i in range(0, len(self.lst)):
+            dic[self.lst[i].name] = self.lst[i]
+        for i in range(0, len(self.seals)):
+            dic[self.seals[i].name] = self.seals[i]
+        for i in range(0, len(self.other)):
+            dic[self.other[i].name] = self.other[i]
+        for i in range(0, len(self.combat)):
+            dic[self.combat[i].name] = self.combat[i]
+
+        return dic
     def getDict(self):
         dic: dict = {}
         for i in range(0, len(self.lst)):
