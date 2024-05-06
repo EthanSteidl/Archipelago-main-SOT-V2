@@ -79,6 +79,9 @@ class Items:
     emissary_af = ItemDetail("Emissary of Athena")
     emissary_rb = ItemDetail("Emissary of Reaper")
 
+    golden_dragon = ItemDetail("Golden Dragon")
+    golden_dragon.sound_file = "roll.mp3"
+
     seal_gh = ItemDetail("Hoarder's Seal")
     seal_ma = ItemDetail("Merchant's Seal")
     seal_oos = ItemDetail("Soul's Seal")
@@ -105,6 +108,8 @@ class ItemCollection:
 
     seals: typing.List[ItemDetail] = [Items.seal_oos,Items.seal_rb, Items.seal_af, Items.seal_ma, Items.seal_gh]
 
+    helpful: typing.List[ItemDetail] = [Items.golden_dragon]
+
     other: typing.List[ItemDetail] = [Items.Filler.gold_50, Items.Filler.gold_100, Items.Filler.gold_500, Items.pirate_legend]
 
     combat: typing.List[ItemDetail] = [Items.Combat.c_tac_missle, Items.Combat.c_nuke, Items.Combat.c_def_plasma, Items.Combat.c_torp_bomber, Items.Combat.c_orbital_rail]
@@ -123,6 +128,8 @@ class ItemCollection:
             dic[self.other[i].name] = self.other[i]
         for i in range(0, len(self.combat)):
             dic[self.combat[i].name] = self.combat[i]
+        for i in range(0, len(self.helpful)):
+            dic[self.helpful[i].name] = self.helpful[i]
 
         return dic
     def getDict(self):
@@ -133,6 +140,8 @@ class ItemCollection:
             dic[self.seals[i].name] = self.seals[i].id
         for i in range(0, len(self.other)):
             dic[self.other[i].name] = self.other[i].id
+        for i in range(0, len(self.helpful)):
+            dic[self.helpful[i].name] = self.helpful[i].id
         #for i in range(0, len(self.seals)):
         #   dic[self.seals[i].name] = self.seals[i].id
 

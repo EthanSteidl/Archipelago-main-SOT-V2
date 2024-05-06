@@ -11,6 +11,7 @@ from worlds.seaofthieves.Client.Shop import Shop,CombatShop
 from worlds.seaofthieves.Configurations.SotOptionsDerived import SotOptionsDerived
 import worlds.seaofthieves.Client.PlayerInventory as PlayerInventory
 import pickle
+import colorama
 import asyncio
 import copy
 import json
@@ -128,7 +129,8 @@ class SOT_CommandProcessor(ClientCommandProcessor):
         loc_details_possible: typing.List[LocDetails] = self.ctx.locationsReachableWithCurrentItems()
         print("You can check " + str(len(loc_details_possible)) + " more locations. ")
         for loc in loc_details_possible:
-            print(loc.name)
+            if loc.id not in self.ctx.locations_checked:
+                print(loc.name)
 
     def _cmd_cshop(self):
         self.ctx.combatShop.info(self.ctx.playerInventory)
@@ -266,6 +268,7 @@ class SOT_Context(CommonContext):
             winsound.PlaySound(fpath, winsound.SND_FILENAME)
         return
     def applyMoneyIfMoney(self, itm: NetworkItem):
+
         gold_ids: typing.Dict[int, int] = {Items.Filler.gold_50.id: Items.Filler.gold_50.numeric_value,
                     Items.Filler.gold_100.id: Items.Filler.gold_100.numeric_value,
                     Items.Filler.gold_500.id: Items.Filler.gold_500.numeric_value}
@@ -276,22 +279,19 @@ class SOT_Context(CommonContext):
             db = 0
             self.playerInventory.addBalanceClient(Balance.Balance(ac, db, gold_val))
 
+        elif id == Items.golden_dragon:
+            print("Captain! The " + colorama.Fore.YELLOW + "Golden Dragon" + colorama.Style.RESET_ALL + " is comming for your " + colorama.Fore.GREEN + "MONEY")
+            self.playerInventory.setBalanceSot(Balance.Balance(-10000, -10000, -10000))
+            self.playAudio(str(id))
+
         return
 
     def acknowledgeItemsReceived(self):
         for itm in self.items_received:
             if(itm not in self.known_items_received):
-                self.applyMoneyIfMoney(itm)
+                fpath = '..\\Items\\Sounds\\item_find.mp3'
+                winsound.PlaySound(fpath, winsound.SND_FILENAME)
         self.known_items_received = self.items_received
-
-    def getAndClearNewLocationsReached(self) -> typing.Set[int]:
-        locations: typing.Set[int] = set()
-        checks = self.analyzer.getAllChecks()
-        for locId, isChecked in checks.items():
-            if(isChecked):
-                locations.add(locId)
-
-        return locations
 
     def updateAnalyzerWithLocationsPossible(self):
 
@@ -310,6 +310,17 @@ class SOT_Context(CommonContext):
         newBalance = newBalance - self.originalBalance
         self.playerInventory.setBalanceSot(newBalance)
 
+    async def setRoll(self, key, value):
+        # Sync server itmes to us
+        await self.send_msgs([
+            {
+                "cmd": "Set",
+                "key": key,
+                "default": 0,
+                "want_reply": 1,
+                "operations": [{"operation": "replace", "value": value}]
+            }
+        ])
 
     async def set(self, key, value):
         # Sync server itmes to us
@@ -428,9 +439,12 @@ def getSeaOfThievesDataFromArguments() -> UserInformation.UserInformation:
             file.close()
 
 
-
+    pirate = None
+    if args.ship == "NA":
+        args.ship = None
+        pirate = "pirateMode"
     sotLoginCredentials: UserInformation.SotLoginCredentials = UserInformation.SotLoginCredentials(real_cookie)
-    sotAnalyzerDetails: UserInformation.SotAnalyzerDetails = UserInformation.SotAnalyzerDetails(args.ship, None)
+    sotAnalyzerDetails: UserInformation.SotAnalyzerDetails = UserInformation.SotAnalyzerDetails(args.ship, pirate)
     userInfo = UserInformation.UserInformation(sotLoginCredentials, sotAnalyzerDetails, args.address, args.username, options)
     return userInfo
 

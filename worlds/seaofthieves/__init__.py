@@ -1,4 +1,6 @@
 import os
+import time
+
 from worlds.seaofthieves.Items.Items import *
 from worlds.seaofthieves.Locations.Locations import *
 from .Options import SOTOptions
@@ -99,6 +101,13 @@ class SOTWorld(World):
             items_to_add_to_pool += 1
             self.multiworld.itempool.append(SOTItem(detail.name, ItemClassification.progression, detail.id, self.player))
 
+        for detail in ItemCollection.helpful:
+            i = 0
+            while(i<10):
+                i += 1
+                items_to_add_to_pool += 1
+                self.multiworld.itempool.append(SOTItem(detail.name, ItemClassification.useful, detail.id, self.player))
+
         #sotOptions: SOTOptions = self.options
         #if sotOptions.
 
@@ -126,18 +135,22 @@ class SOTWorld(World):
 
     def generate_output(self, output_directory: str):
 
-        maps = {}
-        for i in self.multiworld.get_locations():
+
+        self.mapss = {}
+        self.locSequence = {}
+        for i in self.multiworld.get_locations(self.player):
             locId = i.name
             if(i.item == None):
                 item_name = self.get_filler_item_name()
             else:
                 item_name = i.item.name
-            maps[locId] = item_name
+            self.mapss[locId] = item_name
+            self.locSequence[i.address] = i.name
 
         data = {
             "slot_data": self.fill_slot_data(),
-            "Location_to_item": maps,
+            "Location_to_item": self.mapss,
+            "locSequence": self.locSequence,
             #"location_to_item": {self.location_name_to_id[i.name] : self.item_name_to_id[i.item.name] for i in self.multiworld.get_locations()},
         }
 
@@ -148,7 +161,6 @@ class SOTWorld(World):
         filename = f"{self.multiworld.get_out_file_name_base(self.player)}.apsmSOT"
         with open(os.path.join(output_directory, filename), 'w') as f:
             json.dump(data, f)
-
 
     def fill_slot_data(self):
         # The client needs to know where each seal is
