@@ -56,7 +56,7 @@ async def watchGameForever(ctx):
 
         if ctx.connected_to_server:
             if firstpass:
-                await ctx.init_notif_weapons()
+                await ctx.init_notif()
                 ctx.itemDets = ctx.itemCollection.getDictDetail()
                 firstpass = False
             else:
@@ -178,19 +178,20 @@ class SOT_Context(CommonContext):
         self.forceUnlock = False
 
 
-    async def init_notif_weapons(self):
+    async def init_notif(self):
         keys: typing.List[str] = []
-        if len(ItemCollection.combat) <= 0:
-            return
+
+        keys.append(Items.golden_dragon.name)
+
         for det in ItemCollection.combat:
             keys.append(str(det.name))
 
-            await self.send_msgs([
-                {
-                    "cmd": "SetNotify",
-                    "keys": keys,
-                }
-            ])
+        await self.send_msgs([
+            {
+                "cmd": "SetNotify",
+                "keys": keys,
+            }
+        ])
         return
 
     def locationsReachableWithCurrentItems(self, forceUnlock: bool = False) -> typing.List[LocDetails]:
@@ -254,8 +255,8 @@ class SOT_Context(CommonContext):
 
         elif cmd == "SetReply":
             setReplyPacket: SetReplyPacket = SetReplyPacket(args)
-            if(setReplyPacket.value != 0 and setReplyPacket.original_value == 0):
-                self.playAudio(setReplyPacket.key)
+            #if(setReplyPacket.value != 0 and setReplyPacket.original_value == 0):
+            self.playAudio(setReplyPacket.key)
 
         else:
             print("Error: Server requested unsupported feature '{0}'".format(cmd))
@@ -282,16 +283,17 @@ class SOT_Context(CommonContext):
         elif id == Items.golden_dragon:
             print("Captain! The " + colorama.Fore.YELLOW + "Golden Dragon" + colorama.Style.RESET_ALL + " is comming for your " + colorama.Fore.GREEN + "MONEY")
             self.playerInventory.setBalanceSot(Balance.Balance(-10000, -10000, -10000))
-            self.playAudio(str(id))
+            self.add(Items.golden_dragon.name)
 
         return
 
     def acknowledgeItemsReceived(self):
         for itm in self.items_received:
             if(itm not in self.known_items_received):
-                fpath = '..\\Items\\Sounds\\item_find.mp3'
+                fpath = '..\\Items\\Sounds\\item_find.wav'
                 winsound.PlaySound(fpath, winsound.SND_FILENAME)
         self.known_items_received = self.items_received
+
 
     def updateAnalyzerWithLocationsPossible(self):
 
@@ -310,7 +312,7 @@ class SOT_Context(CommonContext):
         newBalance = newBalance - self.originalBalance
         self.playerInventory.setBalanceSot(newBalance)
 
-    async def setRoll(self, key, value):
+    async def add(self, key):
         # Sync server itmes to us
         await self.send_msgs([
             {
@@ -318,7 +320,7 @@ class SOT_Context(CommonContext):
                 "key": key,
                 "default": 0,
                 "want_reply": 1,
-                "operations": [{"operation": "replace", "value": value}]
+                "operations": [{"operation": "add", "value": 1}]
             }
         ])
 
