@@ -84,7 +84,7 @@ WARNING: Make sure you only do checks that the client says are possible!!! Even 
 The following commands are only available when using the Sea of Thieves Client to play with Archipelago. You can list them any time in the client with `/help`.
 
 * `/locs` Shows what checks are possible
-* `/shop` Opens the hop
+* `/shop` Opens the shop
 * `/buy #` Buys an item from the shop
 * `/linkShip --name <ship_name> --mscookie <#>`, WIP, Adds tracking of another ship to your multiworld as your player (If you want two players to be able to perform checks on different ships with a shared item/location pool)
 * `/linkPirate --name <pirate_name> --mscookie <#>`, WIP, Adds tracking of another pirate to your multiworld as your player (If you want two players to be able to perform checks on different ships with a shared item/location pool)
