@@ -385,7 +385,18 @@ def getSeaOfThievesDataFromArguments() -> UserInformation.UserInformation:
         args.msCookie
         real_cookie = str(file.read())
         file.close()
-    if( args.address is None or args.ship is None or args.msCookie is None or args.username is None):
+
+    if args.options is not None:
+        filepath = args.options[0]
+        while not os.path.exists(filepath):
+            filepath = input(
+                'File not found. Enter an absolute Filepath to a text file containing your options.yaml : ')
+        file = open(filepath, "rb")
+        options = pickle.load(file)
+        file.close()
+
+
+    if( args.address is None or args.ship is None or args.msCookie is None or args.username is None or args.options is None):
         print("Error: Expected command line arguments")
         print("Required \"--address <ipaddress:port>\"")
         print("Required \"--ship <shipNumber>\"")
@@ -407,18 +418,16 @@ def getSeaOfThievesDataFromArguments() -> UserInformation.UserInformation:
             file.close()
         if (args.username is None):
             args.username = input('Enter user : ')
+        if (args.options is None):
+            filepath = input('Enter an absolute Filepath to a text file containing your options : ')
+            while not os.path.exists(filepath):
+                filepath = input(
+                    'File not found. Enter an absolute Filepath to a text file containing your options.yaml : ')
+            file = open(filepath, "rb")
+            options = pickle.load(file)
+            file.close()
 
 
-    if args.options is not None:
-        filepath = args.options[0]
-        while not os.path.exists(filepath):
-            filepath = input('File not found. Enter an absolute Filepath to a text file containing your options.yaml : ')
-        file = open(filepath, "rb")
-        options = pickle.load(file)
-        file.close()
-    else:
-        print("Missing options argument")
-        exit(1)
 
     sotLoginCredentials: UserInformation.SotLoginCredentials = UserInformation.SotLoginCredentials(real_cookie)
     sotAnalyzerDetails: UserInformation.SotAnalyzerDetails = UserInformation.SotAnalyzerDetails(args.ship, None)
