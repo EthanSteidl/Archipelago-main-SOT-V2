@@ -1,11 +1,25 @@
 # Sea of Thieves
 
+## Introduction
+This is not a mod/hack and you will not be at risk of being banned while running for hacking.
+This application works by logging into the Sea of Thieves account on www.seaofthieves.com and viewing your accounts progression data.
+
+## Modes of Play
+
+Typically randomizers have a "world" that a single player plays when finding locations. This randomizer has two modes you can play using
+- Crew Mode: Your "ship and its crew" are the player. Anything done by your "ship and its crew" is treated as one world
+- Pirate Mode: Your "pirate" is the player. Anyting done by your "pirate" is treated as one world.
+
+Using the modes above, here are some examples of ways to play:
+- Possible: My friend and I want to play a coop multiworld of SOT. We will generate 1 world and run it in ship mode while both on the same ship with 1 client running.
+- Possible: My friend and I want to play a 2 player multiworld of SOT but we want to be on the same ship. We will generate 2 worlds and run them in pirate mode with 2 clients running.
+- Not Possible: My squad of 4 wants to play a 2 player multiworld each of us on a team of two but on the same galleon.
+
 ## What does randomization do to this game?
 
-This is not a mod for sea of thieves and works by reading player stats from www.seaofthieves.com. This randomizer does not prevent you from performing checks in game that you should not have access to. However, the randomizer keeps track of what you should be able to do in your game and will not award items for loactions that you have yet to recieve the items to check.
-
-
-The following are randomized as items:
+Most things that are trackable through your capainancy page are locations containing randomized items
+When completing a location, you are only rewarded the item at the location if you have the required items to visit the location.
+The following items are randomized:
 1. Sail - Unlocks the ability to check locations away from the starting island
 2. Inferno Sail - Unlocks the ability to check locations in the Devil's Roar
 3. Voyages of Fortresses - Allows location rewards related to Fortresses
@@ -26,6 +40,18 @@ The following are randomized as items:
 18. Shovel - Allows location rewards for digging related locations
 19. Pirate Legend - Once achieved, you win
 
+The following items are filler:
+1. Gold Coins
+2. Ancient Coins
+3. Dabloons
+
+The following items are traps:
+1. Golden Dragon
+
+## What can you do with Gold?
+The game client tracks how much money you make in game. It also tracks how much money other players give you.
+You can spend this money on the `/shop` of the client
+
 ## What is the goal of this game when randomized?
 
 The goal is to defeat The Ghost of Graymarrow at the Fort of the Damned.
@@ -33,30 +59,31 @@ However you cannot simply sail to his island, you must first:
 * Aquire Emissary Seals by completing a single voyage for specific trading companies
 * Aquire the Voyages of Destiny so that you can initiate the Fort of the Damned
 
-The amount of seals required is configurable (0-5). You will learn of which trading company Seals you need upon visiting the Fort of the Damned.
+The amount of seals required is configurable (0-5).
 
 
 ## Which of my items can be in another player's world?
 
-Your world will always contain all 5 faction Seals. Your world will always award you with Pirate Legend upon defeating the Fort of the Damned.
+Your world will always contain:
+- All 5 faction Seals 
+- The Sail
+- Pirate Legend on Fort of the Damned Completion
 
 All other items are shuffled.
 
 ## How does the game know I complete a check?
-The SOT client periodically scans the stats of a ship from Microsoft's website. This is how the data is collected.
-When a value for a stat is incremented the client will reward you with the location check and inform the multiworld, this will then allow client sessions to get items at the location.
+The SOT client periodically scans the stats of a ship from SOT's website. 
+In general, when a stat related to a location in game changes, the locations reward is sent to the correct player.
+The location reward will never trigger unless you have all the required items to logically complete the check.
+You can check what locations are in logic by typing `/locs` in the client
 
-
-In order to prevent players from playing out of logic, the client will only allow rewards for locations that are reachable in logic with the current items given to the player. For example, if you need the "Sail" item to get checks off the main island, the client will not allow you to finish checks of the main island. 
-
-
-This may cause frustration as Microsoft's stat server lags by roughly 5 minutes. So if you just did a check, it may take 5 minutes to recieve the item for the check.
-- BE VERY CAREFUL, currently implemented, if you know an item is on a check through a hint, do the check, then go to another location that allows use of that item, the client will assume its not collectable till the multwiorld sends you the item. So do not complete your stuff if the item is not sent to your client
+WARNING: Make sure you only do checks that the client says are possible!!! Even if you know an item exists on a specific location that lets you do another nearby, you must wait till the client awards you the item first even if you know it is comming.
 
 ## Unique Local Commands
 
 The following commands are only available when using the Sea of Thieves Client to play with Archipelago. You can list them any time in the client with `/help`.
 
+* `/locs` Shows what checks are possible
 * `/shop` Opens the hop
 * `/buy #` Buys an item from the shop
 * `/linkShip --name <ship_name> --mscookie <#>`, WIP, Adds tracking of another ship to your multiworld as your player (If you want two players to be able to perform checks on different ships with a shared item/location pool)
@@ -68,3 +95,4 @@ The following commands are debug commands
 * `/cshop` Opens the combat shop
 * `/cbuy #` Buys an item from the combat shop
 * `/mrkrabs` Gives you a large amount of money
+* `/forceunlock` Removes all logic requirements for every location

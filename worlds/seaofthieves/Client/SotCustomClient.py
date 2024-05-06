@@ -293,10 +293,14 @@ class SOT_Context(CommonContext):
         return
 
     def acknowledgeItemsReceived(self):
+        should_play_sound = False
         for itm in self.items_received:
             if(itm not in self.known_items_received):
-                fpath = '..\\Items\\Sounds\\item_find.wav'
-                winsound.PlaySound(fpath, winsound.SND_FILENAME)
+                should_play_sound = True
+
+        if should_play_sound:
+            fpath = '..\\Items\\Sounds\\item_find.wav'
+            winsound.PlaySound(fpath, winsound.SND_FILENAME)
         self.known_items_received = self.items_received
 
 
@@ -385,6 +389,7 @@ class SOT_Context(CommonContext):
 
 
 def getSeaOfThievesDataFromArguments() -> UserInformation.UserInformation:
+
 
     parser = argparse.ArgumentParser()
     parser.add_argument('--address', dest='address', type=str, help='ip address : port of host')
