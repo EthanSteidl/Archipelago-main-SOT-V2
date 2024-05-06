@@ -49,7 +49,7 @@ class Seals(LocationsBase):
         wlc = WebLocationCollection([
             WebLocation(WebItemJsonIdentifier(1, 1, 0), reg, lgc)
         ])
-        self.locations.append(LocDetails(self.L_VOYAGE_COMP_GH_TOTAL, wlc))
+        self.locations.append(LocDetails(self.L_VOYAGE_COMP_GH_TOTAL, wlc, True))
 
         reg = RegionNameCollection()
         reg.addFromList([Name.DOMAIN_MA])
@@ -57,7 +57,7 @@ class Seals(LocationsBase):
         wlc = WebLocationCollection([
             WebLocation(WebItemJsonIdentifier(1, 2, 0), reg, lgc)
         ])
-        self.locations.append(LocDetails(self.L_VOYAGE_COMP_MA_TOTAL, wlc))
+        self.locations.append(LocDetails(self.L_VOYAGE_COMP_MA_TOTAL, wlc, True))
 
         reg = RegionNameCollection()
         reg.addFromList([Name.DOMAIN_OOS])
@@ -65,7 +65,7 @@ class Seals(LocationsBase):
         wlc = WebLocationCollection([
             WebLocation(WebItemJsonIdentifier(1, 3, 0), reg, lgc)
         ])
-        self.locations.append(LocDetails(self.L_VOYAGE_COMP_OOS_TOTAL, wlc))
+        self.locations.append(LocDetails(self.L_VOYAGE_COMP_OOS_TOTAL, wlc, True))
 
         reg = RegionNameCollection()
         reg.addFromList([Name.DOMAIN_AF])
@@ -73,7 +73,7 @@ class Seals(LocationsBase):
         wlc = WebLocationCollection([
             WebLocation(WebItemJsonIdentifier(1, 4, 0), reg, lgc)
         ])
-        self.locations.append(LocDetails(self.L_VOYAGE_COMP_AF_TOTAL, wlc))
+        self.locations.append(LocDetails(self.L_VOYAGE_COMP_AF_TOTAL, wlc, True))
 
         #RB is to sell a reaper chest/bounty?
         reg = RegionNameCollection()
@@ -83,6 +83,6 @@ class Seals(LocationsBase):
             WebLocation(WebItemJsonIdentifier(0, 6, 1, 0), reg, lgc),
             WebLocation(WebItemJsonIdentifier(0, 6, 1, 1), reg, lgc)
         ])
-        self.locations.append(LocDetails(self.L_VOYAGE_COMP_RB_TOTAL, wlc))
+        self.locations.append(LocDetails(self.L_VOYAGE_COMP_RB_TOTAL, wlc, True))
 
 

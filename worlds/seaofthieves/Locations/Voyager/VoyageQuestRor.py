@@ -47,7 +47,7 @@ class VoyageQuestRor(LocationsBase):
     L_VOYAGE_COMP_ROR_ATHENA = "Complete Ashen Athena Voyage (ROAR)"
 
 
-    def __init__(self):
+    def __init__(self, settings: SettingsVoyageQuestRor):
         super().__init__()
         self.x = [1, 5, 1]
 
@@ -56,28 +56,28 @@ class VoyageQuestRor(LocationsBase):
         lgc = ItemReqEvalOr([ItemReqEvalAnd([Items.sail, Items.sail_inferno])])
         web = WebItemJsonIdentifier(self.x[0], self.x[1], 0)
         wlc = WebLocationCollection([WebLocation(web, reg, lgc)])
-        self.locations.append(LocDetails(self.L_VOYAGE_COMP_ROR_TOTAL, wlc))
+        self.locations.append(LocDetails(self.L_VOYAGE_COMP_ROR_TOTAL, wlc, settings.completeAny > 0))
 
         reg: RegionNameCollection = RegionNameCollection()
         reg.addFromList([Name.ROAR])
         lgc = ItemReqEvalOr([ItemReqEvalAnd([Items.sail, Items.sail_inferno])])
         web = WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 0)
         wlc = WebLocationCollection([WebLocation(web, reg, lgc)])
-        self.locations.append(LocDetails(self.L_VOYAGE_COMP_ROR_X, wlc))
+        self.locations.append(LocDetails(self.L_VOYAGE_COMP_ROR_X, wlc, settings.xmarks > 0))
 
         reg: RegionNameCollection = RegionNameCollection()
         reg.addFromList([Name.ROAR])
         lgc = ItemReqEvalOr([ItemReqEvalAnd([Items.sail, Items.sail_inferno])])
         web = WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 1)
         wlc = WebLocationCollection([WebLocation(web, reg, lgc)])
-        self.locations.append(LocDetails(self.L_VOYAGE_COMP_ROR_RIDDLE, wlc))
+        self.locations.append(LocDetails(self.L_VOYAGE_COMP_ROR_RIDDLE, wlc, settings.riddle > 0))
 
         reg: RegionNameCollection = RegionNameCollection()
         reg.addFromList([Name.ROAR])
         lgc = ItemReqEvalOr([ItemReqEvalAnd([Items.sail, Items.sail_inferno])])
         web = WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 2)
         wlc = WebLocationCollection([WebLocation(web, reg, lgc)])
-        self.locations.append(LocDetails(self.L_VOYAGE_COMP_ROR_WAY, wlc))
+        self.locations.append(LocDetails(self.L_VOYAGE_COMP_ROR_WAY, wlc, settings.wayfinder > 0))
 
         #logic changes here
 
@@ -86,13 +86,13 @@ class VoyageQuestRor(LocationsBase):
         web = WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 3)
         lgc = ItemReqEvalOr([ItemReqEvalAnd([Items.sail, Items.sail_inferno, Items.personal_weapons])])
         wlc = WebLocationCollection([WebLocation(web, reg, lgc)])
-        self.locations.append(LocDetails(self.L_VOYAGE_COMP_ROR_BOUNTY, wlc))
+        self.locations.append(LocDetails(self.L_VOYAGE_COMP_ROR_BOUNTY, wlc, settings.bounty > 0))
 
         reg: RegionNameCollection = RegionNameCollection()
         reg.addFromList([Name.ROAR])
         web = WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 4)
         lgc = ItemReqEvalOr([ItemReqEvalAnd([Items.sail, Items.sail_inferno, Items.voyages_af])])
         wlc = WebLocationCollection([WebLocation(web, reg, lgc)])
-        self.locations.append(LocDetails(self.L_VOYAGE_COMP_ROR_ATHENA, wlc))
+        self.locations.append(LocDetails(self.L_VOYAGE_COMP_ROR_ATHENA, wlc, settings.athena > 0))
 
 

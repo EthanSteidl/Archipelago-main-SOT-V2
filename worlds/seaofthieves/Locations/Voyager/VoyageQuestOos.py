@@ -5,8 +5,7 @@ from ...Regions.Name import Name
 from ...Items.Items import ItemReqEvalOr, ItemReqEvalAnd, Items
 class SettingsVoyageQuestOos:
 
-    def __init__(self, player=1, completeAny=1, bounty=1, ashenBounty=1, ghostShip=1):
-        self.player = player
+    def __init__(self, completeAny=1, bounty=1, ashenBounty=1, ghostShip=1):
         self.completeAny = completeAny
         self.bounty = bounty
         self.ashenBounty = ashenBounty
@@ -21,7 +20,7 @@ class VoyageQuestOos(LocationsBase):
     L_VOYAGE_COMP_OOS_ABOUNTY = "Complete Ashen Bounty Voyage (OOS)"
     L_VOYAGE_COMP_OOS_GHOSTSHIP = "Complete Ghost Ship Voyage (OOS)"
 
-    def __init__(self):
+    def __init__(self, settings: SettingsVoyageQuestOos):
         super().__init__()
         self.x = [1, 3, 1]
 
@@ -33,7 +32,7 @@ class VoyageQuestOos(LocationsBase):
         wlc = WebLocationCollection([
             WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 0), reg, lgc)
         ])
-        self.locations.append(LocDetails(self.L_VOYAGE_COMP_OOS_BOUNTY, wlc))
+        self.locations.append(LocDetails(self.L_VOYAGE_COMP_OOS_BOUNTY, wlc, settings.bounty > 0))
 
 
         reg = RegionNameCollection()
@@ -43,7 +42,7 @@ class VoyageQuestOos(LocationsBase):
         wlc = WebLocationCollection([
             WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 1), reg, lgc)
         ])
-        self.locations.append(LocDetails(self.L_VOYAGE_COMP_OOS_ABOUNTY, wlc))
+        self.locations.append(LocDetails(self.L_VOYAGE_COMP_OOS_ABOUNTY, wlc, settings.ashenBounty > 0))
 
 
         reg = RegionNameCollection()
@@ -53,4 +52,4 @@ class VoyageQuestOos(LocationsBase):
         wlc = WebLocationCollection([
             WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 2), reg, lgc)
         ])
-        self.locations.append(LocDetails(self.L_VOYAGE_COMP_OOS_GHOSTSHIP, wlc))
+        self.locations.append(LocDetails(self.L_VOYAGE_COMP_OOS_GHOSTSHIP, wlc, settings.ghostShip > 0))

@@ -34,7 +34,7 @@ class HunterTotal(LocationsBase):
         wlc = WebLocationCollection([
             WebLocation(WebItemJsonIdentifier(3, 0, 0,), reg, lgc)
         ])
-        self.locations.append(LocDetails(self.L_H_COOKBURNANY, wlc))
+        self.locations.append(LocDetails(self.L_H_COOKBURNANY, wlc, True))
 
 
 

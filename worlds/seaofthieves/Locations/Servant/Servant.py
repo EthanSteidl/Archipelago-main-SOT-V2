@@ -37,40 +37,40 @@ class VoyageQuestSv(LocationsBase):
         self.x = [8, 0, 1]
         self.settings = settings
 
-        if self.settings.any is not SettingsVoyageQuestSv.Any.OFF:
-            reg = RegionNameCollection()
-            reg.addFromList([Name.DOMAIN_SV])
-            lgc = ItemReqEvalOr([ItemReqEvalAnd([Items.ship_weapons, Items.personal_weapons, Items.sail])])
-            wlc = WebLocationCollection([
-                WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], 0), reg, lgc)
-            ])
-            self.locations.append(LocDetails(self.L_SERV_GUARDIANS_SUNK_SLOOP, wlc))
+        do_rand: bool = self.settings.any is not SettingsVoyageQuestSv.Any.OFF
+        reg = RegionNameCollection()
+        reg.addFromList([Name.DOMAIN_SV])
+        lgc = ItemReqEvalOr([ItemReqEvalAnd([Items.ship_weapons, Items.personal_weapons, Items.sail])])
+        wlc = WebLocationCollection([
+            WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], 0), reg, lgc)
+        ])
+        self.locations.append(LocDetails(self.L_SERV_GUARDIANS_SUNK_SLOOP, wlc, do_rand))
 
-        if self.settings.sloop is not SettingsVoyageQuestSv.Sloop.OFF:
-            reg = RegionNameCollection()
-            reg.addFromList([Name.DOMAIN_SV])
-            lgc = ItemReqEvalOr([ItemReqEvalAnd([Items.ship_weapons, Items.personal_weapons, Items.sail])])
-            wlc = WebLocationCollection([
-                WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 0), reg, lgc)
-            ])
-            self.locations.append(LocDetails(self.L_SERV_GUARDIANS_SUNK_SLOOP, wlc))
+        do_rand: bool = self.settings.sloop is not SettingsVoyageQuestSv.Sloop.OFF
+        reg = RegionNameCollection()
+        reg.addFromList([Name.DOMAIN_SV])
+        lgc = ItemReqEvalOr([ItemReqEvalAnd([Items.ship_weapons, Items.personal_weapons, Items.sail])])
+        wlc = WebLocationCollection([
+            WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 0), reg, lgc)
+        ])
+        self.locations.append(LocDetails(self.L_SERV_GUARDIANS_SUNK_SLOOP, wlc, do_rand))
 
-        if self.settings.brig is not SettingsVoyageQuestSv.Brig.OFF:
-            reg = RegionNameCollection()
-            reg.addFromList([Name.DOMAIN_SV])
-            lgc = ItemReqEvalOr([ItemReqEvalAnd([Items.ship_weapons, Items.personal_weapons, Items.sail])])
-            wlc = WebLocationCollection([
-                WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 1), reg, lgc)
-            ])
-            self.locations.append(LocDetails(self.L_SERV_GUARDIANS_SUNK_BRIG, wlc))
+        do_rand: bool = self.settings.brig is not SettingsVoyageQuestSv.Brig.OFF
+        reg = RegionNameCollection()
+        reg.addFromList([Name.DOMAIN_SV])
+        lgc = ItemReqEvalOr([ItemReqEvalAnd([Items.ship_weapons, Items.personal_weapons, Items.sail])])
+        wlc = WebLocationCollection([
+            WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 1), reg, lgc)
+        ])
+        self.locations.append(LocDetails(self.L_SERV_GUARDIANS_SUNK_BRIG, wlc, do_rand))
 
-        if self.settings.gal is not SettingsVoyageQuestSv.Gal.OFF:
-            reg = RegionNameCollection()
-            reg.addFromList([Name.DOMAIN_SV])
-            lgc = ItemReqEvalOr([ItemReqEvalAnd([Items.ship_weapons, Items.personal_weapons, Items.sail])])
-            wlc = WebLocationCollection([
-                WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 3), reg, lgc)
-            ])
-            self.locations.append(LocDetails(self.L_SERV_GUARDIANS_SUNK_GALL, wlc))
+        do_rand: bool = self.settings.gal is not SettingsVoyageQuestSv.Gal.OFF
+        reg = RegionNameCollection()
+        reg.addFromList([Name.DOMAIN_SV])
+        lgc = ItemReqEvalOr([ItemReqEvalAnd([Items.ship_weapons, Items.personal_weapons, Items.sail])])
+        wlc = WebLocationCollection([
+            WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 3), reg, lgc)
+        ])
+        self.locations.append(LocDetails(self.L_SERV_GUARDIANS_SUNK_GALL, wlc, do_rand))
 
 

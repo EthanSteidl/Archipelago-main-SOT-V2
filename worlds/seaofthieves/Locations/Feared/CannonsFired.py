@@ -53,66 +53,64 @@ class CannonsFired(LocationsBase):
         self.settings = settings
 
 
-        if self.settings.defaultBalls is not SettingsCannonsFired.Balls.OFF:
-            reg = RegionNameCollection()
-            reg.addFromList([Name.ISLANDS])
-            lgc = ItemReqEvalOr([])
-            wlc = WebLocationCollection([
-                WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 3), reg, lgc),
-                WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 4), reg, lgc),
-                WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 5), reg, lgc),
-                WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 6), reg, lgc),
-                WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 15), reg, lgc)
-            ])
+        reg = RegionNameCollection()
+        reg.addFromList([Name.ISLANDS])
+        lgc = ItemReqEvalOr([])
+        wlc = WebLocationCollection([
+            WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 3), reg, lgc),
+            WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 4), reg, lgc),
+            WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 5), reg, lgc),
+            WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 6), reg, lgc),
+            WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 15), reg, lgc)
+        ])
 
-            if self.settings.defaultBalls is SettingsCannonsFired.Balls.ON:
-                self.locations.append(LocDetails(self.L_ILL_CANN_DEFAULT, wlc))
+        do_rand: bool = self.settings.defaultBalls is SettingsCannonsFired.Balls.ON
+        self.locations.append(LocDetails(self.L_ILL_CANN_DEFAULT, wlc, do_rand))
 
-            if self.settings.defaultBalls is SettingsCannonsFired.Balls.UNIQUE:
-                self.addUniques(self.L_ILL_CANN_DEFAULT, wlc)
-
+        do_rand: bool = self.settings.defaultBalls is SettingsCannonsFired.Balls.UNIQUE
+        self.addUniques(self.L_ILL_CANN_DEFAULT, wlc, do_rand)
 
 
 
-        if self.settings.phantomBalls is not SettingsCannonsFired.PhantomBalls.OFF:
-            reg = RegionNameCollection()
-            reg.addFromList([Name.ISLANDS])
-            lgc = ItemReqEvalOr([])
-            wlc = WebLocationCollection([
-                WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 7), reg, lgc),
-                WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 14), reg, lgc),
-                WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 19), reg, lgc)
-            ])
-
-            if self.settings.phantomBalls is SettingsCannonsFired.PhantomBalls.ON:
-                self.locations.append(LocDetails(self.L_ILL_CANN_PHANT, wlc))
-
-            if self.settings.phantomBalls is SettingsCannonsFired.PhantomBalls.UNIQUE:
-                self.addUniques(self.L_ILL_CANN_PHANT, wlc)
 
 
+        reg = RegionNameCollection()
+        reg.addFromList([Name.ISLANDS])
+        lgc = ItemReqEvalOr([])
+        wlc = WebLocationCollection([
+            WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 7), reg, lgc),
+            WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 14), reg, lgc),
+            WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 19), reg, lgc)
+        ])
 
-        if self.settings.cursedBalls is not SettingsCannonsFired.CursedBalls.OFF:
-            reg = RegionNameCollection()
-            reg.addFromList([Name.ISLANDS])
-            lgc = ItemReqEvalOr([])
-            wlc = WebLocationCollection([
-                WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 0), reg, lgc),
-                WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 1), reg, lgc),
-                WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 2), reg, lgc),
-                WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 8), reg, lgc),
-                WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 9), reg, lgc),
-                WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 10), reg, lgc),
-                WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 11), reg, lgc),
-                WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 12), reg, lgc),
-                WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 16), reg, lgc),
-                WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 17), reg, lgc),
-                WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 18), reg, lgc),
-            ])
 
-            if self.settings.cursedBalls is SettingsCannonsFired.CursedBalls.ON:
-                self.locations.append(LocDetails(self.L_ILL_CANN_CURSED, wlc))
+        do_rand: bool = self.settings.phantomBalls is SettingsCannonsFired.PhantomBalls.ON
+        self.locations.append(LocDetails(self.L_ILL_CANN_PHANT, wlc, do_rand))
 
-            if self.settings.cursedBalls is SettingsCannonsFired.CursedBalls.UNIQUE:
-                self.addUniques(self.L_ILL_CANN_CURSED, wlc)
+        do_rand: bool = self.settings.phantomBalls is SettingsCannonsFired.PhantomBalls.UNIQUE
+        self.addUniques(self.L_ILL_CANN_PHANT, wlc, do_rand)
+
+
+        reg = RegionNameCollection()
+        reg.addFromList([Name.ISLANDS])
+        lgc = ItemReqEvalOr([])
+        wlc = WebLocationCollection([
+            WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 0), reg, lgc),
+            WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 1), reg, lgc),
+            WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 2), reg, lgc),
+            WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 8), reg, lgc),
+            WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 9), reg, lgc),
+            WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 10), reg, lgc),
+            WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 11), reg, lgc),
+            WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 12), reg, lgc),
+            WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 16), reg, lgc),
+            WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 17), reg, lgc),
+            WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 18), reg, lgc),
+        ])
+
+        do_rand: bool = self.settings.cursedBalls is SettingsCannonsFired.CursedBalls.ON
+        self.locations.append(LocDetails(self.L_ILL_CANN_CURSED, wlc, do_rand))
+
+        do_rand: bool = self.settings.cursedBalls is SettingsCannonsFired.CursedBalls.UNIQUE
+        self.addUniques(self.L_ILL_CANN_CURSED, wlc, do_rand)
 

@@ -28,51 +28,51 @@ class IllFated(LocationsBase):
         self.x = [6, 0, 0]
         self.settings = settings
 
-        if self.settings.Any is not SettingsIllFated.Any.OFF:
-            reg = RegionNameCollection()
-            reg.addFromList([Name.PLAYER_SHIP])
-            lgc = ItemReqEvalOr([])
-            wlc = WebLocationCollection([
-                WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2]), reg, lgc)
-            ])
-            self.locations.append(LocDetails(self.L_ILL_DAMAGE_SHP, wlc))
+        do_rand: bool = self.settings.any is not SettingsIllFated.Any.OFF
+        reg = RegionNameCollection()
+        reg.addFromList([Name.PLAYER_SHIP])
+        lgc = ItemReqEvalOr([])
+        wlc = WebLocationCollection([
+            WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2]), reg, lgc)
+        ])
+        self.locations.append(LocDetails(self.L_ILL_DAMAGE_SHP, wlc, do_rand))
 
-            reg = RegionNameCollection()
-            reg.addFromList([Name.OPEN_SEA])
-            lgc = ItemReqEvalOr([])
-            wlc = WebLocationCollection([
-                WebLocation(WebItemJsonIdentifier(self.x[0], 1, self.x[2]), reg, lgc)
-            ])
-            self.locations.append(LocDetails(self.L_ILL_DAMAGE_STORM, wlc))
+        reg = RegionNameCollection()
+        reg.addFromList([Name.OPEN_SEA])
+        lgc = ItemReqEvalOr([])
+        wlc = WebLocationCollection([
+            WebLocation(WebItemJsonIdentifier(self.x[0], 1, self.x[2]), reg, lgc)
+        ])
+        self.locations.append(LocDetails(self.L_ILL_DAMAGE_STORM, wlc, do_rand))
 
-            reg = RegionNameCollection()
-            reg.addFromList([Name.OPEN_SEA])
-            lgc = ItemReqEvalOr([])
-            wlc = WebLocationCollection([
-                WebLocation(WebItemJsonIdentifier(self.x[0], 2, self.x[2]), reg, lgc)
-            ])
-            self.locations.append(LocDetails(self.L_ILL_DAMAGE_FIRE, wlc))
+        reg = RegionNameCollection()
+        reg.addFromList([Name.OPEN_SEA])
+        lgc = ItemReqEvalOr([])
+        wlc = WebLocationCollection([
+            WebLocation(WebItemJsonIdentifier(self.x[0], 2, self.x[2]), reg, lgc)
+        ])
+        self.locations.append(LocDetails(self.L_ILL_DAMAGE_FIRE, wlc, do_rand))
 
-            reg = RegionNameCollection()
-            reg.addFromList([Name.OPEN_SEA])
-            lgc = ItemReqEvalOr([])
-            wlc = WebLocationCollection([
-                WebLocation(WebItemJsonIdentifier(self.x[0], 3, self.x[2]), reg, lgc)
-            ])
-            self.locations.append(LocDetails(self.L_ILL_DAMAGE_REPAIR, wlc))
+        reg = RegionNameCollection()
+        reg.addFromList([Name.OPEN_SEA])
+        lgc = ItemReqEvalOr([])
+        wlc = WebLocationCollection([
+            WebLocation(WebItemJsonIdentifier(self.x[0], 3, self.x[2]), reg, lgc)
+        ])
+        self.locations.append(LocDetails(self.L_ILL_DAMAGE_REPAIR, wlc, do_rand))
 
-            reg = RegionNameCollection()
-            reg.addFromList([Name.OPEN_SEA])
-            lgc = ItemReqEvalOr([])
-            wlc = WebLocationCollection([
-                WebLocation(WebItemJsonIdentifier(self.x[0], 4, self.x[2]), reg, lgc)
-            ])
-            self.locations.append(LocDetails(self.L_ILL_DAMAGE_BAIL, wlc))
+        reg = RegionNameCollection()
+        reg.addFromList([Name.OPEN_SEA])
+        lgc = ItemReqEvalOr([])
+        wlc = WebLocationCollection([
+            WebLocation(WebItemJsonIdentifier(self.x[0], 4, self.x[2]), reg, lgc)
+        ])
+        self.locations.append(LocDetails(self.L_ILL_DAMAGE_BAIL, wlc, do_rand))
 
-            reg = RegionNameCollection()
-            reg.addFromList([Name.OPEN_SEA])
-            lgc = ItemReqEvalOr([])
-            wlc = WebLocationCollection([
-                WebLocation(WebItemJsonIdentifier(self.x[0], 5, self.x[2]), reg, lgc)
-            ])
-            self.locations.append(LocDetails(self.L_ILL_DAMAGE_SINK, wlc))
+        reg = RegionNameCollection()
+        reg.addFromList([Name.OPEN_SEA])
+        lgc = ItemReqEvalOr([])
+        wlc = WebLocationCollection([
+            WebLocation(WebItemJsonIdentifier(self.x[0], 5, self.x[2]), reg, lgc)
+        ])
+        self.locations.append(LocDetails(self.L_ILL_DAMAGE_SINK, wlc, do_rand))

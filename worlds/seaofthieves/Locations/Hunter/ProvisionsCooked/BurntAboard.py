@@ -77,54 +77,31 @@ class HunterBurntAboard(LocationsBase):
         self.x = [3, 0, 2]
         self.settings = settings
 
-        if int(self.settings.completeAny) is not SettingsHunterBurntAboard.Any.OFF:
-            self.add_any_sets()
-
-        if int(self.settings.fishCategory) is not SettingsHunterBurntAboard.Fish.OFF:
-            self.add_fish_sets()
-
-        if int(self.settings.landMeat) is not SettingsHunterBurntAboard.LandMeat.OFF:
-            self.add_meat_set_land()
-
-        if int(self.settings.bigFish) is not SettingsHunterBurntAboard.BigFish.OFF:
-            self.add_fish_set_big()
+        self.add_any_sets()
+        self.add_fish_sets()
+        self.add_meat_set_land()
+        self.add_fish_set_big()
 
     def add_any_sets(self):
+        do_rand: bool = self.settings.completeAny is not self.settings.Any.OFF
         reg = RegionNameCollection()
         reg.addFromList([Name.ISLANDS])
         lgc = ItemReqEvalOr([ItemReqEvalAnd([Items.fishing_rod])])
         wlc = WebLocationCollection([
             WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2]), reg, lgc)
         ])
-        self.locations.append(LocDetails(self.L_H_BURN, wlc))
+        self.locations.append(LocDetails(self.L_H_BURN, wlc, do_rand))
 
     def add_fish_sets(self):
-
-        setting = int(self.settings.fishCategory)
-
-        if setting == SettingsHunterBurntAboard.Fish.OFF:
-            return
-
-        if setting == SettingsHunterBurntAboard.Fish.ON:
-            #TODO Not implemented, need a thing with a weblocation of all the fishes
-            return
-
-        if (setting == SettingsHunterBurntAboard.Fish.CATEGORICAL_NAME or
-            setting == SettingsHunterBurntAboard.Fish.UNIQUE):
-
-            unique = 0
-            if(setting == SettingsHunterBurntAboard.Fish.UNIQUE):
-                unique = 1
-
-            self.add_fish_set_pondie()
-            self.add_fish_set_splashtail()
-            self.add_fish_set_islehopper()
-            self.add_fish_set_ancientscale()
-            self.add_fish_set_plentifin()
-            self.add_fish_set_wildsplash()
-            self.add_fish_set_devilfish()
-            self.add_fish_set_battlegill()
-            self.add_fish_set_wrecker()
+        self.add_fish_set_pondie()
+        self.add_fish_set_splashtail()
+        self.add_fish_set_islehopper()
+        self.add_fish_set_ancientscale()
+        self.add_fish_set_plentifin()
+        self.add_fish_set_wildsplash()
+        self.add_fish_set_devilfish()
+        self.add_fish_set_battlegill()
+        self.add_fish_set_wrecker()
 
     def add_land_sets(self):
         self.add_meat_set_land()
@@ -132,34 +109,34 @@ class HunterBurntAboard(LocationsBase):
     def addFishSetLoc(self, name: str, wlc: WebLocationCollection):
 
         setting = int(self.settings.fishCategory)
-        if setting == SettingsHunterBurntAboard.Fish.OFF:
-            return
-        elif setting == SettingsHunterBurntAboard.Fish.ON:
-            #TODO not implemented
-            return
-        elif setting == SettingsHunterBurntAboard.Fish.CATEGORICAL_NAME:
-            self.locations.append(LocDetails(name, wlc))
-        elif setting == SettingsHunterBurntAboard.Fish.UNIQUE:
-            self.addUniques(name, wlc)
+
+        do_rand: bool = setting == SettingsHunterBurntAboard.Fish.ON
+        #TODO not implemented
+
+        do_rand: bool = setting == SettingsHunterBurntAboard.Fish.CATEGORICAL_NAME
+        self.locations.append(LocDetails(name, wlc, do_rand))
+
+        do_rand: bool = setting == SettingsHunterBurntAboard.Fish.UNIQUE
+        self.addUniques(name, wlc, do_rand)
+
 
     def addLandMeatSetLoc(self, name: str, wlc: WebLocationCollection):
         setting = int(self.settings.landMeat)
-        if setting == SettingsHunterBurntAboard.LandMeat.OFF:
-            return
-        elif setting == SettingsHunterBurntAboard.LandMeat.ON:
-            self.locations.append(LocDetails(name, wlc))
-        elif setting == SettingsHunterBurntAboard.LandMeat.UNIQUE:
-            self.addUniques(name, wlc)
+        do_rand: bool = setting == SettingsHunterBurntAboard.LandMeat.ON
+        self.locations.append(LocDetails(name, wlc, do_rand))
+
+        do_rand: bool = setting == SettingsHunterBurntAboard.LandMeat.UNIQUE
+        self.addUniques(name, wlc, do_rand)
 
     def addBigFishLoc(self, name: str, wlc: WebLocationCollection):
 
         setting = int(self.settings.bigFish)
-        if setting == SettingsHunterBurntAboard.BigFish.OFF:
-            return
-        elif setting == SettingsHunterBurntAboard.BigFish.ON:
-            self.locations.append(LocDetails(name, wlc))
-        elif setting == SettingsHunterBurntAboard.BigFish.UNIQUE:
-            self.addUniques(name, wlc)
+        do_rand: bool = setting == SettingsHunterBurntAboard.BigFish.ON
+        self.locations.append(LocDetails(name, wlc, do_rand))
+
+        do_rand: bool = setting == SettingsHunterBurntAboard.BigFish.UNIQUE
+        self.addUniques(name, wlc, do_rand)
+
 
     def add_fish_set_pondie(self):
         reg = RegionNameCollection()

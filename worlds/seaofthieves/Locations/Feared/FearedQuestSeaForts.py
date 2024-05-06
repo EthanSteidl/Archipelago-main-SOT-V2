@@ -45,7 +45,7 @@ class FearedQuestSeaForts(LocationsBase):
     L_FEARED_COMP_FORTRESS_MERCY = "Defeat Mercy's End Fortress"
 
 
-    def __init__(self):
+    def __init__(self, settings: SettingsFearedQuestSeaForts):
         super().__init__()
         self.x = [4, 17, 1]
 
@@ -57,36 +57,43 @@ class FearedQuestSeaForts(LocationsBase):
         wlc = WebLocationCollection([
             WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2]), reg, lgc)
         ])
-        self.locations.append(LocDetails(self.L_FEARED_COMP_FORTRESS, wlc))
+        do_rand: bool = settings.completeAny > 0
+        self.locations.append(LocDetails(self.L_FEARED_COMP_FORTRESS, wlc, do_rand, do_rand))
 
         wlc = WebLocationCollection([
             WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 0), reg, lgc)
         ])
-        self.locations.append(LocDetails(self.L_FEARED_COMP_FORTRESS_ROYAL, wlc))
+        do_rand: bool = settings.royal > 0
+        self.locations.append(LocDetails(self.L_FEARED_COMP_FORTRESS_ROYAL, wlc, do_rand))
 
         wlc = WebLocationCollection([
             WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 1), reg, lgc)
         ])
-        self.locations.append(LocDetails(self.L_FEARED_COMP_FORTRESS_IMP, wlc))
+        do_rand: bool = settings.imp > 0
+        self.locations.append(LocDetails(self.L_FEARED_COMP_FORTRESS_IMP, wlc, do_rand))
 
         wlc = WebLocationCollection([
             WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 2), reg, lgc)
         ])
-        self.locations.append(LocDetails(self.L_FEARED_COMP_FORTRESS_GOLD, wlc))
+        do_rand: bool = settings.gold > 0
+        self.locations.append(LocDetails(self.L_FEARED_COMP_FORTRESS_GOLD, wlc, do_rand))
 
         wlc = WebLocationCollection([
             WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 3), reg, lgc)
         ])
-        self.locations.append(LocDetails(self.L_FEARED_COMP_FORTRESS_BRINE, wlc))
+        do_rand: bool = settings.brine > 0
+        self.locations.append(LocDetails(self.L_FEARED_COMP_FORTRESS_BRINE, wlc, do_rand))
 
         wlc = WebLocationCollection([
             WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 4), reg, lgc)
         ])
-        self.locations.append(LocDetails(self.L_FEARED_COMP_FORTRESS_TRAITOR, wlc))
+        do_rand: bool = settings.traitor > 0
+        self.locations.append(LocDetails(self.L_FEARED_COMP_FORTRESS_TRAITOR, wlc, do_rand))
 
         wlc = WebLocationCollection([
             WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 5), reg, lgc)
         ])
-        self.locations.append(LocDetails(self.L_FEARED_COMP_FORTRESS_MERCY, wlc))
+        do_rand: bool = settings.mercy > 0
+        self.locations.append(LocDetails(self.L_FEARED_COMP_FORTRESS_MERCY, wlc, do_rand))
 
 

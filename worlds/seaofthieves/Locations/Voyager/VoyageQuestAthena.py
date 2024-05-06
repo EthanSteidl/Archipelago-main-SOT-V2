@@ -32,7 +32,7 @@ class VoyageQuestAthena(LocationsBase):
     L_VOYAGE_COMP_AF_CURSED = "Complete Search for Cursed Treasure Voyage (AF)"
     L_VOYAGE_COMP_AF_DESTINY = "Complete Skull of Destiny Voyage (AF)"
 
-    def __init__(self):
+    def __init__(self, settings: SettingsVoyageQuestAthena):
         super().__init__()
         self.x = [1, 4, 1]
 
@@ -43,7 +43,7 @@ class VoyageQuestAthena(LocationsBase):
         wlc = WebLocationCollection([
             WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 0), reg, lgc)
         ])
-        self.locations.append(LocDetails(self.L_VOYAGE_COMP_AF_VALE, wlc))
+        self.locations.append(LocDetails(self.L_VOYAGE_COMP_AF_VALE, wlc, settings.vale > 0))
 
 
         reg = RegionNameCollection()
@@ -52,7 +52,7 @@ class VoyageQuestAthena(LocationsBase):
         wlc = WebLocationCollection([
             WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 1), reg, lgc)
         ])
-        self.locations.append(LocDetails(self.L_VOYAGE_COMP_AF_AATHENA, wlc))
+        self.locations.append(LocDetails(self.L_VOYAGE_COMP_AF_AATHENA, wlc, settings.ashenAthena > 0))
 
 
         reg = RegionNameCollection()
@@ -61,7 +61,7 @@ class VoyageQuestAthena(LocationsBase):
         wlc = WebLocationCollection([
             WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 2), reg, lgc)
         ])
-        self.locations.append(LocDetails(self.L_VOYAGE_COMP_AF_HAUNTED, wlc))
+        self.locations.append(LocDetails(self.L_VOYAGE_COMP_AF_HAUNTED, wlc, settings.haunted > 0))
 
 
         reg = RegionNameCollection()
@@ -70,7 +70,7 @@ class VoyageQuestAthena(LocationsBase):
         wlc = WebLocationCollection([
             WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 3), reg, lgc)
         ])
-        self.locations.append(LocDetails(self.L_VOYAGE_COMP_AF_LYING, wlc))
+        self.locations.append(LocDetails(self.L_VOYAGE_COMP_AF_LYING, wlc, settings.lyingMap > 0))
 
 
         reg = RegionNameCollection()
@@ -79,7 +79,7 @@ class VoyageQuestAthena(LocationsBase):
         wlc = WebLocationCollection([
             WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 4), reg, lgc)
         ])
-        self.locations.append(LocDetails(self.L_VOYAGE_COMP_AF_PICTORAL, wlc))
+        self.locations.append(LocDetails(self.L_VOYAGE_COMP_AF_PICTORAL, wlc, settings.pictoralMap > 0))
 
 
         reg = RegionNameCollection()
@@ -88,7 +88,7 @@ class VoyageQuestAthena(LocationsBase):
         wlc = WebLocationCollection([
             WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 5), reg, lgc)
         ])
-        self.locations.append(LocDetails(self.L_VOYAGE_COMP_AF_SHIP, wlc))
+        self.locations.append(LocDetails(self.L_VOYAGE_COMP_AF_SHIP, wlc, settings.shipwreckGraveyard > 0))
 
 
         reg = RegionNameCollection()
@@ -97,7 +97,7 @@ class VoyageQuestAthena(LocationsBase):
         wlc = WebLocationCollection([
             WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 6), reg, lgc)
         ])
-        self.locations.append(LocDetails(self.L_VOYAGE_COMP_AF_CLOSE, wlc))
+        self.locations.append(LocDetails(self.L_VOYAGE_COMP_AF_CLOSE, wlc, settings.closeupMap > 0))
 
 
         reg = RegionNameCollection()
@@ -106,7 +106,7 @@ class VoyageQuestAthena(LocationsBase):
         wlc = WebLocationCollection([
             WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 7), reg, lgc)
         ])
-        self.locations.append(LocDetails(self.L_VOYAGE_COMP_AF_GHOSTGAR, wlc))
+        self.locations.append(LocDetails(self.L_VOYAGE_COMP_AF_GHOSTGAR, wlc, settings.ghostGarrison > 0))
 
 
         reg = RegionNameCollection()
@@ -115,7 +115,7 @@ class VoyageQuestAthena(LocationsBase):
         wlc = WebLocationCollection([
             WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 8), reg, lgc)
         ])
-        self.locations.append(LocDetails(self.L_VOYAGE_COMP_AF_CURSED, wlc))
+        self.locations.append(LocDetails(self.L_VOYAGE_COMP_AF_CURSED, wlc, settings.legendarySearchCursed > 0))
 
 
         reg = RegionNameCollection()
@@ -124,5 +124,5 @@ class VoyageQuestAthena(LocationsBase):
         wlc = WebLocationCollection([
             WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 9), reg, lgc)
         ])
-        self.locations.append(LocDetails(self.L_VOYAGE_COMP_AF_DESTINY, wlc))
+        self.locations.append(LocDetails(self.L_VOYAGE_COMP_AF_DESTINY, wlc, settings.skullDestiny > 0))
 

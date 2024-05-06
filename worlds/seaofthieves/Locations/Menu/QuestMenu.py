@@ -26,7 +26,7 @@ class MenuQuestAll(LocationsBase):
         wlc = WebLocationCollection([
             WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], self.x[3], False), reg, lgc)
         ])
-        self.locations.append(LocDetails(self.L_PIRATE_POCKET, wlc))
+        self.locations.append(LocDetails(self.L_PIRATE_POCKET, wlc, True))
 
         reg = RegionNameCollection()
         reg.addFromList([Name.FORT_OF_THE_DAMNED])
@@ -34,7 +34,7 @@ class MenuQuestAll(LocationsBase):
         wlc = WebLocationCollection([
             WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], self.x[3], False), reg, lgc)
         ])
-        self.locations.append(LocDetails(self.L_PIRATE_FOD, wlc))
+        self.locations.append(LocDetails(self.L_PIRATE_FOD, wlc, True))
 
 
 

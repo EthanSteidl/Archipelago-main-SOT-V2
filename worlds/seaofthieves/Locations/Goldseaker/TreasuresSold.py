@@ -6,7 +6,8 @@ from ...Items.Items import ItemReqEvalOr, ItemReqEvalAnd, Items
 
 class SettingsTreasuresSold:
 
-    def __init__(self, allowSimple=1, allowRare=0):
+    def __init__(self, allowAny=1, allowSimple=1, allowRare=0):
+        self.allowAny = allowAny
         self.allowSimple = allowSimple
         self.allowRare = allowRare
 
@@ -35,7 +36,7 @@ class TreasuresSold(LocationsBase):
     L_GS_SELL_BOX_OF_WONDERS = "Sell Box of Wondrous Secrets"
 
 
-    def __init__(self):
+    def __init__(self, settings: SettingsTreasuresSold):
         super().__init__()
         self.x = [0, 1, 1]
         reg = RegionNameCollection()
@@ -44,77 +45,77 @@ class TreasuresSold(LocationsBase):
 
         web = WebItemJsonIdentifier(self.x[0], self.x[1], 0)
         wlc = WebLocationCollection([WebLocation(web, reg, lgc)])
-        self.locations.append(LocDetails(self.L_GS_SELL_ANY, wlc))
+        self.locations.append(LocDetails(self.L_GS_SELL_ANY, wlc, settings.allowAny > 0))
 
         web = WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 0)
         wlc = WebLocationCollection([WebLocation(web, reg, lgc)])
-        self.locations.append(LocDetails(self.L_GS_SELL_CHEST, wlc))
+        self.locations.append(LocDetails(self.L_GS_SELL_CHEST, wlc, settings.allowSimple > 0))
 
         web = WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 1)
         wlc = WebLocationCollection([WebLocation(web, reg, lgc)])
-        self.locations.append(LocDetails(self.L_GS_SELL_SKULL, wlc))
+        self.locations.append(LocDetails(self.L_GS_SELL_SKULL, wlc, settings.allowSimple > 0))
 
         web = WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 2)
         wlc = WebLocationCollection([WebLocation(web, reg, lgc)])
-        self.locations.append(LocDetails(self.L_GS_SELL_DARK_RELIC, wlc))
+        self.locations.append(LocDetails(self.L_GS_SELL_DARK_RELIC, wlc, settings.allowSimple > 0))
 
         web = WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 3)
         wlc = WebLocationCollection([WebLocation(web, reg, lgc)])
-        self.locations.append(LocDetails(self.L_GS_SELL_ARTIFACT, wlc))
+        self.locations.append(LocDetails(self.L_GS_SELL_ARTIFACT, wlc, settings.allowRare > 0))
 
         web = WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 4)
         wlc = WebLocationCollection([WebLocation(web, reg, lgc)])
-        self.locations.append(LocDetails(self.L_GS_SELL_VAULT_KEY, wlc))
+        self.locations.append(LocDetails(self.L_GS_SELL_VAULT_KEY, wlc, settings.allowSimple > 0))
 
         web = WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 5)
         wlc = WebLocationCollection([WebLocation(web, reg, lgc)])
-        self.locations.append(LocDetails(self.L_GS_SELL_SIREN, wlc))
+        self.locations.append(LocDetails(self.L_GS_SELL_SIREN, wlc, settings.allowRare > 0))
 
         web = WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 6)
         wlc = WebLocationCollection([WebLocation(web, reg, lgc)])
-        self.locations.append(LocDetails(self.L_GS_SELL_MERMAID_GEM, wlc))
+        self.locations.append(LocDetails(self.L_GS_SELL_MERMAID_GEM, wlc, settings.allowSimple > 0))
 
         web = WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 7)
         wlc = WebLocationCollection([WebLocation(web, reg, lgc)])
-        self.locations.append(LocDetails(self.L_GS_SELL_BREATH_OF_THE_SEA, wlc))
+        self.locations.append(LocDetails(self.L_GS_SELL_BREATH_OF_THE_SEA, wlc, settings.allowRare > 0))
 
         web = WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 8)
         wlc = WebLocationCollection([WebLocation(web, reg, lgc)])
-        self.locations.append(LocDetails(self.L_GS_SELL_CHEST_ANIMAL_CRATE, wlc))
+        self.locations.append(LocDetails(self.L_GS_SELL_CHEST_ANIMAL_CRATE, wlc, settings.allowSimple > 0))
 
         web = WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 9)
         wlc = WebLocationCollection([WebLocation(web, reg, lgc)])
-        self.locations.append(LocDetails(self.L_GS_SELL_CHEST_RESOURCE_CRATE, wlc))
+        self.locations.append(LocDetails(self.L_GS_SELL_CHEST_RESOURCE_CRATE, wlc, settings.allowSimple > 0))
 
         web = WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 10)
         wlc = WebLocationCollection([WebLocation(web, reg, lgc)])
-        self.locations.append(LocDetails(self.L_GS_SELL_CHEST_TRADE_GOODS, wlc))
+        self.locations.append(LocDetails(self.L_GS_SELL_CHEST_TRADE_GOODS, wlc, settings.allowSimple > 0))
 
         web = WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 11)
         wlc = WebLocationCollection([WebLocation(web, reg, lgc)])
-        self.locations.append(LocDetails(self.L_GS_SELL_CHEST_CARGO_GOODS, wlc))
+        self.locations.append(LocDetails(self.L_GS_SELL_CHEST_CARGO_GOODS, wlc, settings.allowSimple > 0))
 
         web = WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 12)
         wlc = WebLocationCollection([WebLocation(web, reg, lgc)])
-        self.locations.append(LocDetails(self.L_GS_SELL_FIREWORKS, wlc))
+        self.locations.append(LocDetails(self.L_GS_SELL_FIREWORKS, wlc, settings.allowSimple > 0))
 
         web = WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 13)
         wlc = WebLocationCollection([WebLocation(web, reg, lgc)])
-        self.locations.append(LocDetails(self.L_GS_SELL_GIFTS, wlc))
+        self.locations.append(LocDetails(self.L_GS_SELL_GIFTS, wlc, settings.allowRare > 0))
 
         web = WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 14)
         wlc = WebLocationCollection([WebLocation(web, reg, lgc)])
-        self.locations.append(LocDetails(self.L_GS_SELL_EM_FLAG, wlc))
+        self.locations.append(LocDetails(self.L_GS_SELL_EM_FLAG, wlc, settings.allowRare > 0))
 
         web = WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 15)
         wlc = WebLocationCollection([WebLocation(web, reg, lgc)])
-        self.locations.append(LocDetails(self.L_GS_SELL_ASHEN_TOMB, wlc))
+        self.locations.append(LocDetails(self.L_GS_SELL_ASHEN_TOMB, wlc, settings.allowRare > 0))
 
         web = WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 16)
         wlc = WebLocationCollection([WebLocation(web, reg, lgc)])
-        self.locations.append(LocDetails(self.L_GS_SELL_REAPER_CHEST, wlc))
+        self.locations.append(LocDetails(self.L_GS_SELL_REAPER_CHEST, wlc, settings.allowSimple > 0))
 
         web = WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 17)
         wlc = WebLocationCollection([WebLocation(web, reg, lgc)])
-        self.locations.append(LocDetails(self.L_GS_SELL_BOX_OF_WONDERS, wlc))
+        self.locations.append(LocDetails(self.L_GS_SELL_BOX_OF_WONDERS, wlc, settings.allowRare > 0))
 

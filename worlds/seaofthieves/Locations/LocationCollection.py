@@ -1,20 +1,16 @@
-from .Voyager.IslandVisited import VoyageIslandVisited,SettingsVoyageIslandVisited
-from .Voyager.VoyageQuestGh import VoyageQuestGh,SettingsVoyageQuestGh
-from .Voyager.VoyageQuestOos import VoyageQuestOos,SettingsVoyageQuestOos
-from .Voyager.VoyageQuestMa import VoyageQuestMa,SettingsVoyageQuestMa
-from .Voyager.VoyageQuestRor import VoyageQuestRor,SettingsVoyageQuestRor
-from .Voyager.VoyageQuestAthena import VoyageQuestAthena,SettingsVoyageQuestAthena
-from .Rouge.RogueQuestAll import RogueQuestAll,SettingsRogueQuestAll
-from .Feared.FearedQuestSeaForts import FearedQuestSeaForts,SettingsFearedQuestSeaForts
-from .Menu.QuestMenu import MenuQuestAll,SettingsMenuQuestAll
-from .Locations import SOTLocation, WebLocation, LocDetails, DoRand
+from .Voyager.IslandVisited import VoyageIslandVisited
+from .Voyager.VoyageQuestGh import VoyageQuestGh
+from .Voyager.VoyageQuestOos import VoyageQuestOos
+from .Voyager.VoyageQuestMa import VoyageQuestMa
+from .Voyager.VoyageQuestRor import VoyageQuestRor
+from .Voyager.VoyageQuestAthena import VoyageQuestAthena
+from .Rouge.RogueQuestAll import RogueQuestAll
+from .Feared.FearedQuestSeaForts import FearedQuestSeaForts
+from .Menu.QuestMenu import MenuQuestAll
+from .Locations import SOTLocation, LocDetails
 from .Hunter.ProvisionsCooked import BurntAboard, CookedAboard, Total
 from .Hunter.ProvisionsEaten import EatenAboard
-from ..Regions.Name import Name
-from ..Options import SOTOptions
-from .LocationOptions import LocationOptions
 from .Seals import Seals
-from ..Items.Items import ItemCollection
 from .Goldseaker import TreasuresSold, Chests
 from ..Configurations import SotOptionsDerived
 from .Servant import Servant
@@ -96,7 +92,10 @@ class LocationDetailsCollection:
 
                 loc_det: LocDetails = self.checkTypeToLocDetail[settingString][locName]
                 if loc_det.webLocationCollection.getFirstRegion() == regName:
-                    lst.append(SOTLocation(loc_det, player, regName))
+                    loc = SOTLocation(loc_det, player, regName)
+                    if not loc_det.doRandomize:
+                        loc.progress_type = 3 #excluded
+                    lst.append(loc)
         return lst
 
     def applyOptions(self, options: SotOptionsDerived.SotOptionsDerived):
@@ -144,7 +143,7 @@ class LocationDetailsCollection:
         #TODO this is buggy
         #self.addGoldSeakerChests()
     def addGoldSeakerTreasuresSold(self):
-        self.addLocationsToSelf(TreasuresSold.TreasuresSold().getLocations(), "SettingsTreasuresSold")
+        self.addLocationsToSelf(TreasuresSold.TreasuresSold(self.options.treasureSoldSettings).getLocations(), "SettingsTreasuresSold")
     def addGoldSeakerChests(self):
         self.addLocationsToSelf(Chests.Chests(self.options.chestSettings).getLocations(), "SettingsChests")
 
@@ -160,24 +159,24 @@ class LocationDetailsCollection:
         self.addHintsToSelf(VoyageIslandVisited().getLocations(), "HintsIslandsVisited")
 
     def addVoyageQuestGh(self):
-        self.addLocationsToSelf(VoyageQuestGh().getLocations(), "SettingsVoyageQuestGh")
+        self.addLocationsToSelf(VoyageQuestGh(self.options.voyageQuestGhSettings).getLocations(), "SettingsVoyageQuestGh")
 
     def addVoyageQuestMa(self):
-        self.addLocationsToSelf(VoyageQuestMa().getLocations(), "SettingsVoyageQuestMa")
+        self.addLocationsToSelf(VoyageQuestMa(self.options.voyageQuestMaSettings).getLocations(), "SettingsVoyageQuestMa")
 
     def addVoyageQuestOos(self):
-        self.addLocationsToSelf(VoyageQuestOos().getLocations(), "SettingsVoyageQuestOos")
+        self.addLocationsToSelf(VoyageQuestOos(self.options.voyageQuestOosSettings).getLocations(), "SettingsVoyageQuestOos")
 
     def addVoyageQuestRor(self):
-        self.addLocationsToSelf(VoyageQuestRor().getLocations(), "SettingsVoyageQuestRor")
+        self.addLocationsToSelf(VoyageQuestRor(self.options.voyageQuestRorSettings).getLocations(), "SettingsVoyageQuestRor")
 
     def addVoyageQuestAthena(self):
-        self.addLocationsToSelf(VoyageQuestAthena().getLocations(), "SettingsVoyageQuestAthena")
+        self.addLocationsToSelf(VoyageQuestAthena(self.options.voyageQuestAthenaSettings).getLocations(), "SettingsVoyageQuestAthena")
     # endregion
 
     # region Rouge
     def addAllRouge(self):
-        self.addLocationsToSelf(RogueQuestAll().getLocations(), "SettingsRogueQuestAll")
+        self.addLocationsToSelf(RogueQuestAll(self.options.rougeSettings).getLocations(), "SettingsRogueQuestAll")
     # endregion
 
 
@@ -210,6 +209,6 @@ class LocationDetailsCollection:
         self.addLocationsToSelf(CannonsFired.CannonsFired(self.options.cannonsFiredSettings).getLocations(), "SettingsCannonsFired")
 
     def addFearedQuestSeaForts(self):
-        self.addLocationsToSelf(FearedQuestSeaForts().getLocations(), "SettingsFearedQuestSeaForts")
+        self.addLocationsToSelf(FearedQuestSeaForts(self.options.fortressSettings).getLocations(), "SettingsFearedQuestSeaForts")
     # endregion
 

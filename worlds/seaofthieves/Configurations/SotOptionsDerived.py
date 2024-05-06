@@ -11,6 +11,10 @@ from ..Locations.Menu import QuestMenu
 from ..Locations.Guardian import Guardian
 from ..Locations.IllFated import IllFated
 from ..Locations.Goldseaker import Chests
+from ..Locations.Goldseaker import TreasuresSold
+from ..Locations.Voyager import VoyageQuestAthena, VoyageQuestGh, VoyageQuestMa, VoyageQuestOos, VoyageQuestRor
+from ..Locations.Rouge import RogueQuestAll
+
 class SotOptionsDerived:
 
 
@@ -27,6 +31,14 @@ class SotOptionsDerived:
         self.cannonsFiredSettings: CannonsFired.SettingsCannonsFired
         self.chestSettings: Chests.SettingsChest
 
+        self.treasureSoldSettings: TreasuresSold.SettingsTreasuresSold
+        self.voyageQuestGhSettings: VoyageQuestGh.SettingsVoyageQuestGh
+        self.voyageQuestMaSettings: VoyageQuestMa.SettingsVoyageQuestMa
+        self.voyageQuestOosSettings: VoyageQuestOos.SettingsVoyageQuestOos
+        self.voyageQuestAthenaSettings: VoyageQuestAthena.SettingsVoyageQuestAthena
+        self.voyageQuestRorSettings: VoyageQuestRor.SettingsVoyageQuestRor
+        self.rougeSettings: RogueQuestAll.SettingsRogueQuestAll
+
         if(sotOptions == None):
             self.burntAboardSettings = BurntAboard.SettingsHunterBurntAboard()
             self.cookedAboardSettings = CookedAboard.SettingsHunterCookedAboard()
@@ -39,6 +51,13 @@ class SotOptionsDerived:
             self.illFatedSettings = IllFated.SettingsIllFated()
             self.cannonsFiredSettings = CannonsFired.SettingsCannonsFired()
             self.chestSettings = Chests.SettingsChest()
+            self.treasureSoldSettings = TreasuresSold.SettingsTreasuresSold()
+            self.voyageQuestGhSettings = VoyageQuestGh.SettingsVoyageQuestGh()
+            self.voyageQuestMaSettings = VoyageQuestMa.SettingsVoyageQuestMa()
+            self.voyageQuestOosSettings = VoyageQuestOos.SettingsVoyageQuestOos()
+            self.voyageQuestAthenaSettings = VoyageQuestAthena.SettingsVoyageQuestAthena()
+            self.voyageQuestRorSettings = VoyageQuestRor.SettingsVoyageQuestRor()
+            self.rougeSettings = RogueQuestAll.SettingsRogueQuestAll()
         else:
             self.burntAboardSettings = self.__getBurntAboardSettings(sotOptions)
             self.cookedAboardSettings = self.__getCookedAboardSettings(sotOptions)
@@ -51,6 +70,15 @@ class SotOptionsDerived:
             self.illFatedSettings = self.__getIllFatedSettings(sotOptions)
             self.cannonsFiredSettings = self.__getCannonsFiredSettings(sotOptions)
             self.chestSettings = self.__getChestSettings(sotOptions)
+
+            #options without a ui element created
+            self.treasureSoldSettings = TreasuresSold.SettingsTreasuresSold()
+            self.voyageQuestGhSettings = VoyageQuestGh.SettingsVoyageQuestGh()
+            self.voyageQuestMaSettings = VoyageQuestMa.SettingsVoyageQuestMa()
+            self.voyageQuestOosSettings = VoyageQuestOos.SettingsVoyageQuestOos()
+            self.voyageQuestAthenaSettings = VoyageQuestAthena.SettingsVoyageQuestAthena()
+            self.voyageQuestRorSettings = VoyageQuestRor.SettingsVoyageQuestRor()
+            self.rougeSettings = RogueQuestAll.SettingsRogueQuestAll()
 
     def __getChestSettings(self, sotOptions: SOTOptions):
         gh_count: int = sotOptions.sellSettingsGh

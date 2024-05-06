@@ -108,26 +108,20 @@ class HunterCookedAboard(LocationsBase):
         self.x = [3, 0, 1]
         self.settings = settings
 
-        if self.settings.completeAny is not SettingsHunterCookedAboard.Any.OFF:
-            self.add_any_sets()
-
-        if self.settings.fishCategory is not SettingsHunterCookedAboard.Fish.OFF:
-            self.add_fish_sets()
-
-        if self.settings.landMeat is not SettingsHunterCookedAboard.LandMeat.OFF:
-            self.add_meat_set_land()
-
-        if self.settings.bigFish is not SettingsHunterCookedAboard.BigFish.OFF:
-            self.add_fish_set_big()
+        self.add_any_sets()
+        self.add_fish_sets()
+        self.add_meat_set_land()
+        self.add_fish_set_big()
 
     def add_any_sets(self):
+        do_rand: bool = self.settings.completeAny is not self.settings.Any.OFF
         reg = RegionNameCollection()
         reg.addFromList([Name.ISLANDS])
         lgc = ItemReqEvalOr([])
         wlc = WebLocationCollection([
             WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2]), reg, lgc)
         ])
-        self.locations.append(LocDetails(self.L_H_COOK, wlc))
+        self.locations.append(LocDetails(self.L_H_COOK, wlc, do_rand))
 
     def add_fish_sets(self):
         self.add_fish_set_pondie()
@@ -143,39 +137,33 @@ class HunterCookedAboard(LocationsBase):
         self.add_meat_set_land()
 
     def addFishSetLoc(self, name: str, wlc: WebLocationCollection):
-        if self.settings.fishCategory == SettingsHunterCookedAboard.Fish.OFF:
-            return
-        elif self.settings.fishCategory == SettingsHunterCookedAboard.Fish.ON:
-            #TODO not implemented
-            return
-        elif self.settings.fishCategory == SettingsHunterCookedAboard.Fish.CATEGORICAL_NAME:
-            self.locations.append(LocDetails(name, wlc))
-            return
-        elif self.settings.fishCategory == SettingsHunterCookedAboard.Fish.UNIQUE:
-            self.addUniques(name, wlc)
-            return
+
+        do_rand: bool = self.settings.fishCategory == SettingsHunterCookedAboard.Fish.ON
+        #TODO not implemented
+
+        do_rand: bool = self.settings.fishCategory == SettingsHunterCookedAboard.Fish.CATEGORICAL_NAME
+        self.locations.append(LocDetails(name, wlc, do_rand))
+
+        do_rand: bool = self.settings.fishCategory == SettingsHunterCookedAboard.Fish.UNIQUE
+        self.addUniques(name, wlc, do_rand)
+
 
     def addLandMeatSetLoc(self, name: str, wlc: WebLocationCollection):
-        if self.settings.landMeat == SettingsHunterCookedAboard.LandMeat.OFF:
-            pass
-        elif self.settings.landMeat == SettingsHunterCookedAboard.LandMeat.ON:
-            self.locations.append(LocDetails(name, wlc))
-        elif self.settings.landMeat == SettingsHunterCookedAboard.LandMeat.UNIQUE:
-            count = 1
-            for wl in wlc:
-                self.locations.append(LocDetails(name + ": " + str(count), WebLocationCollection([wl])))
-                count += 1
+
+        do_rand: bool = self.settings.landMeat == SettingsHunterCookedAboard.LandMeat.ON
+        self.locations.append(LocDetails(name, wlc, do_rand))
+
+        do_rand: bool = self.settings.landMeat == SettingsHunterCookedAboard.LandMeat.UNIQUE
+        self.addUniques(name, wlc, do_rand)
 
     def addBigFishLoc(self, name: str, wlc: WebLocationCollection):
-        if self.settings.bigFish == SettingsHunterCookedAboard.BigFish.OFF:
-            pass
-        elif self.settings.bigFish == SettingsHunterCookedAboard.BigFish.ON:
-            self.locations.append(LocDetails(name, wlc))
-        elif self.settings.bigFish == SettingsHunterCookedAboard.BigFish.UNIQUE:
-            count = 1
-            for wl in wlc:
-                self.locations.append(LocDetails(name + ": " + str(count), WebLocationCollection([wl])))
-                count += 1
+
+        do_rand: bool = self.settings.bigFish == SettingsHunterCookedAboard.BigFish.ON
+        self.locations.append(LocDetails(name, wlc, do_rand))
+
+        do_rand: bool = self.settings.bigFish == SettingsHunterCookedAboard.BigFish.UNIQUE
+        self.addUniques(name, wlc, do_rand)
+
 
     def add_fish_set_pondie(self):
         reg = RegionNameCollection()

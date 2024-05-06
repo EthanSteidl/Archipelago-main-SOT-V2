@@ -22,7 +22,7 @@ class RogueQuestAll(LocationsBase):
     L_ROUGE_SIT = "Sit for 1 minute (ROUGE)"
 
 
-    def __init__(self):
+    def __init__(self, settings: SettingsRogueQuestAll):
         super().__init__()
         self.x = [5, 0, 0]
         reg = RegionNameCollection()
@@ -32,17 +32,17 @@ class RogueQuestAll(LocationsBase):
 
         web = WebItemJsonIdentifier(self.x[0], 0, self.x[2])
         wlc = WebLocationCollection([WebLocation(web, reg, lgc)])
-        self.locations.append(LocDetails(self.L_ROGUE_SHANTY, wlc))
+        self.locations.append(LocDetails(self.L_ROGUE_SHANTY, wlc, settings.seaShanty > 0))
 
         web = WebItemJsonIdentifier(self.x[0], 1, self.x[2])
         wlc = WebLocationCollection([WebLocation(web, reg, lgc)])
-        self.locations.append(LocDetails(self.L_ROUGE_GROG, wlc))
+        self.locations.append(LocDetails(self.L_ROUGE_GROG, wlc, settings.grog > 0))
 
         web = WebItemJsonIdentifier(self.x[0], 2, self.x[2])
         wlc = WebLocationCollection([WebLocation(web, reg, lgc)])
-        self.locations.append(LocDetails(self.L_ROUGE_SLEEP, wlc))
+        self.locations.append(LocDetails(self.L_ROUGE_SLEEP, wlc, settings.sleeping > 0))
 
         web = WebItemJsonIdentifier(self.x[0], 3, self.x[2])
         wlc = WebLocationCollection([WebLocation(web, reg, lgc)])
-        self.locations.append(LocDetails(self.L_ROUGE_SIT, wlc))
+        self.locations.append(LocDetails(self.L_ROUGE_SIT, wlc, settings.sitting > 0))
 

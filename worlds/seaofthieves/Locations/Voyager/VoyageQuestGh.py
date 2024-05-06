@@ -5,8 +5,7 @@ from ...Regions.Name import Name
 from ...Items.Items import ItemReqEvalOr, ItemReqEvalAnd, Items
 class SettingsVoyageQuestGh:
 
-    def __init__(self, player=1, completeAny=1, xmarks=1, riddle=1, wayfinder=1, aXmarks=1, aRiddle=1, aWayfinder=1):
-        self.player = player
+    def __init__(self, completeAny=1, xmarks=1, riddle=1, wayfinder=1, aXmarks=1, aRiddle=1, aWayfinder=1):
         self.completeAny = completeAny
         self.xmarks_req_cnt = xmarks
         self.riddle_req_cnt = riddle
@@ -25,7 +24,7 @@ class VoyageQuestGh(LocationsBase):
     L_VOYAGE_COMP_GH_ARID = "Complete Ashen Riddle Map Voyage (GH)"
     L_VOYAGE_COMP_GH_AWAY = "Complete Ashen Wayfinder Voyage (GH)"
 
-    def __init__(self):
+    def __init__(self, settings: SettingsVoyageQuestGh):
         super().__init__()
         self.x = [1, 1, 1]
 
@@ -35,7 +34,7 @@ class VoyageQuestGh(LocationsBase):
         wlc = WebLocationCollection([
             WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 0), reg, lgc)
         ])
-        self.locations.append(LocDetails(self.L_VOYAGE_COMP_GH_X, wlc))
+        self.locations.append(LocDetails(self.L_VOYAGE_COMP_GH_X, wlc, settings.xmarks_req_cnt > 0))
 
 
         reg = RegionNameCollection()
@@ -44,7 +43,7 @@ class VoyageQuestGh(LocationsBase):
         wlc = WebLocationCollection([
             WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 1), reg, lgc)
         ])
-        self.locations.append(LocDetails(self.L_VOYAGE_COMP_GH_RID, wlc))
+        self.locations.append(LocDetails(self.L_VOYAGE_COMP_GH_RID, wlc, settings.riddle_req_cnt > 0))
 
 
         reg = RegionNameCollection()
@@ -53,7 +52,7 @@ class VoyageQuestGh(LocationsBase):
         wlc = WebLocationCollection([
             WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 2), reg, lgc)
         ])
-        self.locations.append(LocDetails(self.L_VOYAGE_COMP_GH_WAY, wlc))
+        self.locations.append(LocDetails(self.L_VOYAGE_COMP_GH_WAY, wlc, settings.wayfinder_req_cnt > 0))
 
 
         reg = RegionNameCollection()
@@ -62,7 +61,7 @@ class VoyageQuestGh(LocationsBase):
         wlc = WebLocationCollection([
             WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 3), reg, lgc)
         ])
-        self.locations.append(LocDetails(self.L_VOYAGE_COMP_GH_AX, wlc))
+        self.locations.append(LocDetails(self.L_VOYAGE_COMP_GH_AX, wlc, settings.aXmarks_req_cnt > 0))
 
 
         reg = RegionNameCollection()
@@ -71,7 +70,7 @@ class VoyageQuestGh(LocationsBase):
         wlc = WebLocationCollection([
             WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 4), reg, lgc)
         ])
-        self.locations.append(LocDetails(self.L_VOYAGE_COMP_GH_ARID, wlc))
+        self.locations.append(LocDetails(self.L_VOYAGE_COMP_GH_ARID, wlc, settings.aRiddle_req_cnt > 0))
 
 
         reg = RegionNameCollection()
@@ -80,5 +79,5 @@ class VoyageQuestGh(LocationsBase):
         wlc = WebLocationCollection([
             WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 5), reg, lgc)
         ])
-        self.locations.append(LocDetails(self.L_VOYAGE_COMP_GH_AWAY, wlc))
+        self.locations.append(LocDetails(self.L_VOYAGE_COMP_GH_AWAY, wlc, settings.aWayfinder_req_cnt > 0))
 

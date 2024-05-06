@@ -93,11 +93,10 @@ class HunterEatenAboard(LocationsBase):
         self.x = [3, 1, 1]
         self.settings = settings
 
-        if int(self.settings.any) is not SettingsHunterEatenAboard.Any.OFF:
-           self.add_any_sets()
+        self.add_any_sets()
+        self.add_fish_sets()
 
-        if int(self.settings.fish) is not SettingsHunterEatenAboard.Fish.OFF:
-            self.add_fish_sets()
+
 
         if int(self.settings.landMeat) is not SettingsHunterEatenAboard.LandMeat.OFF:
             self.add_meat_set_land()
@@ -112,13 +111,14 @@ class HunterEatenAboard(LocationsBase):
             self.add_bug_set()
 
     def add_any_sets(self):
+        do_rand: bool = int(self.settings.any) is not SettingsHunterEatenAboard.Any.OFF
         reg = RegionNameCollection()
         reg.addFromList([Name.MENU])
         lgc = ItemReqEvalOr([])
         wlc = WebLocationCollection([
             WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2]), reg, lgc), #this is weird and also at 3,1,0
         ])
-        self.locations.append(LocDetails(self.L_H_EAT, wlc))
+        self.locations.append(LocDetails(self.L_H_EAT, wlc, do_rand))
 
     def add_fish_sets(self):
         self.add_fish_set_pondie()
@@ -133,48 +133,49 @@ class HunterEatenAboard(LocationsBase):
     def add_land_sets(self):
         self.add_meat_set_land()
 
-    def addFishSetLoc(self, name: str, wlc: WebLocationCollection):
-        if int(self.settings.fish) == SettingsHunterEatenAboard.Fish.OFF:
-            return
-        elif int(self.settings.fish) == SettingsHunterEatenAboard.Fish.ON:
-            #TODO not implemented
-            return
-        elif int(self.settings.fish) == SettingsHunterEatenAboard.Fish.CATEGORICAL_NAME:
-            self.locations.append(LocDetails(name, wlc))
-        elif int(self.settings.fish) == SettingsHunterEatenAboard.Fish.UNIQUE:
-            self.addUniques(name, wlc)
+    def addFishSetLoc(self, name: str, wlc: WebLocationCollection, do_rand_original: bool):
 
-    def addLandMeatSetLoc(self, name: str, wlc: WebLocationCollection):
-        if int(self.settings.landMeat) == SettingsHunterEatenAboard.LandMeat.OFF:
-            return
-        elif int(self.settings.landMeat) == SettingsHunterEatenAboard.LandMeat.ON:
-            self.locations.append(LocDetails(name, wlc))
-        elif int(self.settings.landMeat) == SettingsHunterEatenAboard.LandMeat.UNIQUE:
-            self.addUniques(name, wlc)
+        do_rand: bool = do_rand_original and int(self.settings.fish) == SettingsHunterEatenAboard.Fish.ON
+        #TODO this?
 
-    def addBigFishLoc(self, name: str, wlc: WebLocationCollection):
-        if int(self.settings.bigFish) == SettingsHunterEatenAboard.BigFish.OFF:
-            return
-        elif int(self.settings.bigFish) == SettingsHunterEatenAboard.BigFish.ON:
-            self.locations.append(LocDetails(name, wlc))
-        elif int(self.settings.bigFish) == SettingsHunterEatenAboard.BigFish.UNIQUE:
-            self.addUniques(name, wlc)
+        do_rand = do_rand_original and int(self.settings.fish) == SettingsHunterEatenAboard.Fish.CATEGORICAL_NAME
+        self.locations.append(LocDetails(name, wlc, do_rand))
 
-    def addBugSetLoc(self, name: str, wlc: WebLocationCollection):
-        if int(self.settings.bug) == SettingsHunterEatenAboard.Bug.OFF:
-            return
-        elif int(self.settings.bug) == SettingsHunterEatenAboard.Bug.ON:
-            self.locations.append(LocDetails(name, wlc))
-        elif int(self.settings.bug) == SettingsHunterEatenAboard.Bug.UNIQUE:
-            self.addUniques(name, wlc)
+        do_rand = do_rand_original and int(self.settings.fish) == SettingsHunterEatenAboard.Fish.UNIQUE
+        self.addUniques(name, wlc, do_rand)
 
-    def addFruitSetLoc(self, name: str, wlc: WebLocationCollection):
-        if int(self.settings.fruit) == SettingsHunterEatenAboard.Fruit.OFF:
-            return
-        elif int(self.settings.fruit) == SettingsHunterEatenAboard.Fruit.ON:
-            self.locations.append(LocDetails(name, wlc))
-        elif int(self.settings.fruit) == SettingsHunterEatenAboard.Fruit.UNIQUE:
-            self.addUniques(name, wlc)
+    def addLandMeatSetLoc(self, name: str, wlc: WebLocationCollection, do_rand_original: bool):
+
+        do_rand: bool = do_rand_original and int(self.settings.landMeat) == SettingsHunterEatenAboard.LandMeat.ON
+        self.locations.append(LocDetails(name, wlc, do_rand))
+
+        do_rand: bool = do_rand_original and int(self.settings.landMeat) == SettingsHunterEatenAboard.LandMeat.UNIQUE
+        self.addUniques(name, wlc, do_rand)
+
+    def addBigFishLoc(self, name: str, wlc: WebLocationCollection, do_rand_original: bool):
+
+        do_rand: bool = do_rand_original and int(self.settings.bigFish) == SettingsHunterEatenAboard.BigFish.OFF
+        self.locations.append(LocDetails(name, wlc, do_rand))
+
+        do_rand: bool = do_rand_original and int(self.settings.bigFish) == SettingsHunterEatenAboard.BigFish.UNIQUE
+        self.addUniques(name, wlc, do_rand)
+
+    def addBugSetLoc(self, name: str, wlc: WebLocationCollection, do_rand_original: bool):
+
+        do_rand: bool = do_rand_original and int(self.settings.bug) == SettingsHunterEatenAboard.Bug.ON
+        self.locations.append(LocDetails(name, wlc, do_rand))
+
+        do_rand: bool = do_rand_original and int(self.settings.bug) == SettingsHunterEatenAboard.Bug.UNIQUE
+        self.addUniques(name, wlc, do_rand)
+
+    def addFruitSetLoc(self, name: str, wlc: WebLocationCollection, do_rand_original: bool):
+
+        do_rand: bool = do_rand_original and int(self.settings.fruit) == SettingsHunterEatenAboard.Fruit.ON
+        self.locations.append(LocDetails(name, wlc, do_rand))
+
+        do_rand: bool = do_rand_original and int(self.settings.fruit) == SettingsHunterEatenAboard.Fruit.UNIQUE
+        self.addUniques(name, wlc, do_rand)
+
     def add_fish_set_pondie(self):
 
         reg = RegionNameCollection()
@@ -188,7 +189,7 @@ class HunterEatenAboard(LocationsBase):
             WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 10), reg, lgc),
             WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 11), reg, lgc),
         ])
-        self.addFishSetLoc(self.L_H_CAT_EAT_PONDIE, wlc)
+        self.addFishSetLoc(self.L_H_CAT_EAT_PONDIE, wlc, True)
 
     def add_fish_set_splashtail(self) -> None:
         reg = RegionNameCollection()
@@ -201,7 +202,7 @@ class HunterEatenAboard(LocationsBase):
             WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 4), reg, lgc),
             WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 5), reg, lgc)
         ])
-        self.addFishSetLoc(self.L_H_CAT_EAT_SPLASHTAIL, wlc)
+        self.addFishSetLoc(self.L_H_CAT_EAT_SPLASHTAIL, wlc, True)
 
 
     def add_fish_set_islehopper(self):
@@ -216,7 +217,7 @@ class HunterEatenAboard(LocationsBase):
             WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 16), reg, lgc),
             WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 17), reg, lgc),
         ])
-        self.addFishSetLoc(self.L_H_CAT_EAT_ISLEHOPPER, wlc)
+        self.addFishSetLoc(self.L_H_CAT_EAT_ISLEHOPPER, wlc, True)
 
 
     def add_fish_set_ancientscale(self):
@@ -230,7 +231,7 @@ class HunterEatenAboard(LocationsBase):
             WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 22), reg, lgc),
             WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 23), reg, lgc)
         ])
-        self.addFishSetLoc(self.L_H_CAT_EAT_ANCIENTSCALE, wlc)
+        self.addFishSetLoc(self.L_H_CAT_EAT_ANCIENTSCALE, wlc, True)
 
 
     def add_fish_set_plentifin(self):
@@ -245,7 +246,7 @@ class HunterEatenAboard(LocationsBase):
             WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 28), reg, lgc),
             WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 29), reg, lgc)
         ])
-        self.addFishSetLoc(self.L_H_CAT_EAT_PLENTIFIN, wlc)
+        self.addFishSetLoc(self.L_H_CAT_EAT_PLENTIFIN, wlc, True)
 
 
     def add_fish_set_wildsplash(self):
@@ -260,7 +261,7 @@ class HunterEatenAboard(LocationsBase):
             WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 34), reg, lgc),
             WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 35), reg, lgc)
         ])
-        self.addFishSetLoc(self.L_H_CAT_EAT_WILDSPLASH, wlc)
+        self.addFishSetLoc(self.L_H_CAT_EAT_WILDSPLASH, wlc, True)
 
     def add_fish_set_devilfish(self):
         reg = RegionNameCollection()
@@ -274,7 +275,7 @@ class HunterEatenAboard(LocationsBase):
             WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 40), reg, lgc),
             WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 41), reg, lgc)
         ])
-        self.addFishSetLoc(self.L_H_CAT_EAT_DEVILFISH, wlc)
+        self.addFishSetLoc(self.L_H_CAT_EAT_DEVILFISH, wlc, True)
 
     def add_fish_set_battlegill(self):
         reg = RegionNameCollection()
@@ -288,7 +289,7 @@ class HunterEatenAboard(LocationsBase):
             WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 46), reg, lgc),
             WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 47), reg, lgc)
         ])
-        self.addFishSetLoc(self.L_H_CAT_EAT_BATTLEGILL, wlc)
+        self.addFishSetLoc(self.L_H_CAT_EAT_BATTLEGILL, wlc, True)
 
 
     def add_fish_set_wrecker(self):
@@ -303,7 +304,7 @@ class HunterEatenAboard(LocationsBase):
             WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 52), reg, lgc),
             WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 53), reg, lgc)
         ])
-        self.addFishSetLoc(self.L_H_CAT_EAT_WRECKER, wlc)
+        self.addFishSetLoc(self.L_H_CAT_EAT_WRECKER, wlc, True)
 
 
     def add_fish_set_stormfish(self):
@@ -318,7 +319,7 @@ class HunterEatenAboard(LocationsBase):
             WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 58), reg, lgc),
             WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 59), reg, lgc)
         ])
-        self.addFishSetLoc(self.L_H_CAT_EAT_STORMFISH, wlc)
+        self.addFishSetLoc(self.L_H_CAT_EAT_STORMFISH, wlc, True)
 
 
     def add_meat_set_land(self):
@@ -333,7 +334,7 @@ class HunterEatenAboard(LocationsBase):
             WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 61), reg, lgc),
             WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 62), reg, lgc)
         ])
-        self.addLandMeatSetLoc(self.L_H_CAT_EAT_LAND, wlc)
+        self.addLandMeatSetLoc(self.L_H_CAT_EAT_LAND, wlc, True)
 
 
     def add_fish_set_big(self):
@@ -347,7 +348,7 @@ class HunterEatenAboard(LocationsBase):
             WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 64), reg, lgc),
             WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 65), reg, lgc)
         ])
-        self.addBigFishLoc(self.L_H_CAT_EAT_BIG, wlc)
+        self.addBigFishLoc(self.L_H_CAT_EAT_BIG, wlc, True)
 
 
     def add_fruit_set(self):
@@ -363,7 +364,7 @@ class HunterEatenAboard(LocationsBase):
             WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 69), reg, lgc),
             WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 70), reg, lgc)
         ])
-        self.addFruitSetLoc(self.L_H_CAT_EAT_FRUIT, wlc)
+        self.addFruitSetLoc(self.L_H_CAT_EAT_FRUIT, wlc, True)
 
 
 
@@ -378,7 +379,7 @@ class HunterEatenAboard(LocationsBase):
             WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 72), reg, lgc),
             WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 73), reg, lgc)
         ])
-        self.addBugSetLoc(self.L_H_CAT_EAT_BUG, wlc)
+        self.addBugSetLoc(self.L_H_CAT_EAT_BUG, wlc, True)
 
 
 
