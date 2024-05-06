@@ -286,7 +286,7 @@ class SOT_Context(CommonContext):
             self.playerInventory.addBalanceClient(Balance.Balance(ac, db, gold_val))
 
         elif id == Items.golden_dragon:
-            print("Captain! The " + colorama.Fore.YELLOW + "Golden Dragon" + colorama.Style.RESET_ALL + " is comming for your " + colorama.Fore.GREEN + "MONEY")
+            print("Captain! The legendary" + colorama.Fore.YELLOW + Items.golden_dragon.name + colorama.Style.RESET_ALL + " is comming for your " + colorama.Fore.GREEN + "MONEY")
             self.playerInventory.setBalanceSot(Balance.Balance(-10000, -10000, -10000))
             self.add(Items.golden_dragon.name)
 

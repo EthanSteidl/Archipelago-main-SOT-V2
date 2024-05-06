@@ -79,7 +79,7 @@ class Items:
     emissary_af = ItemDetail("Emissary of Athena")
     emissary_rb = ItemDetail("Emissary of Reaper")
 
-    golden_dragon = ItemDetail("Golden Dragon")
+    golden_dragon = ItemDetail("Pirate Rick")
     golden_dragon.sound_file = "roll.mp3"
 
     seal_gh = ItemDetail("Hoarder's Seal")

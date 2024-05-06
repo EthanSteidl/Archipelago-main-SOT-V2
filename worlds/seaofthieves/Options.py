@@ -87,11 +87,11 @@ class SOTOptions(PerGameCommonOptions):
     illFated: IllFatedoptions.IllFated
 
     fishSanity: Fishoptions.FishSanity
-    sellSettingsGh: Selloptions.GhSellRange
-    sellSettingsMa: Selloptions.MaSellRange
-    sellSettingsOos: Selloptions.OosSellRange
-    sellSettingsAf: Selloptions.AfSellRange
-    sellSettingsRb: Selloptions.RbSellRange
+    #sellSettingsGh: Selloptions.GhSellRange
+    #sellSettingsMa: Selloptions.MaSellRange
+    #sellSettingsOos: Selloptions.OosSellRange
+    #sellSettingsAf: Selloptions.AfSellRange
+    #sellSettingsRb: Selloptions.RbSellRange
 
     cannonSanityBalls: Cannonsoptions.CannonSanityBalls
     cannonSanityCursed: Cannonsoptions.CannonSanityCursed
