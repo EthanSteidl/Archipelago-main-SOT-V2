@@ -84,13 +84,17 @@ class SOTOptions(PerGameCommonOptions):
     guardianSanity: Guardianoptions.GuardianSanity
     fortressSanity: Fortsoptions.FortressSanity
     illFated: IllFatedoptions.IllFated
-    cannonSanity: Cannonsoptions.CannonSanity
+
     fishSanity: Fishoptions.FishSanity
     sellSettingsGh: Selloptions.GhSellRange
     sellSettingsMa: Selloptions.MaSellRange
     sellSettingsOos: Selloptions.OosSellRange
     sellSettingsAf: Selloptions.AfSellRange
     sellSettingsRb: Selloptions.RbSellRange
+
+    cannonSanityBalls: Cannonsoptions.CannonSanityBalls
+    cannonSanityCursed: Cannonsoptions.CannonSanityCursed
+    cannonSanityPhantom: Cannonsoptions.CannonSanityPhantom
 
     foodSanityFruit: Foodoptions.MunchSanityFruit
     foodSanityFish: Foodoptions.MunchSanityFish

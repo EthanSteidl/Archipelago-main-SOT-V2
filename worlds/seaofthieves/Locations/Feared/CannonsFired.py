@@ -65,10 +65,10 @@ class CannonsFired(LocationsBase):
                 WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 15), reg, lgc)
             ])
 
-            if self.settings.defaultBalls is not SettingsCannonsFired.Balls.ON:
+            if self.settings.defaultBalls is SettingsCannonsFired.Balls.ON:
                 self.locations.append(LocDetails(self.L_ILL_CANN_DEFAULT, wlc))
 
-            if self.settings.defaultBalls is not SettingsCannonsFired.Balls.UNIQUE:
+            if self.settings.defaultBalls is SettingsCannonsFired.Balls.UNIQUE:
                 self.addUniques(self.L_ILL_CANN_DEFAULT, wlc)
 
 
@@ -84,10 +84,10 @@ class CannonsFired(LocationsBase):
                 WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 19), reg, lgc)
             ])
 
-            if self.settings.phantomBalls is not SettingsCannonsFired.PhantomBalls.ON:
+            if self.settings.phantomBalls is SettingsCannonsFired.PhantomBalls.ON:
                 self.locations.append(LocDetails(self.L_ILL_CANN_PHANT, wlc))
 
-            if self.settings.phantomBalls is not SettingsCannonsFired.PhantomBalls.UNIQUE:
+            if self.settings.phantomBalls is SettingsCannonsFired.PhantomBalls.UNIQUE:
                 self.addUniques(self.L_ILL_CANN_PHANT, wlc)
 
 
@@ -110,9 +110,9 @@ class CannonsFired(LocationsBase):
                 WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 18), reg, lgc),
             ])
 
-            if self.settings.cursedBalls is not SettingsCannonsFired.CursedBalls.ON:
+            if self.settings.cursedBalls is SettingsCannonsFired.CursedBalls.ON:
                 self.locations.append(LocDetails(self.L_ILL_CANN_CURSED, wlc))
 
-            if self.settings.cursedBalls is not SettingsCannonsFired.CursedBalls.UNIQUE:
+            if self.settings.cursedBalls is SettingsCannonsFired.CursedBalls.UNIQUE:
                 self.addUniques(self.L_ILL_CANN_CURSED, wlc)
 

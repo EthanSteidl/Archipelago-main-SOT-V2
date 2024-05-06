@@ -65,31 +65,11 @@ class SotOptionsDerived:
 
     def __getCannonsFiredSettings(self, sotOptions: SOTOptions):
 
-        defaultBalls: int = CannonsFired.SettingsCannonsFired.Balls.DEFAULT
-        cursedBalls: int = CannonsFired.SettingsCannonsFired.CursedBalls.DEFAULT
-        phantomBalls: int = CannonsFired.SettingsCannonsFired.PhantomBalls.DEFAULT
+        balls: int = int(sotOptions.cannonSanityBalls)
+        cursed: int = int(sotOptions.cannonSanityCursed)
+        phantom: int = int(sotOptions.cannonSanityPhantom)
 
-        if sotOptions.cannonSanity == 0 :
-            defaultBalls: int = CannonsFired.SettingsCannonsFired.Balls.OFF
-            cursedBalls: int = CannonsFired.SettingsCannonsFired.CursedBalls.OFF
-            phantomBalls: int = CannonsFired.SettingsCannonsFired.PhantomBalls.OFF
-        elif sotOptions.cannonSanity == 1 :
-            #TODO
-            pass
-        elif sotOptions.cannonSanity == 2:
-            defaultBalls: int = CannonsFired.SettingsCannonsFired.Balls.UNIQUE
-            cursedBalls: int = CannonsFired.SettingsCannonsFired.CursedBalls.OFF
-            phantomBalls: int = CannonsFired.SettingsCannonsFired.PhantomBalls.OFF
-        elif sotOptions.cannonSanity == 3:
-            defaultBalls: int = CannonsFired.SettingsCannonsFired.Balls.UNIQUE
-            cursedBalls: int = CannonsFired.SettingsCannonsFired.CursedBalls.ON
-            phantomBalls: int = CannonsFired.SettingsCannonsFired.PhantomBalls.ON
-        elif sotOptions.cannonSanity == 4:
-            defaultBalls: int = CannonsFired.SettingsCannonsFired.Balls.UNIQUE
-            cursedBalls: int = CannonsFired.SettingsCannonsFired.CursedBalls.UNIQUE
-            phantomBalls: int = CannonsFired.SettingsCannonsFired.PhantomBalls.UNIQUE
-
-        return CannonsFired.SettingsCannonsFired(defaultBalls, cursedBalls, phantomBalls)
+        return CannonsFired.SettingsCannonsFired(balls, cursed, phantom)
     def __getIllFatedSettings(self, sotOptions: SOTOptions):
         return IllFated.SettingsIllFated(sotOptions.illFated)
     def __getGuadianSettings(self, sotOptions: SOTOptions):
