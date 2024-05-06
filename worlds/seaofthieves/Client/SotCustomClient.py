@@ -426,7 +426,7 @@ def getSeaOfThievesDataFromArguments() -> UserInformation.UserInformation:
         if(args.address is None):
             args.address = input('Enter address:port : ')
         if (args.ship is None):
-            args.ship = input('Enter ship Number : ')
+            args.ship = input('Enter ship Number or "NA" for pirate mode: ')
         if (args.msCookie is None):
             filepath = input('Enter an absolute Filepath to a text file containing your mscookie : ')
             while not os.path.exists(filepath):
