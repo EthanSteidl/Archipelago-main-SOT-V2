@@ -160,7 +160,7 @@ class SOT_Context(CommonContext):
     command_processor = SOT_CommandProcessor
 
 
-    def __init__(self, serverAddress: str | None, serverPassword: str | None, userInformation: UserInformation.UserInformation):
+    def __init__(self, serverAddress: typing.Optional[str], serverPassword: str | None, userInformation: UserInformation.UserInformation):
         super().__init__(serverAddress, serverPassword)
         self.userInformation = userInformation
         self.analyzer: SOTDataAnalyzer.SOTDataAnalyzer = SOTDataAnalyzer.SOTDataAnalyzer(userInformation)

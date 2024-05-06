@@ -1,6 +1,6 @@
 from worlds.seaofthieves.Configurations.SotOptionsDerived import SotOptionsDerived
 
-
+from typing import Optional
 class SotLoginCredentials:
 
     def __init__(self, msCookie: str):
@@ -8,9 +8,9 @@ class SotLoginCredentials:
 
 class SotAnalyzerDetails:
 
-    def __init__(self, shipName: str | None, pirateName: str | None):
-        self.shipName: str | None = shipName
-        self.pirateName: str | None = pirateName
+    def __init__(self, shipName: Optional[str], pirateName: Optional[str]):
+        self.shipName: Optional[str] = shipName
+        self.pirateName: Optional[str] = pirateName
 
     def set_pirate(self, name: str) -> None:
         self.pirateName = name
@@ -20,10 +20,10 @@ class SotAnalyzerDetails:
         self.shipName = name
         self.pirateName = None
 
-    def get_ship(self) -> str | None:
+    def get_ship(self) -> Optional[str]:
         return self.shipName
 
-    def get_pirate(self) -> str | None:
+    def get_pirate(self) -> Optional[str]:
         return self.pirateName
 
 class UserInformation:

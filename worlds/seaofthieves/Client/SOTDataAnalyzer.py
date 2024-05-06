@@ -9,15 +9,16 @@ from worlds.seaofthieves.Locations.Locations import WebLocation
 from worlds.seaofthieves.Locations.LocationCollection import LocationDetailsCollection, LocDetails
 from worlds.seaofthieves.Items.Items import ItemCollection
 import worlds.seaofthieves.Client.Balance as Balance
+
 class SOTDataAnalyzerSettings:
 
     def __init__(self, details: UserInformation.SotAnalyzerDetails):
         self.details: UserInformation.SotAnalyzerDetails = details
 
-    def get_name_ship(self) -> str | None:
+    def get_name_ship(self) -> typing.Optional[str]:
         return self.details.get_ship()
 
-    def get_name_pirate(self) -> str | None:
+    def get_name_pirate(self) -> typing.Optional[str]:
         return self.details.get_pirate()
 
 

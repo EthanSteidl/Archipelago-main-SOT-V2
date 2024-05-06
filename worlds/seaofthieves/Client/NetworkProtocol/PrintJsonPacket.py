@@ -11,7 +11,7 @@ class PrintJsonPacket:
         self.team: int | None = dict.get('team')
         self.found: bool | None = dict.get('found')
         self.receiving: int | None = dict.get('receiving')
-        self.type: str | None = dict.get('type')
+        self.type: typing.Optional[str] = dict.get('type')
         self.data: typing.List[JSONMessagePart] | None = dict.get('data')
         self.item: NetworkItem | None = dict.get('item')
 
