@@ -103,7 +103,9 @@ class ItemCollection:
 
     items_not_randomized: typing.List[SOTItem] = []
 
-    lst: typing.List[ItemDetail] = [Items.sail, Items.sail_inferno, Items.voyage_fortress, Items.voyages_gh, Items.voyages_ma, Items.voyages_oos, Items.voyages_af, Items.voyage_of_destiny, Items.personal_weapons, Items.ship_weapons, Items.fishing_rod,
+    players: typing.List[ItemDetail] = [Items.sail]
+
+    lst: typing.List[ItemDetail] = [Items.sail_inferno, Items.voyage_fortress, Items.voyages_gh, Items.voyages_ma, Items.voyages_oos, Items.voyages_af, Items.voyage_of_destiny, Items.personal_weapons, Items.ship_weapons, Items.fishing_rod,
                        Items.emissary_gh, Items.emissary_ma, Items.emissary_oos, Items.emissary_af, Items.emissary_rb, Items.shovel, Items.voyages_rb]
 
     seals: typing.List[ItemDetail] = [Items.seal_oos,Items.seal_rb, Items.seal_af, Items.seal_ma, Items.seal_gh]
@@ -130,6 +132,8 @@ class ItemCollection:
             dic[self.combat[i].name] = self.combat[i]
         for i in range(0, len(self.helpful)):
             dic[self.helpful[i].name] = self.helpful[i]
+        for i in range(0, len(self.players)):
+            dic[self.players[i].name] = self.players[i]
 
         return dic
     def getDict(self):
@@ -142,6 +146,8 @@ class ItemCollection:
             dic[self.other[i].name] = self.other[i].id
         for i in range(0, len(self.helpful)):
             dic[self.helpful[i].name] = self.helpful[i].id
+        for i in range(0, len(self.players)):
+            dic[self.players[i].name] = self.players[i].id
         #for i in range(0, len(self.seals)):
         #   dic[self.seals[i].name] = self.seals[i].id
 

@@ -1,6 +1,8 @@
 import os
 import time
 import math
+import typing
+
 from worlds.seaofthieves.Items.Items import *
 from worlds.seaofthieves.Locations.Locations import *
 from .Options import SOTOptions
@@ -73,7 +75,9 @@ class SOTWorld(World):
 
 
     def pre_fill(self) -> None:
+        self.pre_fill_sail()
         self.pre_fill_seals()
+
         return
 
 
@@ -272,3 +276,18 @@ class SOTWorld(World):
         fill_restrictive(self.multiworld, all_state, [fod_location], [itm], True, lock=True,
                          name="SOT Seals")
 
+
+    def pre_fill_sail(self) -> None:
+
+        itm = SOTItem(Items.sail.name, ItemClassification.progression, Items.sail.id, self.player)
+        sail_item_list: typing.List[SOTItem] = [itm]
+
+        locs = []
+        for loc in self.multiworld.get_locations(self.player):
+            locs.append(loc)
+
+        all_state = self.multiworld.get_all_state(use_cache=True)
+        self.random.shuffle(locs)
+
+        fill_restrictive(self.multiworld, all_state, locs, sail_item_list, True, lock=True,
+                         name="SOT Sail")

@@ -127,10 +127,15 @@ class SOT_CommandProcessor(ClientCommandProcessor):
 
     def _cmd_locs(self):
         loc_details_possible: typing.List[LocDetails] = self.ctx.locationsReachableWithCurrentItems()
-        print("You can check " + str(len(loc_details_possible)) + " more locations. ")
+
+
+        possible = len(loc_details_possible) - len(self.ctx.locations_checked)
+        checked = len(self.ctx.locations_checked)
+        print("You can check " + str(possible) + " more locations. And have completed " + str(checked))
         for loc in loc_details_possible:
             if loc.id not in self.ctx.locations_checked:
                 print(loc.name)
+
 
     def _cmd_cshop(self):
         self.ctx.combatShop.info(self.ctx.playerInventory)
