@@ -39,7 +39,7 @@ class IllFated(LocationsBase):
 
         reg = RegionNameCollection()
         reg.addFromList([Name.OPEN_SEA])
-        lgc = ItemReqEvalOr([])
+        lgc = ItemReqEvalOr([ItemReqEvalAnd([Items.sail])])
         wlc = WebLocationCollection([
             WebLocation(WebItemJsonIdentifier(self.x[0], 1, self.x[2]), reg, lgc)
         ])
@@ -54,7 +54,7 @@ class IllFated(LocationsBase):
         self.locations.append(LocDetails(self.L_ILL_DAMAGE_FIRE, wlc, do_rand))
 
         reg = RegionNameCollection()
-        reg.addFromList([Name.OPEN_SEA])
+        reg.addFromList([Name.PLAYER_SHIP])
         lgc = ItemReqEvalOr([])
         wlc = WebLocationCollection([
             WebLocation(WebItemJsonIdentifier(self.x[0], 3, self.x[2]), reg, lgc)
@@ -62,7 +62,7 @@ class IllFated(LocationsBase):
         self.locations.append(LocDetails(self.L_ILL_DAMAGE_REPAIR, wlc, do_rand))
 
         reg = RegionNameCollection()
-        reg.addFromList([Name.OPEN_SEA])
+        reg.addFromList([Name.PLAYER_SHIP])
         lgc = ItemReqEvalOr([])
         wlc = WebLocationCollection([
             WebLocation(WebItemJsonIdentifier(self.x[0], 4, self.x[2]), reg, lgc)

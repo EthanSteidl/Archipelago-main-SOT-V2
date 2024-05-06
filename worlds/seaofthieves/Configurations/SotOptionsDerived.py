@@ -14,6 +14,7 @@ from ..Locations.Goldseaker import Chests
 from ..Locations.Goldseaker import TreasuresSold
 from ..Locations.Voyager import VoyageQuestAthena, VoyageQuestGh, VoyageQuestMa, VoyageQuestOos, VoyageQuestRor
 from ..Locations.Rouge import RogueQuestAll
+from ..Configurations import Trapsoptions
 
 class SotOptionsDerived:
 
@@ -39,6 +40,8 @@ class SotOptionsDerived:
         self.voyageQuestRorSettings: VoyageQuestRor.SettingsVoyageQuestRor
         self.rougeSettings: RogueQuestAll.SettingsRogueQuestAll
 
+        self.trapsPercentage: int
+
         if(sotOptions == None):
             self.burntAboardSettings = BurntAboard.SettingsHunterBurntAboard()
             self.cookedAboardSettings = CookedAboard.SettingsHunterCookedAboard()
@@ -58,6 +61,7 @@ class SotOptionsDerived:
             self.voyageQuestAthenaSettings = VoyageQuestAthena.SettingsVoyageQuestAthena()
             self.voyageQuestRorSettings = VoyageQuestRor.SettingsVoyageQuestRor()
             self.rougeSettings = RogueQuestAll.SettingsRogueQuestAll()
+            self.trapsPercentage = 3 #put this in a better place?
         else:
             self.burntAboardSettings = self.__getBurntAboardSettings(sotOptions)
             self.cookedAboardSettings = self.__getCookedAboardSettings(sotOptions)
@@ -70,6 +74,8 @@ class SotOptionsDerived:
             self.illFatedSettings = self.__getIllFatedSettings(sotOptions)
             self.cannonsFiredSettings = self.__getCannonsFiredSettings(sotOptions)
             self.chestSettings = self.__getChestSettings(sotOptions)
+
+            self.trapsPercentage = sotOptions.trapsPercentage.value
 
             #options without a ui element created
             self.treasureSoldSettings = TreasuresSold.SettingsTreasuresSold()

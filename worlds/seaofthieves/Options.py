@@ -11,6 +11,7 @@ from .Configurations import Treasuryoptions
 from .Configurations import Servantoptions
 from .Configurations import Guardianoptions
 from .Configurations import IllFatedoptions, Cannonsoptions, Selloptions
+from .Configurations import Trapsoptions
 
 
 class ShuffleEmissaryFlags(DefaultOnToggle):
@@ -109,6 +110,8 @@ class SOTOptions(PerGameCommonOptions):
     burnSanityFish: Foodoptions.BurnSanityFish
     burnSanitySeamonster: Foodoptions.BurnSanitySeamonster
     burnSanityLandAnimal: Foodoptions.BurnSanityLandAnimal
+
+    trapsPercentage: Trapsoptions.TrapPercentage
 
 
 

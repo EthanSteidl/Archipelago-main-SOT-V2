@@ -1,6 +1,6 @@
 import os
 import time
-
+import math
 from worlds.seaofthieves.Items.Items import *
 from worlds.seaofthieves.Locations.Locations import *
 from .Options import SOTOptions
@@ -106,7 +106,7 @@ class SOTWorld(World):
             while(i<10):
                 i += 1
                 items_to_add_to_pool += 1
-                self.multiworld.itempool.append(SOTItem(detail.name, ItemClassification.useful, detail.id, self.player))
+                self.multiworld.itempool.append(SOTItem(detail.name, ItemClassification.trap, detail.id, self.player))
 
         #sotOptions: SOTOptions = self.options
         #if sotOptions.
@@ -118,9 +118,18 @@ class SOTWorld(World):
         fillerCount = thisWorldsLocCount - items_to_add_to_pool - len(ItemCollection.seals)
 
         if fillerCount > 0:
-            for i in range(0,fillerCount-1):
-                fillItem = self.getFillerItem()
-                self.multiworld.itempool.append(fillItem)
+            #we want to set a percentage of the filler to be traps
+
+            trap_count = int(math.floor(float(fillerCount) * (float(self.sotOptionsDerived.trapsPercentage)/100.0)))
+            fillerCount -= trap_count
+
+            for i in range(0, fillerCount-1):
+                fill_item = self.getFillerItem()
+                self.multiworld.itempool.append(fill_item)
+                
+            for i in range(0, trap_count-1):
+                trap_item = self.getTrapItem()
+                self.multiworld.itempool.append(trap_item)
 
 
     def getFillerItem(self):
@@ -128,7 +137,10 @@ class SOTWorld(World):
         det: ItemDetail = self.multiworld.random.choice(filler_list)
         return SOTItem(det.name, ItemClassification.filler,  det.id, self.player)
 
-
+    def getTrapItem(self):
+        trap_list = [Items.golden_dragon]
+        det: ItemDetail = self.multiworld.random.choice(trap_list)
+        return SOTItem(det.name, ItemClassification.trap,  det.id, self.player)
     def get_filler_item_name(self) -> str:
         return self.getFillerItem().name
 
