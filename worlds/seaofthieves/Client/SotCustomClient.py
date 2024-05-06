@@ -230,7 +230,7 @@ class SOT_Context(CommonContext):
 
             self.locationDetailsCollection.applyOptions(self.options)
             self.locationDetailsCollection.addAll()
-            print(args)
+
 
         elif cmd == "LocationInfo":
             pass
@@ -361,7 +361,6 @@ class SOT_Context(CommonContext):
         completedChecks: typing.Dict[int, bool] = self.analyzer.getAllCompletedChecks()
         for k in completedChecks.keys():
             if completedChecks[k]:
-                print("Completed -> " + str(k))
                 self.locations_checked.add(k)
                 self.analyzer.stopTracking(k)
 
@@ -410,6 +409,11 @@ def getSeaOfThievesDataFromArguments() -> UserInformation.UserInformation:
         file = open(filepath, "r")
         args.msCookie
         real_cookie = str(file.read())
+        if real_cookie == "":
+            print("Your file is empty, ERROR")
+            exit(1)
+        if real_cookie[0] == "\n":
+            print("Warning: Your file contains a newline at the start file. Confirm this is correct")
         file.close()
 
     if args.options is not None:

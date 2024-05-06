@@ -16,4 +16,5 @@ class PrintJsonPacket:
         self.item: NetworkItem | None = dict.get('item')
 
     def print(self):
-        print(self.message)
+        if self.message is not None:
+            print(self.message)
