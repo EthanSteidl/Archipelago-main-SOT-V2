@@ -52,6 +52,7 @@ class SotOptionsDerived:
             self.menuSettings = QuestMenu.SettingsMenuQuestAll()
             self.guardianSettings = Guardian.SettingsVoyageQuestGa()
             self.illFatedSettings = IllFated.SettingsIllFated()
+            self.rougeSettings = RogueQuestAll.SettingsRogueQuestAll()
             self.cannonsFiredSettings = CannonsFired.SettingsCannonsFired()
             self.chestSettings = Chests.SettingsChest()
             self.treasureSoldSettings = TreasuresSold.SettingsTreasuresSold()
@@ -60,8 +61,8 @@ class SotOptionsDerived:
             self.voyageQuestOosSettings = VoyageQuestOos.SettingsVoyageQuestOos()
             self.voyageQuestAthenaSettings = VoyageQuestAthena.SettingsVoyageQuestAthena()
             self.voyageQuestRorSettings = VoyageQuestRor.SettingsVoyageQuestRor()
-            self.rougeSettings = RogueQuestAll.SettingsRogueQuestAll()
             self.trapsPercentage = 3 #put this in a better place?
+            self.experimentals: bool = False
         else:
             self.burntAboardSettings = self.__getBurntAboardSettings(sotOptions)
             self.cookedAboardSettings = self.__getCookedAboardSettings(sotOptions)
@@ -72,29 +73,119 @@ class SotOptionsDerived:
             self.menuSettings = self.__getMenuSettings(sotOptions)
             self.guardianSettings = self.__getGuadianSettings(sotOptions)
             self.illFatedSettings = self.__getIllFatedSettings(sotOptions)
+            self.rougeSettings = self.__getRougeSettings(sotOptions)
             self.cannonsFiredSettings = self.__getCannonsFiredSettings(sotOptions)
             self.chestSettings = self.__getChestSettings(sotOptions)
+            self.treasureSoldSettings = TreasuresSold.SettingsTreasuresSold()
+            self.voyageQuestGhSettings = self.__getVoyageEmGhSettings(sotOptions)
+            self.voyageQuestMaSettings = self.__getVoyageEmMaSettings(sotOptions)
+            self.voyageQuestOosSettings = self.__getVoyageEmOosSettings(sotOptions)
+            self.voyageQuestAthenaSettings = self.__getVoyageEmAfSettings(sotOptions)
+            self.voyageQuestRorSettings = self.__getVoyageEmRorSettings(sotOptions)
 
             self.trapsPercentage = sotOptions.trapsPercentage.value
+            self.experimentals = bool(sotOptions.experimentals.value)
 
             #options without a ui element created
-            self.treasureSoldSettings = TreasuresSold.SettingsTreasuresSold()
-            self.voyageQuestGhSettings = VoyageQuestGh.SettingsVoyageQuestGh()
-            self.voyageQuestMaSettings = VoyageQuestMa.SettingsVoyageQuestMa()
-            self.voyageQuestOosSettings = VoyageQuestOos.SettingsVoyageQuestOos()
-            self.voyageQuestAthenaSettings = VoyageQuestAthena.SettingsVoyageQuestAthena()
-            self.voyageQuestRorSettings = VoyageQuestRor.SettingsVoyageQuestRor()
-            self.rougeSettings = RogueQuestAll.SettingsRogueQuestAll()
+
+
+
 
     def __getChestSettings(self, sotOptions: SOTOptions):
-        gh_count: int = sotOptions.sellSettingsGh
-        ma_count: int = sotOptions.sellSettingsMa
-        oos_count: int = sotOptions.sellSettingsOos
-        af_count: int = sotOptions.sellSettingsAf
-        rb_count: int = sotOptions.sellSettingsRb
+        #gh_count: int = sotOptions.sellSettingsGh
+        #ma_count: int = sotOptions.sellSettingsMa
+        #oos_count: int = sotOptions.sellSettingsOos
+        #af_count: int = sotOptions.sellSettingsAf
+        #rb_count: int = sotOptions.sellSettingsRb
 
-        return Chests.SettingsChest(gh_count, ma_count, oos_count, rb_count, af_count)
+        #return Chests.SettingsChest(gh_count, ma_count, oos_count, rb_count, af_count)
+        return Chests.SettingsChest(0, 0, 0, 0, 0)
 
+    def __getRougeSettings(self, sotOptions: SOTOptions):
+        should_include: int = int(sotOptions.playerShip.value)
+
+        if should_include >= 1:
+            return RogueQuestAll.SettingsRogueQuestAll(1, 1, 1, 1)
+        else:
+            return RogueQuestAll.SettingsRogueQuestAll(0, 0, 0, 0)
+
+    def __getVoyageEmGhSettings(self, sotOptions: SOTOptions):
+        voyage_count: int = int(sotOptions.voyageEmGh.value)
+
+        if voyage_count == -1:
+            return VoyageQuestGh.SettingsVoyageQuestGh(1, 0, 0, 0, 0, 0, 0)
+        elif voyage_count == 0:
+            return VoyageQuestGh.SettingsVoyageQuestGh(0, 0, 0, 0, 0, 0, 0)
+
+        a = voyage_count >= 1
+        b = voyage_count >= 2
+        c = voyage_count >= 3
+        d = voyage_count >= 4
+        e = voyage_count >= 5
+        f = voyage_count >= 6
+        return VoyageQuestGh.SettingsVoyageQuestGh(0, a, b, c, d, e, f)
+
+    def __getVoyageEmRorSettings(self, sotOptions: SOTOptions):
+        voyage_count: int = int(sotOptions.voyageEmRoar.value)
+
+        if voyage_count == -1:
+            return VoyageQuestRor.SettingsVoyageQuestRor(1, 0, 0)
+        elif voyage_count == 0:
+            return VoyageQuestRor.SettingsVoyageQuestRor(0, 0, 0)
+
+        a = voyage_count >= 1
+        b = voyage_count >= 2
+        c = voyage_count >= 3
+        d = voyage_count >= 4
+        e = voyage_count >= 5
+        return VoyageQuestRor.SettingsVoyageQuestRor(0, a, b, c, d, e)
+
+    def __getVoyageEmMaSettings(self, sotOptions: SOTOptions):
+        voyage_count: int = int(sotOptions.voyageEmMa.value)
+
+        if voyage_count == -1:
+            return VoyageQuestMa.SettingsVoyageQuestMa(1, 0, 0)
+        elif voyage_count == 0:
+            return VoyageQuestMa.SettingsVoyageQuestMa(0, 0, 0)
+
+        a = voyage_count >= 1
+        b = voyage_count >= 2
+        return VoyageQuestMa.SettingsVoyageQuestMa(0, a, b)
+
+    def __getVoyageEmOosSettings(self, sotOptions: SOTOptions):
+        voyage_count: int = int(sotOptions.voyageEmOos.value)
+
+        if voyage_count == -1:
+            return VoyageQuestOos.SettingsVoyageQuestOos(1, 0, 0, 0)
+        elif voyage_count == 0:
+            return VoyageQuestOos.SettingsVoyageQuestOos(0, 0, 0, 0)
+
+        a = voyage_count >= 1
+        b = voyage_count >= 2
+        c = voyage_count >= 3
+        return VoyageQuestOos.SettingsVoyageQuestOos(0, a, b, c)
+
+    def __getVoyageEmAfSettings(self, sotOptions: SOTOptions):
+        voyage_count: int = int(sotOptions.voyageEmAf.value)
+
+        # we are including the skull of destiny in here always
+        if voyage_count == -1:
+            return VoyageQuestAthena.SettingsVoyageQuestAthena(1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+        elif voyage_count == 0:
+            return VoyageQuestAthena.SettingsVoyageQuestAthena(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+
+        a = voyage_count >= 1
+        b = voyage_count >= 2
+        c = voyage_count >= 3
+        d = voyage_count >= 4
+        e = voyage_count >= 5
+        f = voyage_count >= 6
+        g = voyage_count >= 7
+        h = voyage_count >= 8
+        i = voyage_count >= 9
+        j = voyage_count >= 10 # Always include skull? TODO
+
+        return VoyageQuestAthena.SettingsVoyageQuestAthena(0, a, b, c, d, e, f, g, h, i, j)
 
 
     def __getCannonsFiredSettings(self, sotOptions: SOTOptions):

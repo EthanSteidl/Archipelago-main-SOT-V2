@@ -12,6 +12,8 @@ from .Configurations import Servantoptions
 from .Configurations import Guardianoptions
 from .Configurations import IllFatedoptions, Cannonsoptions, Selloptions
 from .Configurations import Trapsoptions
+from .Configurations import EmVoyageoptions
+from .Configurations import Shipoptions
 
 
 class ShuffleEmissaryFlags(DefaultOnToggle):
@@ -76,15 +78,27 @@ class EmFlagRec(Range):
     range_end = 5
     default = 3
 
+class ExperimentalFeatures(Toggle):
+    """Not meant for player use. Developer use only to enable WIP mechanics.
+    Enabling this setting will likely brick generation and/or the client."""
+    default = 0
+    display_name = "Experimental Features"
+
 @dataclass
 class SOTOptions(PerGameCommonOptions):
 
     sealCount: SealsRequired
+    voyageEmGh: EmVoyageoptions.VoyageCountSpecificGh
+    voyageEmMa: EmVoyageoptions.VoyageCountSpecificMa
+    voyageEmOos: EmVoyageoptions.VoyageCountSpecificOos
+    voyageEmAf: EmVoyageoptions.VoyageCountSpecificAf
+    voyageEmRoar: EmVoyageoptions.VoyageCountSpecificRoar
 
     servantSanity: Servantoptions.ServantSanity
     guardianSanity: Guardianoptions.GuardianSanity
     fortressSanity: Fortsoptions.FortressSanity
     illFated: IllFatedoptions.IllFated
+    playerShip: Shipoptions.ShipSanity
 
     fishSanity: Fishoptions.FishSanity
     #sellSettingsGh: Selloptions.GhSellRange
@@ -112,6 +126,7 @@ class SOTOptions(PerGameCommonOptions):
     burnSanityLandAnimal: Foodoptions.BurnSanityLandAnimal
 
     trapsPercentage: Trapsoptions.TrapPercentage
+    experimentals: ExperimentalFeatures
 
 
 

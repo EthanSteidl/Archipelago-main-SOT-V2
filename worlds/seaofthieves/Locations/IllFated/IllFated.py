@@ -28,7 +28,7 @@ class IllFated(LocationsBase):
         self.x = [6, 0, 0]
         self.settings = settings
 
-        do_rand: bool = self.settings.any is not SettingsIllFated.Any.OFF
+        do_rand: bool = int(self.settings.any) is not SettingsIllFated.Any.OFF
         reg = RegionNameCollection()
         reg.addFromList([Name.PLAYER_SHIP])
         lgc = ItemReqEvalOr([])

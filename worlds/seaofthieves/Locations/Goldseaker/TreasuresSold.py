@@ -57,7 +57,7 @@ class TreasuresSold(LocationsBase):
 
         web = WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 2)
         wlc = WebLocationCollection([WebLocation(web, reg, lgc)])
-        self.locations.append(LocDetails(self.L_GS_SELL_DARK_RELIC, wlc, settings.allowSimple > 0))
+        self.locations.append(LocDetails(self.L_GS_SELL_DARK_RELIC, wlc, settings.allowRare > 0))
 
         web = WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 3)
         wlc = WebLocationCollection([WebLocation(web, reg, lgc)])

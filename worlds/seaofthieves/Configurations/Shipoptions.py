@@ -6,7 +6,7 @@ from Options import PerGameCommonOptions, Range
 from Options import DefaultOnToggle
 
 class ShipSanity(DefaultOnToggle):
-    """Adds player ship related checks"""
-    display_name = "Player Ship Locations"
+    """Adds play music, drink, sit, and sleep to location pool"""
+    display_name = "Silly Ship"
     default = 1
 

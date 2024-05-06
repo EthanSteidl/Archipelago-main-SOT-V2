@@ -5,36 +5,43 @@ from Options import DefaultOnToggle
 
 class VoyageCountSpecificAf(Range):
     """Randomly selects selected number of Athena's Fortune Voyages, adds their 'Voyage Completion' location to the location pool.
-     You will be informed of what voyages have been selected upon setting sail."""
-    range_start = 0
+     Selecting -1 will add a single location on complete any voyage. Selecting 0 will only add the Skull of Destiny."""
+    range_start = -1
     range_end = 10
-    display_name = "Voyagesanity - Athena"
+    display_name = "(VOY) Athena"
     default = 0
 
 class VoyageCountSpecificGh(Range):
     """Randomly selects selected number of Gold Hoarder Voyages, adds their 'Voyage Completion' location to the location pool.
-     You will be informed of what voyages have been selected upon setting sail."""
-    range_start = 0
+     Selecting -1 will add a single location on complete any voyage. Selecting 0 will add no loactions"""
+    range_start = -1
     range_end = 6
-    display_name = "Voyagesanity - Gold Hoarder"
+    display_name = "(VOY) Gold Hoarder"
     default = 0
 
 class VoyageCountSpecificMa(Range):
     """Randomly selects selected number of Merchant Alliance Voyages, adds their 'Voyage Completion' location to the location pool.
-     You will be informed of what voyages have been selected upon setting sail."""
-    range_start = 0
+     Selecting -1 will add a single location on complete any voyage. Selecting 0 will add no loactions"""
+    range_start = -1
     range_end = 3
-    display_name = "Voyagesanity - Merchant Alliance"
+    display_name = "(VOY) Merchant Alliance"
     default = 0
 
 class VoyageCountSpecificOos(Range):
     """Randomly selects selected number of Order of Souls Voyages, adds their 'Voyage Completion' location to the location pool.
-     You will be informed of what voyages have been selected upon setting sail."""
-    range_start = 0
+     Selecting -1 will add a single location on complete any voyage. Selecting 0 will add no loactions"""
+    range_start = -1
     range_end = 4
-    display_name = "Voyagesanity - Order of Souls"
+    display_name = "(VOY) Order of Souls"
     default = 0
 
+class VoyageCountSpecificRoar(Range):
+    """Randomly selects selected number of Devil's Roar voyages, adds their 'Voyage Completion' location to the location pool.
+     Selecting -1 will add a single location on complete any voyage. Selecting 0 will add no loactions"""
+    range_start = -1
+    range_end = 4
+    display_name = "(VOY) Devil's Roar"
+    default = 0
 
 class VoyageOnceAf(DefaultOnToggle):
     """If true, overrides Voyagesanity - Athena. Adds location check on completing any Athena Voyage"""

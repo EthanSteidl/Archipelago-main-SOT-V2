@@ -269,6 +269,9 @@ class SOT_Context(CommonContext):
             #this is where you read slot data if any
 
     def playAudio(self, key: str):
+        if not self.options.experimentals:
+            return
+
         if key in self.itemDets.keys() and self.itemDets[key].sound_file != "":
             fpath = '..\\Items\\Sounds\\' + self.itemDets[key].sound_file
             winsound.PlaySound(fpath, winsound.SND_FILENAME)
@@ -298,7 +301,7 @@ class SOT_Context(CommonContext):
             if(itm not in self.known_items_received):
                 should_play_sound = True
 
-        if should_play_sound:
+        if should_play_sound and self.options.experimentals:
             fpath = '..\\Items\\Sounds\\item_find.wav'
             winsound.PlaySound(fpath, winsound.SND_FILENAME)
         self.known_items_received = self.items_received
