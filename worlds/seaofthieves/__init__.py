@@ -119,7 +119,7 @@ class SOTWorld(World):
         for detail in ItemCollection.seals:
             self.itemCollection.items_not_randomized.append(SOTItem(detail.name, ItemClassification.progression, detail.id, self.player))
 
-        fillerCount = thisWorldsLocCount - items_to_add_to_pool - len(ItemCollection.seals)
+        fillerCount = thisWorldsLocCount - items_to_add_to_pool - len(ItemCollection.seals)-2 #TODO not sure why this 2 is here but i think its because by setting the sail, we remove 1loc 1 item in the world
 
         if fillerCount > 0:
             #we want to set a percentage of the filler to be traps
