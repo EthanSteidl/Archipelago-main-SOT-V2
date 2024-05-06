@@ -5,6 +5,7 @@ import time
 import random
 import json
 import worlds.seaofthieves.Client.UserInformation as UserInformation
+import typing
 
 class SOTWebCollector:
     AUTH = r'www.seaofthieves.com'
@@ -26,7 +27,7 @@ class SOTWebCollector:
     SEC_FETCH_SITE = r'same-origin'
     USER_AGENT = r'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36'
 
-    def __init__(self, loginCreds: UserInformation.SotLoginCredentials, QUERY_PERIOD_SECONDS: int | None):
+    def __init__(self, loginCreds: UserInformation.SotLoginCredentials, QUERY_PERIOD_SECONDS: typing.Optional[int]):
         self.loginCreds = loginCreds
         self.lastQueryTimeSeconds = -10000
         self.json = {}

@@ -4,5 +4,5 @@ import typing
 class ReceivedItemsPacket:
 
     def __init__(self, dict: dict):
-        self.index: int | None = dict.get('index')
+        self.index: typing.Optional[int] = dict.get('index')
         self.items: typing.List[NetworkItem] | None = dict.get('items')
