@@ -7,7 +7,7 @@ This application works by logging into the Sea of Thieves account on www.seaofth
 ## Modes of Play
 
 Typically randomizers have a "world" that a single player plays when finding locations. This randomizer has two modes you can play using
-- Crew Mode: Your "ship and its crew" are the player. Anything done by your "ship and its crew" is treated as one world
+- Crew Mode: Your "ship and its crew" are the player. Anything done by your "ship and its crew" is treated as one world.
 - Pirate Mode: Your "pirate" is the player. Anyting done by your "pirate" is treated as one world.
 
 Using the modes above, here are some examples of ways to play:
@@ -17,7 +17,7 @@ Using the modes above, here are some examples of ways to play:
 
 ## What does randomization do to this game?
 
-Most things that are trackable through your capainancy page are locations containing randomized items
+Most things that are trackable through your capainancy page are locations containing randomized items.
 When completing a location, you are only rewarded the item at the location if you have the required items to visit the location.
 The following items are randomized:
 1. Sail - Unlocks the ability to check locations away from the starting island
@@ -46,7 +46,7 @@ The following items are filler:
 3. Dabloons
 
 The following items are traps:
-1. Golden Dragon
+1. Pirate Rick
 
 ## What can you do with Gold?
 The game client tracks how much money you make in game. It also tracks how much money other players give you.
