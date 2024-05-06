@@ -125,8 +125,6 @@ class SOTWorld(World):
 
 
     def generate_output(self, output_directory: str):
-        if self.multiworld.players != 1:
-            return
 
         maps = {}
         for i in self.multiworld.get_locations():
