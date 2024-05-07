@@ -41,7 +41,11 @@ class SOTDataAnalyzer:
         self.banned: typing.Dict[int,bool] = {}
 
 
+    def add_ship(self, ship_id: int, cookie: str):
+        pass
 
+    def add_pirate(self, pirate_name: str, cookie: str):
+        pass
 
     def __readElementFromWebLocation(self, web_location: WebLocation, json_data):
 

@@ -72,28 +72,19 @@ async def watchGameForever(ctx):
 class SOT_CommandProcessor(ClientCommandProcessor):
     ctx: SOT_Context
 
-    def _cmd_pog(self, st: str = "") -> bool:
-
-        self.output("we pog")
-
-        return True
-
     def _cmd_hints(self) -> bool:
-
+        """Displays hints you have purchased"""
         self.ctx.playerInventory.print_hints()
         return True
 
     def _cmd_forceunlock(self) -> bool:
+        """Removes all location logic restrictions"""
         self.output("All location restrictions removed, tracking all. (Activates in 10 seconds)")
         self.ctx.forceUnlock = True
 
-    def _cmd_poggin(self) -> bool:
-
-        self.output("bring deathssss")
-
-        return True
 
     def _cmd_linkShip(self, command: str) -> bool:
+        """Tracks another ship on this world"""
         print("Not Implemented")
         return False
 
@@ -108,6 +99,7 @@ class SOT_CommandProcessor(ClientCommandProcessor):
         self.ctx.analyzer.addShip(shipName, msCookie)
         return True
     def _cmd_linkPirate(self, command: str) -> bool:
+        """Tracks another pirate on this world"""
         print("Not Implemented")
         return False
 
@@ -123,14 +115,17 @@ class SOT_CommandProcessor(ClientCommandProcessor):
         return True
 
     def _cmd_shop(self) -> bool:
+        """Opens the shop"""
         self.ctx.shop.info(self.ctx.playerInventory)
         return True
 
     def _cmd_buy(self, menu_line_number):
+        """Allows you to buy an item from the shop"""
         menu_line_number = str(menu_line_number)
         self.ctx.shop.executeAction(menu_line_number, self.ctx.playerInventory)
 
     def _cmd_locs(self):
+        """Displays locations you can currently complete"""
         loc_details_possible: typing.List[LocDetails] = self.ctx.locationsReachableWithCurrentItems()
 
 
@@ -143,10 +138,12 @@ class SOT_CommandProcessor(ClientCommandProcessor):
 
 
     def _cmd_cshop(self):
+        """Opens the combat shop"""
         self.ctx.combatShop.info(self.ctx.playerInventory)
         return True
 
     def _cmd_cbuy(self, menu_line_number):
+        """Buys an item from the combat shop"""
         menu_line_number = str(menu_line_number)
         detail: ItemDetail | None = self.ctx.combatShop.executeAction(menu_line_number, self.ctx.playerInventory)
         if detail is None:
@@ -156,6 +153,7 @@ class SOT_CommandProcessor(ClientCommandProcessor):
 
 
     def _cmd_mrkrabs(self):
+        """Gives you alot of money"""
         print("You now have alot of money.")
         self.ctx.playerInventory.addBalanceClient(Balance.Balance(100000000,100000000,10000000))
 

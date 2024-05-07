@@ -151,32 +151,33 @@ class SOTWorld(World):
 
     def generate_output(self, output_directory: str):
 
+        if self.sotOptionsDerived.experimentals:
+            self.mapss = {}
+            self.locSequence = {}
+            for i in self.multiworld.get_locations(self.player):
+                locId = i.name
+                if(i.item == None):
+                    item_name = self.get_filler_item_name()
+                else:
+                    item_name = i.item.name
+                self.mapss[locId] = item_name
+                self.locSequence[i.address] = i.name
 
-        self.mapss = {}
-        self.locSequence = {}
-        for i in self.multiworld.get_locations(self.player):
-            locId = i.name
-            if(i.item == None):
-                item_name = self.get_filler_item_name()
-            else:
-                item_name = i.item.name
-            self.mapss[locId] = item_name
-            self.locSequence[i.address] = i.name
+            data = {
+                "slot_data": self.fill_slot_data(),
+                "Location_to_item": self.mapss,
+                "locSequence": self.locSequence,
+                #"location_to_item": {self.location_name_to_id[i.name] : self.item_name_to_id[i.item.name] for i in self.multiworld.get_locations()},
+            }
 
-        data = {
-            "slot_data": self.fill_slot_data(),
-            "Location_to_item": self.mapss,
-            "locSequence": self.locSequence,
-            #"location_to_item": {self.location_name_to_id[i.name] : self.item_name_to_id[i.item.name] for i in self.multiworld.get_locations()},
-        }
+            filename = f"{self.multiworld.get_out_file_name_base(self.player)}.apsmSOT"
+            with open(os.path.join(output_directory, filename), 'w') as f:
+                json.dump(data, f)
 
         options_filename = f"{self.multiworld.get_out_file_name_base(self.player)}_Options.apsmSOTOPT"
         with open(os.path.join(output_directory, options_filename), 'wb') as f:
             pickle.dump(self.sotOptionsDerived, f)
 
-        filename = f"{self.multiworld.get_out_file_name_base(self.player)}.apsmSOT"
-        with open(os.path.join(output_directory, filename), 'w') as f:
-            json.dump(data, f)
 
     def fill_slot_data(self):
         # The client needs to know where each seal is
