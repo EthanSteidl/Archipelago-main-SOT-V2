@@ -171,6 +171,7 @@ class ItemReqEvalAnd:
 
     def __init__(self, condition: typing.List[ItemDetail]):
         self.condition: typing.List[ItemDetail] = condition
+        self.lambdaFunction = None
         pass
 
     def evaluate(self, itemsToEvalWith: typing.Set[str]) -> bool:
@@ -189,19 +190,25 @@ class ItemReqEvalAnd:
     def addAndLogic(self, item: ItemDetail):
         self.condition.append(item)
 
-    def getLambda(self, player):
-        rules = []
-        for item_detail in self.condition:
-            rules.append(lambda state: state.has(item_detail.name, player, item_detail.req_qty))
-        if rules:
-            return lambda state: all(rule(state) for rule in rules)
-        else:
-            return True
+    def lamb(self, player):
+
+        def compute(state):
+            item_names = []
+            for item_detail in self.condition:
+                item_names.append(item_detail.name)
+                #rules.append(lambda state: state.has(item_detail.name, player, item_detail.req_qty))
+            if len(item_names) > 0:
+                return state.has_all(item_names.copy(), player)
+            else:
+                return True
+
+        return compute
 
 class ItemReqEvalOr:
 
     def __init__(self, conditions: typing.List[ItemReqEvalAnd]):
         self.conditions = conditions
+        self.lambdaFunction = None
 
     def evaluate(self, itemsToEvalWith: typing.Set[str]) -> bool:
         if len(self.conditions) == 0:
@@ -215,3 +222,14 @@ class ItemReqEvalOr:
     def addAndLogic(self, detail: ItemDetail):
         for andLgc in self.conditions:
             andLgc.addAndLogic(detail)
+
+    def lamb(self, player: int):
+
+        def compute(state):
+            boolean_evaluation = True
+            for and_condition in self.conditions:
+                boolean_evaluation = boolean_evaluation and and_condition.lamb(player)(state)
+
+            return boolean_evaluation
+
+        return compute

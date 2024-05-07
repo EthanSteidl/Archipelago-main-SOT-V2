@@ -284,6 +284,10 @@ class SOT_Context(CommonContext):
         gold_ids: typing.Dict[int, int] = {Items.Filler.gold_50.id: Items.Filler.gold_50.numeric_value,
                     Items.Filler.gold_100.id: Items.Filler.gold_100.numeric_value,
                     Items.Filler.gold_500.id: Items.Filler.gold_500.numeric_value}
+
+        dabloon_ids: typing.Dict[int, int] = {Items.Filler.dabloons_25.id: Items.Filler.dabloons_25.numeric_value}
+
+        coin_ids: typing.Dict[int, int] = {Items.Filler.ancient_coins_10.id: Items.Filler.ancient_coins_10.numeric_value}
         id = itm.item
         if id in gold_ids.keys():
             gold_val = gold_ids[id]
@@ -295,6 +299,18 @@ class SOT_Context(CommonContext):
             print("Captain! The legendary" + colorama.Fore.YELLOW + Items.golden_dragon.name + colorama.Style.RESET_ALL + " is comming for your " + colorama.Fore.GREEN + "MONEY")
             self.playerInventory.setBalanceSot(Balance.Balance(-10000, -10000, -10000))
             self.add(Items.golden_dragon.name)
+
+        elif id in dabloon_ids.keys():
+            gold_val = 0
+            ac = 0
+            db = dabloon_ids[id]
+            self.playerInventory.addBalanceClient(Balance.Balance(ac, db, gold_val))
+
+        elif id in coin_ids.keys():
+            gold_val = 0
+            ac = coin_ids[id]
+            db = 0
+            self.playerInventory.addBalanceClient(Balance.Balance(ac, db, gold_val))
 
         return
 

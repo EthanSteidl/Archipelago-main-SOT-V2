@@ -86,7 +86,7 @@ class SOTWorld(World):
         self.regionAdder: RegionAdder = create_regions(self.multiworld, self.sotOptionsDerived, self.player, self.locationCollection)
 
     def set_rules(self):
-        set_rules(self.multiworld, self.options, self.player, self.locationCollection, self.regionAdder)
+        set_rules(self.multiworld, self.sotOptionsDerived, self.player, self.regionAdder)
 
 
     def create_item(self, name: str) -> Item:

@@ -34,10 +34,17 @@ class WebLocation:
     def __init__(self, webJsonIdentifier: WebItemJsonIdentifier, regionCollection: RegionNameCollection, itemLogic: ItemReqEvalOr):
         self.webJsonIdentifier = webJsonIdentifier
         self.regionCollection = regionCollection
-        self.itemLogic : ItemReqEvalOr = itemLogic
+        self.itemLogic: ItemReqEvalOr = itemLogic
 
     def evaluate(self, itemSet: typing.Set[str]) -> bool:
         return self.itemLogic.evaluate(itemSet)
+
+    def lamb(self, player: int):
+
+        def compute(state):
+            return self.itemLogic.lamb(player)(state)
+
+        return compute
 
     def toDic(self):
         dic = {
@@ -71,6 +78,18 @@ class WebLocationCollection(typing.List[WebLocation]):
            if(web_loc.evaluate(itemSet)):
                return True
         return False
+
+    def lamb(self, player: int):
+
+        def compute(state):
+
+            boolean_evaluation = True
+            for web_location in self:
+                boolean_evaluation = boolean_evaluation and web_location.lamb(player)(state)
+
+            return boolean_evaluation
+
+        return compute
 
     def toJSON(self):
         return {1: 1}
@@ -113,21 +132,18 @@ class LocDetails:
 
 
     def setLambda(self, loc, player):
-        rules = []
-        for web_location in self.webLocationCollection:
-            # look at each set of items that can get the thing for this spot / region combination
-            for and_condition in web_location.itemLogic.conditions:
-                try:
-                    rules.append(and_condition.getLambda(player))
-                except:
-                    pass
-        if rules:
-            if len(rules) == 1:
-                return rules[0]
-            else:
-                add_rule(loc, lambda state: any(rule(state) for rule in rules))
-        else:
-            pass
+
+        def compute(state):
+            boolean_evaluation = True
+            for web_location in self.webLocationCollection:
+                # look at each set of items that can get the thing for this spot / region combination
+                boolean_evaluation = boolean_evaluation or web_location.lamb(player)
+            return boolean_evaluation
+
+        add_rule(loc, compute)
+
+    def getLambda(self, player: int):
+        return self.webLocationCollection.getLambda(player)
 
 
     def toDic(self):
