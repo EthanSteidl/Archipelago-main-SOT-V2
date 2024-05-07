@@ -3,6 +3,7 @@ import time
 import math
 import typing
 
+import Utils
 from worlds.seaofthieves.Items.Items import *
 from worlds.seaofthieves.Locations.Locations import *
 from .Options import SOTOptions
@@ -137,8 +138,15 @@ class SOTWorld(World):
 
 
     def getFillerItem(self):
-        filler_list = [Items.Filler.gold_50, Items.Filler.gold_100, Items.Filler.gold_500]
-        det: ItemDetail = self.multiworld.random.choice(filler_list)
+        rand_val = self.random.random()
+        det: ItemDetail
+        if rand_val > 0.96:
+            det = Items.Filler.ancient_coins_10
+        elif rand_val > 0.72:
+            det = Items.Filler.dabloons_25
+        else:
+            filler_list = [Items.Filler.gold_50, Items.Filler.gold_100, Items.Filler.gold_500]
+            det = self.multiworld.random.choice(filler_list)
         return SOTItem(det.name, ItemClassification.filler,  det.id, self.player)
 
     def getTrapItem(self):
@@ -151,6 +159,7 @@ class SOTWorld(World):
 
     def generate_output(self, output_directory: str):
 
+        #Utils.visualize_regions(self.multiworld.get_region("Menu", self.player), f"{self.multiworld.get_out_file_name_base(self.player)}.svg")
         if self.sotOptionsDerived.experimentals:
             self.mapss = {}
             self.locSequence = {}

@@ -29,7 +29,7 @@ class VoyageQuestGh(LocationsBase):
         self.x = [1, 1, 1]
 
         reg = RegionNameCollection()
-        reg.addFromList([Name.ISLANDS])
+        reg.addFromList([Name.DOMAIN_GH])
         lgc = ItemReqEvalOr([ItemReqEvalAnd([Items.sail, Items.voyages_gh])])
         wlc = WebLocationCollection([
             WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 0), reg, lgc)
@@ -38,7 +38,7 @@ class VoyageQuestGh(LocationsBase):
 
 
         reg = RegionNameCollection()
-        reg.addFromList([Name.ISLANDS])
+        reg.addFromList([Name.DOMAIN_GH])
         lgc = ItemReqEvalOr([ItemReqEvalAnd([Items.sail, Items.voyages_gh])])
         wlc = WebLocationCollection([
             WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 1), reg, lgc)
@@ -47,7 +47,7 @@ class VoyageQuestGh(LocationsBase):
 
 
         reg = RegionNameCollection()
-        reg.addFromList([Name.ISLANDS])
+        reg.addFromList([Name.DOMAIN_GH])
         lgc = ItemReqEvalOr([ItemReqEvalAnd([Items.sail, Items.voyages_gh])])
         wlc = WebLocationCollection([
             WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 2), reg, lgc)
@@ -56,7 +56,7 @@ class VoyageQuestGh(LocationsBase):
 
 
         reg = RegionNameCollection()
-        reg.addFromList([Name.ISLANDS])
+        reg.addFromList([Name.ROAR])
         lgc = ItemReqEvalOr([ItemReqEvalAnd([Items.sail, Items.voyages_gh])])
         wlc = WebLocationCollection([
             WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 3), reg, lgc)
@@ -65,7 +65,7 @@ class VoyageQuestGh(LocationsBase):
 
 
         reg = RegionNameCollection()
-        reg.addFromList([Name.ISLANDS])
+        reg.addFromList([Name.ROAR])
         lgc = ItemReqEvalOr([ItemReqEvalAnd([Items.sail, Items.voyages_gh, Items.sail_inferno])])
         wlc = WebLocationCollection([
             WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 4), reg, lgc)
@@ -74,7 +74,7 @@ class VoyageQuestGh(LocationsBase):
 
 
         reg = RegionNameCollection()
-        reg.addFromList([Name.ISLANDS])
+        reg.addFromList([Name.ROAR])
         lgc = ItemReqEvalOr([ItemReqEvalAnd([Items.sail, Items.voyages_gh, Items.sail_inferno])])
         wlc = WebLocationCollection([
             WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 5), reg, lgc)

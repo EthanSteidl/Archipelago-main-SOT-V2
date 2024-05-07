@@ -55,6 +55,12 @@ class Items:
         gold_500 = ItemDetail("500 Gold")
         gold_500.numeric_value = 500
 
+        dabloons_25 = ItemDetail("25 Dabloons")
+        dabloons_25.numeric_value = 25
+
+        ancient_coins_10 = ItemDetail("10 Ancient Coins")
+        ancient_coins_10.numeric_value = 10
+
     upgrade_cnt_gh = ItemDetail("Sell Item (GH)")
     upgrade_cnt_ma = ItemDetail("Sell Item (MA)")
     upgrade_cnt_oos = ItemDetail("Sell Item (OOS)")
@@ -112,7 +118,7 @@ class ItemCollection:
 
     helpful: typing.List[ItemDetail] = [Items.golden_dragon]
 
-    other: typing.List[ItemDetail] = [Items.Filler.gold_50, Items.Filler.gold_100, Items.Filler.gold_500, Items.pirate_legend]
+    other: typing.List[ItemDetail] = [Items.Filler.gold_50, Items.Filler.gold_100, Items.Filler.gold_500, Items.pirate_legend, Items.Filler.dabloons_25, Items.Filler.ancient_coins_10]
 
     combat: typing.List[ItemDetail] = [Items.Combat.c_tac_missle, Items.Combat.c_nuke, Items.Combat.c_def_plasma, Items.Combat.c_torp_bomber, Items.Combat.c_orbital_rail]
     #Note seals are not added cause we dont want them randomzed in the general pool

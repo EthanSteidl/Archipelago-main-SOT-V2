@@ -23,7 +23,7 @@ class VoyageQuestMa(LocationsBase):
 
 
         reg = RegionNameCollection()
-        reg.addFromList([Name.OPEN_SEA])
+        reg.addFromList([Name.DOMAIN_MA])
         lgc = ItemReqEvalOr([ItemReqEvalAnd([Items.voyages_ma, Items.sail])])
         wlc = WebLocationCollection([
             WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 0) , reg, lgc)
@@ -32,7 +32,7 @@ class VoyageQuestMa(LocationsBase):
 
 
         reg = RegionNameCollection()
-        reg.addFromList([Name.OPEN_SEA])
+        reg.addFromList([Name.DOMAIN_MA])
         lgc = ItemReqEvalOr([ItemReqEvalAnd([Items.voyages_ma, Items.sail])])
         wlc = WebLocationCollection([
             WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 1) , reg, lgc)

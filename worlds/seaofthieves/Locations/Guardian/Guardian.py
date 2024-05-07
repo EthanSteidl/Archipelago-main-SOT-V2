@@ -38,16 +38,16 @@ class VoyageQuestGa(LocationsBase):
         self.settings = settings
 
         reg = RegionNameCollection()
-        reg.addFromList([Name.DOMAIN_SV])
-        lgc = ItemReqEvalOr([ItemReqEvalAnd([Items.ship_weapons, Items.personal_weapons, Items.sail])])
+        reg.addFromList([Name.DOMAIN_GF])
+        lgc = ItemReqEvalOr([ItemReqEvalAnd([Items.ship_weapons, Items.personal_weapons, Items.sail, Items.emissary_af])])
         wlc = WebLocationCollection([
             WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], 0), reg, lgc)
         ])
         self.locations.append(LocDetails(self.L_SERV_GUARDIANS_SUNK_SLOOP, wlc, self.settings.any is not SettingsVoyageQuestGa.Any.OFF))
 
         reg = RegionNameCollection()
-        reg.addFromList([Name.DOMAIN_SV])
-        lgc = ItemReqEvalOr([ItemReqEvalAnd([Items.ship_weapons, Items.personal_weapons, Items.sail])])
+        reg.addFromList([Name.DOMAIN_GF])
+        lgc = ItemReqEvalOr([ItemReqEvalAnd([Items.ship_weapons, Items.personal_weapons, Items.sail, Items.emissary_af])])
         wlc = WebLocationCollection([
             WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 0), reg, lgc)
         ])
@@ -55,8 +55,8 @@ class VoyageQuestGa(LocationsBase):
 
 
         reg = RegionNameCollection()
-        reg.addFromList([Name.DOMAIN_SV])
-        lgc = ItemReqEvalOr([ItemReqEvalAnd([Items.ship_weapons, Items.personal_weapons, Items.sail])])
+        reg.addFromList([Name.DOMAIN_GF])
+        lgc = ItemReqEvalOr([ItemReqEvalAnd([Items.ship_weapons, Items.personal_weapons, Items.sail, Items.emissary_af])])
         wlc = WebLocationCollection([
             WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 1), reg, lgc)
         ])

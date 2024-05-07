@@ -40,7 +40,7 @@ class VoyageQuestSv(LocationsBase):
         do_rand: bool = self.settings.any is not SettingsVoyageQuestSv.Any.OFF
         reg = RegionNameCollection()
         reg.addFromList([Name.DOMAIN_SV])
-        lgc = ItemReqEvalOr([ItemReqEvalAnd([Items.ship_weapons, Items.personal_weapons, Items.sail])])
+        lgc = ItemReqEvalOr([ItemReqEvalAnd([Items.ship_weapons, Items.personal_weapons, Items.sail, Items.emissary_rb])])
         wlc = WebLocationCollection([
             WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], 0), reg, lgc)
         ])
@@ -49,7 +49,7 @@ class VoyageQuestSv(LocationsBase):
         do_rand: bool = self.settings.sloop is not SettingsVoyageQuestSv.Sloop.OFF
         reg = RegionNameCollection()
         reg.addFromList([Name.DOMAIN_SV])
-        lgc = ItemReqEvalOr([ItemReqEvalAnd([Items.ship_weapons, Items.personal_weapons, Items.sail])])
+        lgc = ItemReqEvalOr([ItemReqEvalAnd([Items.ship_weapons, Items.personal_weapons, Items.sail, Items.emissary_rb])])
         wlc = WebLocationCollection([
             WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 0), reg, lgc)
         ])
@@ -58,7 +58,7 @@ class VoyageQuestSv(LocationsBase):
         do_rand: bool = self.settings.brig is not SettingsVoyageQuestSv.Brig.OFF
         reg = RegionNameCollection()
         reg.addFromList([Name.DOMAIN_SV])
-        lgc = ItemReqEvalOr([ItemReqEvalAnd([Items.ship_weapons, Items.personal_weapons, Items.sail])])
+        lgc = ItemReqEvalOr([ItemReqEvalAnd([Items.ship_weapons, Items.personal_weapons, Items.sail, Items.emissary_rb])])
         wlc = WebLocationCollection([
             WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 1), reg, lgc)
         ])
@@ -67,7 +67,7 @@ class VoyageQuestSv(LocationsBase):
         do_rand: bool = self.settings.gal is not SettingsVoyageQuestSv.Gal.OFF
         reg = RegionNameCollection()
         reg.addFromList([Name.DOMAIN_SV])
-        lgc = ItemReqEvalOr([ItemReqEvalAnd([Items.ship_weapons, Items.personal_weapons, Items.sail])])
+        lgc = ItemReqEvalOr([ItemReqEvalAnd([Items.ship_weapons, Items.personal_weapons, Items.sail, Items.emissary_rb])])
         wlc = WebLocationCollection([
             WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 3), reg, lgc)
         ])

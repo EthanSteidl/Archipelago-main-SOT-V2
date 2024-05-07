@@ -26,7 +26,7 @@ class VoyageQuestOos(LocationsBase):
 
 
         reg = RegionNameCollection()
-        reg.addFromList([Name.OPEN_SEA])
+        reg.addFromList([Name.DOMAIN_OOS])
         lgc = ItemReqEvalOr(
             [ItemReqEvalAnd([Items.voyages_oos, Items.sail, Items.ship_weapons, Items.personal_weapons])])
         wlc = WebLocationCollection([
@@ -46,7 +46,7 @@ class VoyageQuestOos(LocationsBase):
 
 
         reg = RegionNameCollection()
-        reg.addFromList([Name.OPEN_SEA])
+        reg.addFromList([Name.DOMAIN_OOS])
         lgc = ItemReqEvalOr(
             [ItemReqEvalAnd([Items.voyages_oos, Items.sail, Items.ship_weapons])])
         wlc = WebLocationCollection([
