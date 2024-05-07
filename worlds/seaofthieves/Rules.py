@@ -34,6 +34,7 @@ def set_rules(world: MultiWorld, options: SotOptionsDerived.SotOptionsDerived, p
 
     # Make Win Condition Rules
     world.completion_condition[player] = lambda state: state.has(Items.pirate_legend.name, player)
+    return rules
 
 #
 # def set_rules(world: MultiWorld, options: SOTOptions, player: int, locCollection: LocationDetailsCollection, regionAdder: RegionAdder):

@@ -6,7 +6,69 @@ import copy
 from ..Items.Items import Items,ItemCollection, ItemDetail
 from ..Regions.RegionDetails import Regions
 from ..Regions.ConnectionDetails import ConnectionDetails
-from ..Items.Items import ItemCollection,ItemReqEvalOr,ItemReqEvalAnd
+from ..Items.Items import ItemCollection,ItemReqEvalOr,ItemReqEvalAnd, ItemDetail
+import collections
+
+class RegionDiver:
+
+
+    def __init__(self):
+        # IN form
+        # map[reg_start][reg_end] = Item_logic
+        self.region_map = {}
+        self.visited = set()
+
+
+        self.initDone = False
+        self.items_player_has: typing.Set[str] = set()
+
+
+    def __can_i_traverse(self,start: typing.Optional[str], end: str, current_items: typing.Set[str]) -> bool:
+        if start is None:
+            return True
+        itm_logic: ItemReqEvalOr = self.region_map[start][end]
+        return itm_logic.evaluate(current_items)
+
+
+
+    def __dfs_util(self, to_node: str):
+        self.visited.clear()
+        self.__dfs(to_node, None)
+    def __dfs(self, to_node: str, from_node: typing.Optional[str]):
+        if (to_node not in self.visited) and self.__can_i_traverse(from_node, to_node, self.items_player_has):
+            self.visited.add(to_node)
+            #visit here
+
+            #end ^
+            for n in self.region_map[to_node]:
+                self.__dfs(n, to_node)
+
+                #walk out here
+
+                #end ^
+
+    def update(self, items: typing.Set[str]):
+
+        #if the items are the same, then the length should not change
+        if len(items) == len(self.items_player_has) and self.initDone:
+            return
+
+        self.initDone = True
+        node = "Menu"
+        self.items_player_has = items
+        self.__dfs_util(node)
+
+    def get_regions_accessbile(self, items: typing.Set[str]) -> typing.Set[str]:
+        self.update(items)
+        return self.visited
+
+
+    def create_from_rules(self, rules: typing.List[ConnectionDetails]):
+        for connection_detail in rules:
+            # here to there needs these items
+            if connection_detail.start.name not in self.region_map.keys():
+                self.region_map[connection_detail.start.name] = {}
+            self.region_map[connection_detail.start.name][connection_detail.end.name] = connection_detail.itemLogic
 
 
 

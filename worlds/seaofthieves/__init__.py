@@ -86,7 +86,7 @@ class SOTWorld(World):
         self.regionAdder: RegionAdder = create_regions(self.multiworld, self.sotOptionsDerived, self.player, self.locationCollection)
 
     def set_rules(self):
-        set_rules(self.multiworld, self.sotOptionsDerived, self.player, self.regionAdder)
+        self.region_rules = set_rules(self.multiworld, self.sotOptionsDerived, self.player, self.regionAdder)
 
 
     def create_item(self, name: str) -> Item:
@@ -186,6 +186,10 @@ class SOTWorld(World):
         options_filename = f"{self.multiworld.get_out_file_name_base(self.player)}_Options.apsmSOTOPT"
         with open(os.path.join(output_directory, options_filename), 'wb') as f:
             pickle.dump(self.sotOptionsDerived, f)
+
+        options_filename = f"{self.multiworld.get_out_file_name_base(self.player)}_Options.apsmSOTREG"
+        with open(os.path.join(output_directory, options_filename), 'wb') as f:
+            pickle.dump(self.region_rules, f)
 
 
     def fill_slot_data(self):

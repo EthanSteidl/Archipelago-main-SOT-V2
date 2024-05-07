@@ -28,9 +28,10 @@ class SotAnalyzerDetails:
 
 class UserInformation:
 
-    def __init__(self, sotLoginCreds: SotLoginCredentials, sotAnalyzerDetails: SotAnalyzerDetails, address: str, username: str, options: SotOptionsDerived):
+    def __init__(self, sotLoginCreds: SotLoginCredentials, sotAnalyzerDetails: SotAnalyzerDetails, address: str, username: str, options: SotOptionsDerived, regionLogic: list):
         self.loginCreds: SotLoginCredentials = sotLoginCreds
         self.analyzerDetails: SotAnalyzerDetails = sotAnalyzerDetails
         self.address: str = address
         self.username: str = username
         self.options: SotOptionsDerived = options
+        self.regionLogic = regionLogic

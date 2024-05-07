@@ -182,6 +182,7 @@ class SOT_Context(CommonContext):
         self.originalBalance: Balance.Balance | None = None
 
         self.options: SotOptionsDerived = SotOptionsDerived()
+        self.region_connection_details = userInformation.regionLogic
 
         self.forceUnlock = False
 
@@ -233,6 +234,7 @@ class SOT_Context(CommonContext):
 
             self.locationDetailsCollection.applyOptions(self.options)
             self.locationDetailsCollection.addAll()
+            self.locationDetailsCollection.applyRegionDiver(self.region_connection_details)
 
 
         elif cmd == "LocationInfo":
@@ -420,6 +422,8 @@ def getSeaOfThievesDataFromArguments() -> UserInformation.UserInformation:
                         help='Microsoft login cookie given to www.seaofthieves.com', nargs='+')
     parser.add_argument('--options', dest='options', type=str,
                         help='Options YAML file', nargs='+')
+    parser.add_argument('--regionLogic', dest='regionLogic', type=str,
+                        help='Options YAML file', nargs='+')
     args = parser.parse_args()
     if args.msCookie is not None:
         filepath = args.msCookie[0]
@@ -439,13 +443,23 @@ def getSeaOfThievesDataFromArguments() -> UserInformation.UserInformation:
         filepath = args.options[0]
         while not os.path.exists(filepath):
             filepath = input(
-                'File not found. Enter an absolute Filepath to a text file containing your options.yaml : ')
+                'File not found. Enter an absolute Filepath to a text file containing your options: ')
         file = open(filepath, "rb")
         options = pickle.load(file)
         file.close()
 
+    if args.regionLogic is not None:
+        filepath = args.regionLogic[0]
+        while not os.path.exists(filepath):
+            filepath = input(
+                'File not found. Enter an absolute Filepath to a text file containing your Region Logic : ')
+        file = open(filepath, "rb")
+        region_logic = pickle.load(file)
+        file.close()
 
-    if( args.address is None or args.ship is None or args.msCookie is None or args.username is None or args.options is None):
+
+
+    if( args.address is None or args.ship is None or args.msCookie is None or args.username is None or args.options is None or args.regionLogic is None):
         print("Error: Expected command line arguments")
         print("Required \"--address <ipaddress:port>\"")
         print("Required \"--ship <shipNumber>\"")
@@ -471,9 +485,17 @@ def getSeaOfThievesDataFromArguments() -> UserInformation.UserInformation:
             filepath = input('Enter an absolute Filepath to a text file containing your options : ')
             while not os.path.exists(filepath):
                 filepath = input(
-                    'File not found. Enter an absolute Filepath to a text file containing your options.yaml : ')
+                    'File not found. Enter an absolute Filepath to a text file containing your options : ')
             file = open(filepath, "rb")
             options = pickle.load(file)
+            file.close()
+        if (args.regionLogic is None):
+            filepath = input('Enter an absolute Filepath to a text file containing your region logic : ')
+            while not os.path.exists(filepath):
+                filepath = input(
+                    'File not found. Enter an absolute Filepath to a text file containing your region logic: ')
+            file = open(filepath, "rb")
+            region_logic = pickle.load(file)
             file.close()
 
 
@@ -483,7 +505,7 @@ def getSeaOfThievesDataFromArguments() -> UserInformation.UserInformation:
         pirate = "pirateMode"
     sotLoginCredentials: UserInformation.SotLoginCredentials = UserInformation.SotLoginCredentials(real_cookie)
     sotAnalyzerDetails: UserInformation.SotAnalyzerDetails = UserInformation.SotAnalyzerDetails(args.ship, pirate)
-    userInfo = UserInformation.UserInformation(sotLoginCredentials, sotAnalyzerDetails, args.address, args.username, options)
+    userInfo = UserInformation.UserInformation(sotLoginCredentials, sotAnalyzerDetails, args.address, args.username, options, region_logic)
     return userInfo
 
 async def every(__seconds: float, func, *args, **kwargs):
