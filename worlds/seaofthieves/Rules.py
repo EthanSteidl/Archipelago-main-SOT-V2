@@ -20,146 +20,19 @@ from .Locations.Hunter.ProvisionsCooked import BurntAboard, CookedAboard, Total
 from .Regions.ConnectionDetails import ConnectionDetails
 from .Regions.Regions import Regions,RegionAdder
 from .Items.Items import ItemCollection,ItemReqEvalOr,ItemReqEvalAnd
+from .Regions.RegionConnectionRules import create_rules
 
 def set_rules(world: MultiWorld, options: SotOptionsDerived.SotOptionsDerived, player: int, regionAdder: RegionAdder):
 
-    # region Connect Ship To Seas
-    regionAdder.connectFromDetails2(world, ConnectionDetails(Regions.R_MENU, Regions.R_PLAYER_SHIP, ItemReqEvalOr([])))
-    regionAdder.connectFromDetails2(world, ConnectionDetails(Regions.R_PLAYER_SHIP, Regions.R_OPEN_SEA,
-                                                             ItemReqEvalOr([ItemReqEvalAnd([Items.sail])])))
-    regionAdder.connectFromDetails2(world, ConnectionDetails(Regions.R_OPEN_SEA, Regions.R_OPEN_SEA_ASHEN,
-                                                             ItemReqEvalOr([ItemReqEvalAnd([Items.sail_inferno])])))
-    regionAdder.connectFromDetails2(world, ConnectionDetails(Regions.R_OPEN_SEA, Regions.R_OPEN_SEA_SHARED, ItemReqEvalOr([])))
-    regionAdder.connectFromDetails2(world, ConnectionDetails(Regions.R_OPEN_SEA_ASHEN, Regions.R_OPEN_SEA_SHARED, ItemReqEvalOr([])))
-    # endregion
+    # Make Region Connection Rules
+    rules = create_rules(options, world)
+    for rule in rules:
+        regionAdder.connectFromDetails2(world, rule)
 
-    #region Connect Open Sea Emissary
-    regionAdder.connectFromDetails2(world, ConnectionDetails(Regions.R_OPEN_SEA, Regions.R_DOMAIN_EM,
-                                                             ItemReqEvalOr([
-                                                                 ItemReqEvalAnd([Items.emissary_ma]),
-                                                                 ItemReqEvalAnd([Items.emissary_gh]),
-                                                                 ItemReqEvalAnd([Items.emissary_oos]),
-                                                                 ItemReqEvalAnd([Items.emissary_af]),
-                                                                 ItemReqEvalAnd([Items.emissary_rb])]
-                                                             )))
-    regionAdder.connectFromDetails2(world, ConnectionDetails(Regions.R_DOMAIN_EM, Regions.R_DOMAIN_AF,
-                                                             ItemReqEvalOr([
-                                                                 ItemReqEvalAnd([
-                                                                     Items.sail, Items.voyages_af, Items.emissary_af]
-                                                                 )]
-                                                             )))
-    regionAdder.connectFromDetails2(world, ConnectionDetails(Regions.R_DOMAIN_EM, Regions.R_DOMAIN_RB,
-                                                             ItemReqEvalOr([
-                                                                 ItemReqEvalAnd([
-                                                                     Items.sail, Items.voyages_rb, Items.emissary_rb]
-                                                                 )]
-                                                             )))
-    regionAdder.connectFromDetails2(world, ConnectionDetails(Regions.R_DOMAIN_EM, Regions.R_DOMAIN_MA,
-                                                             ItemReqEvalOr([
-                                                                 ItemReqEvalAnd([
-                                                                     Items.sail, Items.voyages_ma, Items.emissary_ma]
-                                                                 )]
-                                                             )))
-    regionAdder.connectFromDetails2(world, ConnectionDetails(Regions.R_DOMAIN_EM, Regions.R_DOMAIN_GH,
-                                                             ItemReqEvalOr([
-                                                                 ItemReqEvalAnd([
-                                                                     Items.sail, Items.voyages_gh, Items.emissary_gh]
-                                                                 )]
-                                                             )))
-    regionAdder.connectFromDetails2(world, ConnectionDetails(Regions.R_DOMAIN_EM, Regions.R_DOMAIN_OOS,
-                                                             ItemReqEvalOr([
-                                                                 ItemReqEvalAnd([
-                                                                     Items.sail, Items.voyages_oos, Items.emissary_oos]
-                                                                 )]
-                                                             )))
-    regionAdder.connectFromDetails2(world, ConnectionDetails(Regions.R_DOMAIN_EM, Regions.R_DOMAIN_SV,
-                                                             ItemReqEvalOr([
-                                                                 ItemReqEvalAnd([
-                                                                     Items.sail, Items.ship_weapons,
-                                                                     Items.personal_weapons, Items.emissary_rb]
-                                                                 )],
-                                                             )))
-    regionAdder.connectFromDetails2(world, ConnectionDetails(Regions.R_DOMAIN_EM, Regions.R_DOMAIN_GF,
-                                                             ItemReqEvalOr([
-                                                                 ItemReqEvalAnd([
-                                                                     Items.sail, Items.ship_weapons,
-                                                                     Items.personal_weapons, Items.emissary_af]
-                                                                 )],
-                                                             )))
-    #endregion
-
-    #region Connect Ashen Sea Emissary
-    regionAdder.connectFromDetails2(world, ConnectionDetails(Regions.R_OPEN_SEA_ASHEN, Regions.R_DOMAIN_EM_ASHEN,
-                                                             ItemReqEvalOr([
-                                                                 ItemReqEvalAnd([Items.emissary_ma]),
-                                                                 ItemReqEvalAnd([Items.emissary_gh]),
-                                                                 ItemReqEvalAnd([Items.emissary_oos]),
-                                                                 ItemReqEvalAnd([Items.emissary_af]),
-                                                                 ItemReqEvalAnd([Items.emissary_rb])]
-                                                             )))
-    regionAdder.connectFromDetails2(world, ConnectionDetails(Regions.R_DOMAIN_EM_ASHEN, Regions.R_DOMAIN_AF_ASHEN,
-                                                             ItemReqEvalOr([
-                                                                 ItemReqEvalAnd([
-                                                                     Items.sail, Items.voyages_af, Items.emissary_af]
-                                                                 )]
-                                                             )))
-    regionAdder.connectFromDetails2(world, ConnectionDetails(Regions.R_DOMAIN_EM_ASHEN, Regions.R_DOMAIN_RB_ASHEN,
-                                                             ItemReqEvalOr([
-                                                                 ItemReqEvalAnd([
-                                                                     Items.sail, Items.voyages_rb, Items.emissary_rb]
-                                                                 )]
-                                                             )))
-    regionAdder.connectFromDetails2(world, ConnectionDetails(Regions.R_DOMAIN_EM_ASHEN, Regions.R_DOMAIN_MA_ASHEN,
-                                                             ItemReqEvalOr([
-                                                                 ItemReqEvalAnd([
-                                                                     Items.sail, Items.voyages_ma, Items.emissary_ma]
-                                                                 )]
-                                                             )))
-    regionAdder.connectFromDetails2(world, ConnectionDetails(Regions.R_DOMAIN_EM_ASHEN, Regions.R_DOMAIN_GH_ASHEN,
-                                                             ItemReqEvalOr([
-                                                                 ItemReqEvalAnd([
-                                                                     Items.sail, Items.voyages_gh, Items.emissary_gh]
-                                                                 )]
-                                                             )))
-    regionAdder.connectFromDetails2(world, ConnectionDetails(Regions.R_DOMAIN_EM_ASHEN, Regions.R_DOMAIN_OOS_ASHEN,
-                                                             ItemReqEvalOr([
-                                                                 ItemReqEvalAnd([
-                                                                     Items.sail, Items.voyages_oos, Items.emissary_oos]
-                                                                 )]
-                                                             )))
-    #endregion
-
-    #region Connect Open Sea to Things Within
-
-    regionAdder.connectFromDetails2(world, ConnectionDetails(Regions.R_OPEN_SEA, Regions.R_ISLANDS,
-                                                             ItemReqEvalOr([ItemReqEvalAnd([Items.sail])])))
-    regionAdder.connectFromDetails2(world, ConnectionDetails(Regions.R_OPEN_SEA, Regions.R_FORTRESSES,
-                                                             ItemReqEvalOr([ItemReqEvalAnd([Items.sail])])))
-
-    required_seals: typing.List[ItemDetail] = copy.deepcopy(ItemCollection.seals)
-    world.random.shuffle(required_seals)
-    for i in range(len(required_seals) - options.menuSettings.fodSealRequirement):
-        required_seals.pop()
-
-    regionAdder.connectFromDetails2(world, ConnectionDetails(Regions.R_OPEN_SEA, Regions.R_FORT_OF_THE_DAMNED,
-                                                             ItemReqEvalOr([ItemReqEvalAnd(required_seals)])))
-    #endregion
-
-    #region Connect Ashen Sea to Things Within
-
-    regionAdder.connectFromDetails2(world, ConnectionDetails(Regions.R_OPEN_SEA, Regions.R_ISLANDS_ASHEN,
-                                                             ItemReqEvalOr([ItemReqEvalAnd([Items.sail])])))
-    regionAdder.connectFromDetails2(world, ConnectionDetails(Regions.R_OPEN_SEA, Regions.R_FORTRESSES_ASHEN,
-                                                             ItemReqEvalOr([ItemReqEvalAnd([Items.sail])])))
-    #endregion
-
-    #region Connect Shared Sea to Things Within
-    regionAdder.connectFromDetails2(world, ConnectionDetails(Regions.R_OPEN_SEA_SHARED, Regions.R_OTHER_SHIP,
-                                                             ItemReqEvalOr([ItemReqEvalAnd([Items.sail])])))
-    #endregion
-
+    # Make Location Rules
     regionAdder.addRulesForLocationsInRegions(world)
 
+    # Make Win Condition Rules
     world.completion_condition[player] = lambda state: state.has(Items.pirate_legend.name, player)
 
 #
@@ -220,3 +93,137 @@ def set_rules(world: MultiWorld, options: SotOptionsDerived.SotOptionsDerived, p
 #     world.completion_condition[player] = lambda state: state.has(Items.pirate_legend.name, player)
 
 
+############################
+# #just in case you need a backup
+#     regionAdder.connectFromDetails2(world, ConnectionDetails(Regions.R_MENU, Regions.R_PLAYER_SHIP, ItemReqEvalOr([])))
+#     regionAdder.connectFromDetails2(world, ConnectionDetails(Regions.R_PLAYER_SHIP, Regions.R_OPEN_SEA,
+#                                                              ItemReqEvalOr([ItemReqEvalAnd([Items.sail])])))
+#     regionAdder.connectFromDetails2(world, ConnectionDetails(Regions.R_OPEN_SEA, Regions.R_OPEN_SEA_ASHEN,
+#                                                              ItemReqEvalOr([ItemReqEvalAnd([Items.sail_inferno])])))
+#     regionAdder.connectFromDetails2(world, ConnectionDetails(Regions.R_OPEN_SEA, Regions.R_OPEN_SEA_SHARED, ItemReqEvalOr([])))
+#     regionAdder.connectFromDetails2(world, ConnectionDetails(Regions.R_OPEN_SEA_ASHEN, Regions.R_OPEN_SEA_SHARED, ItemReqEvalOr([])))
+#     # endregion
+#
+#     #region Connect Open Sea Emissary
+#     regionAdder.connectFromDetails2(world, ConnectionDetails(Regions.R_OPEN_SEA, Regions.R_DOMAIN_EM,
+#                                                              ItemReqEvalOr([
+#                                                                  ItemReqEvalAnd([Items.emissary_ma]),
+#                                                                  ItemReqEvalAnd([Items.emissary_gh]),
+#                                                                  ItemReqEvalAnd([Items.emissary_oos]),
+#                                                                  ItemReqEvalAnd([Items.emissary_af]),
+#                                                                  ItemReqEvalAnd([Items.emissary_rb])]
+#                                                              )))
+#     regionAdder.connectFromDetails2(world, ConnectionDetails(Regions.R_DOMAIN_EM, Regions.R_DOMAIN_AF,
+#                                                              ItemReqEvalOr([
+#                                                                  ItemReqEvalAnd([
+#                                                                      Items.sail, Items.voyages_af, Items.emissary_af]
+#                                                                  )]
+#                                                              )))
+#     regionAdder.connectFromDetails2(world, ConnectionDetails(Regions.R_DOMAIN_EM, Regions.R_DOMAIN_RB,
+#                                                              ItemReqEvalOr([
+#                                                                  ItemReqEvalAnd([
+#                                                                      Items.sail, Items.voyages_rb, Items.emissary_rb]
+#                                                                  )]
+#                                                              )))
+#     regionAdder.connectFromDetails2(world, ConnectionDetails(Regions.R_DOMAIN_EM, Regions.R_DOMAIN_MA,
+#                                                              ItemReqEvalOr([
+#                                                                  ItemReqEvalAnd([
+#                                                                      Items.sail, Items.voyages_ma, Items.emissary_ma]
+#                                                                  )]
+#                                                              )))
+#     regionAdder.connectFromDetails2(world, ConnectionDetails(Regions.R_DOMAIN_EM, Regions.R_DOMAIN_GH,
+#                                                              ItemReqEvalOr([
+#                                                                  ItemReqEvalAnd([
+#                                                                      Items.sail, Items.voyages_gh, Items.emissary_gh]
+#                                                                  )]
+#                                                              )))
+#     regionAdder.connectFromDetails2(world, ConnectionDetails(Regions.R_DOMAIN_EM, Regions.R_DOMAIN_OOS,
+#                                                              ItemReqEvalOr([
+#                                                                  ItemReqEvalAnd([
+#                                                                      Items.sail, Items.voyages_oos, Items.emissary_oos]
+#                                                                  )]
+#                                                              )))
+#     regionAdder.connectFromDetails2(world, ConnectionDetails(Regions.R_DOMAIN_EM, Regions.R_DOMAIN_SV,
+#                                                              ItemReqEvalOr([
+#                                                                  ItemReqEvalAnd([
+#                                                                      Items.sail, Items.ship_weapons,
+#                                                                      Items.personal_weapons, Items.emissary_rb]
+#                                                                  )],
+#                                                              )))
+#     regionAdder.connectFromDetails2(world, ConnectionDetails(Regions.R_DOMAIN_EM, Regions.R_DOMAIN_GF,
+#                                                              ItemReqEvalOr([
+#                                                                  ItemReqEvalAnd([
+#                                                                      Items.sail, Items.ship_weapons,
+#                                                                      Items.personal_weapons, Items.emissary_af]
+#                                                                  )],
+#                                                              )))
+#     #endregion
+#
+#     #region Connect Ashen Sea Emissary
+#     regionAdder.connectFromDetails2(world, ConnectionDetails(Regions.R_OPEN_SEA_ASHEN, Regions.R_DOMAIN_EM_ASHEN,
+#                                                              ItemReqEvalOr([
+#                                                                  ItemReqEvalAnd([Items.emissary_ma]),
+#                                                                  ItemReqEvalAnd([Items.emissary_gh]),
+#                                                                  ItemReqEvalAnd([Items.emissary_oos]),
+#                                                                  ItemReqEvalAnd([Items.emissary_af]),
+#                                                                  ItemReqEvalAnd([Items.emissary_rb])]
+#                                                              )))
+#     regionAdder.connectFromDetails2(world, ConnectionDetails(Regions.R_DOMAIN_EM_ASHEN, Regions.R_DOMAIN_AF_ASHEN,
+#                                                              ItemReqEvalOr([
+#                                                                  ItemReqEvalAnd([
+#                                                                      Items.sail, Items.voyages_af, Items.emissary_af]
+#                                                                  )]
+#                                                              )))
+#     regionAdder.connectFromDetails2(world, ConnectionDetails(Regions.R_DOMAIN_EM_ASHEN, Regions.R_DOMAIN_RB_ASHEN,
+#                                                              ItemReqEvalOr([
+#                                                                  ItemReqEvalAnd([
+#                                                                      Items.sail, Items.voyages_rb, Items.emissary_rb]
+#                                                                  )]
+#                                                              )))
+#     regionAdder.connectFromDetails2(world, ConnectionDetails(Regions.R_DOMAIN_EM_ASHEN, Regions.R_DOMAIN_MA_ASHEN,
+#                                                              ItemReqEvalOr([
+#                                                                  ItemReqEvalAnd([
+#                                                                      Items.sail, Items.voyages_ma, Items.emissary_ma]
+#                                                                  )]
+#                                                              )))
+#     regionAdder.connectFromDetails2(world, ConnectionDetails(Regions.R_DOMAIN_EM_ASHEN, Regions.R_DOMAIN_GH_ASHEN,
+#                                                              ItemReqEvalOr([
+#                                                                  ItemReqEvalAnd([
+#                                                                      Items.sail, Items.voyages_gh, Items.emissary_gh]
+#                                                                  )]
+#                                                              )))
+#     regionAdder.connectFromDetails2(world, ConnectionDetails(Regions.R_DOMAIN_EM_ASHEN, Regions.R_DOMAIN_OOS_ASHEN,
+#                                                              ItemReqEvalOr([
+#                                                                  ItemReqEvalAnd([
+#                                                                      Items.sail, Items.voyages_oos, Items.emissary_oos]
+#                                                                  )]
+#                                                              )))
+#     #endregion
+#
+#     #region Connect Open Sea to Things Within
+#
+#     regionAdder.connectFromDetails2(world, ConnectionDetails(Regions.R_OPEN_SEA, Regions.R_ISLANDS,
+#                                                              ItemReqEvalOr([ItemReqEvalAnd([Items.sail])])))
+#     regionAdder.connectFromDetails2(world, ConnectionDetails(Regions.R_OPEN_SEA, Regions.R_FORTRESSES,
+#                                                              ItemReqEvalOr([ItemReqEvalAnd([Items.sail])])))
+#
+#     required_seals: typing.List[ItemDetail] = copy.deepcopy(ItemCollection.seals)
+#     world.random.shuffle(required_seals)
+#     for i in range(len(required_seals) - options.menuSettings.fodSealRequirement):
+#         required_seals.pop()
+#
+#     regionAdder.connectFromDetails2(world, ConnectionDetails(Regions.R_OPEN_SEA, Regions.R_FORT_OF_THE_DAMNED,
+#                                                              ItemReqEvalOr([ItemReqEvalAnd(required_seals)])))
+#     #endregion
+#
+#     #region Connect Ashen Sea to Things Within
+#
+#     regionAdder.connectFromDetails2(world, ConnectionDetails(Regions.R_OPEN_SEA, Regions.R_ISLANDS_ASHEN,
+#                                                              ItemReqEvalOr([ItemReqEvalAnd([Items.sail])])))
+#     regionAdder.connectFromDetails2(world, ConnectionDetails(Regions.R_OPEN_SEA, Regions.R_FORTRESSES_ASHEN,
+#                                                              ItemReqEvalOr([ItemReqEvalAnd([Items.sail])])))
+#     #endregion
+#
+#     #region Connect Shared Sea to Things Within
+#     regionAdder.connectFromDetails2(world, ConnectionDetails(Regions.R_OPEN_SEA_SHARED, Regions.R_OTHER_SHIP,
+#                                                              ItemReqEvalOr([ItemReqEvalAnd([Items.sail])])))

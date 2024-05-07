@@ -17,6 +17,7 @@ from .Servant import Servant
 from .Guardian import Guardian
 from .IllFated import IllFated
 from .Feared import CannonsFired
+from ..Regions.RegionConnectionRules import ConnectionDetails
 import typing
 class LocationDetailsCollection:
 
@@ -43,19 +44,33 @@ class LocationDetailsCollection:
 
         return dic
 
+    def isRegionAccessibleForLocation(self, loc_details: LocDetails):
 
+        #TODO implement region logic. The idea is to use the Region Connection Rules here to keep track of accessible regions
+
+        return True
+
+
+        #if we have a table like this we can solve the problem
+        # [list]
+        # at idx = (Region name of to, Region name of from, set of required items)
+        # then we can double loop this table to mark off locations reachable
+        # algorithm finishes once no more locations are marked off
     def findDetailsCheckable(self, itemSet: typing.Set[str], forceAll: bool = False) -> typing.List[LocDetails]:
-
-        #TODO check region reqs as well
 
         ret_list: typing.List[LocDetails] = []
 
         #checks onlys location requirements, does not includ region reqs
         for checkTypeKey in self.checkTypeToLocDetail.keys():
             for loc_name in self.checkTypeToLocDetail[checkTypeKey].keys():
+
                 loc_details = self.checkTypeToLocDetail[checkTypeKey][loc_name]
-                if(forceAll or loc_details.webLocationCollection.isAnyReachable(itemSet)):
-                    ret_list.append(loc_details)
+
+                #first check if we have access to the region
+                if forceAll or self.isRegionAccessibleForLocation(loc_details):
+                    #then check item logic
+                    if(forceAll or loc_details.webLocationCollection.isAnyReachable(itemSet)):
+                        ret_list.append(loc_details)
 
 
         return ret_list
