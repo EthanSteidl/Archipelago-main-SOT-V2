@@ -1,7 +1,7 @@
 from ...Locations import LocDetails, WebLocation, WebLocationCollection, WebItemJsonIdentifier
 from ...LocationsBase import LocationsBase
 from ....Regions.RegionCollection import RegionNameCollection
-from ....Regions.Name import Name
+from ....Regions.RegionDetails import Regions
 from ....Items.Items import ItemReqEvalOr, ItemReqEvalAnd, Items
 from ....Locations.LocationSettingOption import LocationSettingOption
 
@@ -113,7 +113,7 @@ class HunterEatenAboard(LocationsBase):
     def add_any_sets(self):
         do_rand: bool = int(self.settings.any) is not SettingsHunterEatenAboard.Any.OFF
         reg = RegionNameCollection()
-        reg.addFromList([Name.MENU])
+        reg.addFromList([Regions.R_MENU])
         lgc = ItemReqEvalOr([])
         wlc = WebLocationCollection([
             WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2]), reg, lgc), #this is weird and also at 3,1,0
@@ -179,7 +179,7 @@ class HunterEatenAboard(LocationsBase):
     def add_fish_set_pondie(self):
 
         reg = RegionNameCollection()
-        reg.addFromList([Name.OPEN_SEA])
+        reg.addFromList([Regions.R_OPEN_SEA])
         lgc = ItemReqEvalOr([ItemReqEvalAnd([Items.sail, Items.fishing_rod])])
         wlc = WebLocationCollection([
             WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 6), reg, lgc),
@@ -193,7 +193,7 @@ class HunterEatenAboard(LocationsBase):
 
     def add_fish_set_splashtail(self) -> None:
         reg = RegionNameCollection()
-        reg.addFromList([Name.OPEN_SEA])
+        reg.addFromList([Regions.R_OPEN_SEA])
         lgc = ItemReqEvalOr([ItemReqEvalAnd([Items.sail, Items.fishing_rod])])
         wlc = WebLocationCollection([
             WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 1), reg, lgc),
@@ -207,7 +207,7 @@ class HunterEatenAboard(LocationsBase):
 
     def add_fish_set_islehopper(self):
         reg = RegionNameCollection()
-        reg.addFromList([Name.OPEN_SEA])
+        reg.addFromList([Regions.R_OPEN_SEA])
         lgc = ItemReqEvalOr([ItemReqEvalAnd([Items.sail, Items.fishing_rod])])
         wlc = WebLocationCollection([
             WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 12), reg, lgc),
@@ -222,7 +222,7 @@ class HunterEatenAboard(LocationsBase):
 
     def add_fish_set_ancientscale(self):
         reg = RegionNameCollection()
-        reg.addFromList([Name.OPEN_SEA])
+        reg.addFromList([Regions.R_OPEN_SEA])
         lgc = ItemReqEvalOr([ItemReqEvalAnd([Items.sail, Items.fishing_rod])])
         wlc = WebLocationCollection([
             WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 19), reg, lgc),
@@ -236,7 +236,7 @@ class HunterEatenAboard(LocationsBase):
 
     def add_fish_set_plentifin(self):
         reg = RegionNameCollection()
-        reg.addFromList([Name.OPEN_SEA])
+        reg.addFromList([Regions.R_OPEN_SEA])
         lgc = ItemReqEvalOr([ItemReqEvalAnd([Items.sail, Items.fishing_rod])])
         wlc = WebLocationCollection([
             WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 24), reg, lgc),
@@ -251,7 +251,7 @@ class HunterEatenAboard(LocationsBase):
 
     def add_fish_set_wildsplash(self):
         reg = RegionNameCollection()
-        reg.addFromList([Name.OPEN_SEA])
+        reg.addFromList([Regions.R_OPEN_SEA])
         lgc = ItemReqEvalOr([ItemReqEvalAnd([Items.sail, Items.fishing_rod])])
         wlc = WebLocationCollection([
             WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 30), reg, lgc),
@@ -265,7 +265,7 @@ class HunterEatenAboard(LocationsBase):
 
     def add_fish_set_devilfish(self):
         reg = RegionNameCollection()
-        reg.addFromList([Name.OPEN_SEA])
+        reg.addFromList([Regions.R_OPEN_SEA])
         lgc = ItemReqEvalOr([ItemReqEvalAnd([Items.sail, Items.fishing_rod])])
         wlc = WebLocationCollection([
             WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 36), reg, lgc),
@@ -279,7 +279,7 @@ class HunterEatenAboard(LocationsBase):
 
     def add_fish_set_battlegill(self):
         reg = RegionNameCollection()
-        reg.addFromList([Name.OPEN_SEA])
+        reg.addFromList([Regions.R_OPEN_SEA])
         lgc = ItemReqEvalOr([ItemReqEvalAnd([Items.sail, Items.fishing_rod])])
         wlc = WebLocationCollection([
             WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 42), reg, lgc),
@@ -294,7 +294,7 @@ class HunterEatenAboard(LocationsBase):
 
     def add_fish_set_wrecker(self):
         reg = RegionNameCollection()
-        reg.addFromList([Name.OPEN_SEA])
+        reg.addFromList([Regions.R_OPEN_SEA])
         lgc = ItemReqEvalOr([ItemReqEvalAnd([Items.sail, Items.fishing_rod])])
         wlc = WebLocationCollection([
             WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 48), reg, lgc),
@@ -309,7 +309,7 @@ class HunterEatenAboard(LocationsBase):
 
     def add_fish_set_stormfish(self):
         reg = RegionNameCollection()
-        reg.addFromList([Name.OPEN_SEA])
+        reg.addFromList([Regions.R_OPEN_SEA])
         lgc = ItemReqEvalOr([ItemReqEvalAnd([Items.sail, Items.fishing_rod])])
         wlc = WebLocationCollection([
             WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 54), reg, lgc),
@@ -324,7 +324,7 @@ class HunterEatenAboard(LocationsBase):
 
     def add_meat_set_land(self):
         reg = RegionNameCollection()
-        reg.addFromList([Name.OPEN_SEA])
+        reg.addFromList([Regions.R_OPEN_SEA])
         lgc = ItemReqEvalOr([
             ItemReqEvalAnd([Items.sail, Items.personal_weapons]),
             ItemReqEvalAnd([Items.sail, Items.ship_weapons])
@@ -339,7 +339,7 @@ class HunterEatenAboard(LocationsBase):
 
     def add_fish_set_big(self):
         reg = RegionNameCollection()
-        reg.addFromList([Name.OPEN_SEA])
+        reg.addFromList([Regions.R_OPEN_SEA])
         lgc = ItemReqEvalOr([
             ItemReqEvalAnd([Items.sail, Items.ship_weapons, Items.personal_weapons])
             ])
@@ -353,7 +353,7 @@ class HunterEatenAboard(LocationsBase):
 
     def add_fruit_set(self):
         reg = RegionNameCollection()
-        reg.addFromList([Name.OPEN_SEA])
+        reg.addFromList([Regions.R_OPEN_SEA])
         lgc = ItemReqEvalOr([
             ItemReqEvalAnd([Items.sail])
             ])
@@ -370,7 +370,7 @@ class HunterEatenAboard(LocationsBase):
 
     def add_bug_set(self):
         reg = RegionNameCollection()
-        reg.addFromList([Name.OPEN_SEA])
+        reg.addFromList([Regions.R_OPEN_SEA])
         lgc = ItemReqEvalOr([
             ItemReqEvalAnd([Items.sail])
             ])

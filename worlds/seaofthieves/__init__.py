@@ -2,12 +2,12 @@ import os
 import time
 import math
 import typing
-
+import json
 import Utils
 from worlds.seaofthieves.Items.Items import *
-from worlds.seaofthieves.Locations.Locations import *
 from .Options import SOTOptions
 from .Rules import set_rules
+from BaseClasses import Location
 import base64
 from worlds.seaofthieves.Regions.Regions import create_regions
 from BaseClasses import Item, Tutorial, ItemClassification, LocationProgressType

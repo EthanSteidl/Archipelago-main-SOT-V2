@@ -4,7 +4,7 @@ from worlds.seaofthieves.Items.Items import Items
 from ..Locations import LocDetails, WebLocation, WebLocationCollection, WebItemJsonIdentifier, DoRand
 from ..LocationsBase import LocationsBase
 from ...Regions.RegionCollection import RegionNameCollection
-from ...Regions.Name import Name
+from ...Regions.RegionDetails import Regions
 from ...Items.Items import ItemReqEvalOr, ItemReqEvalAnd, Items
 
 class SettingsVoyageIslandVisited:
@@ -131,7 +131,7 @@ class VoyageIslandVisited(LocationsBase):
 
         collectableIslandCount = 30
         reg = RegionNameCollection()
-        reg.addFromList([Name.ISLANDS])
+        reg.addFromList([Regions.R_ISLANDS])
         lgc = ItemReqEvalOr([ItemReqEvalAnd([Items.sail])])
         wlc = WebLocationCollection([
             WebLocation(WebItemJsonIdentifier(1, 12, 0), reg, lgc)

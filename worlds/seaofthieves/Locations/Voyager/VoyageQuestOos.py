@@ -1,7 +1,7 @@
 from ..Locations import LocDetails, WebLocation, WebLocationCollection, WebItemJsonIdentifier
 from ..LocationsBase import LocationsBase
 from ...Regions.RegionCollection import RegionNameCollection
-from ...Regions.Name import Name
+from ...Regions.RegionDetails import Regions
 from ...Items.Items import ItemReqEvalOr, ItemReqEvalAnd, Items
 class SettingsVoyageQuestOos:
 
@@ -26,7 +26,7 @@ class VoyageQuestOos(LocationsBase):
 
 
         reg = RegionNameCollection()
-        reg.addFromList([Name.DOMAIN_OOS])
+        reg.addFromList([Regions.R_DOMAIN_OOS])
         lgc = ItemReqEvalOr(
             [ItemReqEvalAnd([Items.voyages_oos, Items.sail, Items.ship_weapons, Items.personal_weapons])])
         wlc = WebLocationCollection([
@@ -36,7 +36,7 @@ class VoyageQuestOos(LocationsBase):
 
 
         reg = RegionNameCollection()
-        reg.addFromList([Name.ROAR])
+        reg.addFromList([Regions.R_DOMAIN_OOS_ASHEN])
         lgc = ItemReqEvalOr(
             [ItemReqEvalAnd([Items.voyages_oos, Items.sail, Items.ship_weapons, Items.personal_weapons, Items.sail_inferno])])
         wlc = WebLocationCollection([
@@ -46,7 +46,7 @@ class VoyageQuestOos(LocationsBase):
 
 
         reg = RegionNameCollection()
-        reg.addFromList([Name.DOMAIN_OOS])
+        reg.addFromList([Regions.R_DOMAIN_OOS])
         lgc = ItemReqEvalOr(
             [ItemReqEvalAnd([Items.voyages_oos, Items.sail, Items.ship_weapons])])
         wlc = WebLocationCollection([

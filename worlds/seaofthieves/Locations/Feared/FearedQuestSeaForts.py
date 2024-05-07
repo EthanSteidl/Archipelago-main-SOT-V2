@@ -1,7 +1,7 @@
 from ..Locations import LocDetails, WebLocation, WebLocationCollection, WebItemJsonIdentifier
 from ..LocationsBase import LocationsBase
 from ...Regions.RegionCollection import RegionNameCollection
-from ...Regions.Name import Name
+from ...Regions.RegionDetails import Regions
 from ...Items.Items import ItemReqEvalOr, ItemReqEvalAnd, Items
 class SettingsFearedQuestSeaForts:
 
@@ -50,7 +50,7 @@ class FearedQuestSeaForts(LocationsBase):
         self.x = [4, 17, 1]
 
         reg = RegionNameCollection()
-        reg.addFromList([Name.FORTRESSES])
+        reg.addFromList([Regions.R_FORTRESSES])
         lgc = ItemReqEvalOr([ItemReqEvalAnd([Items.sail, Items.voyage_fortress])])
 
 

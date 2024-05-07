@@ -1,7 +1,7 @@
 from ..Locations import LocDetails, WebLocation, WebLocationCollection, WebItemJsonIdentifier, DoRand
 from ..LocationsBase import LocationsBase
 from ...Regions.RegionCollection import RegionNameCollection
-from ...Regions.Name import Name
+from ...Regions.RegionDetails import Regions
 from ...Items.Items import ItemReqEvalOr, ItemReqEvalAnd, Items
 
 class SettingsSeals:
@@ -44,7 +44,7 @@ class Seals(LocationsBase):
         self.x = [2, 0, 0, -1]
 
         reg = RegionNameCollection()
-        reg.addFromList([Name.DOMAIN_GH])
+        reg.addFromList([Regions.R_DOMAIN_GH])
         lgc = ItemReqEvalOr([ItemReqEvalAnd([Items.voyages_gh])])
         wlc = WebLocationCollection([
             WebLocation(WebItemJsonIdentifier(1, 1, 0), reg, lgc)
@@ -52,7 +52,7 @@ class Seals(LocationsBase):
         self.locations.append(LocDetails(self.L_VOYAGE_COMP_GH_TOTAL, wlc, True))
 
         reg = RegionNameCollection()
-        reg.addFromList([Name.DOMAIN_MA])
+        reg.addFromList([Regions.R_DOMAIN_MA])
         lgc = ItemReqEvalOr([ItemReqEvalAnd([Items.voyages_ma])])
         wlc = WebLocationCollection([
             WebLocation(WebItemJsonIdentifier(1, 2, 0), reg, lgc)
@@ -60,7 +60,7 @@ class Seals(LocationsBase):
         self.locations.append(LocDetails(self.L_VOYAGE_COMP_MA_TOTAL, wlc, True))
 
         reg = RegionNameCollection()
-        reg.addFromList([Name.DOMAIN_OOS])
+        reg.addFromList([Regions.R_DOMAIN_OOS])
         lgc = ItemReqEvalOr([ItemReqEvalAnd([Items.voyages_oos])])
         wlc = WebLocationCollection([
             WebLocation(WebItemJsonIdentifier(1, 3, 0), reg, lgc)
@@ -68,7 +68,7 @@ class Seals(LocationsBase):
         self.locations.append(LocDetails(self.L_VOYAGE_COMP_OOS_TOTAL, wlc, True))
 
         reg = RegionNameCollection()
-        reg.addFromList([Name.DOMAIN_AF])
+        reg.addFromList([Regions.R_DOMAIN_AF])
         lgc = ItemReqEvalOr([ItemReqEvalAnd([Items.voyages_af])])
         wlc = WebLocationCollection([
             WebLocation(WebItemJsonIdentifier(1, 4, 0), reg, lgc)
@@ -77,7 +77,7 @@ class Seals(LocationsBase):
 
         #RB is to sell a reaper chest/bounty?
         reg = RegionNameCollection()
-        reg.addFromList([Name.DOMAIN_RB])
+        reg.addFromList([Regions.R_DOMAIN_RB])
         lgc = ItemReqEvalOr([ItemReqEvalAnd([Items.voyages_rb])])
         wlc = WebLocationCollection([
             WebLocation(WebItemJsonIdentifier(0, 6, 1, 0), reg, lgc),

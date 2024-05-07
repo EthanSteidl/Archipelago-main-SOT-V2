@@ -1,7 +1,7 @@
 from ..Locations import LocDetails, WebLocation, WebLocationCollection, WebItemJsonIdentifier
 from ..LocationsBase import LocationsBase
 from ...Regions.RegionCollection import RegionNameCollection
-from ...Regions.Name import Name
+from ...Regions.RegionDetails import Regions
 from ...Items.Items import ItemReqEvalOr, ItemReqEvalAnd, Items
 class SettingsMenuQuestAll:
 
@@ -21,7 +21,7 @@ class MenuQuestAll(LocationsBase):
         self.x = [0, 0, 0, 0]
 
         reg = RegionNameCollection()
-        reg.addFromList([Name.MENU])
+        reg.addFromList([Regions.R_MENU])
         lgc = ItemReqEvalOr([])
         wlc = WebLocationCollection([
             WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], self.x[3], False), reg, lgc)
@@ -29,7 +29,7 @@ class MenuQuestAll(LocationsBase):
         self.locations.append(LocDetails(self.L_PIRATE_POCKET, wlc, True))
 
         reg = RegionNameCollection()
-        reg.addFromList([Name.FORT_OF_THE_DAMNED])
+        reg.addFromList([Regions.R_FORT_OF_THE_DAMNED])
         lgc = ItemReqEvalOr([ItemReqEvalAnd([Items.voyage_of_destiny])])
         wlc = WebLocationCollection([
             WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], self.x[3], False), reg, lgc)

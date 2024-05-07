@@ -1,7 +1,7 @@
 
 from ..Locations import LocDetails, WebLocation, WebLocationCollection, WebItemJsonIdentifier
 from ..LocationsBase import LocationsBase
-from ...Regions.Name import Name
+from ...Regions.RegionDetails import Regions
 from ...Items.Items import ItemReqEvalOr, ItemReqEvalAnd,Items
 from ...Regions.RegionCollection import RegionNameCollection
 
@@ -52,28 +52,28 @@ class VoyageQuestRor(LocationsBase):
         self.x = [1, 5, 1]
 
         reg: RegionNameCollection = RegionNameCollection()
-        reg.addFromList([Name.ROAR])
+        reg.addFromList([Regions.R_DOMAIN_EM_ASHEN])
         lgc = ItemReqEvalOr([ItemReqEvalAnd([Items.sail, Items.sail_inferno])])
         web = WebItemJsonIdentifier(self.x[0], self.x[1], 0)
         wlc = WebLocationCollection([WebLocation(web, reg, lgc)])
         self.locations.append(LocDetails(self.L_VOYAGE_COMP_ROR_TOTAL, wlc, settings.completeAny > 0))
 
         reg: RegionNameCollection = RegionNameCollection()
-        reg.addFromList([Name.ROAR])
+        reg.addFromList([Regions.R_DOMAIN_GH_ASHEN])
         lgc = ItemReqEvalOr([ItemReqEvalAnd([Items.sail, Items.sail_inferno])])
         web = WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 0)
         wlc = WebLocationCollection([WebLocation(web, reg, lgc)])
         self.locations.append(LocDetails(self.L_VOYAGE_COMP_ROR_X, wlc, settings.xmarks > 0))
 
         reg: RegionNameCollection = RegionNameCollection()
-        reg.addFromList([Name.ROAR])
+        reg.addFromList([Regions.R_DOMAIN_GH_ASHEN])
         lgc = ItemReqEvalOr([ItemReqEvalAnd([Items.sail, Items.sail_inferno])])
         web = WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 1)
         wlc = WebLocationCollection([WebLocation(web, reg, lgc)])
         self.locations.append(LocDetails(self.L_VOYAGE_COMP_ROR_RIDDLE, wlc, settings.riddle > 0))
 
         reg: RegionNameCollection = RegionNameCollection()
-        reg.addFromList([Name.ROAR])
+        reg.addFromList([Regions.R_DOMAIN_GH_ASHEN])
         lgc = ItemReqEvalOr([ItemReqEvalAnd([Items.sail, Items.sail_inferno])])
         web = WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 2)
         wlc = WebLocationCollection([WebLocation(web, reg, lgc)])
@@ -82,14 +82,14 @@ class VoyageQuestRor(LocationsBase):
         #logic changes here
 
         reg: RegionNameCollection = RegionNameCollection()
-        reg.addFromList([Name.ROAR])
+        reg.addFromList([Regions.R_DOMAIN_OOS_ASHEN])
         web = WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 3)
         lgc = ItemReqEvalOr([ItemReqEvalAnd([Items.sail, Items.sail_inferno, Items.personal_weapons])])
         wlc = WebLocationCollection([WebLocation(web, reg, lgc)])
         self.locations.append(LocDetails(self.L_VOYAGE_COMP_ROR_BOUNTY, wlc, settings.bounty > 0))
 
         reg: RegionNameCollection = RegionNameCollection()
-        reg.addFromList([Name.ROAR])
+        reg.addFromList([Regions.R_DOMAIN_AF_ASHEN])
         web = WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 4)
         lgc = ItemReqEvalOr([ItemReqEvalAnd([Items.sail, Items.sail_inferno, Items.voyages_af])])
         wlc = WebLocationCollection([WebLocation(web, reg, lgc)])

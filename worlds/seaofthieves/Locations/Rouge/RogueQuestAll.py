@@ -1,7 +1,7 @@
 from ..Locations import LocDetails, WebLocation, WebLocationCollection, WebItemJsonIdentifier
 from ..LocationsBase import LocationsBase
 from ...Regions.RegionCollection import RegionNameCollection
-from ...Regions.Name import Name
+from ...Regions.RegionDetails import Regions
 from ...Items.Items import ItemReqEvalOr, ItemReqEvalAnd, Items
 
 class SettingsRogueQuestAll:
@@ -26,7 +26,7 @@ class RogueQuestAll(LocationsBase):
         super().__init__()
         self.x = [5, 0, 0]
         reg = RegionNameCollection()
-        reg.addFromList([Name.PLAYER_SHIP])
+        reg.addFromList([Regions.R_PLAYER_SHIP])
         lgc = ItemReqEvalOr([])
 
 

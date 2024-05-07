@@ -1,8 +1,11 @@
 import random
 
 from worlds.seaofthieves.Items.Items import Items, em_flags
-from worlds.seaofthieves.Regions.Regions import *
 
+from .Configurations import SotOptionsDerived
+from BaseClasses import MultiWorld
+import copy
+from .Items.Items import ItemDetail
 from ..generic.Rules import add_rule, exclusion_rules
 from .Locations.Voyager.VoyageQuestAthena import VoyageQuestAthena
 from .Locations.Voyager.VoyageQuestMa import VoyageQuestMa

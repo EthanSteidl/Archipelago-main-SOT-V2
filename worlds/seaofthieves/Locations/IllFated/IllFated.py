@@ -1,7 +1,7 @@
 from ..Locations import LocDetails, WebLocation, WebLocationCollection, WebItemJsonIdentifier
 from ..LocationsBase import LocationsBase
 from ...Regions.RegionCollection import RegionNameCollection
-from ...Regions.Name import Name
+from ...Regions.RegionDetails import Regions
 from ...Items.Items import ItemReqEvalOr, ItemReqEvalAnd, Items
 from ...Locations.LocationSettingOption import LocationSettingOption
 
@@ -30,7 +30,7 @@ class IllFated(LocationsBase):
 
         do_rand: bool = int(self.settings.any) is not SettingsIllFated.Any.OFF
         reg = RegionNameCollection()
-        reg.addFromList([Name.PLAYER_SHIP])
+        reg.addFromList([Regions.R_PLAYER_SHIP])
         lgc = ItemReqEvalOr([])
         wlc = WebLocationCollection([
             WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2]), reg, lgc)
@@ -38,7 +38,7 @@ class IllFated(LocationsBase):
         self.locations.append(LocDetails(self.L_ILL_DAMAGE_SHP, wlc, do_rand))
 
         reg = RegionNameCollection()
-        reg.addFromList([Name.OPEN_SEA])
+        reg.addFromList([Regions.R_OPEN_SEA])
         lgc = ItemReqEvalOr([ItemReqEvalAnd([Items.sail])])
         wlc = WebLocationCollection([
             WebLocation(WebItemJsonIdentifier(self.x[0], 1, self.x[2]), reg, lgc)
@@ -46,7 +46,7 @@ class IllFated(LocationsBase):
         self.locations.append(LocDetails(self.L_ILL_DAMAGE_STORM, wlc, do_rand))
 
         reg = RegionNameCollection()
-        reg.addFromList([Name.OPEN_SEA])
+        reg.addFromList([Regions.R_OPEN_SEA])
         lgc = ItemReqEvalOr([])
         wlc = WebLocationCollection([
             WebLocation(WebItemJsonIdentifier(self.x[0], 2, self.x[2]), reg, lgc)
@@ -54,7 +54,7 @@ class IllFated(LocationsBase):
         self.locations.append(LocDetails(self.L_ILL_DAMAGE_FIRE, wlc, do_rand))
 
         reg = RegionNameCollection()
-        reg.addFromList([Name.PLAYER_SHIP])
+        reg.addFromList([Regions.R_PLAYER_SHIP])
         lgc = ItemReqEvalOr([])
         wlc = WebLocationCollection([
             WebLocation(WebItemJsonIdentifier(self.x[0], 3, self.x[2]), reg, lgc)
@@ -62,7 +62,7 @@ class IllFated(LocationsBase):
         self.locations.append(LocDetails(self.L_ILL_DAMAGE_REPAIR, wlc, do_rand))
 
         reg = RegionNameCollection()
-        reg.addFromList([Name.PLAYER_SHIP])
+        reg.addFromList([Regions.R_PLAYER_SHIP])
         lgc = ItemReqEvalOr([])
         wlc = WebLocationCollection([
             WebLocation(WebItemJsonIdentifier(self.x[0], 4, self.x[2]), reg, lgc)
@@ -70,7 +70,7 @@ class IllFated(LocationsBase):
         self.locations.append(LocDetails(self.L_ILL_DAMAGE_BAIL, wlc, do_rand))
 
         reg = RegionNameCollection()
-        reg.addFromList([Name.OPEN_SEA])
+        reg.addFromList([Regions.R_OPEN_SEA])
         lgc = ItemReqEvalOr([])
         wlc = WebLocationCollection([
             WebLocation(WebItemJsonIdentifier(self.x[0], 5, self.x[2]), reg, lgc)

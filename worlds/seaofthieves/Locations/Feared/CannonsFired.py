@@ -1,7 +1,7 @@
 from ..Locations import LocDetails, WebLocation, WebLocationCollection, WebItemJsonIdentifier
 from ..LocationsBase import LocationsBase
 from ...Regions.RegionCollection import RegionNameCollection
-from ...Regions.Name import Name
+from ...Regions.RegionDetails import Regions
 from ...Items.Items import ItemReqEvalOr, ItemReqEvalAnd, Items
 from ...Locations.LocationSettingOption import LocationSettingOption
 
@@ -54,7 +54,7 @@ class CannonsFired(LocationsBase):
 
 
         reg = RegionNameCollection()
-        reg.addFromList([Name.ISLANDS])
+        reg.addFromList([Regions.R_ISLANDS])
         lgc = ItemReqEvalOr([])
         wlc = WebLocationCollection([
             WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 3), reg, lgc),
@@ -75,7 +75,7 @@ class CannonsFired(LocationsBase):
 
 
         reg = RegionNameCollection()
-        reg.addFromList([Name.ISLANDS])
+        reg.addFromList([Regions.R_ISLANDS])
         lgc = ItemReqEvalOr([])
         wlc = WebLocationCollection([
             WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 7), reg, lgc),
@@ -92,7 +92,7 @@ class CannonsFired(LocationsBase):
 
 
         reg = RegionNameCollection()
-        reg.addFromList([Name.ISLANDS])
+        reg.addFromList([Regions.R_ISLANDS])
         lgc = ItemReqEvalOr([])
         wlc = WebLocationCollection([
             WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 0), reg, lgc),

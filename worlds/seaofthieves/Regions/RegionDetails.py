@@ -5,3 +5,37 @@ class RegionDetails:
 
     def __init__(self, name: str):
         self.name: str = name
+
+
+class Regions(list):
+
+    R_MENU: RegionDetails = RegionDetails("Menu")
+    R_PLAYER_SHIP: RegionDetails = RegionDetails("Your Ship")
+    R_OTHER_SHIP: RegionDetails = RegionDetails("Another's Ship")
+
+    R_OPEN_SEA: RegionDetails = RegionDetails("Open Sea")
+    R_OPEN_SEA_ASHEN: RegionDetails = RegionDetails("Ashen Sea")
+    R_OPEN_SEA_SHARED: RegionDetails = RegionDetails("The Sea")
+
+    R_ISLANDS_ASHEN: RegionDetails = RegionDetails("Ashen Islands")
+    R_ISLANDS: RegionDetails = RegionDetails("Islands")
+    R_FORTRESSES: RegionDetails = RegionDetails("Fortresses")
+    R_FORTRESSES_ASHEN: RegionDetails = RegionDetails("Ashen Fortresses")
+
+    R_DOMAIN_EM: RegionDetails = RegionDetails("Seas of Emissarys")
+    R_DOMAIN_AF: RegionDetails = RegionDetails("Sea of Athena")
+    R_DOMAIN_RB: RegionDetails = RegionDetails("Sea of Reapers")
+    R_DOMAIN_MA: RegionDetails = RegionDetails("Sea of Merchants")
+    R_DOMAIN_OOS: RegionDetails = RegionDetails("Sea of Souls")
+    R_DOMAIN_GH: RegionDetails = RegionDetails("Sea of Hoarders")
+
+    R_DOMAIN_EM_ASHEN: RegionDetails = RegionDetails("Ashen Seas of Emissarys")
+    R_DOMAIN_GH_ASHEN: RegionDetails = RegionDetails("Ashen Sea of Hoarders")
+    R_DOMAIN_AF_ASHEN: RegionDetails = RegionDetails("Ashen Sea of Athena")
+    R_DOMAIN_RB_ASHEN: RegionDetails = RegionDetails("Ashen Sea of Reapers")
+    R_DOMAIN_MA_ASHEN: RegionDetails = RegionDetails("Ashen Sea of Merchants")
+    R_DOMAIN_OOS_ASHEN: RegionDetails = RegionDetails("Ashen Sea of Souls")
+
+    R_DOMAIN_SV: RegionDetails = RegionDetails("Sea of Servants")
+    R_DOMAIN_GF: RegionDetails = RegionDetails("Sea of Guardians")
+    R_FORT_OF_THE_DAMNED: RegionDetails = RegionDetails("Fort of the Damned")

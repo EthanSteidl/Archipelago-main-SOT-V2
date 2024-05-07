@@ -1,7 +1,7 @@
 from ..Locations import LocDetails, WebLocation, WebLocationCollection, WebItemJsonIdentifier
 from ..LocationsBase import LocationsBase
 from ...Regions.RegionCollection import RegionNameCollection
-from ...Regions.Name import Name
+from ...Regions.RegionDetails import Regions
 from ...Items.Items import ItemReqEvalOr, ItemReqEvalAnd, Items
 
 class SettingsTreasuresSold:
@@ -40,7 +40,7 @@ class TreasuresSold(LocationsBase):
         super().__init__()
         self.x = [0, 1, 1]
         reg = RegionNameCollection()
-        reg.addFromList([Name.ISLANDS])
+        reg.addFromList([Regions.R_ISLANDS])
         lgc = ItemReqEvalOr([ItemReqEvalAnd([Items.sail])])
 
         web = WebItemJsonIdentifier(self.x[0], self.x[1], 0)
