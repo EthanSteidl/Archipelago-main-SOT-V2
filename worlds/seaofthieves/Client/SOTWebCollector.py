@@ -40,6 +40,7 @@ class SOTWebCollector:
         if QUERY_PERIOD_SECONDS is not None:
             self.QUERY_PERIOD_SECONDS = QUERY_PERIOD_SECONDS
 
+
     def getHeaders(self):
         headers = {
             "authority": self.AUTH,
@@ -63,7 +64,6 @@ class SOTWebCollector:
 
         }
         return headers
-
 
     def getJson(self):
         if(self.json is None or self.lastQueryTimeSeconds+self.QUERY_PERIOD_SECONDS < time.time() ):

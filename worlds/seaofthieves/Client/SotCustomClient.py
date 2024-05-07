@@ -96,7 +96,7 @@ class SOT_CommandProcessor(ClientCommandProcessor):
 
         shipName = args[0]
         msCookie = args[1]
-        self.ctx.analyzer.addShip(shipName, msCookie)
+        #self.ctx.analyzer.addShip(shipName, msCookie)
         return True
     def _cmd_linkPirate(self, command: str) -> bool:
         """Tracks another pirate on this world"""
@@ -111,7 +111,7 @@ class SOT_CommandProcessor(ClientCommandProcessor):
 
         name = args[0]
         msCookie = args[1]
-        self.ctx.analyzer.addPirate(name, msCookie)
+        #self.ctx.analyzer.addPirate(name, msCookie)
         return True
 
     def _cmd_shop(self) -> bool:
