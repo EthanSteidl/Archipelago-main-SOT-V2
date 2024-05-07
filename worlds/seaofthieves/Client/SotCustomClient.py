@@ -78,6 +78,11 @@ class SOT_CommandProcessor(ClientCommandProcessor):
 
         return True
 
+    def _cmd_hints(self) -> bool:
+
+        self.ctx.playerInventory.print_hints()
+        return True
+
     def _cmd_forceunlock(self) -> bool:
         self.output("All location restrictions removed, tracking all. (Activates in 10 seconds)")
         self.ctx.forceUnlock = True

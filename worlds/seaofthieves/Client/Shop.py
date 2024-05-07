@@ -71,13 +71,19 @@ class Shop:
             playerInventory.spend(purchase)
 
             if menu_line_number == "1":
-                print(self.get_next_hint(self.hints_generic))
+                hint = self.get_next_hint(self.hints_generic)
+                print(hint)
+                playerInventory.add_hint(hint)
 
             elif menu_line_number == "2":
-                print(self.get_next_hint(self.hints_personal_progression))
+                hint = self.get_next_hint(self.hints_personal_progression)
+                print(hint)
+                playerInventory.add_hint(hint)
 
             elif menu_line_number == "3":
-                print(self.get_next_hint(self.hints_other_progression))
+                hint = self.get_next_hint(self.hints_other_progression)
+                print(hint)
+                playerInventory.add_hint(hint)
 
             else:
                 print("Shop error, refunding tokens")
