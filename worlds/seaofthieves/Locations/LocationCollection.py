@@ -20,6 +20,12 @@ from .Feared import CannonsFired
 from ..Items.Items import Item
 from ..Regions.RegionConnectionRules import RegionDiver
 from ..Regions.ConnectionDetails import ConnectionDetails
+from .Voyager.CaptainShipSpotted import CaptainShipSpotted
+from .Voyager import DaysAtSea
+from .Voyager import NauticalMilesSailed
+from .Voyager import Rowboats
+from .Voyager import Shipwrecks
+from .Voyager import TallTales
 
 import typing
 class LocationDetailsCollection:
@@ -140,6 +146,13 @@ class LocationDetailsCollection:
         self.addAllIllFated()
 
         self.addSeals()
+
+        self.addLocationsToSelf(CaptainShipSpotted(self.options.captainShipSettings).getLocations(), "cap_ship")
+        self.addLocationsToSelf(DaysAtSea.DaysAtSea(self.options.daysAtSeaSettings).getLocations(), "days_at_sea")
+        self.addLocationsToSelf(NauticalMilesSailed.NauticalMiles(self.options.nauticalMilesSailedSettings).getLocations(), "days_at_sea")
+        self.addLocationsToSelf(Rowboats.Rowboats(self.options.rowboatSettings).getLocations(), "rowboats")
+        self.addLocationsToSelf(Shipwrecks.Shipwrecks(self.options.shipreckSettings).getLocations(), "shipwrecks")
+        self.addLocationsToSelf(TallTales.TallTales(self.options.tallTaleSettings).getLocations(), "tallTales")
 
         #hints?
         self.addIslandVisited()

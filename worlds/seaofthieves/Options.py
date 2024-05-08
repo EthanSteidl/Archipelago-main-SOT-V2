@@ -13,7 +13,7 @@ from .Configurations import Guardianoptions
 from .Configurations import IllFatedoptions, Cannonsoptions, Selloptions
 from .Configurations import Trapsoptions
 from .Configurations import EmVoyageoptions
-from .Configurations import Shipoptions
+from .Configurations import Shipoptions, CaptainShipoptions, DaysAtSeaoptions, Rowboatoptions, Shipwreckoptions, TallTaleoptions
 
 
 class ShuffleEmissaryFlags(DefaultOnToggle):
@@ -124,6 +124,12 @@ class SOTOptions(PerGameCommonOptions):
     burnSanityFish: Foodoptions.BurnSanityFish
     burnSanitySeamonster: Foodoptions.BurnSanitySeamonster
     burnSanityLandAnimal: Foodoptions.BurnSanityLandAnimal
+
+    captainShipSpotted: CaptainShipoptions.CaptainShipoptions
+    daysAtSea: DaysAtSeaoptions.DaysAtSeaOptions
+    rowboats: Rowboatoptions.RowboatSanity
+    shipwrecks: Shipwreckoptions.ShipwreckOptions
+    tallTales: TallTaleoptions.TallTaleoptions
 
     trapsPercentage: Trapsoptions.TrapPercentage
     experimentals: ExperimentalFeatures

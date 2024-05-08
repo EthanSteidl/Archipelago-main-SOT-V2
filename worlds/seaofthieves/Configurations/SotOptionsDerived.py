@@ -15,6 +15,7 @@ from ..Locations.Goldseaker import TreasuresSold
 from ..Locations.Voyager import VoyageQuestAthena, VoyageQuestGh, VoyageQuestMa, VoyageQuestOos, VoyageQuestRor
 from ..Locations.Rouge import RogueQuestAll
 from ..Configurations import Trapsoptions
+from ..Locations.Voyager import CaptainShipSpotted,DaysAtSea,NauticalMilesSailed,Rowboats,Shipwrecks,TallTales
 
 class SotOptionsDerived:
 
@@ -40,6 +41,13 @@ class SotOptionsDerived:
         self.voyageQuestRorSettings: VoyageQuestRor.SettingsVoyageQuestRor
         self.rougeSettings: RogueQuestAll.SettingsRogueQuestAll
 
+        self.captainShipSettings: CaptainShipSpotted.SettingsCaptainShipSpotted
+        self.daysAtSeaSettings: DaysAtSea.SettingsDaysAtSea
+        self.nauticalMilesSailedSettings: NauticalMilesSailed.SettingsNauticalMiles
+        self.rowboatSettings: Rowboats.SettingsRowboat
+        self.shipreckSettings: Shipwrecks.SettingsShipwrecks
+        self.tallTaleSettings: TallTales.SettingsTallTales
+
         self.trapsPercentage: int
 
         if(sotOptions == None):
@@ -61,6 +69,14 @@ class SotOptionsDerived:
             self.voyageQuestOosSettings = VoyageQuestOos.SettingsVoyageQuestOos()
             self.voyageQuestAthenaSettings = VoyageQuestAthena.SettingsVoyageQuestAthena()
             self.voyageQuestRorSettings = VoyageQuestRor.SettingsVoyageQuestRor()
+
+            self.captainShipSettings = CaptainShipSpotted.SettingsCaptainShipSpotted()
+            self.daysAtSeaSettings = DaysAtSea.SettingsDaysAtSea()
+            self.nauticalMilesSailedSettings = NauticalMilesSailed.SettingsNauticalMiles()
+            self.rowboatSettings = Rowboats.SettingsRowboat()
+            self.shipreckSettings = Shipwrecks.SettingsShipwrecks()
+            self.tallTaleSettings = TallTales.SettingsTallTales()
+
             self.trapsPercentage = 3 #put this in a better place?
             self.experimentals: bool = False
         else:
@@ -83,13 +99,61 @@ class SotOptionsDerived:
             self.voyageQuestAthenaSettings = self.__getVoyageEmAfSettings(sotOptions)
             self.voyageQuestRorSettings = self.__getVoyageEmRorSettings(sotOptions)
 
+            self.captainShipSettings = self.__getCaptainShipSpottedSettings(sotOptions)
+            self.daysAtSeaSettings = self.__getDaysAtSeaSettings(sotOptions)
+            self.nauticalMilesSailedSettings = self.__getNauticalMilesSettings(sotOptions)
+            self.rowboatSettings = self.__getRowboatSettings(sotOptions)
+            self.shipreckSettings = self.__getShipwreckSettings(sotOptions)
+            self.tallTaleSettings = self.__getTallTaleSettings(sotOptions)
+
             self.trapsPercentage = sotOptions.trapsPercentage.value
             self.experimentals = bool(sotOptions.experimentals.value)
 
             #options without a ui element created
 
 
+    def __getCaptainShipSpottedSettings(self, sotOptions: SOTOptions):
 
+        any: int = int((sotOptions.captainShipSpotted.value == 1))
+        sloop: int = int((sotOptions.captainShipSpotted.value == 2))
+        brig: int = int((sotOptions.captainShipSpotted.value == 2))
+        gal: int = int((sotOptions.captainShipSpotted.value == 2))
+
+        return CaptainShipSpotted.SettingsCaptainShipSpotted(any, sloop, brig, gal)
+
+    def __getNauticalMilesSettings(self, sotOptions: SOTOptions):
+
+        any: int = int((sotOptions.captainShipSpotted.value == 1))
+
+        return NauticalMilesSailed.SettingsNauticalMiles(any)
+
+    def __getDaysAtSeaSettings(self, sotOptions: SOTOptions):
+
+        count: int = int((sotOptions.daysAtSea.value == 1))
+
+        return DaysAtSea.SettingsDaysAtSea(count)
+
+    def __getRowboatSettings(self, sotOptions: SOTOptions):
+
+        count: int = int((sotOptions.rowboats.value == 1))
+        lantern: int = int((sotOptions.rowboats.value == 2))
+        harpoon: int = int((sotOptions.rowboats.value == 2))
+        cannon: int = int((sotOptions.rowboats.value == 2))
+
+        return Rowboats.SettingsRowboat(count, lantern, harpoon, cannon)
+
+    def __getShipwreckSettings(self, sotOptions: SOTOptions):
+
+        count: int = int((sotOptions.shipwrecks.value == 1))
+
+        return Shipwrecks.SettingsShipwrecks(count)
+
+    def __getTallTaleSettings(self, sotOptions: SOTOptions):
+
+        any: int = int((sotOptions.tallTales.value == 1))
+        uniques: int = int((sotOptions.tallTales.value == 2))
+
+        return TallTales.SettingsTallTales(any, uniques)
 
     def __getChestSettings(self, sotOptions: SOTOptions):
         #gh_count: int = sotOptions.sellSettingsGh

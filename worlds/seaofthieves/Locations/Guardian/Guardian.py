@@ -63,4 +63,3 @@ class VoyageQuestGa(LocationsBase):
         ])
         self.locations.append(LocDetails(self.L_SERV_GUARDIANS_SUNK_GALL, wlc, self.settings.gal is not SettingsVoyageQuestGa.Gal.OFF))
 
-

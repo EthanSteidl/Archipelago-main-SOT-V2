@@ -71,6 +71,8 @@ class SOTWebCollector:
                 resp = requests.get('https://www.seaofthieves.com/api/profilev2/captaincy', headers=self.getHeaders())
                 text = resp.text
                 self.json = json.loads(text)
+                with open("tst.json", "w") as out:
+                    json.dump(self.json,out)#(self.json)
 
             except:
                 print("The query to the web server failed, resolution steps: (1) enter the correct cookie (2) open the Captaincy page on www.seaofthieves.com")
