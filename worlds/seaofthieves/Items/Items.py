@@ -153,8 +153,8 @@ class ItemCollection:
         if self.ItemNameToId is None:
             self.getDict()
         for itm in self.ItemNameToId:
-            if itm.id == id:
-                return itm.name
+            if self.ItemNameToId[itm] == id:
+                return itm
 
         return ""
 
