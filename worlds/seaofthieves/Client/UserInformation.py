@@ -1,5 +1,5 @@
 from worlds.seaofthieves.Configurations.SotOptionsDerived import SotOptionsDerived
-
+from worlds.seaofthieves import ClientInput
 from typing import Optional
 class SotLoginCredentials:
 
@@ -28,10 +28,10 @@ class SotAnalyzerDetails:
 
 class UserInformation:
 
-    def __init__(self, sotLoginCreds: SotLoginCredentials, sotAnalyzerDetails: SotAnalyzerDetails, address: str, username: str, options: SotOptionsDerived, regionLogic: list):
+    def __init__(self, sotLoginCreds: SotLoginCredentials, sotAnalyzerDetails: SotAnalyzerDetails, address: str, username: str, clientInput: ClientInput):
         self.loginCreds: SotLoginCredentials = sotLoginCreds
         self.analyzerDetails: SotAnalyzerDetails = sotAnalyzerDetails
         self.address: str = address
         self.username: str = username
-        self.options: SotOptionsDerived = options
-        self.regionLogic = regionLogic
+        self.options: SotOptionsDerived = clientInput.sotOptionsDerived
+        self.regionLogic = clientInput.regionRules

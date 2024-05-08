@@ -21,6 +21,7 @@ from ..generic.Rules import add_rule, exclusion_rules
 from .Configurations import SotOptionsDerived
 from .Locations.Menu import QuestMenu
 import collections
+from .ClientInput import ClientInput
 import pickle
 class SOTWeb(WebWorld):
     tutorials = [Tutorial(
@@ -183,13 +184,21 @@ class SOTWorld(World):
             with open(os.path.join(output_directory, filename), 'w') as f:
                 json.dump(data, f)
 
-        options_filename = f"{self.multiworld.get_out_file_name_base(self.player)}_Options.apsmSOTOPT"
-        with open(os.path.join(output_directory, options_filename), 'wb') as f:
-            pickle.dump(self.sotOptionsDerived, f)
+        clientInputs: ClientInput = ClientInput()
+        clientInputs.sotOptionsDerived = self.sotOptionsDerived
+        clientInputs.regionRules = self.region_rules
+        client_file = f"{self.multiworld.get_out_file_name_base(self.player)}_ClientInput.apsmSOTCI"
+        output_file_and_directory = os.path.join(output_directory, client_file)
+        clientInputs.to_file(output_file_and_directory)
+        # options_filename = f"{self.multiworld.get_out_file_name_base(self.player)}_Options.apsmSOTOPT"
+        # with open(os.path.join(output_directory, options_filename), 'wb') as f:
+        #     pickle.dump(self.sotOptionsDerived, f)
+        #
+        # options_filename = f"{self.multiworld.get_out_file_name_base(self.player)}_Options.apsmSOTREG"
+        # with open(os.path.join(output_directory, options_filename), 'wb') as f:
+        #     pickle.dump(self.region_rules, f)
 
-        options_filename = f"{self.multiworld.get_out_file_name_base(self.player)}_Options.apsmSOTREG"
-        with open(os.path.join(output_directory, options_filename), 'wb') as f:
-            pickle.dump(self.region_rules, f)
+
 
 
     def fill_slot_data(self):

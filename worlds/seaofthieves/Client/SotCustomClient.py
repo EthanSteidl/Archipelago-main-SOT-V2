@@ -9,6 +9,7 @@ from worlds.seaofthieves.Items.Items import ItemCollection
 from worlds.seaofthieves.Items.Items import Items, ItemDetail
 from worlds.seaofthieves.Client.Shop import Shop,CombatShop
 from worlds.seaofthieves.Configurations.SotOptionsDerived import SotOptionsDerived
+from worlds.seaofthieves import ClientInput
 import worlds.seaofthieves.Client.PlayerInventory as PlayerInventory
 import pickle
 import colorama
@@ -420,10 +421,8 @@ def getSeaOfThievesDataFromArguments() -> UserInformation.UserInformation:
     parser.add_argument('--user', dest='username', type=str, help='Player username')
     parser.add_argument('--mscookie', dest='msCookie', type=str,
                         help='Microsoft login cookie given to www.seaofthieves.com', nargs='+')
-    parser.add_argument('--options', dest='options', type=str,
-                        help='Options YAML file', nargs='+')
-    parser.add_argument('--regionLogic', dest='regionLogic', type=str,
-                        help='Options YAML file', nargs='+')
+    parser.add_argument('--clientInput', dest='clientInput', type=str,
+                        help='Client Input File', nargs='+')
     args = parser.parse_args()
     if args.msCookie is not None:
         filepath = args.msCookie[0]
@@ -439,27 +438,26 @@ def getSeaOfThievesDataFromArguments() -> UserInformation.UserInformation:
             print("Warning: Your file contains a newline at the start file. Confirm this is correct")
         file.close()
 
-    if args.options is not None:
-        filepath = args.options[0]
+    if args.clientInput is not None:
+        filepath = args.clientInput[0]
         while not os.path.exists(filepath):
             filepath = input(
-                'File not found. Enter an absolute Filepath to a text file containing your options: ')
-        file = open(filepath, "rb")
-        options = pickle.load(file)
-        file.close()
+                'File not found. Enter an absolute Filepath to a text file containing your client input: ')
+        clientInput: ClientInput = ClientInput()
+        clientInput.from_fire(filepath)
 
-    if args.regionLogic is not None:
-        filepath = args.regionLogic[0]
-        while not os.path.exists(filepath):
-            filepath = input(
-                'File not found. Enter an absolute Filepath to a text file containing your Region Logic : ')
-        file = open(filepath, "rb")
-        region_logic = pickle.load(file)
-        file.close()
-
+    # if args.regionLogic is not None:
+    #     filepath = args.regionLogic[0]
+    #     while not os.path.exists(filepath):
+    #         filepath = input(
+    #             'File not found. Enter an absolute Filepath to a text file containing your Region Logic : ')
+    #     file = open(filepath, "rb")
+    #     region_logic = pickle.load(file)
+    #     file.close()
 
 
-    if( args.address is None or args.ship is None or args.msCookie is None or args.username is None or args.options is None or args.regionLogic is None):
+
+    if( args.address is None or args.ship is None or args.msCookie is None or args.username is None or args.clientInput is None or args.clientInput is None):
         print("Error: Expected command line arguments")
         print("Required \"--address <ipaddress:port>\"")
         print("Required \"--ship <shipNumber>\"")
@@ -481,22 +479,22 @@ def getSeaOfThievesDataFromArguments() -> UserInformation.UserInformation:
             file.close()
         if (args.username is None):
             args.username = input('Enter user : ')
-        if (args.options is None):
+        if (args.clientInput is None):
             filepath = input('Enter an absolute Filepath to a text file containing your options : ')
             while not os.path.exists(filepath):
                 filepath = input(
                     'File not found. Enter an absolute Filepath to a text file containing your options : ')
-            file = open(filepath, "rb")
-            options = pickle.load(file)
-            file.close()
-        if (args.regionLogic is None):
-            filepath = input('Enter an absolute Filepath to a text file containing your region logic : ')
-            while not os.path.exists(filepath):
-                filepath = input(
-                    'File not found. Enter an absolute Filepath to a text file containing your region logic: ')
-            file = open(filepath, "rb")
-            region_logic = pickle.load(file)
-            file.close()
+            clientInput: ClientInput = ClientInput()
+            clientInput.from_fire(filepath)
+
+        # if (args.regionLogic is None):
+        #     filepath = input('Enter an absolute Filepath to a text file containing your region logic : ')
+        #     while not os.path.exists(filepath):
+        #         filepath = input(
+        #             'File not found. Enter an absolute Filepath to a text file containing your region logic: ')
+        #     file = open(filepath, "rb")
+        #     region_logic = pickle.load(file)
+        #     file.close()
 
 
     pirate = None
@@ -505,7 +503,7 @@ def getSeaOfThievesDataFromArguments() -> UserInformation.UserInformation:
         pirate = "pirateMode"
     sotLoginCredentials: UserInformation.SotLoginCredentials = UserInformation.SotLoginCredentials(real_cookie)
     sotAnalyzerDetails: UserInformation.SotAnalyzerDetails = UserInformation.SotAnalyzerDetails(args.ship, pirate)
-    userInfo = UserInformation.UserInformation(sotLoginCredentials, sotAnalyzerDetails, args.address, args.username, options, region_logic)
+    userInfo = UserInformation.UserInformation(sotLoginCredentials, sotAnalyzerDetails, args.address, args.username, clientInput)
     return userInfo
 
 async def every(__seconds: float, func, *args, **kwargs):
@@ -572,6 +570,7 @@ async def main():
     multiprocessing.freeze_support()
     user_info: UserInformation.UserInformation = getSeaOfThievesDataFromArguments()
     ctx = SOT_Context(user_info.address, None, user_info)
+
     await ctx.connect(user_info.address)
 
     ctx.run_cli()
