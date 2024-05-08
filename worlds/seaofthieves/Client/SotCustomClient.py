@@ -1,4 +1,7 @@
 from __future__ import annotations
+
+import random
+
 # CommonClient import first to trigger ModuleUpdater
 import winsound
 from worlds.seaofthieves.Locations.LocationCollection import LocationDetailsCollection, LocDetails
@@ -226,7 +229,15 @@ class SOT_Context(CommonContext):
 
         elif cmd == "SetReply":
             setReplyPacket: SetReplyPacket = SetReplyPacket(args)
-            #if(setReplyPacket.value != 0 and setReplyPacket.original_value == 0):
+            if setReplyPacket.key is Items.golden_dragon.name:
+                puns = [
+                    "Captain! " + colorama.Fore.YELLOW + "Another Player " + colorama.Fore.RESET + "leveraged to much naval real estate and succumbed to collections",
+                    "Captain! " + colorama.Fore.YELLOW + "Another Player " + colorama.Fore.RESET + "invested their money in an MLM",
+                    "Captain! " + colorama.Fore.YELLOW + "Another Player " + colorama.Fore.RESET + "sent their money to a long lost royal relative stuck in prison"
+                ]
+
+                print(random.choice(puns))
+
             self.playAudio(setReplyPacket.key)
 
         else:
@@ -255,7 +266,7 @@ class SOT_Context(CommonContext):
             self.playerInventory.addBalanceClient(Balance.Balance(ac, db, gold_val))
 
         elif id == Items.golden_dragon:
-            print("Captain! The legendary" + colorama.Fore.YELLOW + Items.golden_dragon.name + colorama.Style.RESET_ALL + " is comming for your " + colorama.Fore.GREEN + "MONEY")
+            print("Captain! The legendary " + colorama.Fore.YELLOW + Items.golden_dragon.name + colorama.Style.RESET_ALL + " is comming for your " + colorama.Fore.GREEN + "COINS" + colorama.Fore.RESET + ". You are now broke.")
             self.playerInventory.setBalanceSot(Balance.Balance(-10000, -10000, -10000))
             self.add(Items.golden_dragon.name)
 

@@ -48,8 +48,7 @@ class Items:
         ancient_coins_10.numeric_value = 10
 
 
-        golden_dragon = ItemDetail("Pirate Rick", ItemClassification.trap)
-        golden_dragon.sound_file = "roll.mp3"
+        golden_dragon = ItemDetail("Kraken", ItemClassification.trap)
 
 
         sail = ItemDetail("Sail", ItemClassification.progression)
