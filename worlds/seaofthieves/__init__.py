@@ -202,9 +202,12 @@ class SOTWorld(World):
         for_player = loc.item.player
         sending_world = loc.player
 
+        for_player_name = self.multiworld.player_name[for_player]
+        sending_player_name = self.multiworld.player_name[sending_world]
+
         if(for_player == self.player):
-            return '{} in world {} holds your {}'.format(loc_name, sending_world, item_name)
-        return '{} holds {} for player {}'.format(loc_name, item_name, for_player)
+            return '{} in {}\'s world holds your {}'.format(loc_name, sending_player_name, item_name)
+        return '{} holds {} for {}'.format(loc_name, item_name, for_player_name)
 
     def pre_fill_seals(self) -> None:
 

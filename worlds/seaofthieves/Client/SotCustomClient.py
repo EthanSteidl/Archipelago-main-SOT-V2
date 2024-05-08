@@ -489,12 +489,12 @@ async def main():
     await ctx.connect(user_info.address)
 
     ctx.run_cli()
-    f = asyncio.create_task(watchGameForever(ctx), name="ever")
+    game_watcher = asyncio.create_task(watchGameForever(ctx), name="ever")
 
     await ctx.exit_event.wait()
-    #await progression_watcher
-    await f
+    await game_watcher
     await ctx.shutdown()
+
     return
 
 
