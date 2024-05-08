@@ -39,6 +39,8 @@ The following items are randomized:
 17. Fishing Rod - Allows location rewards for fishing
 18. Shovel - Allows location rewards for digging related locations
 19. Pirate Legend - Once achieved, you win
+20. Voyages of Tales - Allows access to Tall Tale rewards
+21. Stove - Allows access to EAT, COOK, BURN checks that would usually require cooking
 
 The following items are filler:
 1. Gold Coins
@@ -46,7 +48,7 @@ The following items are filler:
 3. Dabloons
 
 The following items are traps:
-1. Pirate Rick
+1. Kraken
 
 ## What can you do with Gold?
 The game client tracks how much money you make in game. It also tracks how much money other players give you.
@@ -92,7 +94,5 @@ The following commands are only available when using the Sea of Thieves Client t
 
 The following commands are debug commands
 
-* `/cshop` Opens the combat shop
-* `/cbuy #` Buys an item from the combat shop
 * `/mrkrabs` Gives you a large amount of money
 * `/forceunlock` Removes all logic requirements for every location
