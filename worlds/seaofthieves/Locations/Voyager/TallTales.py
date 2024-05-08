@@ -45,8 +45,11 @@ class TallTales(LocationsBase):
         super().__init__()
         self.x = [1, 9, 1]
         reg = RegionNameCollection()
-        reg.addFromList([Regions.R_ISLANDS])
+        reg.addFromList([Regions.R_DOMAIN_TT])
         lgc = ItemReqEvalOr([])
+
+        reg_ashen = RegionNameCollection()
+        reg_ashen.addFromList([Regions.R_DOMAIN_TT_ASHEN])
 
 
         web = WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2])
@@ -94,7 +97,7 @@ class TallTales(LocationsBase):
         self.locations.append(LocDetails(self.L_TT_9, wlc, settings.include_unique > 0))
 
         web = WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 10)
-        wlc = WebLocationCollection([WebLocation(web, reg, lgc)])
+        wlc = WebLocationCollection([WebLocation(web, reg_ashen, lgc)])
         self.locations.append(LocDetails(self.L_TT_10, wlc, settings.include_unique > 0))
 
         web = WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 11)

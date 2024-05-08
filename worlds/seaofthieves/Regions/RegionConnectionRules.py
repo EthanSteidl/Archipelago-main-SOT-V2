@@ -214,5 +214,17 @@ def create_rules(options: SotOptionsDerived, world: MultiWorld):
     rules.append(ConnectionDetails(Regions.R_OPEN_SEA_SHARED, Regions.R_OTHER_SHIP,
                                    ItemReqEvalOr([ItemReqEvalAnd([Items.sail])])))
     # endregion
-    
+
+    # region Tall Tales
+    rules.append(ConnectionDetails(Regions.R_OPEN_SEA_SHARED, Regions.R_DOMAIN_TT,
+                                   ItemReqEvalOr([ItemReqEvalAnd([Items.voyages_tt])])))
+    rules.append(ConnectionDetails(Regions.R_OPEN_SEA_SHARED, Regions.R_DOMAIN_TT_ASHEN,
+                                   ItemReqEvalOr([ItemReqEvalAnd([Items.voyages_tt])])))
+    # endregion
+
+    rules.append(ConnectionDetails(Regions.R_PLAYER_SHIP, Regions.R_SHIP_CANNONS,
+                                   ItemReqEvalOr([ItemReqEvalAnd([Items.ship_weapons])])))
+    rules.append(ConnectionDetails(Regions.R_PLAYER_SHIP, Regions.R_SHIP_COOKER,
+                                   ItemReqEvalOr([ItemReqEvalAnd([Items.stove])])))
+
     return rules

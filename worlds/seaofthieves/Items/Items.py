@@ -82,6 +82,7 @@ class Items:
         ship_weapons = ItemDetail("Ship Weapons", ItemClassification.progression)
         fishing_rod = ItemDetail("Fishing Rod", ItemClassification.progression)
         shovel = ItemDetail("Shovel", ItemClassification.progression)
+        stove = ItemDetail("Stove", ItemClassification.progression)
 
         pirate_legend = ItemDetail("Pirate Legend", ItemClassification.progression)
 
@@ -90,6 +91,8 @@ class Items:
         upgrade_cnt_oos = ItemDetail("Sell Item (OOS)", ItemClassification.progression)
         upgrade_cnt_af = ItemDetail("Sell Item (AF)", ItemClassification.progression)
         upgrade_cnt_rb = ItemDetail("Sell Item (RB)", ItemClassification.progression)
+
+        voyages_tt = ItemDetail("Voyages of Tall Tales", ItemClassification.progression)
 
 
 class ItemCollection:

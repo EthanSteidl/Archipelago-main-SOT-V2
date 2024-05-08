@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 import random
-
 # CommonClient import first to trigger ModuleUpdater
 import winsound
 from worlds.seaofthieves.Locations.LocationCollection import LocationDetailsCollection, LocDetails

@@ -39,3 +39,10 @@ class Regions(list):
     R_DOMAIN_SV: RegionDetails = RegionDetails("Sea of Servants")
     R_DOMAIN_GF: RegionDetails = RegionDetails("Sea of Guardians")
     R_FORT_OF_THE_DAMNED: RegionDetails = RegionDetails("Fort of the Damned")
+
+    R_DOMAIN_TT: RegionDetails = RegionDetails("Sea of Tales")
+    R_DOMAIN_TT_ASHEN: RegionDetails = RegionDetails("Sea of Ashen Tales")
+
+    R_SHIP_CANNONS: RegionDetails = RegionDetails("Ship Cannons")
+    R_SHIP_COOKER: RegionDetails = RegionDetails("Ship Stove")
+

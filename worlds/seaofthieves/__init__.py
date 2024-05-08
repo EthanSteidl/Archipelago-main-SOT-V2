@@ -1,5 +1,5 @@
 import os
-
+import Utils
 import json
 from worlds.seaofthieves.Items.Items import *
 from .Options import SOTOptions
@@ -103,7 +103,7 @@ class SOTWorld(World):
 
     def generate_output(self, output_directory: str):
 
-        #Utils.visualize_regions(self.multiworld.get_region("Menu", self.player), f"{self.multiworld.get_out_file_name_base(self.player)}.svg")
+        Utils.visualize_regions(self.multiworld.get_region("Menu", self.player), f"{self.multiworld.get_out_file_name_base(self.player)}.svg")
         if self.sotOptionsDerived.experimentals:
             self.mapss = {}
             self.locSequence = {}

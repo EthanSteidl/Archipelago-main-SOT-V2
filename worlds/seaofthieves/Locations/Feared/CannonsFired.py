@@ -54,7 +54,7 @@ class CannonsFired(LocationsBase):
 
 
         reg = RegionNameCollection()
-        reg.addFromList([Regions.R_ISLANDS])
+        reg.addFromList([Regions.R_SHIP_CANNONS])
         lgc = ItemReqEvalOr([])
         wlc = WebLocationCollection([
             WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 3), reg, lgc),
@@ -75,7 +75,7 @@ class CannonsFired(LocationsBase):
 
 
         reg = RegionNameCollection()
-        reg.addFromList([Regions.R_ISLANDS])
+        reg.addFromList([Regions.R_SHIP_CANNONS])
         lgc = ItemReqEvalOr([])
         wlc = WebLocationCollection([
             WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 7), reg, lgc),
@@ -92,7 +92,7 @@ class CannonsFired(LocationsBase):
 
 
         reg = RegionNameCollection()
-        reg.addFromList([Regions.R_ISLANDS])
+        reg.addFromList([Regions.R_SHIP_CANNONS])
         lgc = ItemReqEvalOr([])
         wlc = WebLocationCollection([
             WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 0), reg, lgc),
