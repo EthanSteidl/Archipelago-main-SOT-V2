@@ -1,27 +1,23 @@
 import os
-import time
-import math
-import typing
+
 import json
-import Utils
 from worlds.seaofthieves.Items.Items import *
 from .Options import SOTOptions
 from .Rules import set_rules
 from BaseClasses import Location
-import base64
 from worlds.seaofthieves.Regions.Regions import create_regions
-from BaseClasses import Item, Tutorial, ItemClassification, LocationProgressType
+from BaseClasses import Item, Tutorial, ItemClassification
 from worlds.AutoWorld import World, WebWorld
 from .Locations.LocationCollection import LocationDetailsCollection
 from .Locations.LocationOptions import LocationOptions
-from Fill import FillError, fill_restrictive
+from Fill import fill_restrictive
 from .Regions.Regions import RegionAdder
 from .Locations.Seals import Seals
-from ..generic.Rules import add_rule, exclusion_rules
 from .Configurations import SotOptionsDerived
 from .Locations.Menu import QuestMenu
 import collections
 from .ClientInput import ClientInput
+from .Items.ItemAdder import create_items
 import pickle
 class SOTWeb(WebWorld):
     tutorials = [Tutorial(
@@ -64,6 +60,7 @@ class SOTWorld(World):
 
     def generate_early(self) -> None:
         self.sotOptionsDerived = SotOptionsDerived.SotOptionsDerived(self.options)
+        self.sotOptionsDerived.player_name = self.multiworld.player_name[self.player]
         self.locationCollection = LocationDetailsCollection()
         self.locationCollection.applyOptions(self.sotOptionsDerived)
         self.locationCollection.addAll()
@@ -95,67 +92,13 @@ class SOTWorld(World):
         item = SOTItem(name, ItemClassification.progression, item_id, self.player)
         return item
 
-    #def get_pre_fill_items(self):
-    #    return
 
     def create_items(self):
         thisWorldsLocCount = self.locationCollection.getLocCount()
+        create_items(self.multiworld, thisWorldsLocCount, self.sotOptionsDerived, self.itemCollection, self.player)
 
-        items_to_add_to_pool = 0
-
-        for detail in ItemCollection.lst:
-            items_to_add_to_pool += 1
-            self.multiworld.itempool.append(SOTItem(detail.name, ItemClassification.progression, detail.id, self.player))
-
-        for detail in ItemCollection.helpful:
-            i = 0
-            while(i<10):
-                i += 1
-                items_to_add_to_pool += 1
-                self.multiworld.itempool.append(SOTItem(detail.name, ItemClassification.trap, detail.id, self.player))
-
-        #sotOptions: SOTOptions = self.options
-        #if sotOptions.
-
-        #do generic multiworld exclude logic here by appending the items
-        for detail in ItemCollection.seals:
-            self.itemCollection.items_not_randomized.append(SOTItem(detail.name, ItemClassification.progression, detail.id, self.player))
-
-        fillerCount = thisWorldsLocCount - items_to_add_to_pool - len(ItemCollection.seals)-2 #TODO not sure why this 2 is here but i think its because by setting the sail, we remove 1loc 1 item in the world
-
-        if fillerCount > 0:
-            #we want to set a percentage of the filler to be traps
-
-            trap_count = int(math.floor(float(fillerCount) * (float(self.sotOptionsDerived.trapsPercentage)/100.0)))
-            fillerCount -= trap_count
-
-            for i in range(0, fillerCount-1):
-                fill_item = self.getFillerItem()
-                self.multiworld.itempool.append(fill_item)
-                
-            for i in range(0, trap_count-1):
-                trap_item = self.getTrapItem()
-                self.multiworld.itempool.append(trap_item)
-
-
-    def getFillerItem(self):
-        rand_val = self.random.random()
-        det: ItemDetail
-        if rand_val > 0.96:
-            det = Items.Filler.ancient_coins_10
-        elif rand_val > 0.72:
-            det = Items.Filler.dabloons_25
-        else:
-            filler_list = [Items.Filler.gold_50, Items.Filler.gold_100, Items.Filler.gold_500]
-            det = self.multiworld.random.choice(filler_list)
-        return SOTItem(det.name, ItemClassification.filler,  det.id, self.player)
-
-    def getTrapItem(self):
-        trap_list = [Items.golden_dragon]
-        det: ItemDetail = self.multiworld.random.choice(trap_list)
-        return SOTItem(det.name, ItemClassification.trap,  det.id, self.player)
     def get_filler_item_name(self) -> str:
-        return self.getFillerItem().name
+        return self.itemCollection.getFillerItemName()
 
 
     def generate_output(self, output_directory: str):
@@ -187,16 +130,9 @@ class SOTWorld(World):
         clientInputs: ClientInput = ClientInput()
         clientInputs.sotOptionsDerived = self.sotOptionsDerived
         clientInputs.regionRules = self.region_rules
-        client_file = f"{self.multiworld.get_out_file_name_base(self.player)}_ClientInput.apsmSOTCI"
+        client_file = f"{self.multiworld.get_out_file_name_base(self.player)}.apsmSOTCI"
         output_file_and_directory = os.path.join(output_directory, client_file)
         clientInputs.to_file(output_file_and_directory)
-        # options_filename = f"{self.multiworld.get_out_file_name_base(self.player)}_Options.apsmSOTOPT"
-        # with open(os.path.join(output_directory, options_filename), 'wb') as f:
-        #     pickle.dump(self.sotOptionsDerived, f)
-        #
-        # options_filename = f"{self.multiworld.get_out_file_name_base(self.player)}_Options.apsmSOTREG"
-        # with open(os.path.join(output_directory, options_filename), 'wb') as f:
-        #     pickle.dump(self.region_rules, f)
 
 
 
@@ -274,7 +210,13 @@ class SOTWorld(World):
 
         #right now we just have seals, so this works, but it wont soon
 
-        seal_items = self.itemCollection.items_not_randomized
+        seal_items = [
+            self.create_item(Items.seal_gh.name),
+            self.create_item(Items.seal_ma.name),
+            self.create_item(Items.seal_af.name),
+            self.create_item(Items.seal_rb.name),
+            self.create_item(Items.seal_oos.name)
+        ]
         seal_locations = [
             self.multiworld.get_location(Seals.Seals.L_VOYAGE_COMP_GH_TOTAL, self.player),
             self.multiworld.get_location(Seals.Seals.L_VOYAGE_COMP_MA_TOTAL, self.player),
@@ -298,6 +240,9 @@ class SOTWorld(World):
         itm = self.create_item(Items.pirate_legend.name)
         fill_restrictive(self.multiworld, all_state, [fod_location], [itm], True, lock=True,
                          name="SOT Seals")
+
+
+
 
 
     def pre_fill_sail(self) -> None:

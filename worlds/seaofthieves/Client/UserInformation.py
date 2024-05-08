@@ -28,10 +28,10 @@ class SotAnalyzerDetails:
 
 class UserInformation:
 
-    def __init__(self, sotLoginCreds: SotLoginCredentials, sotAnalyzerDetails: SotAnalyzerDetails, address: str, username: str, clientInput: ClientInput):
+    def __init__(self, sotLoginCreds: SotLoginCredentials, sotAnalyzerDetails: SotAnalyzerDetails, address: str, clientInput: ClientInput):
         self.loginCreds: SotLoginCredentials = sotLoginCreds
         self.analyzerDetails: SotAnalyzerDetails = sotAnalyzerDetails
         self.address: str = address
-        self.username: str = username
+        self.username: str = clientInput.sotOptionsDerived.player_name
         self.options: SotOptionsDerived = clientInput.sotOptionsDerived
         self.regionLogic = clientInput.regionRules

@@ -1,4 +1,4 @@
-from worlds.seaofthieves.Items.Items import Items, em_flags
+from worlds.seaofthieves.Items.Items import Items
 import typing
 from ..Configurations import SotOptionsDerived
 from BaseClasses import MultiWorld
@@ -187,7 +187,13 @@ def create_rules(options: SotOptionsDerived, world: MultiWorld):
     rules.append(ConnectionDetails(Regions.R_OPEN_SEA, Regions.R_FORTRESSES,
                                    ItemReqEvalOr([ItemReqEvalAnd([Items.sail])])))
 
-    required_seals: typing.List[ItemDetail] = copy.deepcopy(ItemCollection.seals)
+    required_seals: typing.List[ItemDetail] = [
+            Items.seal_gh,
+            Items.seal_ma,
+            Items.seal_af,
+            Items.seal_rb,
+            Items.seal_oos
+        ]
     world.random.shuffle(required_seals)
     for i in range(len(required_seals) - options.menuSettings.fodSealRequirement):
         required_seals.pop()

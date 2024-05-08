@@ -1,41 +1,22 @@
 from __future__ import annotations
 # CommonClient import first to trigger ModuleUpdater
-import json
-import multiprocessing
 import winsound
-from worlds.seaofthieves.Locations.Locations import WebLocation
 from worlds.seaofthieves.Locations.LocationCollection import LocationDetailsCollection, LocDetails
 from worlds.seaofthieves.Items.Items import ItemCollection
 from worlds.seaofthieves.Items.Items import Items, ItemDetail
-from worlds.seaofthieves.Client.Shop import Shop,CombatShop
+from worlds.seaofthieves.Client.Shop import Shop
 from worlds.seaofthieves.Configurations.SotOptionsDerived import SotOptionsDerived
 from worlds.seaofthieves import ClientInput
 import worlds.seaofthieves.Client.PlayerInventory as PlayerInventory
-import pickle
 import colorama
-import asyncio
-import copy
-import json
-import logging
 import os
-import random
-import re
-import string
-import subprocess
-import sys
-import time
-import typing
-from queue import Queue
 from CommonClient import CommonContext, server_loop, ClientCommandProcessor, gui_enabled, get_base_parser
-from Utils import init_logging, is_windows, async_start
-import sys
 import threading
 import worlds.seaofthieves.Client.SOTDataAnalyzer as SOTDataAnalyzer
 import typing
 from NetUtils import ClientStatus, NetworkItem, JSONtoTextParser, JSONMessagePart, add_json_item, add_json_location, add_json_text, JSONTypes
 import worlds.seaofthieves.Client.UserInformation as UserInformation
 import argparse
-import time
 import asyncio
 import multiprocessing
 import logging
@@ -52,21 +33,20 @@ class Version(NamedTuple):
 import socket
 
 async def watchGameForever(ctx):
-    firstpass = True
+    first_pass = True
     while True:
 
         if ctx.connected_to_server:
-            if firstpass:
+            if first_pass:
                 await ctx.init_notif()
-                ctx.itemDets = ctx.itemCollection.getDictDetail()
-                firstpass = False
+                first_pass = False
             else:
                 try:
                     ctx.updateSotPlayerBalance()
                     ctx.updateAnalyzerWithLocationsPossible()
                     await ctx.collectLocationsAndSendInformation()
                 except Exception as e:
-                    print("Fatal error occured: ", e)
+                    print("Fatal error occurred: ", e)
 
         await asyncio.sleep(4)
 
@@ -89,31 +69,31 @@ class SOT_CommandProcessor(ClientCommandProcessor):
         print("Not Implemented")
         return False
 
-        #command in form "shipName<->mscookie"
-        args = command.split("<->")
-        if len(args) < 2:
-            print("Invalid argument count of " + str(len(args)) + ". Expected 2.")
-            return False
-
-        shipName = args[0]
-        msCookie = args[1]
-        #self.ctx.analyzer.addShip(shipName, msCookie)
-        return True
+        # #command in form "shipName<->mscookie"
+        # args = command.split("<->")
+        # if len(args) < 2:
+        #     print("Invalid argument count of " + str(len(args)) + ". Expected 2.")
+        #     return False
+        #
+        # shipName = args[0]
+        # msCookie = args[1]
+        # #self.ctx.analyzer.addShip(shipName, msCookie)
+        # return True
     def _cmd_linkPirate(self, command: str) -> bool:
         """Tracks another pirate on this world"""
         print("Not Implemented")
         return False
 
-        #command in form "shipName<->mscookie"
-        args = command.split("<->")
-        if len(args) < 2:
-            print("Invalid argument count of " + str(len(args)) + ". Expected 2.")
-            return False
-
-        name = args[0]
-        msCookie = args[1]
-        #self.ctx.analyzer.addPirate(name, msCookie)
-        return True
+        # #command in form "shipName<->mscookie"
+        # args = command.split("<->")
+        # if len(args) < 2:
+        #     print("Invalid argument count of " + str(len(args)) + ". Expected 2.")
+        #     return False
+        #
+        # name = args[0]
+        # msCookie = args[1]
+        # #self.ctx.analyzer.addPirate(name, msCookie)
+        # return True
 
     def _cmd_shop(self) -> bool:
         """Opens the shop"""
@@ -138,21 +118,6 @@ class SOT_CommandProcessor(ClientCommandProcessor):
                 print(loc.name)
 
 
-    def _cmd_cshop(self):
-        """Opens the combat shop"""
-        self.ctx.combatShop.info(self.ctx.playerInventory)
-        return True
-
-    def _cmd_cbuy(self, menu_line_number):
-        """Buys an item from the combat shop"""
-        menu_line_number = str(menu_line_number)
-        detail: ItemDetail | None = self.ctx.combatShop.executeAction(menu_line_number, self.ctx.playerInventory)
-        if detail is None:
-            return
-
-        asyncio.ensure_future(self.ctx.set(detail.name, 1))
-
-
     def _cmd_mrkrabs(self):
         """Gives you alot of money"""
         print("You now have alot of money.")
@@ -174,9 +139,7 @@ class SOT_Context(CommonContext):
         self.discoveryHints = {}
 
         self.itemCollection = ItemCollection()
-        self.itemDets: typing.Dict[str, ItemDetail] = {}
         self.shop = Shop()
-        self.combatShop = CombatShop()
         self.playerInventory = PlayerInventory.PlayerInventory()
         self.connected_to_server = False
 
@@ -192,9 +155,6 @@ class SOT_Context(CommonContext):
         keys: typing.List[str] = []
 
         keys.append(Items.golden_dragon.name)
-
-        for det in ItemCollection.combat:
-            keys.append(str(det.name))
 
         await self.send_msgs([
             {
@@ -277,20 +237,16 @@ class SOT_Context(CommonContext):
     def playAudio(self, key: str):
         if not self.options.experimentals:
             return
-
-        if key in self.itemDets.keys() and self.itemDets[key].sound_file != "":
-            fpath = '..\\Items\\Sounds\\' + self.itemDets[key].sound_file
-            winsound.PlaySound(fpath, winsound.SND_FILENAME)
         return
     def applyMoneyIfMoney(self, itm: NetworkItem):
 
-        gold_ids: typing.Dict[int, int] = {Items.Filler.gold_50.id: Items.Filler.gold_50.numeric_value,
-                    Items.Filler.gold_100.id: Items.Filler.gold_100.numeric_value,
-                    Items.Filler.gold_500.id: Items.Filler.gold_500.numeric_value}
+        gold_ids: typing.Dict[int, int] = {Items.gold_50.id: Items.gold_50.numeric_value,
+                    Items.gold_100.id: Items.gold_100.numeric_value,
+                    Items.gold_500.id: Items.gold_500.numeric_value}
 
-        dabloon_ids: typing.Dict[int, int] = {Items.Filler.dabloons_25.id: Items.Filler.dabloons_25.numeric_value}
+        dabloon_ids: typing.Dict[int, int] = {Items.dabloons_25.id: Items.dabloons_25.numeric_value}
 
-        coin_ids: typing.Dict[int, int] = {Items.Filler.ancient_coins_10.id: Items.Filler.ancient_coins_10.numeric_value}
+        coin_ids: typing.Dict[int, int] = {Items.ancient_coins_10.id: Items.ancient_coins_10.numeric_value}
         id = itm.item
         if id in gold_ids.keys():
             gold_val = gold_ids[id]
@@ -418,7 +374,6 @@ def getSeaOfThievesDataFromArguments() -> UserInformation.UserInformation:
     parser = argparse.ArgumentParser()
     parser.add_argument('--address', dest='address', type=str, help='ip address : port of host')
     parser.add_argument('--ship', dest='ship', type=str, help='Player ship name')
-    parser.add_argument('--user', dest='username', type=str, help='Player username')
     parser.add_argument('--mscookie', dest='msCookie', type=str,
                         help='Microsoft login cookie given to www.seaofthieves.com', nargs='+')
     parser.add_argument('--clientInput', dest='clientInput', type=str,
@@ -429,7 +384,6 @@ def getSeaOfThievesDataFromArguments() -> UserInformation.UserInformation:
         while not os.path.exists(filepath):
             filepath = input('File not found. Enter an absolute Filepath to a text file containing your mscookie : ')
         file = open(filepath, "r")
-        args.msCookie
         real_cookie = str(file.read())
         if real_cookie == "":
             print("Your file is empty, ERROR")
@@ -446,23 +400,13 @@ def getSeaOfThievesDataFromArguments() -> UserInformation.UserInformation:
         clientInput: ClientInput = ClientInput()
         clientInput.from_fire(filepath)
 
-    # if args.regionLogic is not None:
-    #     filepath = args.regionLogic[0]
-    #     while not os.path.exists(filepath):
-    #         filepath = input(
-    #             'File not found. Enter an absolute Filepath to a text file containing your Region Logic : ')
-    #     file = open(filepath, "rb")
-    #     region_logic = pickle.load(file)
-    #     file.close()
 
 
-
-    if( args.address is None or args.ship is None or args.msCookie is None or args.username is None or args.clientInput is None or args.clientInput is None):
+    if( args.address is None or args.ship is None or args.msCookie is None or args.clientInput is None or args.clientInput is None):
         print("Error: Expected command line arguments")
         print("Required \"--address <ipaddress:port>\"")
         print("Required \"--ship <shipNumber>\"")
         print("Required \"--mscookie <cookie>\"")
-        print("Required \"--user <username>\"")
         print("Example Command: python SotCustomClient.py --address 127.0.0.1:25255 --ship 1 --mscookie 1j23iuo1j23p1h2j3p1h")
 
         print("\nEnter missing arguments now.")
@@ -477,8 +421,6 @@ def getSeaOfThievesDataFromArguments() -> UserInformation.UserInformation:
             file = open(filepath, "r")
             real_cookie = str(file.read())
             file.close()
-        if (args.username is None):
-            args.username = input('Enter user : ')
         if (args.clientInput is None):
             filepath = input('Enter an absolute Filepath to a text file containing your options : ')
             while not os.path.exists(filepath):
@@ -487,15 +429,6 @@ def getSeaOfThievesDataFromArguments() -> UserInformation.UserInformation:
             clientInput: ClientInput = ClientInput()
             clientInput.from_fire(filepath)
 
-        # if (args.regionLogic is None):
-        #     filepath = input('Enter an absolute Filepath to a text file containing your region logic : ')
-        #     while not os.path.exists(filepath):
-        #         filepath = input(
-        #             'File not found. Enter an absolute Filepath to a text file containing your region logic: ')
-        #     file = open(filepath, "rb")
-        #     region_logic = pickle.load(file)
-        #     file.close()
-
 
     pirate = None
     if args.ship == "NA":
@@ -503,7 +436,7 @@ def getSeaOfThievesDataFromArguments() -> UserInformation.UserInformation:
         pirate = "pirateMode"
     sotLoginCredentials: UserInformation.SotLoginCredentials = UserInformation.SotLoginCredentials(real_cookie)
     sotAnalyzerDetails: UserInformation.SotAnalyzerDetails = UserInformation.SotAnalyzerDetails(args.ship, pirate)
-    userInfo = UserInformation.UserInformation(sotLoginCredentials, sotAnalyzerDetails, args.address, args.username, clientInput)
+    userInfo = UserInformation.UserInformation(sotLoginCredentials, sotAnalyzerDetails, args.address, clientInput)
     return userInfo
 
 async def every(__seconds: float, func, *args, **kwargs):
@@ -528,11 +461,6 @@ class RunningCli(threading.Thread):
         asyncio.run(self.runCli())
 
 
-from typing import NamedTuple
-class Version(NamedTuple):
-    major: int
-    minor: int
-    build: int
 async def fConnectToRoom(ctx : SOT_Context):
 
     username = ctx.userInformation.username
@@ -550,19 +478,6 @@ async def fConnectToRoom(ctx : SOT_Context):
         }
     ])
     return
-
-async def game_watcher(ctx: SOT_Context):
-    logger = logging.getLogger("SOT_watcher")
-
-    try:
-        while not ctx.exit_event.is_set():
-            logger.warning("This is my warning!!")
-            ctx.getUpdatesBasedOnItemsReceived()
-            ctx.sendUpdatesBasedOnItemsFound()
-            await asyncio.sleep(2)
-    except:
-        pass
-
 
 
 async def main():

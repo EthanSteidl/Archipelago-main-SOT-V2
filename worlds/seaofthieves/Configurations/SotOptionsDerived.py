@@ -49,6 +49,7 @@ class SotOptionsDerived:
         self.tallTaleSettings: TallTales.SettingsTallTales
 
         self.trapsPercentage: int
+        self.player_name: str
 
         if(sotOptions == None):
             self.burntAboardSettings = BurntAboard.SettingsHunterBurntAboard()
@@ -79,6 +80,7 @@ class SotOptionsDerived:
 
             self.trapsPercentage = 3 #put this in a better place?
             self.experimentals: bool = False
+            self.player_name = ""
         else:
             self.burntAboardSettings = self.__getBurntAboardSettings(sotOptions)
             self.cookedAboardSettings = self.__getCookedAboardSettings(sotOptions)
@@ -108,6 +110,7 @@ class SotOptionsDerived:
 
             self.trapsPercentage = sotOptions.trapsPercentage.value
             self.experimentals = bool(sotOptions.experimentals.value)
+            self.player_name = ""
 
             #options without a ui element created
 
