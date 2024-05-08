@@ -150,6 +150,8 @@ class ItemCollection:
             sum += det.countToSpawnByDefault
         return sum - self.pre_fill_count
     def getNameFromId(self, id: int) -> str:
+        if self.ItemNameToId is None:
+            self.getDict()
         for itm in self.ItemNameToId:
             if itm.id == id:
                 return itm.name
