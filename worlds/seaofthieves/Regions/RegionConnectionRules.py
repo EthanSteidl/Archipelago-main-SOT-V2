@@ -40,12 +40,13 @@ class RegionDiver:
             #visit here
 
             #end ^
-            for n in self.region_map[to_node]:
-                self.__dfs(n, to_node)
+            if to_node in self.region_map.keys():
+                for n in self.region_map[to_node]:
+                    self.__dfs(n, to_node)
 
-                #walk out here
+                    #walk out here
 
-                #end ^
+                    #end ^
 
     def update(self, items: typing.Set[str]):
 
@@ -69,6 +70,7 @@ class RegionDiver:
             if connection_detail.start.name not in self.region_map.keys():
                 self.region_map[connection_detail.start.name] = {}
             self.region_map[connection_detail.start.name][connection_detail.end.name] = connection_detail.itemLogic
+
 
 
 
