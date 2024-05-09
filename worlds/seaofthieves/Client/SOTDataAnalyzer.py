@@ -75,7 +75,7 @@ class SOTDataAnalyzer:
             try:
                 return v['SubStats'][sub_stat]['Value']
             except:
-                print("Error: Web Parser: Please submit bug report for fix, this 'check' needs to be tracked manually. Web Location not found for - " + str(web_location))
+                print("Error: Web Parser: Please submit bug report for fix, this 'check' needs to be tracked manually. Web Location not found for - " + "{} {} {} {}".format(alignment, accolade, stat, sub_stat))
                 SOTDataAnalyzer.counter = SOTDataAnalyzer.counter + 1
                 return SOTDataAnalyzer.counter
 

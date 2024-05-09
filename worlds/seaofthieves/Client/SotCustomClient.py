@@ -112,11 +112,15 @@ class SOT_CommandProcessor(ClientCommandProcessor):
         loc_details_possible: typing.List[LocDetails] = self.ctx.locationsReachableWithCurrentItems()
 
 
-        possible = len(loc_details_possible) - len(self.ctx.locations_checked)
         checked = len(self.ctx.locations_checked)
+        possible = 0
+
+        for loc in loc_details_possible:
+            if loc.id not in self.ctx.locations_checked and loc.doRandomize:
+                possible += 1
         print("You can check " + str(possible) + " more locations. And have completed " + str(checked))
         for loc in loc_details_possible:
-            if loc.id not in self.ctx.locations_checked:
+            if loc.id not in self.ctx.locations_checked and loc.doRandomize:
                 print(loc.name)
 
 
@@ -198,6 +202,7 @@ class SOT_Context(CommonContext):
             self.locationDetailsCollection.applyOptions(self.options)
             self.locationDetailsCollection.addAll()
             self.locationDetailsCollection.applyRegionDiver(self.region_connection_details)
+            self.locations_checked = set(args["checked_locations"])
 
 
         elif cmd == "LocationInfo":
