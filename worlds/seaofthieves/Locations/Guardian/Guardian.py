@@ -59,7 +59,7 @@ class VoyageQuestGa(LocationsBase):
 
         lgc = ItemReqEvalOr([ItemReqEvalAnd([Items.ship_weapons, Items.personal_weapons, Items.sail])])
         wlc = WebLocationCollection([
-            WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 3), reg, lgc)
+            WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 2), reg, lgc)
         ])
         self.locations.append(LocDetails(self.L_SERV_GUARDIANS_SUNK_GALL, wlc, self.settings.gal is not SettingsVoyageQuestGa.Gal.OFF))
 
