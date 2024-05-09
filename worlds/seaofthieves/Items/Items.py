@@ -178,14 +178,17 @@ class ItemReqEvalAnd:
     def lamb(self, player):
 
         def compute(state):
+
+            #if no requirement return true
+            if len(self.condition) <= 0:
+                return True
+
             item_names = []
             for item_detail in self.condition:
                 item_names.append(item_detail.name)
                 #rules.append(lambda state: state.has(item_detail.name, player, item_detail.req_qty))
-            if len(item_names) > 0:
-                return state.has_all(item_names.copy(), player)
-            else:
-                return True
+            return state.has_all(item_names.copy(), player)
+
 
         return compute
 
@@ -211,10 +214,18 @@ class ItemReqEvalOr:
     def lamb(self, player: int):
 
         def compute(state):
-            boolean_evaluation = True
-            for and_condition in self.conditions:
-                boolean_evaluation = boolean_evaluation and and_condition.lamb(player)(state)
 
-            return boolean_evaluation
+            #return true if there is no logic
+            if len(self.conditions) <= 0:
+                return True
+
+            #we need to look and check if any is true, then return true
+            for and_condition in self.conditions:
+                if and_condition.lamb(player)(state):
+                    return True
+
+            #if there were no possible conditions that worked, return false
+            return False
+
 
         return compute

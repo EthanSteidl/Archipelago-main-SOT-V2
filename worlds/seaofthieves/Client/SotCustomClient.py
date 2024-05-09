@@ -147,7 +147,7 @@ class SOT_Context(CommonContext):
 
         self.originalBalance: Balance.Balance | None = None
 
-        self.options: SotOptionsDerived = SotOptionsDerived()
+        self.options: SotOptionsDerived = userInformation.options
         self.region_connection_details = userInformation.regionLogic
 
         self.forceUnlock = False

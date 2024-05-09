@@ -134,11 +134,8 @@ class LocDetails:
     def setLambda(self, loc, player):
 
         def compute(state):
-            boolean_evaluation = True
-            for web_location in self.webLocationCollection:
-                # look at each set of items that can get the thing for this spot / region combination
-                boolean_evaluation = boolean_evaluation or web_location.lamb(player)
-            return boolean_evaluation
+            return self.webLocationCollection.lamb(player)(state)
+
 
         add_rule(loc, compute)
 
