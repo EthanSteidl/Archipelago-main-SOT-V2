@@ -32,7 +32,7 @@ class WebItemJsonIdentifier:
 
 class WebLocation:
 
-    def __init__(self, webJsonIdentifier: WebItemJsonIdentifier, regionCollection: RegionNameCollection, itemLogic: ItemReqEvalOr, screenData: typing.Optional[ScreenData] = None, ocr_only: bool = False):
+    def __init__(self, webJsonIdentifier: WebItemJsonIdentifier, regionCollection: RegionNameCollection, itemLogic: ItemReqEvalOr, screenData: typing.Optional[ScreenData] = None, ocr_only: bool = False, name: typing.Optional[str] = None):
         self.webJsonIdentifier = webJsonIdentifier
         self.regionCollection = regionCollection
         self.itemLogic: ItemReqEvalOr = itemLogic
@@ -41,6 +41,7 @@ class WebLocation:
         else:
             self.screenData: ScreenData = screenData
         self.ocr_only = ocr_only
+        self.name = name
 
     def evaluate(self, itemSet: typing.Set[str]) -> bool:
         return self.itemLogic.evaluate(itemSet)

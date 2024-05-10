@@ -31,5 +31,9 @@ class LocationsBase:
     def addUniques(self, name: str, wlc, doRand: bool):
         count = 1
         for wl in wlc:
-            self.locations.append(LocDetails(name + ": " + str(count), WebLocationCollection([wl]), doRand))
+            if wl.name is not None:
+                use_name = wl.name
+            else:
+                use_name = name + ": " + str(count)
+            self.locations.append(LocDetails(use_name, WebLocationCollection([wl]), doRand))
             count += 1
