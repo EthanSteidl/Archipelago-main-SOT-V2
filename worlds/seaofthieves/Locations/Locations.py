@@ -7,6 +7,7 @@ from ..Items.Items import ItemReqEvalOr, ItemReqEvalAnd
 from ..Regions.RegionCollection import RegionNameCollection
 from ...generic.Rules import add_rule, exclusion_rules
 import typing
+from .ScreenData import ScreenData
 
 class WebItemJsonIdentifier:
     def __init__(self, alignment: int, accolade: int, stat:int, substat: int = -1, valid: bool = True):
@@ -31,19 +32,23 @@ class WebItemJsonIdentifier:
 
 class WebLocation:
 
-    def __init__(self, webJsonIdentifier: WebItemJsonIdentifier, regionCollection: RegionNameCollection, itemLogic: ItemReqEvalOr, in_session_text_identifier: typing.Optional[str] = None):
+    def __init__(self, webJsonIdentifier: WebItemJsonIdentifier, regionCollection: RegionNameCollection, itemLogic: ItemReqEvalOr, screenData: ScreenData | None = None, ocr_only: bool = False):
         self.webJsonIdentifier = webJsonIdentifier
         self.regionCollection = regionCollection
         self.itemLogic: ItemReqEvalOr = itemLogic
-        self.in_session_text_identifier: typing.Optional[str] = in_session_text_identifier.lower()
+        if screenData is None:
+            self.screenData = ScreenData([])
+        else:
+            self.screenData: ScreenData = screenData
+        self.ocr_only = ocr_only
 
     def evaluate(self, itemSet: typing.Set[str]) -> bool:
         return self.itemLogic.evaluate(itemSet)
 
-    def isTextMatch(self, text: str) -> bool:
-        if self.in_session_text_identifier is None:
-            return False
-        return self.in_session_text_identifier in text
+    def isScreenDataMatch(self, text: str) -> bool:
+        if self.screenData.hasMatch(text):
+            return True
+        return False
     def lamb(self, player: int):
 
         def compute(state):

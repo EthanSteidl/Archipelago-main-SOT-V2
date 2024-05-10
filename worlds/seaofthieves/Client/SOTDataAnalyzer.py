@@ -58,13 +58,16 @@ class SOTDataAnalyzer:
             # C:\Users\Ethan\AppData\Local\Programs\Tesseract - OCR
             install_folder = r'C:\Users\Ethan\AppData\Local\Programs\Tesseract-OCR\tesseract.exe'
             pil_image = self.window_capture.get_screenshot_2()
-            # pil_image.show()
+            #pil_image.show()
             # pytesseract.pytesseract.tesseract_cmd = r'C:\Users\USER\AppData\Local\Tesseract-OCR\tesseract.exe'
             pytesseract.pytesseract.tesseract_cmd = install_folder
-            self.screen_text = pytesseract.image_to_string(pil_image).lower()
-            print(self.screen_text)
+            self.screen_text = pytesseract.image_to_string(pil_image,config='--psm 3').lower()
+            if self.screen_text == "":
+                print("No Text Found")
+            else:
+                print(self.screen_text)
 
-        if web_location.isTextMatch(self.screen_text):
+        if web_location.screenData.hasMatch(self.screen_text):
             return True
         return False
 
@@ -134,12 +137,12 @@ class SOTDataAnalyzer:
             scrren_caped = False
             try:
                 scrren_caped = self.__readElementFromScreenText(web_loc)
-            except:
-                pass
+            except Exception as e:
+                print("Fatal Error: " + str(e))
             if scrren_caped:
                 #then we detected the check event
                 self.trackedLocationsData[loc_details.id][idx].new = self.trackedLocationsData[loc_details.id][idx].old + 1
-            else:
+            elif not web_loc.ocr_only:
                 #since the screen event is likely faster, we need to account for that here
                 value = self.__readElementFromWebLocation(web_loc, json_data)
                 if value < self.trackedLocationsData[loc_details.id][idx].new:

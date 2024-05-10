@@ -50,7 +50,7 @@ async def watchGameForever(ctx):
                 except Exception as e:
                     print("Fatal error occurred: ", e)
 
-        await asyncio.sleep(4)
+        await asyncio.sleep(1)
 
 class SOT_CommandProcessor(ClientCommandProcessor):
     ctx: SOT_Context

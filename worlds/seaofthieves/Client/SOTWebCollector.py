@@ -40,8 +40,11 @@ class SOTWebCollector:
         if QUERY_PERIOD_SECONDS is not None:
             self.QUERY_PERIOD_SECONDS = QUERY_PERIOD_SECONDS
 
+        self.balance_etag = ""
+        self.captain_etag = ""
 
-    def getHeaders(self):
+
+    def getHeaders(self, etag: str):
         headers = {
             "authority": self.AUTH,
             "method": self.METH,
@@ -51,7 +54,7 @@ class SOTWebCollector:
             "Accept-Encoding": self.ACCEPT_ENCODING,
             "Accept-Language": self.ACCEPT_LANGUAGE,
             "Cookie": self.loginCreds.msCookie,
-            "If-None-Match": self.IF_NONE_MATCH,
+            "If-None-Match": etag,
             "Referer": self.REFERER,
             "Sec-Ch-Ua": self.SEE_CH_UA,
             "Sec-Ch-Ua-Mobile": self.SEE_CH_UA_mobile,
@@ -68,7 +71,13 @@ class SOTWebCollector:
     def getJson(self):
         if(self.json is None or self.lastQueryTimeSeconds+self.QUERY_PERIOD_SECONDS < time.time() ):
             try:
-                resp = requests.get('https://www.seaofthieves.com/api/profilev2/captaincy', headers=self.getHeaders())
+                resp = requests.get('https://www.seaofthieves.com/api/profilev2/captaincy', headers=self.getHeaders(self.captain_etag))
+                if resp.status_code == 304 and self.json is not None and len(self.json) > 0:
+                    # do not update anything
+                    return self.json
+
+                # we must have something to update
+                self.captain_etag = resp.headers['Etag']
                 text = resp.text
                 self.json = json.loads(text)
 
@@ -81,7 +90,12 @@ class SOTWebCollector:
     def getBalance(self):
         if(self.balance is None or self.lastQueryTimeBalanceSeconds+self.QUERY_PERIOD_SECONDS < time.time() ):
             try:
-                resp = requests.get('https://www.seaofthieves.com/api/profilev2/balance', headers=self.getHeaders())
+                resp = requests.get('https://www.seaofthieves.com/api/profilev2/balance', headers=self.getHeaders(self.balance_etag))
+                if resp.status_code == 304 and self.balance is not None and len(self.balance) > 0:
+                    # do not update anything
+                    return self.balance
+
+                self.balance_etag = resp.headers['Etag']
                 text = resp.text
                 self.balance = json.loads(text)
 

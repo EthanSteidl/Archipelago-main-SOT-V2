@@ -2,6 +2,7 @@ import numpy as np
 import win32gui, win32ui, win32con
 import time
 from PIL import Image
+import math
 
 class WindowCapture:
 
@@ -40,7 +41,7 @@ class WindowCapture:
         self.offset_y = window_rect[1] + self.cropped_y
 
     def get_screenshot_2(self):
-        hwnd_target = 0x30dbe # Try SOT?
+        hwnd_target = self.get_sot_hwnd()#0x30dbe # Try SOT?
 
         left, top, right, bot = win32gui.GetWindowRect(hwnd_target)
         w = right - left
@@ -53,6 +54,12 @@ class WindowCapture:
         h = 2160
         left = 0
         top = 0
+
+        #only grab middle of screen?
+        left = int(math.floor(w/4))
+        top = int(math.floor(h/4))
+        w = int(math.floor(w/2))
+        h = int(math.floor(h/2))
 
         win32gui.SetForegroundWindow(hwnd_target)
         time.sleep(1.0)
@@ -76,6 +83,12 @@ class WindowCapture:
             'RGB',
             (bmpinfo['bmWidth'], bmpinfo['bmHeight']),
             bmpstr, 'raw', 'BGRX', 0, 1)
+
+        #im = im.convert('1') #THIS converts to 0-255 black white
+        white_threshold = 200
+        fn = lambda  x : 0 if x > white_threshold else 255
+        im = im.convert('L').point(fn, mode='1')
+
 
         win32gui.DeleteObject(saveBitMap.GetHandle())
         saveDC.DeleteDC()
@@ -128,6 +141,9 @@ class WindowCapture:
             if win32gui.IsWindowVisible(hwnd):
                 print(hex(hwnd), win32gui.GetWindowText(hwnd))
         win32gui.EnumWindows(winEnumHandler, None)
+
+    def get_sot_hwnd(self):
+        return win32gui.FindWindow(None, "Sea of Thieves")
 
     # translate a pixel position on a screenshot image to a pixel position on the screen.
     # pos = (x, y)
