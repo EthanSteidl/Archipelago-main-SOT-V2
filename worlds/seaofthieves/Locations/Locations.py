@@ -32,7 +32,7 @@ class WebItemJsonIdentifier:
 
 class WebLocation:
 
-    def __init__(self, webJsonIdentifier: WebItemJsonIdentifier, regionCollection: RegionNameCollection, itemLogic: ItemReqEvalOr, screenData: ScreenData | None = None, ocr_only: bool = False):
+    def __init__(self, webJsonIdentifier: WebItemJsonIdentifier, regionCollection: RegionNameCollection, itemLogic: ItemReqEvalOr, screenData: typing.Optional[ScreenData] = None, ocr_only: bool = False):
         self.webJsonIdentifier = webJsonIdentifier
         self.regionCollection = regionCollection
         self.itemLogic: ItemReqEvalOr = itemLogic

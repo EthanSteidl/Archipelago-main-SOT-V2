@@ -36,7 +36,7 @@ class SOTDataAnalyzer:
     collector : SOTWebCollector
     settings : SOTDataAnalyzerSettings
 
-    def __init__(self, userInfo: UserInformation.UserInformation, queryperiod: int | None = None):
+    def __init__(self, userInfo: UserInformation.UserInformation, queryperiod: typing.Optional[int] = None):
         self.collector = SOTWebCollector.SOTWebCollector(userInfo.loginCreds, queryperiod)
         self.settings = SOTDataAnalyzerSettings(userInfo.analyzerDetails)
         self.trackedLocations: typing.Dict[int,LocDetails] = {}

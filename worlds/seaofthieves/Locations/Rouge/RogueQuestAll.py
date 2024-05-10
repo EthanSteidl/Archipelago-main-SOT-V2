@@ -30,22 +30,23 @@ class RogueQuestAll(LocationsBase):
         reg.addFromList([Regions.R_PLAYER_SHIP])
         lgc = ItemReqEvalOr([])
 
+        #TODO we are forcing these to be true because there is not enough locations otherwise?
 
         web = WebItemJsonIdentifier(self.x[0], 0, self.x[2])
         wlc = WebLocationCollection([WebLocation(web, reg, lgc, ScreenData(["Becalmed"]))])
-        self.locations.append(LocDetails(self.L_ROGUE_SHANTY, wlc, settings.seaShanty > 0))
+        self.locations.append(LocDetails(self.L_ROGUE_SHANTY, wlc, settings.seaShanty > 0 or 1))
 
         web = WebItemJsonIdentifier(self.x[0], 1, self.x[2])
         wlc = WebLocationCollection([WebLocation(web, reg, lgc, ScreenData(["Refill"]))])
-        self.locations.append(LocDetails(self.L_ROUGE_GROG, wlc, settings.grog > 0))
+        self.locations.append(LocDetails(self.L_ROUGE_GROG, wlc, settings.grog > 0 or 1))
 
         web = WebItemJsonIdentifier(self.x[0], 2, self.x[2])
         wlc = WebLocationCollection([WebLocation(web, reg, lgc, ScreenData(["Sleep", "Wake"]))])
-        self.locations.append(LocDetails(self.L_ROUGE_SLEEP, wlc, settings.sleeping > 0))
+        self.locations.append(LocDetails(self.L_ROUGE_SLEEP, wlc, settings.sleeping > 0 or 1))
 
         web = WebItemJsonIdentifier(self.x[0], 3, self.x[2])
         wlc = WebLocationCollection([WebLocation(web, reg, lgc, ScreenData(["Seat"]))])
-        self.locations.append(LocDetails(self.L_ROUGE_SIT, wlc, settings.sitting > 0))
+        self.locations.append(LocDetails(self.L_ROUGE_SIT, wlc, settings.sitting > 0 or 1))
 
         web = WebItemJsonIdentifier(0, 0, 0, 0, False)
         wlc = WebLocationCollection([WebLocation(web, reg, lgc, ScreenData(["Bell"]), True)])
