@@ -24,7 +24,7 @@ class MenuQuestAll(LocationsBase):
         reg.addFromList([Regions.R_MENU])
         lgc = ItemReqEvalOr([])
         wlc = WebLocationCollection([
-            WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], self.x[3], False), reg, lgc)
+            WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], self.x[3], None, False), reg, lgc)
         ])
         self.locations.append(LocDetails(self.L_PIRATE_POCKET, wlc, True))
 
@@ -32,7 +32,7 @@ class MenuQuestAll(LocationsBase):
         reg.addFromList([Regions.R_FORT_OF_THE_DAMNED])
         lgc = ItemReqEvalOr([ItemReqEvalAnd([Items.voyage_of_destiny])])
         wlc = WebLocationCollection([
-            WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], self.x[3], False), reg, lgc)
+            WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], self.x[3], None, False), reg, lgc)
         ])
         self.locations.append(LocDetails(self.L_PIRATE_FOD, wlc, True))
 

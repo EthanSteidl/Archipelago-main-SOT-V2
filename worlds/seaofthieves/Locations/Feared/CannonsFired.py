@@ -1,3 +1,5 @@
+import typing
+
 from ..Locations import LocDetails, WebLocation, WebLocationCollection, WebItemJsonIdentifier
 from ..LocationsBase import LocationsBase
 from ...Regions.RegionCollection import RegionNameCollection
@@ -22,31 +24,34 @@ class SettingsCannonsFired:
 
 class CannonsFired(LocationsBase):
 
-    L_ILL_CANN_DEFAULT = "Fire any Cannonball from ship"
-    L_ILL_CANN_CURSED = "Fire any Cursed Cannonball from ship"
-    L_ILL_CANN_PHANT = "Fire any Phantom Cannonball from ship"
+    L_ILL_CANN_DEFAULT = "Fire any Cannonball"
+    L_ILL_CANN_CURSED = "Fire any Cursed Cannonball"
+    L_ILL_CANN_PHANT = "Fire any Phantom Cannonball"
 
-    L_ILL_CANN_ANC = "Fire Anchorball from ship"
-    L_ILL_CANN_BALLAST = "Fire Ballastball from ship"
-    L_ILL_CANN_BARRELBALL = "Fire Barrelball from ship"
-    L_ILL_CANN_BLUNDERBOMB = "Fire Blunderbomb from ship"
-    L_ILL_CANN_CANNONBALL = "Fire Cannonball from ship"
-    L_ILL_CANN_CHAINSHOT = "Fire Chainshot from ship"
-    L_ILL_CANN_FIREBOMB = "Fire Firebomb from ship"
-    L_ILL_CANN_FPCANNONBALL = "Fire Flame Phantom Cannonball from ship"
-    L_ILL_CANN_GROGBALL = "Fire Grogball from ship"
-    L_ILL_CANN_HELMBALL = "Fire Helmball from ship"
-    L_ILL_CANN_JIGBALL = "Fire Jigball from ship"
-    L_ILL_CANN_LIMPBALL = "Fire Limpball from ship"
-    L_ILL_CANN_PEACEBALL = "Fire Peaceball from ship"
-    L_ILL_CANN_PET = "Fire Pets from ship"
-    L_ILL_CANN_PCANNONBALL = "Fire Phantom Cannonball from ship"
-    L_ILL_CANN_PLAYER = "Fire Players from ship"
-    L_ILL_CANN_RIGGINGBALL = "Fire Riggingball from ship"
-    L_ILL_CANN_VENOMBALL = "Fire Venomball from ship"
-    L_ILL_CANN_WEARYBALL = "Fire Wearyball from ship"
-    L_ILL_CANN_WRAITHCANNONBALL = "Fire Wraith Cannonball from ship"
+    ANCHOR = "Fire Anchorball"
+    BALLAST = "Fire Ballastball"
+    BARREL = "Fire Barrelball"
+    BLUNDERBOMB = "Fire Blunderbomb"
+    CANNONBALL = "Fire Cannonball"
+    CHAINSHOT = "Fire Chainshot"
+    FIREBOMB = "Fire Firebomb"
+    FLAMEPHANTOM = "Fire Flame Phantom Cannonball"
+    GROG = "Fire Grogball from ship"
+    HELM = "Fire Helmball from ship"
+    JIG = "Fire Jigball from ship"
+    LIMP = "Fire Limpball from ship"
+    PEACE = "Fire Peaceball from ship"
+    PET = "Fire Pets from ship"
+    PHANTOM = "Fire Phantom Cannonball"
+    PLAYER = "Fire Players from ship"
+    RIG = "Fire Riggingball from ship"
+    VENOM = "Fire Venomball from ship"
+    WEARY = "Fire Wearyball from ship"
+    WRAITH = "Fire Wraith Cannonball"
+    BONE_CALLER = "Fire Bone Caller"
+    SCATTERSHOT = "Fire Scattershot"
 
+    web_locs: typing.Dict[str, WebLocation] = {}
 
     def __init__(self, settings: SettingsCannonsFired):
         super().__init__()
@@ -58,12 +63,12 @@ class CannonsFired(LocationsBase):
         reg.addFromList([Regions.R_SHIP_CANNONS])
         lgc = ItemReqEvalOr([])
         wlc = WebLocationCollection([
-            WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 3), reg, lgc, ScreenData(["Unload Blunderbomb"]), False, "Fire Blunderbomb"),
-            WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 4), reg, lgc, ScreenData(["Unload Bone Caller"]), False, "Fire Bone Caller"),
-            WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 5), reg, lgc, ScreenData(["Unload Cannonball"]), False, "Fire Cannonball"),
-            WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 6), reg, lgc, ScreenData(["Unload Chainshot"]), False, "Fire Chainshot"),
-            WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 7), reg, lgc, ScreenData(["Unload Firebomb"]), False, "Fire Firebomb"),
-            WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 18), reg, lgc, ScreenData(["Unload Scattershot"]), False, "Fire Scattershot")
+            WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 3), reg, lgc, CannonsFired.BLUNDERBOMB, ScreenData(["Unload Blunderbomb"])),
+            WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 4), reg, lgc, CannonsFired.BONE_CALLER, ScreenData(["Unload Bone Caller"])),
+            WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 5), reg, lgc, CannonsFired.CANNONBALL, ScreenData(["Unload Cannonball"])),
+            WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 6), reg, lgc, CannonsFired.CHAINSHOT, ScreenData(["Unload Chainshot"])),
+            WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 7), reg, lgc, CannonsFired.FIREBOMB, ScreenData(["Unload Firebomb"])),
+            WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 18), reg, lgc, CannonsFired.SCATTERSHOT, ScreenData(["Unload Scattershot"]))
         ])
 
         do_rand: bool = self.settings.defaultBalls is SettingsCannonsFired.Balls.ON
@@ -80,9 +85,9 @@ class CannonsFired(LocationsBase):
         reg.addFromList([Regions.R_SHIP_CANNONS])
         lgc = ItemReqEvalOr([])
         wlc = WebLocationCollection([
-            WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 8), reg, lgc, ScreenData(["Unload Flame"]), False, "Fire Flame Phantom Cannonball"),
-            WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 15), reg, lgc, ScreenData(["Unload Phant"]), False, "Fire Phantom Cannonball"),
-            WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 21), reg, lgc, ScreenData(["Unload Wraith"]), False, "Fire Wraith Cannonball")
+            WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 8), reg, lgc, CannonsFired.FLAMEPHANTOM, ScreenData(["Unload Flame"])),
+            WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 15), reg, lgc, CannonsFired.PHANTOM, ScreenData(["Unload Phant"])),
+            WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 21), reg, lgc, CannonsFired.WRAITH, ScreenData(["Unload Wraith"]))
         ])
 
 
@@ -97,17 +102,17 @@ class CannonsFired(LocationsBase):
         reg.addFromList([Regions.R_SHIP_CANNONS])
         lgc = ItemReqEvalOr([])
         wlc = WebLocationCollection([
-            WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 0), reg, lgc, ScreenData(["Unload Anch"]), False, "Fire Anchorball"),
-            WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 1), reg, lgc, ScreenData(["Unload Ball"]), False, "Fire Ballastball"),
-            WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 2), reg, lgc, ScreenData(["Unload Barr"]), False, "Fire Barrelball"),
-            WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 9), reg, lgc, ScreenData(["Unload Grog"]), False, "Fire Grogball"),
-            WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 10), reg, lgc, ScreenData(["Unload Helm"]), False, "Fire Helmball"),
-            WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 11), reg, lgc, ScreenData(["Unload Jig"]), False, "Fire Jigball"),
-            WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 12), reg, lgc, ScreenData(["Unload Limp"]), False, "Fire Limpball"),
-            WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 13), reg, lgc, ScreenData(["Unload Peace"]), False, "Fire Peaceball"),
-            WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 17), reg, lgc, ScreenData(["Unload Rig"]), False, "Fire Riggingball"),
-            WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 19), reg, lgc, ScreenData(["Unload Ven"]), False, "Fire Venomball"),
-            WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 19), reg, lgc, ScreenData(["Unload Wea"]), False, "Fire Wearyball"),
+            WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 0), reg, lgc, CannonsFired.ANCHOR, ScreenData(["Unload Anch"])),
+            WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 1), reg, lgc, CannonsFired.BALLAST, ScreenData(["Unload Ball"])),
+            WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 2), reg, lgc, CannonsFired.BARREL, ScreenData(["Unload Barr"])),
+            WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 9), reg, lgc, CannonsFired.GROG, ScreenData(["Unload Grog"])),
+            WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 10), reg, lgc, CannonsFired.HELM, ScreenData(["Unload Helm"])),
+            WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 11), reg, lgc, CannonsFired.JIG, ScreenData(["Unload Jig"])),
+            WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 12), reg, lgc, CannonsFired.LIMP, ScreenData(["Unload Limp"])),
+            WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 13), reg, lgc, CannonsFired.PEACE, ScreenData(["Unload Peace"])),
+            WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 17), reg, lgc, CannonsFired.RIG, ScreenData(["Unload Rig"])),
+            WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 19), reg, lgc, CannonsFired.VENOM, ScreenData(["Unload Ven"])),
+            WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 19), reg, lgc, CannonsFired.WEARY, ScreenData(["Unload Wea"])),
         ])
 
         do_rand: bool = self.settings.cursedBalls is SettingsCannonsFired.CursedBalls.ON

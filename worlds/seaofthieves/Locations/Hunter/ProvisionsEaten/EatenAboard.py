@@ -4,6 +4,7 @@ from ....Regions.RegionCollection import RegionNameCollection
 from ....Regions.RegionDetails import Regions
 from ....Items.Items import ItemReqEvalOr, ItemReqEvalAnd, Items
 from ....Locations.LocationSettingOption import LocationSettingOption
+from ...Locations import ScreenData
 
 class SettingsHunterEatenAboard:
 
@@ -83,6 +84,19 @@ class HunterEatenAboard(LocationsBase):
     L_H_CAT_EAT_BUG = "Eat Bugs (H)"
     L_H_CAT_EAT_FRUIT = "Eat Fruit (H)"
 
+    SHARK = "Eat Shark"
+    KRAKEN = "Eat Kraken"
+    MEGALODON = "Eat Megalodon"
+
+    BANANA = "Eat Banana"
+    COCONUT = "Eat Coconut"
+    POMEGRANATE = "Eat Pomegranate"
+    MANGO = "Eat Mango"
+    PINEAPPLE = "Eat Pineapple"
+
+    GRUBS = "Eat Grubs"
+    LEECHES = "Eat Leeches"
+    EARTHWORMS = "Eat Earthworms"
 
 
 
@@ -334,9 +348,9 @@ class HunterEatenAboard(LocationsBase):
             ItemReqEvalAnd([Items.sail, Items.ship_weapons, Items.personal_weapons])
             ])
         wlc = WebLocationCollection([
-            WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 63), reg, lgc),
-            WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 64), reg, lgc),
-            WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 65), reg, lgc)
+            WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 63, "Shark"), reg, lgc, HunterEatenAboard.SHARK),
+            WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 64, "Kraken"), reg, lgc, HunterEatenAboard.KRAKEN),
+            WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 65, "Megalodon"), reg, lgc, HunterEatenAboard.MEGALODON)
         ])
         self.addBigFishLoc(self.L_H_CAT_EAT_BIG, wlc, True)
 
@@ -345,14 +359,14 @@ class HunterEatenAboard(LocationsBase):
         reg = RegionNameCollection()
         reg.addFromList([Regions.R_PLAYER_SHIP])
         lgc = ItemReqEvalOr([
-            ItemReqEvalAnd([Items.sail])
+            ItemReqEvalAnd([])
             ])
         wlc = WebLocationCollection([
-            WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 66), reg, lgc),
-            WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 67), reg, lgc),
-            WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 68), reg, lgc),
-            WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 69), reg, lgc),
-            WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 70), reg, lgc)
+            WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 66, "Banana"), reg, lgc, HunterEatenAboard.BANANA, ScreenData(None, ["banana","banna2","banna3","banna4"])),
+            WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 67, "Coconut"), reg, lgc, HunterEatenAboard.COCONUT, ScreenData(None, ["coconut","coconut2","coconut3"])),
+            WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 68, "Pomegranate"), reg, lgc, HunterEatenAboard.POMEGRANATE),
+            WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 69, "Mango"), reg, lgc, HunterEatenAboard.MANGO),
+            WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 70, "Pineapple"), reg, lgc, HunterEatenAboard.PINEAPPLE)
         ])
         self.addFruitSetLoc(self.L_H_CAT_EAT_FRUIT, wlc, True)
 
@@ -365,9 +379,9 @@ class HunterEatenAboard(LocationsBase):
             ItemReqEvalAnd([Items.shovel])
             ])
         wlc = WebLocationCollection([
-            WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 71), reg, lgc),
-            WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 72), reg, lgc),
-            WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 73), reg, lgc)
+            WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 71, "Grubs"), reg, lgc, HunterEatenAboard.GRUBS),
+            WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 72, "Leeches"), reg, lgc, HunterEatenAboard.LEECHES),
+            WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 73, "Earthworms"), reg, lgc, HunterEatenAboard.EARTHWORMS)
         ])
         self.addBugSetLoc(self.L_H_CAT_EAT_BUG, wlc, True)
 

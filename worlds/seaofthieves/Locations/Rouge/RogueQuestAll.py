@@ -17,10 +17,11 @@ class SettingsRogueQuestAll:
 
 class RogueQuestAll(LocationsBase):
 
-    L_ROGUE_SHANTY = "Play music for 1 minute (ROUGE)"
-    L_ROUGE_GROG = "Drink 1 grog (ROUGE)"
-    L_ROUGE_SLEEP = "Sleep for 1 minute (ROUGE)"
-    L_ROUGE_SIT = "Sit for 1 minute (ROUGE)"
+    SHANTY = "Play music for 1 minute (ROUGE)"
+    GROG = "Drink 1 grog (ROUGE)"
+    SLEEP = "Sleep for 1 minute (ROUGE)"
+    SIT = "Sit for 1 minute (ROUGE)"
+    BELL = "Ring Bell"
 
 
     def __init__(self, settings: SettingsRogueQuestAll):
@@ -33,21 +34,21 @@ class RogueQuestAll(LocationsBase):
         #TODO we are forcing these to be true because there is not enough locations otherwise?
 
         web = WebItemJsonIdentifier(self.x[0], 0, self.x[2])
-        wlc = WebLocationCollection([WebLocation(web, reg, lgc, ScreenData(["Becalmed"]))])
-        self.locations.append(LocDetails(self.L_ROGUE_SHANTY, wlc, settings.seaShanty > 0))
+        wlc = WebLocationCollection([WebLocation(web, reg, lgc, RogueQuestAll.SHANTY, ScreenData(["Becalmed"]))])
+        self.locations.append(LocDetails(RogueQuestAll.SHANTY, wlc, settings.seaShanty > 0))
 
         web = WebItemJsonIdentifier(self.x[0], 1, self.x[2])
-        wlc = WebLocationCollection([WebLocation(web, reg, lgc, ScreenData(["Refill"]))])
-        self.locations.append(LocDetails(self.L_ROUGE_GROG, wlc, settings.grog > 0))
+        wlc = WebLocationCollection([WebLocation(web, reg, lgc, RogueQuestAll.GROG, ScreenData(["Refill"]))])
+        self.locations.append(LocDetails(RogueQuestAll.GROG, wlc, settings.grog > 0))
 
         web = WebItemJsonIdentifier(self.x[0], 2, self.x[2])
-        wlc = WebLocationCollection([WebLocation(web, reg, lgc, ScreenData(["Sleep", "Wake"]))])
-        self.locations.append(LocDetails(self.L_ROUGE_SLEEP, wlc, settings.sleeping > 0))
+        wlc = WebLocationCollection([WebLocation(web, reg, lgc, RogueQuestAll.SLEEP, ScreenData(["Sleep", "Wake"]))])
+        self.locations.append(LocDetails(RogueQuestAll.SLEEP, wlc, settings.sleeping > 0))
 
         web = WebItemJsonIdentifier(self.x[0], 3, self.x[2])
-        wlc = WebLocationCollection([WebLocation(web, reg, lgc, ScreenData(["Seat"]))])
-        self.locations.append(LocDetails(self.L_ROUGE_SIT, wlc, settings.sitting > 0))
+        wlc = WebLocationCollection([WebLocation(web, reg, lgc, RogueQuestAll.SIT, ScreenData(["Seat"]))])
+        self.locations.append(LocDetails(RogueQuestAll.SIT, wlc, settings.sitting > 0))
 
-        web = WebItemJsonIdentifier(0, 0, 0, 0, False)
-        wlc = WebLocationCollection([WebLocation(web, reg, lgc, ScreenData(["Bell"]), True)])
-        self.locations.append(LocDetails("Ring Bell", wlc, True))
+        web = WebItemJsonIdentifier(0, 0, 0, 0, None, False)
+        wlc = WebLocationCollection([WebLocation(web, reg, lgc, RogueQuestAll.BELL, ScreenData(["Bell"]), True)])
+        self.locations.append(LocDetails(RogueQuestAll.BELL, wlc, True))

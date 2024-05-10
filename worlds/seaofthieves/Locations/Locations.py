@@ -10,12 +10,13 @@ import typing
 from .ScreenData import ScreenData
 
 class WebItemJsonIdentifier:
-    def __init__(self, alignment: int, accolade: int, stat:int, substat: int = -1, valid: bool = True):
+    def __init__(self, alignment: int, accolade: int, stat:int, substat: int = -1, json_name: typing.Optional[str] = None, valid: bool = True):
         self.alignment = alignment
         self.stat = stat
         self.accolade = accolade
         self.substat = substat
         self.valid = valid
+        self.json_name = json_name
 
     def toJson(self):
         return json.dumps(self, default=lambda o: o.__dict__)
@@ -32,7 +33,7 @@ class WebItemJsonIdentifier:
 
 class WebLocation:
 
-    def __init__(self, webJsonIdentifier: WebItemJsonIdentifier, regionCollection: RegionNameCollection, itemLogic: ItemReqEvalOr, screenData: typing.Optional[ScreenData] = None, ocr_only: bool = False, name: typing.Optional[str] = None):
+    def __init__(self, webJsonIdentifier: WebItemJsonIdentifier, regionCollection: RegionNameCollection, itemLogic: ItemReqEvalOr, name: typing.Optional[str] = None, screenData: typing.Optional[ScreenData] = None, ocr_only: bool = False):
         self.webJsonIdentifier = webJsonIdentifier
         self.regionCollection = regionCollection
         self.itemLogic: ItemReqEvalOr = itemLogic

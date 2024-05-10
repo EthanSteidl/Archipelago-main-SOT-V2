@@ -1,6 +1,8 @@
 from __future__ import annotations
 
 import random
+import time
+
 # CommonClient import first to trigger ModuleUpdater
 import winsound
 from worlds.seaofthieves.Locations.LocationCollection import LocationDetailsCollection, LocDetails
@@ -157,6 +159,11 @@ class SOT_Context(CommonContext):
         self.forceUnlock = False
 
 
+
+        self.balance_update_interval = 10
+        self.balance_last_update = -10000
+
+
     async def init_notif(self):
         keys: typing.List[str] = []
 
@@ -309,6 +316,11 @@ class SOT_Context(CommonContext):
 
 
     def updateSotPlayerBalance(self):
+
+        #Optimizing compute time to spend more time on screen recognition
+        if self.balance_last_update + self.balance_update_interval > time.time():
+            return
+
         newBalance = self.analyzer.getBalance()
 
         if self.originalBalance is None:

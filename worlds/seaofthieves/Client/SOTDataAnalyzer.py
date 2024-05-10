@@ -36,6 +36,10 @@ class SOTDataAnalyzer:
     collector : SOTWebCollector
     settings : SOTDataAnalyzerSettings
 
+    #TODO this is going to need to work for other people...
+    install_folder = r'C:\Users\Ethan\AppData\Local\Programs\Tesseract-OCR\tesseract.exe'
+    pytesseract.pytesseract.tesseract_cmd = install_folder
+
     def __init__(self, userInfo: UserInformation.UserInformation, queryperiod: typing.Optional[int] = None):
         self.collector = SOTWebCollector.SOTWebCollector(userInfo.loginCreds, queryperiod)
         self.settings = SOTDataAnalyzerSettings(userInfo.analyzerDetails)
@@ -49,6 +53,8 @@ class SOTDataAnalyzer:
         self.last_screenshot_time = -1000
         self.screenshot_second_interval = 2
         self.screen_text = ""
+        self.screen_image_bw = None
+        self.screen_image_grey = None
         self.scr_success = True
 
 
@@ -63,12 +69,13 @@ class SOTDataAnalyzer:
 
             try:
                 # C:\Users\Ethan\AppData\Local\Programs\Tesseract - OCR
-                install_folder = r'C:\Users\Ethan\AppData\Local\Programs\Tesseract-OCR\tesseract.exe'
-                pil_image = self.window_capture.get_screenshot_2()
-                #pil_image.show()
+
+                self.screen_image_bw, self.screen_image_grey = self.window_capture.get_screenshot_2()
+                #self.screen_image_bw.show()
                 # pytesseract.pytesseract.tesseract_cmd = r'C:\Users\USER\AppData\Local\Tesseract-OCR\tesseract.exe'
-                pytesseract.pytesseract.tesseract_cmd = install_folder
-                self.screen_text = pytesseract.image_to_string(pil_image,config='--psm 3').lower()
+                self.screen_image_grey.save("screen_cap.png")
+
+                self.screen_text = pytesseract.image_to_string(self.screen_image_bw,config='--psm 3').lower()
                 # if self.screen_text == "":
                 #     print("No Text Found")
                 # else:
@@ -84,8 +91,9 @@ class SOTDataAnalyzer:
                     print("Game window not found - report as bug if game is running")
                 self.scr_success = False
 
-        if web_location.screenData.hasMatch(self.screen_text):
+        if web_location.screenData.hasMatch(self.screen_text, self.screen_image_grey):
             return True
+
         return False
 
     def __readElementFromWebLocation(self, web_location: WebLocation, json_data):
@@ -120,20 +128,42 @@ class SOTDataAnalyzer:
             print("Error: Web Parser: No pirate Name or Ship Name defined")
             return 0
 
-        if sub_stat < 0:
-            return v['Value']
-        else:
-            try:
-                return v['SubStats'][sub_stat]['Value']
-            except:
-                print("Error: Web Parser: Please submit bug report for fix, this 'check' needs to be tracked manually. Web Location not found for - " + "{} {} {} {}".format(alignment, accolade, stat, sub_stat))
-                SOTDataAnalyzer.counter = SOTDataAnalyzer.counter + 1
-                return SOTDataAnalyzer.counter
+
+        try:
+            read_element = v
+            if sub_stat >= 0:
+                v = v['SubStats'][sub_stat]
+            json_name = v['LocalisedTitle']
+            value = v['Value']
+
+            # check to see if the api has updated the substat location. If it did, try to figure out what location to read from in the meantime
+            if sub_stat >= 0 and web_location.webJsonIdentifier.json_name is not None and web_location.webJsonIdentifier.json_name != json_name:
+                for secondary_sub_stat in read_element['SubStats'].keys():
+                    secondary_json_name = read_element['SubStats'][secondary_sub_stat]['LocalisedTitle']
+                    secondary_value = read_element['SubStats'][secondary_sub_stat]['Value']
+
+                    if secondary_json_name == web_location.webJsonIdentifier.json_name:
+                        loc_ids = "{} {} {} {}".format(alignment, accolade, stat, sub_stat)
+                        web_location.webJsonIdentifier.stat = secondary_sub_stat
+                        #print("Warning: Web Parser: {} at {} has name {}, but we found {} at {}, using this instead.".format(web_location.webJsonIdentifier.json_name, loc_ids, json_name, secondary_json_name, secondary_value))
+                        return secondary_value
+
+
+
+            return value
+
+        except:
+            print("Error: Web Parser: Please submit bug report for fix, this location will be awarded to the correct player right now. Web Location not found for - " + "{} {} {} {}".format(alignment, accolade, stat, sub_stat))
+
+            # The idea here is to award the player for completing the check
+            SOTDataAnalyzer.counter = SOTDataAnalyzer.counter + 1
+            return SOTDataAnalyzer.counter
 
     def stopTracking(self, key: int):
-        del self.trackedLocations[key]
-        del self.trackedLocationsData[key]
+        self.trackedLocations.pop(key, None)
+        self.trackedLocationsData.pop(key, None)
         self.banned[key] = True
+        print("banned ",key)
 
         return
 
@@ -147,6 +177,10 @@ class SOTDataAnalyzer:
             self.__updateWebDataForLocation(self.trackedLocations[loc_det], json_data)
 
     def __updateWebDataForLocation(self, loc_details: LocDetails, json_data) -> None:
+
+        #just make sure we are not banned
+        if loc_details.id in self.banned.keys():
+            return
 
         #we need to check if at least 1 web location value has been updated
         idx = 0

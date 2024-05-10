@@ -1,4 +1,5 @@
 from ..Locations import LocDetails, WebLocation, WebLocationCollection, WebItemJsonIdentifier
+from ..Locations import ScreenData
 from ..LocationsBase import LocationsBase
 from ...Regions.RegionCollection import RegionNameCollection
 from ...Regions.RegionDetails import Regions
@@ -30,8 +31,8 @@ class Rowboats(LocationsBase):
         lgc = ItemReqEvalOr([])
 
 
-        web = WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2])
-        wlc = WebLocationCollection([WebLocation(web, reg, lgc)])
+        web = WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], -1, "Rowboat Types Docked Aboard (Ship)")
+        wlc = WebLocationCollection([WebLocation(web, reg, lgc, Rowboats.L_ROW, ScreenData(["Dock"]))])
         self.locations.append(LocDetails(self.L_ROW, wlc, settings.any > 0))
 
         web = WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 0)
