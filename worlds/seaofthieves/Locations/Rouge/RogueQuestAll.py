@@ -31,18 +31,18 @@ class RogueQuestAll(LocationsBase):
 
 
         web = WebItemJsonIdentifier(self.x[0], 0, self.x[2])
-        wlc = WebLocationCollection([WebLocation(web, reg, lgc)])
+        wlc = WebLocationCollection([WebLocation(web, reg, lgc, "Becalmed")])
         self.locations.append(LocDetails(self.L_ROGUE_SHANTY, wlc, settings.seaShanty > 0))
 
         web = WebItemJsonIdentifier(self.x[0], 1, self.x[2])
-        wlc = WebLocationCollection([WebLocation(web, reg, lgc)])
+        wlc = WebLocationCollection([WebLocation(web, reg, lgc, "Refill")])
         self.locations.append(LocDetails(self.L_ROUGE_GROG, wlc, settings.grog > 0))
 
         web = WebItemJsonIdentifier(self.x[0], 2, self.x[2])
-        wlc = WebLocationCollection([WebLocation(web, reg, lgc)])
+        wlc = WebLocationCollection([WebLocation(web, reg, lgc, "Sleep")])
         self.locations.append(LocDetails(self.L_ROUGE_SLEEP, wlc, settings.sleeping > 0))
 
         web = WebItemJsonIdentifier(self.x[0], 3, self.x[2])
-        wlc = WebLocationCollection([WebLocation(web, reg, lgc)])
+        wlc = WebLocationCollection([WebLocation(web, reg, lgc, "Take a Seat")])
         self.locations.append(LocDetails(self.L_ROUGE_SIT, wlc, settings.sitting > 0))
 

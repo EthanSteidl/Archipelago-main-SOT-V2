@@ -31,14 +31,19 @@ class WebItemJsonIdentifier:
 
 class WebLocation:
 
-    def __init__(self, webJsonIdentifier: WebItemJsonIdentifier, regionCollection: RegionNameCollection, itemLogic: ItemReqEvalOr):
+    def __init__(self, webJsonIdentifier: WebItemJsonIdentifier, regionCollection: RegionNameCollection, itemLogic: ItemReqEvalOr, in_session_text_identifier: typing.Optional[str] = None):
         self.webJsonIdentifier = webJsonIdentifier
         self.regionCollection = regionCollection
         self.itemLogic: ItemReqEvalOr = itemLogic
+        self.in_session_text_identifier: typing.Optional[str] = in_session_text_identifier.lower()
 
     def evaluate(self, itemSet: typing.Set[str]) -> bool:
         return self.itemLogic.evaluate(itemSet)
 
+    def isTextMatch(self, text: str) -> bool:
+        if self.in_session_text_identifier is None:
+            return False
+        return self.in_session_text_identifier in text
     def lamb(self, player: int):
 
         def compute(state):

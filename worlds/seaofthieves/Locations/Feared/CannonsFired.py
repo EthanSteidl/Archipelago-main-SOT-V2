@@ -57,11 +57,12 @@ class CannonsFired(LocationsBase):
         reg.addFromList([Regions.R_SHIP_CANNONS])
         lgc = ItemReqEvalOr([])
         wlc = WebLocationCollection([
-            WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 3), reg, lgc),
-            WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 4), reg, lgc),
-            WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 5), reg, lgc),
-            WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 6), reg, lgc),
-            WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 15), reg, lgc)
+            WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 3), reg, lgc, "Unload Blunderbomb"),
+            WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 4), reg, lgc, "Unload Bone Caller"),
+            WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 5), reg, lgc, "Unload Cannonball"),
+            WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 6), reg, lgc, "Unload Chainshot"),
+            WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 7), reg, lgc, "Unload Firebomb"),
+            WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 18), reg, lgc, "Unload Scattershot")
         ])
 
         do_rand: bool = self.settings.defaultBalls is SettingsCannonsFired.Balls.ON
@@ -78,8 +79,8 @@ class CannonsFired(LocationsBase):
         reg.addFromList([Regions.R_SHIP_CANNONS])
         lgc = ItemReqEvalOr([])
         wlc = WebLocationCollection([
-            WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 7), reg, lgc),
-            WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 14), reg, lgc),
+            WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 8), reg, lgc),
+            WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 15), reg, lgc),
             WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 19), reg, lgc)
         ])
 

@@ -1,6 +1,8 @@
 
 
 import json
+import time
+
 import worlds.seaofthieves.Client.SOTWebCollector as SOTWebCollector
 import typing
 
@@ -9,6 +11,9 @@ from worlds.seaofthieves.Locations.Locations import WebLocation
 from worlds.seaofthieves.Locations.LocationCollection import LocationDetailsCollection, LocDetails
 from worlds.seaofthieves.Items.Items import ItemCollection
 import worlds.seaofthieves.Client.Balance as Balance
+from worlds.seaofthieves.Client.windowcapture import  WindowCapture
+import pytesseract
+import cv2
 
 class SOTDataAnalyzerSettings:
 
@@ -39,7 +44,29 @@ class SOTDataAnalyzer:
         self.trackedLocationsData: typing.Dict[int,typing.Dict[int,OldNewValues]] = {}
 
         self.banned: typing.Dict[int,bool] = {}
+        self.window_capture: WindowCapture = WindowCapture("Sea of Thieves")
+        self.window_capture.list_window_names()
+        self.last_screenshot_time = -1000
+        self.screenshot_second_interval = 2
+        self.screen_text = ""
 
+
+    def __readElementFromScreenText(self, web_location: WebLocation) -> bool:
+        if self.last_screenshot_time + self.screenshot_second_interval < time.time():
+            self.last_screenshot_time = time.time()
+
+            # C:\Users\Ethan\AppData\Local\Programs\Tesseract - OCR
+            install_folder = r'C:\Users\Ethan\AppData\Local\Programs\Tesseract-OCR\tesseract.exe'
+            pil_image = self.window_capture.get_screenshot_2()
+            # pil_image.show()
+            # pytesseract.pytesseract.tesseract_cmd = r'C:\Users\USER\AppData\Local\Tesseract-OCR\tesseract.exe'
+            pytesseract.pytesseract.tesseract_cmd = install_folder
+            self.screen_text = pytesseract.image_to_string(pil_image).lower()
+            print(self.screen_text)
+
+        if web_location.isTextMatch(self.screen_text):
+            return True
+        return False
 
     def __readElementFromWebLocation(self, web_location: WebLocation, json_data):
 
@@ -52,6 +79,10 @@ class SOTDataAnalyzer:
 
             SOTDataAnalyzer.counter = SOTDataAnalyzer.counter+1
             return SOTDataAnalyzer.counter
+
+
+
+
 
         v = None
         alignment = web_location.webJsonIdentifier.alignment
@@ -100,9 +131,22 @@ class SOTDataAnalyzer:
         #we need to check if at least 1 web location value has been updated
         idx = 0
         for web_loc in loc_details.webLocationCollection:
-            value = self.__readElementFromWebLocation(web_loc, json_data)
-
-            self.trackedLocationsData[loc_details.id][idx].new = value
+            scrren_caped = False
+            try:
+                scrren_caped = self.__readElementFromScreenText(web_loc)
+            except:
+                pass
+            if scrren_caped:
+                #then we detected the check event
+                self.trackedLocationsData[loc_details.id][idx].new = self.trackedLocationsData[loc_details.id][idx].old + 1
+            else:
+                #since the screen event is likely faster, we need to account for that here
+                value = self.__readElementFromWebLocation(web_loc, json_data)
+                if value < self.trackedLocationsData[loc_details.id][idx].new:
+                    # we know it was updated in a different way
+                    pass
+                else:
+                    self.trackedLocationsData[loc_details.id][idx].new = value
 
             idx = idx+1
     # endregion
