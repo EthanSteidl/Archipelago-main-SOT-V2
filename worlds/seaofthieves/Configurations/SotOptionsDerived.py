@@ -381,3 +381,6 @@ class SotOptionsDerived:
             gal = 0
 
         return Servant.SettingsVoyageQuestSv(compAny, sloop, brig, gal)
+
+
+
