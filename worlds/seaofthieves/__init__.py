@@ -6,6 +6,7 @@ from .Options import SOTOptions
 from .Rules import set_rules
 from BaseClasses import Location
 from worlds.seaofthieves.Regions.Regions import create_regions
+from worlds.LauncherComponents import Component, components, Type, launch_subprocess
 from BaseClasses import Item, Tutorial, ItemClassification
 from worlds.AutoWorld import World, WebWorld
 from .Locations.LocationCollection import LocationDetailsCollection
@@ -19,6 +20,17 @@ import collections
 from .ClientInput import ClientInput
 from .Items.ItemAdder import create_items
 import pickle
+
+
+def launch_client():
+    from .Client.SotCustomClient import launch
+    launch_subprocess(launch, name="SotClient")
+
+
+components.append(Component("Sot Client", "SotClient", func=launch_client, component_type=Type.CLIENT))
+
+
+
 class SOTWeb(WebWorld):
     tutorials = [Tutorial(
         "Multiworld Setup Guide",
