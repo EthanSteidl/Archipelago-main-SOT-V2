@@ -48,14 +48,13 @@ class SOTDataAnalyzer:
         self.trackedLocationsData: typing.Dict[int,typing.Dict[int,OldNewValues]] = {}
 
         self.banned: typing.Dict[int,bool] = {}
-        self.window_capture: WindowCapture = WindowCapture("Sea of Thieves")
-        self.window_capture.list_window_names()
+        self.window_capture: WindowCapture = WindowCapture()
         self.last_screenshot_time = -1000
         self.screenshot_second_interval = 2
-        self.screen_text = ""
-        self.screen_image_bw = None
-        self.screen_image_grey = None
-        self.scr_success = True
+
+        self.screenshot_hand = None
+        self.screenshot_bottom_text = None
+        self.bottom_text: str = ""
 
 
     def __readElementFromScreenText(self, web_location: WebLocation) -> bool:
@@ -68,30 +67,19 @@ class SOTDataAnalyzer:
             self.last_screenshot_time = time.time()
 
             try:
-                # C:\Users\Ethan\AppData\Local\Programs\Tesseract - OCR
+                self.screenshot_hand = self.window_capture.get_screenshot_right_hand()
+                self.screenshot_hand.save("temp_hand.png")
+                #self.screenshot_hand.show()
+                self.screenshot_bottom_text = self.window_capture.get_screenshot_bottom_text()
+                self.bottom_text = self.window_capture.get_text_from_screenshgot(self.screenshot_bottom_text)
 
-                self.screen_image_bw, self.screen_image_grey = self.window_capture.get_screenshot_2()
-                #self.screen_image_bw.show()
-                # pytesseract.pytesseract.tesseract_cmd = r'C:\Users\USER\AppData\Local\Tesseract-OCR\tesseract.exe'
-                self.screen_image_grey.save("screen_cap.png")
-
-                self.screen_text = pytesseract.image_to_string(self.screen_image_bw,config='--psm 3').lower()
-                # if self.screen_text == "":
-                #     print("No Text Found")
-                # else:
-                #     print(self.screen_text)
-                if self.scr_success == False:
-                    print("Game window found!")
-                self.scr_success = True
             except Exception as e:
 
-
-                #we just could not find the window
-                if self.scr_success:
                     print("Game window not found - report as bug if game is running")
-                self.scr_success = False
 
-        if web_location.screenData.hasMatch(self.screen_text, self.screen_image_grey):
+
+        if web_location.screenData.hasMatch(self.bottom_text, self.screenshot_hand):
+            print("Found match!!")
             return True
 
         return False

@@ -5,6 +5,7 @@ from ....Regions.RegionDetails import Regions
 from ....Items.Items import ItemReqEvalOr, ItemReqEvalAnd, Items
 from ....Locations.LocationSettingOption import LocationSettingOption
 from ...Locations import ScreenData
+import os
 
 class SettingsHunterEatenAboard:
 
@@ -361,9 +362,11 @@ class HunterEatenAboard(LocationsBase):
         lgc = ItemReqEvalOr([
             ItemReqEvalAnd([])
             ])
+
+
         wlc = WebLocationCollection([
-            WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 66, "Banana"), reg, lgc, HunterEatenAboard.BANANA, ScreenData(None, ["banana","banna2","banna3","banna4"])),
-            WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 67, "Coconut"), reg, lgc, HunterEatenAboard.COCONUT, ScreenData(None, ["coconut","coconut2","coconut3"])),
+            WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 66, "Banana"), reg, lgc, HunterEatenAboard.BANANA, ScreenData(None, os.path.abspath(os.path.dirname(__file__) + '/../../../Tools/cascade/banana/cascade.xml'))),
+            WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 67, "Coconut"), reg, lgc, HunterEatenAboard.COCONUT, ScreenData(None, os.path.abspath(os.path.dirname(__file__) + '/../../../Tools/cascade/coconut/cascade.xml'))),
             WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 68, "Pomegranate"), reg, lgc, HunterEatenAboard.POMEGRANATE),
             WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 69, "Mango"), reg, lgc, HunterEatenAboard.MANGO),
             WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 70, "Pineapple"), reg, lgc, HunterEatenAboard.PINEAPPLE)
