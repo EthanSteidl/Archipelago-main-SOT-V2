@@ -51,4 +51,4 @@ class RogueQuestAll(LocationsBase):
 
         web = WebItemJsonIdentifier(0, 0, 0, 0, None, False)
         wlc = WebLocationCollection([WebLocation(web, reg, lgc, RogueQuestAll.BELL, ScreenData(["Bell"]), True)])
-        self.locations.append(LocDetails(RogueQuestAll.BELL, wlc, True))
+        self.locations.append(LocDetails(RogueQuestAll.BELL, wlc, False))

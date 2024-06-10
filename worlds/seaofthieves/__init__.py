@@ -59,6 +59,7 @@ class SOTWorld(World):
     regionAdder: RegionAdder
 
     def generate_early(self) -> None:
+        self.pre_fill_count = 0
         self.sotOptionsDerived = SotOptionsDerived.SotOptionsDerived(self.options)
         self.sotOptionsDerived.player_name = self.multiworld.player_name[self.player]
         self.locationCollection = LocationDetailsCollection()
@@ -94,8 +95,8 @@ class SOTWorld(World):
 
 
     def create_items(self):
-        thisWorldsLocCount = self.locationCollection.getLocCount()
-        create_items(self.multiworld, thisWorldsLocCount, self.sotOptionsDerived, self.itemCollection, self.player)
+        #thisWorldsLocCount = self.locationCollection.getLocCount()
+        create_items(self.multiworld, len(self.location_name_to_id.keys()), self.sotOptionsDerived, self.itemCollection, self.player)
 
     def get_filler_item_name(self) -> str:
         return self.itemCollection.getFillerItemName()
@@ -209,7 +210,7 @@ class SOTWorld(World):
             return '{} in {}\'s world holds your {}'.format(loc_name, sending_player_name, item_name)
         return '{} holds {} for {}'.format(loc_name, item_name, for_player_name)
 
-    def pre_fill_seals(self) -> None:
+    def pre_fill_seals(self) -> int:
 
         #right now we just have seals, so this works, but it wont soon
 
@@ -244,11 +245,12 @@ class SOTWorld(World):
         fill_restrictive(self.multiworld, all_state, [fod_location], [itm], True, lock=True,
                          name="SOT Seals")
 
+        return 5 + 1
 
 
 
 
-    def pre_fill_sail(self) -> None:
+    def pre_fill_sail(self) -> int:
 
         itm = SOTItem(Items.sail.name, ItemClassification.progression, Items.sail.id, self.player)
         sail_item_list: typing.List[SOTItem] = [itm]
@@ -262,3 +264,5 @@ class SOTWorld(World):
 
         fill_restrictive(self.multiworld, all_state, locs, sail_item_list, True, lock=True,
                          name="SOT Sail")
+
+        return 1

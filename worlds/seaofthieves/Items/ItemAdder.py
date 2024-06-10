@@ -8,41 +8,14 @@ def create_items(world: MultiWorld, location_count: int, options: SotOptionsDeri
 
     update_items_from_options(options, itemCollection)
 
-    #region_adder = RegionAdder(player, locationDetailsCollection, options)
+    #we know the pre fill locations cannot be used
+    location_count = location_count - itemCollection.pre_fill_count
 
-    # Check if we can place all the items
-    item_count_to_add = itemCollection.getItemCount()
-    filler_count_to_add = location_count - item_count_to_add
-    if filler_count_to_add < 0:
-        filler_count_to_add = 0
+    location_count -= __add_main_items(world, itemCollection, player)
+    location_count -= __add_fill_and_traps(world, itemCollection, player, location_count, options)
 
-
-    # check if we can continue
-    if item_count_to_add > location_count:
-        raise Exception('Not enough locations to spawn items: {} Locations {} Items'.format(location_count, item_count_to_add))
-
-    #trap count
-    trap_count = int(math.floor(float(filler_count_to_add) * (float(options.trapsPercentage) / 100.0)))
-    filler_count_to_add -= trap_count
-
-
-    # Add main items
-    for detail in itemCollection.progression:
-        count_to_add_to_world = detail.countToSpawnByDefault - itemCollection.getPreFillCountForName(detail.name)
-        if count_to_add_to_world < 0:
-            count_to_add_to_world = 0
-        for i in range(count_to_add_to_world):
-            world.itempool.append(SOTItem(detail.name, detail.classification, detail.id, player))
-
-    # Add filler items
-    for i in range(filler_count_to_add):
-        detail = world.random.choice(itemCollection.filler)
-        world.itempool.append(SOTItem(detail.name, detail.classification, detail.id, player))
-
-    # Add trap items
-    for i in range(trap_count):
-        detail = world.random.choice(itemCollection.trap)
-        world.itempool.append(SOTItem(detail.name, detail.classification, detail.id, player))
+    if(location_count != 0):
+        raise Exception("In item creation, items added to the pool resulted in {} locations remaining.".format(location_count))
 
 def update_items_from_options(options: SotOptionsDerived, itemCollection: ItemCollection):
     itemCollection.informCollectionOfPrefillAction(Items.seal_gh.name, 1)
@@ -52,3 +25,35 @@ def update_items_from_options(options: SotOptionsDerived, itemCollection: ItemCo
     itemCollection.informCollectionOfPrefillAction(Items.seal_oos.name, 1)
     itemCollection.informCollectionOfPrefillAction(Items.pirate_legend.name, 1)
     itemCollection.informCollectionOfPrefillAction(Items.sail.name, 1)
+
+def __add_main_items(world: MultiWorld, itemCollection: ItemCollection, player: int) -> int:
+    count = 0
+    for detail in itemCollection.progression:
+        count_to_add_to_world = detail.countToSpawnByDefault - itemCollection.getPreFillCountForName(detail.name)
+        if count_to_add_to_world < 0:
+            count_to_add_to_world = 0
+        for i in range(count_to_add_to_world):
+            world.itempool.append(SOTItem(detail.name, detail.classification, detail.id, player))
+            count += 1
+    return count
+
+def __add_fill_and_traps(world: MultiWorld, itemCollection: ItemCollection, player: int, count: int, options: SotOptionsDerived):
+
+    # trap count
+    trap_count = int(math.floor(float(count) * (float(options.trapsPercentage) / 100.0)))
+    fill_count = count - trap_count
+    cnt_added = 0
+
+    # Add filler items
+    for i in range(fill_count):
+        detail = world.random.choice(itemCollection.filler)
+        world.itempool.append(SOTItem(detail.name, detail.classification, detail.id, player))
+        cnt_added += 1
+
+    # Add trap items
+    for i in range(trap_count):
+        detail = world.random.choice(itemCollection.trap)
+        world.itempool.append(SOTItem(detail.name, detail.classification, detail.id, player))
+        cnt_added += 1
+
+    return cnt_added
