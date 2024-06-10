@@ -44,8 +44,7 @@ class SOTWorld(World):
 
     sotOptionsDerived: SotOptionsDerived.SotOptionsDerived
 
-    itemCollection = ItemCollection()
-    item_name_to_id = itemCollection.getDict()
+    item_name_to_id = ItemCollection().getDict()
 
     #locationOptions: LocationOptions = LocationOptions()
     locationCollection = LocationDetailsCollection()
@@ -59,7 +58,8 @@ class SOTWorld(World):
     regionAdder: RegionAdder
 
     def generate_early(self) -> None:
-        self.pre_fill_count = 0
+        self.itemCollection = ItemCollection()
+        self.itemCollection.getDict() #loads the item collection
         self.sotOptionsDerived = SotOptionsDerived.SotOptionsDerived(self.options)
         self.sotOptionsDerived.player_name = self.multiworld.player_name[self.player]
         self.locationCollection = LocationDetailsCollection()
