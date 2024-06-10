@@ -4,21 +4,13 @@ def load_tests(loader, standard_tests, pattern):
     from .. import file_path
     from worlds.AutoWorld import AutoWorldRegister
 
-    import re
-
-    def Filter(string, substr):
-        return [str for str in string if
-                any(sub in str for sub in substr)]
-
-    # Driver code
-    substr = ['sea']
 
     suite = unittest.TestSuite()
     suite.addTests(standard_tests)
     folders = [os.path.join(os.path.split(world.__file__)[0], "test")
                for world in AutoWorldRegister.world_types.values()]
 
-    folders = Filter(folders, substr)
+
     all_tests = [
         test_case for folder in folders if os.path.exists(folder)
         for test_collection in loader.discover(folder, top_level_dir=file_path)

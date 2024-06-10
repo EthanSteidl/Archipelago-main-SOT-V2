@@ -81,9 +81,9 @@ def create_rules(options: SotOptionsDerived, world: MultiWorld):
     rules: typing.List[ConnectionDetails] = []
 
     rules.append(ConnectionDetails(Regions.R_MENU, Regions.R_PLAYER_SHIP, ItemReqEvalOr([])))
-    rules.append(ConnectionDetails(Regions.R_PLAYER_SHIP, Regions.R_OPEN_SEA, ItemReqEvalOr([])))
-    #rules.append(ConnectionDetails(Regions.R_PLAYER_SHIP, Regions.R_OPEN_SEA,
-    #                                                     ItemReqEvalOr([ItemReqEvalAnd([Items.sail])])))
+    #rules.append(ConnectionDetails(Regions.R_PLAYER_SHIP, Regions.R_OPEN_SEA, ItemReqEvalOr([])))
+    rules.append(ConnectionDetails(Regions.R_PLAYER_SHIP, Regions.R_OPEN_SEA,
+                                                        ItemReqEvalOr([ItemReqEvalAnd([Items.sail])])))
     rules.append(ConnectionDetails(Regions.R_OPEN_SEA, Regions.R_OPEN_SEA_ASHEN,
                                                          ItemReqEvalOr([ItemReqEvalAnd([Items.sail_inferno])])))
     rules.append(ConnectionDetails(Regions.R_OPEN_SEA, Regions.R_OPEN_SEA_SHARED, ItemReqEvalOr([])))
