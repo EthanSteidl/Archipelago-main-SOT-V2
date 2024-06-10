@@ -125,6 +125,11 @@ class SOT_CommandProcessor(ClientCommandProcessor):
             if loc.id not in self.ctx.locations_checked and loc.doRandomize:
                 print(loc.name)
 
+    def _cmd_complete(self, locId):
+        """Force completes a check"""
+        self.ctx.locations_checked.add(int(locId))
+        self.ctx.analyzer.stopTracking(int(locId))
+
 
     def _cmd_mrkrabs(self):
         """Gives you alot of money"""

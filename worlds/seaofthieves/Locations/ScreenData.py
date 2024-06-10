@@ -5,7 +5,7 @@ import typing
 class ScreenData:
 
 
-    def __init__(self, text_group: typing.List[str] | None = None, cascade_classifier_xml: typing.Optional[str] = None):
+    def __init__(self, text_group: typing.Optional[typing.List[str]] = None, cascade_classifier_xml: typing.Optional[str] = None):
         self.text_group = text_group if text_group is not None else []
         for i in range(len(self.text_group)):
             self.text_group[i] = self.text_group[i].lower()
