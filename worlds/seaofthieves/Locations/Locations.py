@@ -136,12 +136,12 @@ class Cost:
         self.dabloons = dabloons
         self.ancient_coins = ancient_coins
 
-    # def toDict(self):
-    #     ret = {}
-    #     ret["gold"] = self.gold
-    #     ret["dabloons"] = self.dabloons
-    #     ret["ancient_coins"] = self.ancient_coins
-    #     return ret
+    def toDict(self):
+        ret = {}
+        ret["gold"] = self.gold
+        ret["dabloons"] = self.dabloons
+        ret["ancient_coins"] = self.ancient_coins
+        return ret
     def toJSON(self):
         return json.dumps(
             self,
