@@ -4,7 +4,7 @@ import random
 import time
 
 # CommonClient import first to trigger ModuleUpdater
-import winsound
+#import winsound
 from worlds.seaofthieves.Locations.LocationCollection import LocationDetailsCollection, LocDetails
 from worlds.seaofthieves.Items.Items import ItemCollection
 from worlds.seaofthieves.Items.Items import Items, ItemDetail
@@ -14,6 +14,7 @@ from worlds.seaofthieves import ClientInput
 import worlds.seaofthieves.Client.PlayerInventory as PlayerInventory
 import colorama
 import os
+import CommonClient
 from CommonClient import CommonContext, server_loop, ClientCommandProcessor, gui_enabled, get_base_parser
 import threading
 import worlds.seaofthieves.Client.SOTDataAnalyzer as SOTDataAnalyzer
@@ -40,7 +41,7 @@ async def watchGameForever(ctx):
     first_pass = True
     while True:
 
-        if ctx.connected_to_server:
+        if ctx.connected_to_server and ctx.analyzer is not None: #pretty much the client will start up and the analyzer wont be built yet
             if first_pass:
                 await ctx.init_notif()
                 first_pass = False
@@ -145,16 +146,48 @@ class SOT_CommandProcessor(ClientCommandProcessor):
         print("You now have alot of money.")
         self.ctx.playerInventory.addBalanceClient(Balance.Balance(100000000,100000000,10000000))
 
+    def _cmd_setmode(self, mode):
+        """Sets mode, pass "NA" for pirate mode, or pass your ship number for ship mode"""
+        self.ctx.ship = mode
 
+        self.output("Mode set to {}".format(mode))
+
+        self.ctx.buildIfWeCan()
+
+    def _cmd_setcookie(self, filepath):
+        """Sets msCookie, pass "Absolute Filepath" to cookie without quotes"""
+        file = open(filepath.strip('\"'), "r")
+        real_cookie = str(file.read())
+        file.close()
+
+        if len(real_cookie) > 1:
+            self.ctx.msCookie = real_cookie
+            self.output("Cookie Set")
+            self.ctx.buildIfWeCan()
+        else:
+            self.output("Error setting cookie, either could not locate file or file was empty")
+    def _cmd_setsotci(self, filepath):
+        """Sets configuration related to your settings, pass "Absolute Filepath" to your apsmSOTCI file generated with the world for your player"""
+        clientInput: ClientInput = ClientInput()
+        clientInput.from_fire(filepath.strip('\"'))
+        self.ctx.clientInput = clientInput
+        self.output("If no errors displayed, sotci file set")
+        self.ctx.buildIfWeCan()
 
 class SOT_Context(CommonContext):
     command_processor = SOT_CommandProcessor
 
 
-    def __init__(self, serverAddress: typing.Optional[str], serverPassword: str | None, userInformation: UserInformation.UserInformation):
+    def __init__(self, serverAddress: typing.Optional[str], serverPassword: typing.Optional[str]):
         super().__init__(serverAddress, serverPassword)
-        self.userInformation = userInformation
-        self.analyzer: SOTDataAnalyzer.SOTDataAnalyzer = SOTDataAnalyzer.SOTDataAnalyzer(userInformation)
+
+        self.msCookie = None
+        self.clientInput = None
+        self.ship = None
+
+
+        self.userInformation = None
+        self.analyzer: typing.Optional[SOTDataAnalyzer.SOTDataAnalyzer] = None #SOTDataAnalyzer.SOTDataAnalyzer(userInformation)
         self.known_items_received = [] #used to track measured received counts
 
         self.locationDetailsCollection = LocationDetailsCollection()
@@ -167,8 +200,8 @@ class SOT_Context(CommonContext):
 
         self.originalBalance: Balance.Balance | None = None
 
-        self.options: SotOptionsDerived = userInformation.options
-        self.region_connection_details = userInformation.regionLogic
+        self.options: typing.Optional[SotOptionsDerived] = None #userInformation.options
+        self.region_connection_details = None #userInformation.regionLogic
 
         self.forceUnlock = False
 
@@ -177,6 +210,47 @@ class SOT_Context(CommonContext):
         self.balance_update_interval = 10
         self.balance_last_update = -10000
 
+    def buildIfWeCan(self):
+
+        if self.ship is None or self.clientInput is None or self.msCookie is None:
+            return
+
+        pirate = None
+        if self.ship == "NA":
+            self.ship = None
+            pirate = "pirateMode"
+        sotLoginCredentials: UserInformation.SotLoginCredentials = UserInformation.SotLoginCredentials(self.msCookie)
+        sotAnalyzerDetails: UserInformation.SotAnalyzerDetails = UserInformation.SotAnalyzerDetails(self.ship, pirate)
+
+        self.userInformation = UserInformation.UserInformation(sotLoginCredentials, sotAnalyzerDetails, "Not Provided", self.clientInput)
+        self.analyzer: typing.Optional = SOTDataAnalyzer.SOTDataAnalyzer(self.userInformation)
+        self.options: typing.Optional[SotOptionsDerived] = self.userInformation.options
+        self.region_connection_details = self.userInformation.regionLogic
+
+    def getPlayerMode(self):
+        val = asyncio.run(self.console_input())
+        #val = input('Enter ship Number or "NA" for pirate mode: ')
+        #while not (val == "NA" or val.isdigit()):
+        #    val = input('Invalid Input: Enter ship Number or "NA" for pirate mode: ')
+        return val
+
+    def getMsCookie(self):
+        filepath = input('Enter an absolute Filepath to a text file containing your mscookie : ')
+        while not os.path.exists(filepath):
+            filepath = input('File not found. Enter an absolute Filepath to a text file containing your mscookie : ')
+        file = open(filepath, "r")
+        real_cookie = str(file.read())
+        file.close()
+        return real_cookie
+
+    def getClientInput(self):
+        filepath = input('Enter an absolute Filepath to a text file containing your options : ')
+        while not os.path.exists(filepath):
+            filepath = input(
+                'File not found. Enter an absolute Filepath to a text file containing your options : ')
+        clientInput: ClientInput = ClientInput()
+        clientInput.from_fire(filepath)
+        return clientInput
 
     async def init_notif(self):
         keys: typing.List[str] = []
@@ -320,7 +394,7 @@ class SOT_Context(CommonContext):
 
         if should_play_sound and self.options.experimentals:
             fpath = '..\\Items\\Sounds\\item_find.wav'
-            winsound.PlaySound(fpath, winsound.SND_FILENAME)
+            #winsound.PlaySound(fpath, winsound.SND_FILENAME)
         self.known_items_received = self.items_received
 
 
@@ -530,21 +604,29 @@ async def fConnectToRoom(ctx : SOT_Context):
 
 
 async def main():
-    Utils.init_logging("Sea of Thieves")
-    multiprocessing.freeze_support()
-    user_info: UserInformation.UserInformation = getSeaOfThievesDataFromArguments()
-    ctx = SOT_Context(user_info.address, None, user_info)
+    Utils.init_logging("Sea of Thieves Client")
+    #multiprocessing.freeze_support()
+    #user_info: UserInformation.UserInformation = getSeaOfThievesDataFromArguments()
+    #ctx = SOT_Context(user_info.address, None, user_info)
+    ctx = SOT_Context(None, None)
 
-    await ctx.connect(user_info.address)
+    #server_task = asyncio.create_task(server_loop(ctx), name="server loop")
+    #game_watcher = asyncio.create_task(watchGameForever(ctx), name="game watcher")
+    #await ctx.connect(user_info.address)
+    if CommonClient.gui_enabled:
+        ctx.run_gui()
+
+
     ctx.run_cli()
 
 
 
 
-    game_watcher = asyncio.create_task(watchGameForever(ctx), name="ever")
+
 
     await ctx.exit_event.wait()
-    await game_watcher
+    #await server_task
+    #await game_watcher
     await ctx.shutdown()
 
     return

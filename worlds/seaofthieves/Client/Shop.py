@@ -2,7 +2,6 @@ import typing
 from worlds.seaofthieves.Client.Balance import Balance
 from worlds.seaofthieves.Client.PlayerInventory import PlayerInventory
 from worlds.seaofthieves.Items.Items import Items, ItemDetail
-import winsound
 import os
 HINT_IDX = "HINT_IDX"
 class Shop:

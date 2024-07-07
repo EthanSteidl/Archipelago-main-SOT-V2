@@ -113,7 +113,7 @@ components: List[Component] = [
     Component('MMBN3 Client', 'MMBN3Client', file_identifier=SuffixIdentifier('.apbn3')),
 
     # Sea of Thieves
-    Component('Sea of Thieves Client', 'SOTClient', cli=True, icon='sot', component_type=Type.CLIENT)
+    #Component('Sea of Thieves Client', 'SOTClient', cli=True, icon='sot', component_type=Type.CLIENT)
 ]
 
 

@@ -11,7 +11,7 @@ from worlds.seaofthieves.Locations.Locations import WebLocation
 from worlds.seaofthieves.Locations.LocationCollection import LocationDetailsCollection, LocDetails
 from worlds.seaofthieves.Items.Items import ItemCollection
 import worlds.seaofthieves.Client.Balance as Balance
-from worlds.seaofthieves.Client.windowcapture import  WindowCapture
+#from worlds.seaofthieves.Client.windowcapture import  WindowCapture
 
 class SOTDataAnalyzerSettings:
 
@@ -42,7 +42,7 @@ class SOTDataAnalyzer:
         self.trackedLocationsData: typing.Dict[int,typing.Dict[int,OldNewValues]] = {}
 
         self.banned: typing.Dict[int,bool] = {}
-        self.window_capture: WindowCapture = WindowCapture()
+        #self.window_capture: WindowCapture = WindowCapture()
         self.last_screenshot_time = -1000
         self.screenshot_second_interval = 2
 
@@ -53,6 +53,9 @@ class SOTDataAnalyzer:
 
     def __readElementFromScreenText(self, web_location: WebLocation) -> bool:
 
+        return False
+
+        '''
         #check if there is a screen element on the web location
         if web_location.screenData is None:
             return False
@@ -78,6 +81,7 @@ class SOTDataAnalyzer:
             return True
 
         return False
+        '''
 
     def __readElementFromWebLocation(self, web_location: WebLocation, json_data):
 

@@ -25,16 +25,32 @@ from .Regions.RegionDetails import Regions
 import subprocess
 import asyncio
 import pickle
+import worlds.LauncherComponents as LauncherComponents
 
 
-def launch_client():
+def launch_client() -> None:
     from .Client.SotCustomClient import launch
-    launch_subprocess(launch, name="SotTextClient")
+    LauncherComponents.launch_subprocess(launch, name="SOTmClient")
 
 
-components.append(Component('Sea of Thieves Client REAL', 'SOTClientreal', cli=True, icon='sot', component_type=Type.CLIENT, func=launch_client))
-#components.append(Component("Sot Client", "SotClient", func=launch_client, component_type=Type.CLIENT))
+LauncherComponents.components.append(
+    LauncherComponents.Component(
+        "Sea of Thieves Mega Client",
+        func=launch_client,
+        component_type=LauncherComponents.Type.CLIENT
+    )
+)
 
+
+# def launch_client():
+#     from .Client.SotCustomClient import launch
+#     p = Process(target=launch)
+#     p.start()
+#
+#
+# components.append(Component('Sea of Thieves Client REAL', 'SOTClientreal', cli=True, icon='sot', component_type=Type.CLIENT, func=launch_client))
+# #components.append(Component("Sot Client", "SotClient", func=launch_client, component_type=Type.CLIENT))
+#
 
 
 class SOTWeb(WebWorld):
