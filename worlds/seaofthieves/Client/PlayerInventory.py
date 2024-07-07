@@ -26,8 +26,8 @@ class PlayerInventory:
     def add_item_to_client(self, id: int):
         self.itemsToSendToClient.append(id)
 
-    def add_item(self, name: str):
-        self.item_names_in_inventory[name] = True
+    def add_item(self, id: int):
+        self.item_names_in_inventory[id] = True
 
     def setBalanceSot(self, bal: Balance):
         self.balanceSot = bal

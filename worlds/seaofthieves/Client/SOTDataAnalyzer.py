@@ -57,6 +57,7 @@ class SOTDataAnalyzer:
         if web_location.screenData is None:
             return False
 
+
         if self.last_screenshot_time + self.screenshot_second_interval < time.time():
             self.last_screenshot_time = time.time()
 
@@ -86,6 +87,7 @@ class SOTDataAnalyzer:
             #
             # Therefore, as long as the "Dont track until it should be" logic works, this code will reward fake items with specific conditions
             # at the correct moment during play (granted, it happens up to 'server polling time' after the check actually happens)
+
 
             SOTDataAnalyzer.counter = SOTDataAnalyzer.counter+1
             return SOTDataAnalyzer.counter
@@ -156,7 +158,10 @@ class SOTDataAnalyzer:
 
     def __updateWebDataForAll(self, json_data) -> None:
         for loc_det in self.trackedLocations.keys():
-            self.__updateWebDataForLocation(self.trackedLocations[loc_det], json_data)
+
+            #skip shop items
+            if self.trackedLocations[loc_det].cost is None:
+                self.__updateWebDataForLocation(self.trackedLocations[loc_det], json_data)
 
     def __updateWebDataForLocation(self, loc_details: LocDetails, json_data) -> None:
 
@@ -168,10 +173,13 @@ class SOTDataAnalyzer:
         idx = 0
         for web_loc in loc_details.webLocationCollection:
             scrren_caped = False
-            try:
-                scrren_caped = self.__readElementFromScreenText(web_loc)
-            except Exception as e:
-                print("Fatal Error: " + str(e))
+            #
+            # TODO this is the screen compare logic, WIP
+            #
+            # try:
+            #     scrren_caped = self.__readElementFromScreenText(web_loc)
+            # except Exception as e:
+            #     print("Fatal Error: " + str(e))
             if scrren_caped:
                 #then we detected the check event
                 self.trackedLocationsData[loc_details.id][idx].new = self.trackedLocationsData[loc_details.id][idx].old + 1

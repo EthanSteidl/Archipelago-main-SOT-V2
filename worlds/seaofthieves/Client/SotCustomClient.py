@@ -123,12 +123,21 @@ class SOT_CommandProcessor(ClientCommandProcessor):
         print("You can check " + str(possible) + " more locations. And have completed " + str(checked))
         for loc in loc_details_possible:
             if loc.id not in self.ctx.locations_checked and loc.doRandomize:
-                print(loc.name)
+                print("{} [{}]".format(loc.name, loc.id))
 
     def _cmd_complete(self, locId):
-        """Force completes a check"""
-        self.ctx.locations_checked.add(int(locId))
-        self.ctx.analyzer.stopTracking(int(locId))
+        """Force completes a check. Enter "CANDO" to complete all checks displayed with locs command"""
+
+        if locId == "CANDO":
+            loc_details_possible: typing.List[LocDetails] = self.ctx.locationsReachableWithCurrentItems()
+            for loc in loc_details_possible:
+                if loc.id not in self.ctx.locations_checked and loc.doRandomize:
+                    self.ctx.locations_checked.add(int(loc.id))
+                    self.ctx.analyzer.stopTracking(int(loc.id))
+
+        else:
+            self.ctx.locations_checked.add(int(locId))
+            self.ctx.analyzer.stopTracking(int(locId))
 
 
     def _cmd_mrkrabs(self):
@@ -237,6 +246,8 @@ class SOT_Context(CommonContext):
             receivedItemsPacket: ReceivedItemsPacket = ReceivedItemsPacket(args)
             if(receivedItemsPacket.items is not None):
                 self.items_received = receivedItemsPacket.items
+                for item in self.items_received:
+                    self.playerInventory.add_item(item.item)
 
 
 

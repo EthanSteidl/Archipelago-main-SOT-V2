@@ -49,7 +49,7 @@ class VoyageQuestSv(LocationsBase):
         do_rand: bool = self.settings.sloop is not SettingsVoyageQuestSv.Sloop.OFF
         lgc = ItemReqEvalOr([ItemReqEvalAnd([Items.ship_weapons, Items.personal_weapons, Items.sail, Items.emissary_rb])])
         wlc = WebLocationCollection([
-            WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 0), reg, lgc)
+            WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 2), reg, lgc)
         ])
         self.locations.append(LocDetails(self.L_SERV_GUARDIANS_SUNK_SLOOP, wlc, do_rand))
 
@@ -63,7 +63,7 @@ class VoyageQuestSv(LocationsBase):
         do_rand: bool = self.settings.gal is not SettingsVoyageQuestSv.Gal.OFF
         lgc = ItemReqEvalOr([ItemReqEvalAnd([Items.ship_weapons, Items.personal_weapons, Items.sail, Items.emissary_rb])])
         wlc = WebLocationCollection([
-            WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 3), reg, lgc)
+            WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 0), reg, lgc)
         ])
         self.locations.append(LocDetails(self.L_SERV_GUARDIANS_SUNK_GALL, wlc, do_rand))
 

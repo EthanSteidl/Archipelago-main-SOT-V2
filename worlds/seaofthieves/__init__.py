@@ -174,24 +174,24 @@ class SOTWorld(World):
         info = {}
 
         reg = self.multiworld.worlds[self.player].get_region(Regions.R_SHOP_ANCIENT_SPIRE.name)
-        info[reg.name] = self.__addClientShopInformationForRegion(reg, Items.cat_as.name)
+        info[reg.name] = self.__addClientShopInformationForRegion(reg, Items.cat_as)
         reg = self.multiworld.worlds[self.player].get_region(Regions.R_SHOP_DAGGER_TOOTH.name)
-        info[reg.name] = self.__addClientShopInformationForRegion(reg, Items.cat_dt.name)
+        info[reg.name] = self.__addClientShopInformationForRegion(reg, Items.cat_dt)
         reg = self.multiworld.worlds[self.player].get_region(Regions.R_SHOP_GALLEONS_GRAVE.name)
-        info[reg.name] = self.__addClientShopInformationForRegion(reg, Items.cat_gg.name)
+        info[reg.name] = self.__addClientShopInformationForRegion(reg, Items.cat_gg)
         reg = self.multiworld.worlds[self.player].get_region(Regions.R_SHOP_MORROWS_PEAK.name)
-        info[reg.name] = self.__addClientShopInformationForRegion(reg, Items.cat_mp.name)
+        info[reg.name] = self.__addClientShopInformationForRegion(reg, Items.cat_mp)
         reg = self.multiworld.worlds[self.player].get_region(Regions.R_SHOP_PLUNDER_OUTPOST.name)
-        info[reg.name] = self.__addClientShopInformationForRegion(reg, Items.cat_p.name)
+        info[reg.name] = self.__addClientShopInformationForRegion(reg, Items.cat_p)
         reg = self.multiworld.worlds[self.player].get_region(Regions.R_SHOP_SANCTUARY_OUTPOST.name)
-        info[reg.name] = self.__addClientShopInformationForRegion(reg, Items.cat_s.name)
+        info[reg.name] = self.__addClientShopInformationForRegion(reg, Items.cat_s)
 
         return info
 
-    def __addClientShopInformationForRegion(self, reg, item_req_name: str):
+    def __addClientShopInformationForRegion(self, reg, item_req: ItemDetail):
         ret = {}
         for loc in reg.locations:
-            ret[loc.name] = {"cost": loc.locDetails.cost.toDict(), "id": loc.locDetails.id, "item": loc.item.name, "req_name": item_req_name}
+            ret[loc.name] = {"cost": loc.locDetails.cost.toDict(), "id": loc.locDetails.id, "item_name": loc.item.name, "item_id": loc.item.code, "req_name": item_req.name, "req_id": item_req.id}
         return ret
     def generalHints(self, max):
 
