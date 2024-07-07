@@ -90,13 +90,13 @@ class Shops(LocationsBase):
     def roundPrice(self, low_val: int, high_val: int):
         val = self.random.randint(low_val, high_val)
         if val > 500:
-            val //= 100
+            val -= val//100
         elif val > 100:
-            val //= 50
+            val -= val//50
         elif val > 50:
-            val //= 25
+            val -= val//25
         else:
-            val //= 5
+            val -= val//5
         return val
     def getCost(self):
         cost = Cost(self.roundPrice(self.settings.cost_low.gold, self.settings.cost_high.gold),

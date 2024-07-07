@@ -29,7 +29,7 @@ class Shop:
         for key in self.menu.keys():
 
             if int(key) > 3 and self.menu[key][5] not in playerInventory.item_names_in_inventory.keys():
-                st += "[ " + key + " ] To unlock, aquire " + self.menu[key][4]
+                st += "[ " + key + " ] **Locked, requires [" + self.menu[key][4] + "]\n"
 
             else:
                 st += "[ " + key + " ] " + self.menu[key][0] + " [" + str(self.menu[key][1]) + " gold] [" + str(self.menu[key][2]) + " dabloons] \n"
