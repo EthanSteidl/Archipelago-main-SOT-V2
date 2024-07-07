@@ -313,13 +313,17 @@ class SOTWorld(World):
 
     def underPromoteProgressionItemsNotNeeded(self, options: SotOptionsDerived.SotOptionsDerived):
 
-        if options.shopsSettings.shop_item_number == 0:
-            Items.cat_as.classification = ItemClassification.useful
-            Items.cat_dt.classification = ItemClassification.useful
-            Items.cat_gg.classification = ItemClassification.useful
-            Items.cat_mp.classification = ItemClassification.useful
-            Items.cat_p.classification = ItemClassification.useful
-            Items.cat_s.classification = ItemClassification.useful
+        return
+
+        #if an item locks a region, it must be considered progressive or the unit tests will fail
+
+        # if options.shopsSettings.shop_item_number == 0:
+        #     Items.cat_as.classification = ItemClassification.useful
+        #     Items.cat_dt.classification = ItemClassification.useful
+        #     Items.cat_gg.classification = ItemClassification.useful
+        #     Items.cat_mp.classification = ItemClassification.useful
+        #     Items.cat_p.classification = ItemClassification.useful
+        #     Items.cat_s.classification = ItemClassification.useful
 
     def pre_fill_sail(self) -> int:
 
