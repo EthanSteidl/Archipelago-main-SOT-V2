@@ -153,7 +153,7 @@ class LocDetails:
     seedId: int = 9000000
 
 
-    def __init__(self, name: str, webLocationCollection: WebLocationCollection, doRandomize: bool = True, increaseReqForCheck: int = 1, countCollectable: int = 1, onlyUnique = True, cost = None ):
+    def __init__(self, name: str, webLocationCollection: WebLocationCollection, doRandomize: bool = True, increaseReqForCheck: int = 1, countCollectable: int = 1, onlyUnique = True, cost: typing.Optional[Cost] = None ):
         self.name = name
         self.id = LocDetails.seedId
         self.webLocationCollection = webLocationCollection
@@ -161,7 +161,7 @@ class LocDetails:
         self.increaseReqForCheck = increaseReqForCheck
         self.countCollectable = countCollectable
         self.onlyUnique = onlyUnique
-        #self.cost = cost
+        self.cost: typing.Optional[Cost] = cost
         LocDetails.seedId += 1
 
 

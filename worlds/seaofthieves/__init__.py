@@ -211,7 +211,7 @@ class SOTWorld(World):
     def __addClientShopInformationForRegion(self, reg, item_req: ItemDetail):
         ret = {}
         for loc in reg.locations:
-            ret[loc.name] = {"cost": {"gold":0, "dabloons":0, "ancient_coins":0}, "id": loc.locDetails.id, "item_name": loc.item.name, "item_id": loc.item.code, "req_name": item_req.name, "req_id": item_req.id}
+            ret[loc.name] = {"cost": loc.locDetails.cost.toJSON(), "id": loc.locDetails.id, "item_name": loc.item.name, "item_id": loc.item.code, "req_name": item_req.name, "req_id": item_req.id}
         return ret
     def generalHints(self, max):
 
