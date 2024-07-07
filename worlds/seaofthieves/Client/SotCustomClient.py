@@ -71,13 +71,13 @@ class SOT_CommandProcessor(ClientCommandProcessor):
 
     def _cmd_linkShip(self, command: str) -> bool:
         """Tracks another ship on this world"""
-        print("Not Implemented")
+        self.output("Not Implemented")
         return False
 
         # #command in form "shipName<->mscookie"
         # args = command.split("<->")
         # if len(args) < 2:
-        #     print("Invalid argument count of " + str(len(args)) + ". Expected 2.")
+        #     self.output("Invalid argument count of " + str(len(args)) + ". Expected 2.")
         #     return False
         #
         # shipName = args[0]
@@ -86,13 +86,13 @@ class SOT_CommandProcessor(ClientCommandProcessor):
         # return True
     def _cmd_linkPirate(self, command: str) -> bool:
         """Tracks another pirate on this world"""
-        print("Not Implemented")
+        self.output("Not Implemented")
         return False
 
         # #command in form "shipName<->mscookie"
         # args = command.split("<->")
         # if len(args) < 2:
-        #     print("Invalid argument count of " + str(len(args)) + ". Expected 2.")
+        #     self.output("Invalid argument count of " + str(len(args)) + ". Expected 2.")
         #     return False
         #
         # name = args[0]
@@ -121,10 +121,10 @@ class SOT_CommandProcessor(ClientCommandProcessor):
         for loc in loc_details_possible:
             if loc.id not in self.ctx.locations_checked and loc.doRandomize:
                 possible += 1
-        print("You can check " + str(possible) + " more locations. And have completed " + str(checked))
+        self.output("You can check " + str(possible) + " more locations. And have completed " + str(checked))
         for loc in loc_details_possible:
             if loc.id not in self.ctx.locations_checked and loc.doRandomize:
-                print("{} [{}]".format(loc.name, loc.id))
+                self.output("{} [{}]".format(loc.name, loc.id))
 
     def _cmd_complete(self, locId):
         """Force completes a check. Enter "CANDO" to complete all checks displayed with locs command"""
@@ -143,7 +143,7 @@ class SOT_CommandProcessor(ClientCommandProcessor):
 
     def _cmd_mrkrabs(self):
         """Gives you alot of money"""
-        print("You now have alot of money.")
+        self.output("You now have alot of money.")
         self.ctx.playerInventory.addBalanceClient(Balance.Balance(100000000,100000000,10000000))
 
     def _cmd_setmode(self, mode):
@@ -338,7 +338,7 @@ class SOT_Context(CommonContext):
                     "Captain! " + colorama.Fore.YELLOW + "Another Player " + colorama.Fore.RESET + "sent their money to a long lost royal relative stuck in prison"
                 ]
 
-                print(random.choice(puns))
+                self.output(random.choice(puns))
 
             self.playAudio(setReplyPacket.key)
 
@@ -490,7 +490,7 @@ class SOT_Context(CommonContext):
 
 
 
-
+'''
 def getSeaOfThievesDataFromArguments() -> UserInformation.UserInformation:
 
 
@@ -561,6 +561,7 @@ def getSeaOfThievesDataFromArguments() -> UserInformation.UserInformation:
     sotAnalyzerDetails: UserInformation.SotAnalyzerDetails = UserInformation.SotAnalyzerDetails(args.ship, pirate)
     userInfo = UserInformation.UserInformation(sotLoginCredentials, sotAnalyzerDetails, args.address, clientInput)
     return userInfo
+'''
 
 async def every(__seconds: float, func, *args, **kwargs):
     while True:
