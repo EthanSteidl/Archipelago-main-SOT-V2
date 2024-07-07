@@ -60,7 +60,8 @@ class SOT_CommandProcessor(ClientCommandProcessor):
 
     def _cmd_hints(self) -> bool:
         """Displays hints you have purchased"""
-        self.ctx.playerInventory.print_hints()
+        for hint in self.ctx.playerInventory.get_hints():
+            self.output(hint)
         return True
 
     def _cmd_forceunlock(self) -> bool:
@@ -195,6 +196,7 @@ class SOT_Context(CommonContext):
 
         self.itemCollection = ItemCollection()
         self.shop = Shop()
+        self.shop.ctx = self
         self.playerInventory = PlayerInventory.PlayerInventory()
         self.connected_to_server = False
 
@@ -338,7 +340,7 @@ class SOT_Context(CommonContext):
                     "Captain! " + colorama.Fore.YELLOW + "Another Player " + colorama.Fore.RESET + "sent their money to a long lost royal relative stuck in prison"
                 ]
 
-                self.output(random.choice(puns))
+                print(random.choice(puns))
 
             self.playAudio(setReplyPacket.key)
 
@@ -483,108 +485,6 @@ class SOT_Context(CommonContext):
         await self.send_msgs(msg)
 
 
-
-
-
-
-
-
-
-'''
-def getSeaOfThievesDataFromArguments() -> UserInformation.UserInformation:
-
-
-    parser = argparse.ArgumentParser()
-    parser.add_argument('--address', dest='address', type=str, help='ip address : port of host')
-    parser.add_argument('--ship', dest='ship', type=str, help='Player ship name')
-    parser.add_argument('--mscookie', dest='msCookie', type=str,
-                        help='Microsoft login cookie given to www.seaofthieves.com', nargs='+')
-    parser.add_argument('--clientInput', dest='clientInput', type=str,
-                        help='Client Input File', nargs='+')
-    args = parser.parse_args()
-    if args.msCookie is not None:
-        filepath = args.msCookie[0]
-        while not os.path.exists(filepath):
-            filepath = input('File not found. Enter an absolute Filepath to a text file containing your mscookie : ')
-        file = open(filepath, "r")
-        real_cookie = str(file.read())
-        if real_cookie == "":
-            print("Your file is empty, ERROR")
-            exit(1)
-        if real_cookie[0] == "\n":
-            print("Warning: Your file contains a newline at the start file. Confirm this is correct")
-        file.close()
-
-    if args.clientInput is not None:
-        filepath = args.clientInput[0]
-        while not os.path.exists(filepath):
-            filepath = input(
-                'File not found. Enter an absolute Filepath to a text file containing your client input: ')
-        clientInput: ClientInput = ClientInput()
-        clientInput.from_fire(filepath)
-
-
-
-    if( args.address is None or args.ship is None or args.msCookie is None or args.clientInput is None or args.clientInput is None):
-        print("Error: Expected command line arguments")
-        print("Required \"--address <ipaddress:port>\"")
-        print("Required \"--ship <shipNumber>\"")
-        print("Required \"--mscookie <cookie>\"")
-        print("Example Command: python SotCustomClient.py --address 127.0.0.1:25255 --ship 1 --mscookie 1j23iuo1j23p1h2j3p1h")
-
-        print("\nEnter missing arguments now.")
-        if(args.address is None):
-            args.address = input('Enter address:port : ')
-        if (args.ship is None):
-            args.ship = input('Enter ship Number or "NA" for pirate mode: ')
-        if (args.msCookie is None):
-            filepath = input('Enter an absolute Filepath to a text file containing your mscookie : ')
-            while not os.path.exists(filepath):
-                filepath = input('File not found. Enter an absolute Filepath to a text file containing your mscookie : ')
-            file = open(filepath, "r")
-            real_cookie = str(file.read())
-            file.close()
-        if (args.clientInput is None):
-            filepath = input('Enter an absolute Filepath to a text file containing your options : ')
-            while not os.path.exists(filepath):
-                filepath = input(
-                    'File not found. Enter an absolute Filepath to a text file containing your options : ')
-            clientInput: ClientInput = ClientInput()
-            clientInput.from_fire(filepath)
-
-
-    pirate = None
-    if args.ship == "NA":
-        args.ship = None
-        pirate = "pirateMode"
-    sotLoginCredentials: UserInformation.SotLoginCredentials = UserInformation.SotLoginCredentials(real_cookie)
-    sotAnalyzerDetails: UserInformation.SotAnalyzerDetails = UserInformation.SotAnalyzerDetails(args.ship, pirate)
-    userInfo = UserInformation.UserInformation(sotLoginCredentials, sotAnalyzerDetails, args.address, clientInput)
-    return userInfo
-'''
-
-async def every(__seconds: float, func, *args, **kwargs):
-    while True:
-        func(*args, **kwargs)
-        await asyncio.sleep(__seconds)
-
-
-
-
-class RunningCli(threading.Thread):
-    def __init__(self, sharedContext, *args, **kwargs):
-        super(RunningCli,self).__init__(*args, **kwargs)
-        self.sharedContext: SOT_Context = sharedContext
-
-    async def runCli(self):
-        print("running cli")
-        self.sharedContext.run_cli()
-        await self.sharedContext.exit_event.wait()
-
-    def run(self):
-        asyncio.run(self.runCli())
-
-
 async def fConnectToRoom(ctx : SOT_Context):
 
     username = ctx.userInformation.username
@@ -611,8 +511,8 @@ async def main():
     #ctx = SOT_Context(user_info.address, None, user_info)
     ctx = SOT_Context(None, None)
 
-    #server_task = asyncio.create_task(server_loop(ctx), name="server loop")
-    #game_watcher = asyncio.create_task(watchGameForever(ctx), name="game watcher")
+    server_task = asyncio.create_task(server_loop(ctx), name="server loop")
+    game_watcher = asyncio.create_task(watchGameForever(ctx), name="game watcher")
     #await ctx.connect(user_info.address)
     if CommonClient.gui_enabled:
         ctx.run_gui()
@@ -626,8 +526,8 @@ async def main():
 
 
     await ctx.exit_event.wait()
-    #await server_task
-    #await game_watcher
+    await server_task
+    await game_watcher
     await ctx.shutdown()
 
     return

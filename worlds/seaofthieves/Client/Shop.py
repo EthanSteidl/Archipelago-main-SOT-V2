@@ -10,6 +10,7 @@ class Shop:
 
     def __init__(self):
 
+        self.ctx = None
         self.hints_generic: typing.Dict[str, str] = {}
         self.hints_personal_progression: typing.Dict[str,str] = {}
         self.hints_other_progression: typing.Dict[str, str] = {}
@@ -59,11 +60,11 @@ class Shop:
                 self.addMenuLine(text, gold, dabloons, id, item_req_name, item_req_id)
 
     def info(self, pinvent: PlayerInventory):
-        print("===========================================")
-        print("Your Balance" + pinvent.getNominalBalance().displayString())
-        print(self.menu_text())
-        print("===========================================")
-        print("Enter /buy # to purchase.")
+        self.ctx.output("===========================================")
+        self.ctx.output("Your Balance" + pinvent.getNominalBalance().displayString())
+        self.ctx.output(self.menu_text())
+        self.ctx.output("===========================================")
+        self.ctx.output("Enter /buy # to purchase.")
 
     def get_next_hint(self, hints: typing.Dict[str, str]) -> str:
         output: str = ""
@@ -81,7 +82,7 @@ class Shop:
             return
 
         if menu_line_number not in self.menu.keys():
-            print("Invalid Option")
+            self.ctx.output("Invalid Option")
             return
 
         purchase: Balance = Balance(0, self.menu[menu_line_number][2], self.menu[menu_line_number][1])
@@ -90,23 +91,23 @@ class Shop:
 
             if menu_line_number == "1":
                 hint = self.get_next_hint(self.hints_generic)
-                print(hint)
+                self.ctx.output(hint)
                 playerInventory.add_hint(hint)
 
             elif menu_line_number == "2":
                 hint = self.get_next_hint(self.hints_personal_progression)
-                print(hint)
+                self.ctx.output(hint)
                 playerInventory.add_hint(hint)
 
             elif menu_line_number == "3":
                 hint = self.get_next_hint(self.hints_other_progression)
-                print(hint)
+                self.ctx.output(hint)
                 playerInventory.add_hint(hint)
 
             elif int(menu_line_number) > 3 and int(menu_line_number) <= self.menu_count and self.menu[menu_line_number][0] != "SOLD OUT!":
 
                 if self.menu[menu_line_number][5] not in playerInventory.item_names_in_inventory.keys():
-                    print("Cannot Purchase, first obtain the following items [{}]".format(self.menu[menu_line_number][4]))
+                    self.ctx.output("Cannot Purchase, first obtain the following items [{}]".format(self.menu[menu_line_number][4]))
 
                     #refund
                     playerInventory.add(purchase)
@@ -119,9 +120,9 @@ class Shop:
 
 
             else:
-                print("Shop error, refunding tokens")
+                self.ctx.output("Shop error, refunding tokens")
                 playerInventory.add(purchase)
 
         else:
-            print("Cannot afford selected option")
+            self.ctx.output("Cannot afford selected option")
 

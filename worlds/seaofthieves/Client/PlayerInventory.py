@@ -16,9 +16,9 @@ class PlayerInventory:
 
         self.item_names_in_inventory = {}
 
-    def print_hints(self):
-        for hint in self.owned_hints:
-            print(hint)
+    def get_hints(self):
+        return self.owned_hints
+
 
     def add_hint(self, txt: str):
         self.owned_hints.append(txt)

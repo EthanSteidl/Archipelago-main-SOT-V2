@@ -13,7 +13,7 @@ from .Configurations import Guardianoptions
 from .Configurations import IllFatedoptions, Cannonsoptions, Selloptions
 from .Configurations import Trapsoptions
 from .Configurations import EmVoyageoptions
-from .Configurations import Shipoptions, CaptainShipoptions, DaysAtSeaoptions, Rowboatoptions, Shipwreckoptions, TallTaleoptions
+from .Configurations import Shipoptions, Shopoptions, CaptainShipoptions, DaysAtSeaoptions, Rowboatoptions, Shipwreckoptions, TallTaleoptions
 
 
 
@@ -45,6 +45,7 @@ class SOTOptions(PerGameCommonOptions):
     playerShip: Shipoptions.ShipSanity
 
     fishSanity: Fishoptions.FishSanity
+    shopSanity: Shopoptions.ShopSanity
     #sellSettingsGh: Selloptions.GhSellRange
     #sellSettingsMa: Selloptions.MaSellRange
     #sellSettingsOos: Selloptions.OosSellRange

@@ -165,7 +165,11 @@ class SotOptionsDerived:
 
     def __getShopSettings(self, sotOptions: SOTOptions):
 
-        return Shops.SettingsShops()
+        count: int = int((sotOptions.shopSanity.value == 1))
+        low_cost: Shops.Cost = Shops.Cost(0, 0, 0)
+        high_cost: Shops.Cost = Shops.Cost(10000, 50, 0)
+
+        return Shops.SettingsShops(shop_item_number=count, cost_low=low_cost, cost_high=high_cost)
 
     def __getChestSettings(self, sotOptions: SOTOptions):
         #gh_count: int = sotOptions.sellSettingsGh
