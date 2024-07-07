@@ -12,12 +12,17 @@ class PlayerInventory:
         self.balanceSpent = Balance(0, 0, 0)
         self.owned_hints: typing.List[str] = []
 
+        self.itemsToSendToClient = []
+
     def print_hints(self):
         for hint in self.owned_hints:
             print(hint)
 
     def add_hint(self, txt: str):
         self.owned_hints.append(txt)
+
+    def add_item(self, id: int):
+        self.itemsToSendToClient.append(id)
 
     def setBalanceSot(self, bal: Balance):
         self.balanceSot = bal

@@ -21,7 +21,6 @@ class RogueQuestAll(LocationsBase):
     GROG = "Drink 1 grog (ROUGE)"
     SLEEP = "Sleep for 1 minute (ROUGE)"
     SIT = "Sit for 1 minute (ROUGE)"
-    BELL = "Ring Bell"
 
 
     def __init__(self, settings: SettingsRogueQuestAll):
@@ -49,6 +48,3 @@ class RogueQuestAll(LocationsBase):
         wlc = WebLocationCollection([WebLocation(web, reg, lgc, RogueQuestAll.SIT, ScreenData(["Seat"]))])
         self.locations.append(LocDetails(RogueQuestAll.SIT, wlc, settings.sitting > 0))
 
-        web = WebItemJsonIdentifier(0, 0, 0, 0, None, False)
-        wlc = WebLocationCollection([WebLocation(web, reg, lgc, RogueQuestAll.BELL, ScreenData(["Bell"]), True)])
-        self.locations.append(LocDetails(RogueQuestAll.BELL, wlc, False))

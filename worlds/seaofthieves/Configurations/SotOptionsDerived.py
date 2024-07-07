@@ -16,7 +16,7 @@ from ..Locations.Voyager import VoyageQuestAthena, VoyageQuestGh, VoyageQuestMa,
 from ..Locations.Rouge import RogueQuestAll
 from ..Configurations import Trapsoptions
 from ..Locations.Voyager import CaptainShipSpotted,DaysAtSea,NauticalMilesSailed,Rowboats,Shipwrecks,TallTales
-
+from ..Locations.Shops import Shops
 class SotOptionsDerived:
 
 
@@ -47,6 +47,7 @@ class SotOptionsDerived:
         self.rowboatSettings: Rowboats.SettingsRowboat
         self.shipreckSettings: Shipwrecks.SettingsShipwrecks
         self.tallTaleSettings: TallTales.SettingsTallTales
+        self.shopsSettings: Shops.SettingsShops
 
         self.trapsPercentage: int
         self.player_name: str
@@ -77,6 +78,7 @@ class SotOptionsDerived:
             self.rowboatSettings = Rowboats.SettingsRowboat()
             self.shipreckSettings = Shipwrecks.SettingsShipwrecks()
             self.tallTaleSettings = TallTales.SettingsTallTales()
+            self.shopsSettings = Shops.SettingsShops()
 
             self.trapsPercentage = 3 #put this in a better place?
             self.experimentals: bool = False
@@ -108,6 +110,7 @@ class SotOptionsDerived:
             self.rowboatSettings = self.__getRowboatSettings(sotOptions)
             self.shipreckSettings = self.__getShipwreckSettings(sotOptions)
             self.tallTaleSettings = self.__getTallTaleSettings(sotOptions)
+            self.shopsSettings = self.__getShopSettings(sotOptions)
 
             self.trapsPercentage = sotOptions.trapsPercentage.value
             self.experimentals = bool(sotOptions.experimentals.value)
@@ -159,6 +162,10 @@ class SotOptionsDerived:
         uniques: int = int((sotOptions.tallTales.value == 2))
 
         return TallTales.SettingsTallTales(any, uniques)
+
+    def __getShopSettings(self, sotOptions: SOTOptions):
+
+        return Shops.SettingsShops()
 
     def __getChestSettings(self, sotOptions: SOTOptions):
         #gh_count: int = sotOptions.sellSettingsGh

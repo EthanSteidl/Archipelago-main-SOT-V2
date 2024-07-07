@@ -14,6 +14,7 @@ class Shop:
         self.hints_generic: typing.Dict[str, str] = {}
         self.hints_personal_progression: typing.Dict[str,str] = {}
         self.hints_other_progression: typing.Dict[str, str] = {}
+        self.menu_count = 3
         self.menu = {
             "1": ("Buy Generic Hint",10000,0),
             "2": ("Buy Personal Progression Hint", 15000, 25),
@@ -22,12 +23,15 @@ class Shop:
             #"5": ("Move Random Progression Item in another's world to Lower Sphere (SOT Only)", 20000, 300)
         }
         pass
-
     def menu_text(self):
         st : str = ""
         for key in self.menu.keys():
             st += "[ " + key + " ] " + self.menu[key][0] + " [" + str(self.menu[key][1]) + " gold] [" + str(self.menu[key][2]) + " dabloons] \n"
         return st
+
+    def addMenuLine(self, text, gold, dabloons, location_id):
+        self.menu_count += 1
+        self.menu[self.menu_count] = (text, gold, dabloons, location_id)
 
     def set_hints_generic(self, progHints: typing.Dict[str,str]):
         self.hints_generic = progHints
@@ -40,6 +44,19 @@ class Shop:
     def set_hints_other_progression(self, progHints: typing.Dict[str,str]):
         self.hints_other_progression = progHints
         self.hints_other_progression[HINT_IDX] = '0'
+
+    def set_items_for_sale(self, shopItems: typing.Dict[str,typing.Dict]):
+        for shop in shopItems:
+            for loc_name in shopItems[shop]:
+                items = shopItems[shop][loc_name]
+                gold = items["cost"]["gold"]
+                dabloons = items["cost"]["dabloons"]
+                ancient_coins = items["cost"]["ancient_coins"]
+                id = items["id"]
+                name = items["name"]
+                text = "{}: {}".format(loc_name, name)
+                self.addMenuLine(text, gold, dabloons, id)
+
     def info(self, pinvent: PlayerInventory):
         print("===========================================")
         print("Your Balance" + pinvent.getNominalBalance().displayString())
@@ -84,6 +101,13 @@ class Shop:
                 hint = self.get_next_hint(self.hints_other_progression)
                 print(hint)
                 playerInventory.add_hint(hint)
+
+            elif menu_line_number > 3 and menu_line_number <= self.menu_count and self.menu[menu_line_number][0] != "SOLD OUT!":
+                playerInventory.add_Item(self.menu[menu_line_number][3])
+                tup = self.menu[menu_line_number]
+                tup[0] = "SOLD OUT!"
+                self.menu[menu_line_number] = tup
+
 
             else:
                 print("Shop error, refunding tokens")

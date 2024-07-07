@@ -190,6 +190,20 @@ def create_rules(options: SotOptionsDerived, world: MultiWorld):
     rules.append(ConnectionDetails(Regions.R_OPEN_SEA, Regions.R_FORTRESSES,
                                    ItemReqEvalOr([ItemReqEvalAnd([Items.sail])])))
 
+    #shops
+    rules.append(ConnectionDetails(Regions.R_OPEN_SEA, Regions.R_SHOP_ANCIENT_SPIRE,
+                                   ItemReqEvalOr([ItemReqEvalAnd([Items.cat_as])])))
+    rules.append(ConnectionDetails(Regions.R_OPEN_SEA, Regions.R_SHOP_DAGGER_TOOTH,
+                                   ItemReqEvalOr([ItemReqEvalAnd([Items.cat_dt])])))
+    rules.append(ConnectionDetails(Regions.R_OPEN_SEA, Regions.R_SHOP_GALLEONS_GRAVE,
+                                   ItemReqEvalOr([ItemReqEvalAnd([Items.cat_gg])])))
+    rules.append(ConnectionDetails(Regions.R_OPEN_SEA, Regions.R_SHOP_MORROWS_PEAK,
+                                   ItemReqEvalOr([ItemReqEvalAnd([Items.cat_mp])])))
+    rules.append(ConnectionDetails(Regions.R_OPEN_SEA, Regions.R_SHOP_PLUNDER_OUTPOST,
+                                   ItemReqEvalOr([ItemReqEvalAnd([Items.cat_p])])))
+    rules.append(ConnectionDetails(Regions.R_OPEN_SEA, Regions.R_SHOP_SANCTUARY_OUTPOST,
+                                   ItemReqEvalOr([ItemReqEvalAnd([Items.cat_s])])))
+
     required_seals: typing.List[ItemDetail] = [
             Items.seal_gh,
             Items.seal_ma,

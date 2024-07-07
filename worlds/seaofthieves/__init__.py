@@ -1,4 +1,6 @@
 import os
+import random
+
 import Utils
 import json
 from worlds.seaofthieves.Items.Items import *
@@ -19,15 +21,19 @@ from .Locations.Menu import QuestMenu
 import collections
 from .ClientInput import ClientInput
 from .Items.ItemAdder import create_items
+from .Regions.RegionDetails import Regions
+import subprocess
+import asyncio
 import pickle
 
 
 def launch_client():
     from .Client.SotCustomClient import launch
-    launch_subprocess(launch, name="SotClient")
+    launch_subprocess(launch, name="SotTextClient")
 
 
-components.append(Component("Sot Client", "SotClient", func=launch_client, component_type=Type.CLIENT))
+components.append(Component('Sea of Thieves Client REAL', 'SOTClientreal', cli=True, icon='sot', component_type=Type.CLIENT, func=launch_client))
+#components.append(Component("Sot Client", "SotClient", func=launch_client, component_type=Type.CLIENT))
 
 
 
@@ -60,6 +66,7 @@ class SOTWorld(World):
 
     #locationOptions: LocationOptions = LocationOptions()
     locationCollection = LocationDetailsCollection()
+    locationCollection.random = random.Random()
     locationCollection.addAll()
     location_name_to_id = locationCollection.toDict()
 
@@ -75,7 +82,7 @@ class SOTWorld(World):
         self.sotOptionsDerived = SotOptionsDerived.SotOptionsDerived(self.options)
         self.sotOptionsDerived.player_name = self.multiworld.player_name[self.player]
         self.locationCollection = LocationDetailsCollection()
-        self.locationCollection.applyOptions(self.sotOptionsDerived)
+        self.locationCollection.applyOptions(self.sotOptionsDerived, self.random)
         self.locationCollection.addAll()
         #self.location_name_to_id = {} #self.locationCollection.toDict()
 
@@ -159,8 +166,33 @@ class SOTWorld(World):
         dic["HINTS_GENERAL"] = self.generalHints(hint_max)
         dic["HINTS_PERSONAL_PROG"] = self.personalProgressionHints(hint_max)
         dic["HINTS_OTHER_PROG"] = self.otherProgressionHints(hint_max)
+        dic["SHOP"] = self.clientShopInformation()
+
         return dic
 
+    def clientShopInformation(self):
+        info = {}
+
+        reg = self.multiworld.worlds[self.player].get_region(Regions.R_SHOP_ANCIENT_SPIRE.name)
+        info[reg.name] = self.__addClientShopInformationForRegion(reg)
+        reg = self.multiworld.worlds[self.player].get_region(Regions.R_SHOP_DAGGER_TOOTH.name)
+        info[reg.name] = self.__addClientShopInformationForRegion(reg)
+        reg = self.multiworld.worlds[self.player].get_region(Regions.R_SHOP_GALLEONS_GRAVE.name)
+        info[reg.name] = self.__addClientShopInformationForRegion(reg)
+        reg = self.multiworld.worlds[self.player].get_region(Regions.R_SHOP_MORROWS_PEAK.name)
+        info[reg.name] = self.__addClientShopInformationForRegion(reg)
+        reg = self.multiworld.worlds[self.player].get_region(Regions.R_SHOP_PLUNDER_OUTPOST.name)
+        info[reg.name] = self.__addClientShopInformationForRegion(reg)
+        reg = self.multiworld.worlds[self.player].get_region(Regions.R_SHOP_SANCTUARY_OUTPOST.name)
+        info[reg.name] = self.__addClientShopInformationForRegion(reg)
+
+        return info
+
+    def __addClientShopInformationForRegion(self, reg):
+        ret = {}
+        for loc in reg.locations:
+            ret[loc.name] = {"cost": loc.locDetails.cost.toDict(), "id": loc.locDetails.id, "item": loc.item.name}
+        return ret
     def generalHints(self, max):
 
         cnt = 0

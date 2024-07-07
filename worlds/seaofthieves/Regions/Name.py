@@ -21,6 +21,14 @@ class Name:
     DOMAIN_SV: str = "Sea of Servants"
     DOMAIN_GF: str = "Sea of Guardians"
 
+    SHOP_ANCIENT_SPIRE: str = "Ancient Spire Outpost Shop"
+    SHOP_DAGGER_TOOTH: str = "Dagger Tooth Outpost Shop"
+    SHOP_GALLEONS_GRAVE: str = "Galleon's Grave Outpost Shop"
+    SHOP_MORROWS_PEAK: str = "Morrow's Peak Outpost Shop"
+    SHOP_PLUNDER_OUTPOST: str = "Plunder Outpost Shop"
+    SHOP_SANCTUARY_OUTPOST: str = "Sanctuary Outpost Shop"
+
+
 
 
 

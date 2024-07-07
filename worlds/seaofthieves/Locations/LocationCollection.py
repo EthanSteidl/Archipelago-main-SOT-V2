@@ -1,3 +1,5 @@
+import random
+
 from .Voyager.IslandVisited import VoyageIslandVisited
 from .Voyager.VoyageQuestGh import VoyageQuestGh
 from .Voyager.VoyageQuestOos import VoyageQuestOos
@@ -26,7 +28,7 @@ from .Voyager import NauticalMilesSailed
 from .Voyager import Rowboats
 from .Voyager import Shipwrecks
 from .Voyager import TallTales
-
+from .Shops import Shops
 import typing
 class LocationDetailsCollection:
 
@@ -43,6 +45,9 @@ class LocationDetailsCollection:
         self.hintWebLocations: [LocDetails] = []
 
         self.regionDiver: RegionDiver | None = None
+
+        #TODO this may cause bugs.. we should move the prices out of the shops here somehow to decouple this?
+        self.random: random.Random | None = None
 
     def applyRegionDiver(self, connection_details: typing.List[ConnectionDetails]):
         self.regionDiver = RegionDiver()
@@ -123,8 +128,9 @@ class LocationDetailsCollection:
                     lst.append(loc)
         return lst
 
-    def applyOptions(self, options: SotOptionsDerived.SotOptionsDerived):
+    def applyOptions(self, options: SotOptionsDerived.SotOptionsDerived, random: random.Random):
         self.options = options
+        self.random = random
         return
 
 
@@ -153,6 +159,7 @@ class LocationDetailsCollection:
         self.addLocationsToSelf(Rowboats.Rowboats(self.options.rowboatSettings).getLocations(), "rowboats")
         self.addLocationsToSelf(Shipwrecks.Shipwrecks(self.options.shipreckSettings).getLocations(), "shipwrecks")
         self.addLocationsToSelf(TallTales.TallTales(self.options.tallTaleSettings).getLocations(), "tallTales")
+        self.addLocationsToSelf(Shops.Shops(self.options.shopsSettings, self.random).getLocations(), "shops")
 
         #hints?
         self.addIslandVisited()

@@ -210,8 +210,9 @@ class SOT_Context(CommonContext):
             self.shop.set_hints_generic(self.discoveryHints['HINTS_GENERAL'])
             self.shop.set_hints_personal_progression(self.discoveryHints['HINTS_PERSONAL_PROG'])
             self.shop.set_hints_other_progression(self.discoveryHints['HINTS_OTHER_PROG'])
+            self.shop.set_items_for_sale(self.discoveryHints['SHOP'])
 
-            self.locationDetailsCollection.applyOptions(self.options)
+            self.locationDetailsCollection.applyOptions(self.options, random.Random())
             self.locationDetailsCollection.addAll()
             self.locationDetailsCollection.applyRegionDiver(self.region_connection_details)
             self.locations_checked = set(args["checked_locations"])
@@ -374,6 +375,11 @@ class SOT_Context(CommonContext):
                 self.locations_checked.add(k)
                 self.analyzer.stopTracking(k)
 
+        # check if the player bought any items?
+        for loc_id in self.playerInventory.itemsToSendToClient:
+            self.locations_checked.add(loc_id)
+        self.playerInventory.itemsToSendToClient.clear()
+
 
         # inform server of what we can finish
         msg = [
@@ -519,8 +525,11 @@ async def main():
     ctx = SOT_Context(user_info.address, None, user_info)
 
     await ctx.connect(user_info.address)
-
     ctx.run_cli()
+
+
+
+
     game_watcher = asyncio.create_task(watchGameForever(ctx), name="ever")
 
     await ctx.exit_event.wait()

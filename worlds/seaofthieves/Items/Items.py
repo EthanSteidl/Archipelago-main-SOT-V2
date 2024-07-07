@@ -95,6 +95,13 @@ class Items:
 
         voyages_tt = ItemDetail("Voyages of Tall Tales", ItemClassification.progression)
 
+        cat_as = ItemDetail("Catalog of Ancient Spire", ItemClassification.progression)
+        cat_dt = ItemDetail("Catalog of Dagger Tooth", ItemClassification.progression)
+        cat_gg = ItemDetail("Catalog of Galleon's Grave", ItemClassification.progression)
+        cat_mp = ItemDetail("Catalog of Morrow's Peak", ItemClassification.progression)
+        cat_p = ItemDetail("Catalog of Plunder", ItemClassification.progression)
+        cat_s = ItemDetail("Catalog of Sanctuary", ItemClassification.progression)
+
 
 class ItemCollection:
     #Note seals are not added cause we dont want them randomzed in the general pool

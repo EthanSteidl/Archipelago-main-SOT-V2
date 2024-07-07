@@ -12,8 +12,6 @@ from worlds.seaofthieves.Locations.LocationCollection import LocationDetailsColl
 from worlds.seaofthieves.Items.Items import ItemCollection
 import worlds.seaofthieves.Client.Balance as Balance
 from worlds.seaofthieves.Client.windowcapture import  WindowCapture
-import pytesseract
-import cv2
 
 class SOTDataAnalyzerSettings:
 
@@ -35,10 +33,6 @@ class SOTDataAnalyzer:
     counter = 0
     collector : SOTWebCollector
     settings : SOTDataAnalyzerSettings
-
-    #TODO this is going to need to work for other people...
-    install_folder = r'C:\Users\Ethan\AppData\Local\Programs\Tesseract-OCR\tesseract.exe'
-    pytesseract.pytesseract.tesseract_cmd = install_folder
 
     def __init__(self, userInfo: UserInformation.UserInformation, queryperiod: typing.Optional[int] = None):
         self.collector = SOTWebCollector.SOTWebCollector(userInfo.loginCreds, queryperiod)
