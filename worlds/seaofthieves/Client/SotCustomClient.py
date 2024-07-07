@@ -41,6 +41,9 @@ async def watchGameForever(ctx):
     first_pass = True
     while True:
 
+        if ctx.stop:
+            return
+
         if ctx.connected_to_server and ctx.analyzer is not None: #pretty much the client will start up and the analyzer wont be built yet
             if first_pass:
                 await ctx.init_notif()
@@ -182,6 +185,8 @@ class SOT_Context(CommonContext):
     def __init__(self, serverAddress: typing.Optional[str], serverPassword: typing.Optional[str]):
         super().__init__(serverAddress, serverPassword)
 
+        self.stop: bool = False
+
         self.msCookie = None
         self.clientInput = None
         self.ship = None
@@ -212,6 +217,8 @@ class SOT_Context(CommonContext):
         self.balance_update_interval = 10
         self.balance_last_update = -10000
 
+    def output(self, text):
+        self.command_processor.output(self.command_processor, text)
     def buildIfWeCan(self):
 
         if self.ship is None or self.clientInput is None or self.msCookie is None:
@@ -526,6 +533,7 @@ async def main():
 
 
     await ctx.exit_event.wait()
+    ctx.stop = True
     await server_task
     await game_watcher
     await ctx.shutdown()

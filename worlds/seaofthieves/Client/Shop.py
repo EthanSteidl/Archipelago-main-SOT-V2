@@ -4,6 +4,7 @@ from worlds.seaofthieves.Client.PlayerInventory import PlayerInventory
 from worlds.seaofthieves.Items.Items import Items, ItemDetail
 import os
 HINT_IDX = "HINT_IDX"
+import colorama
 class Shop:
 
 
@@ -23,10 +24,16 @@ class Shop:
             #"5": ("Move Random Progression Item in another's world to Lower Sphere (SOT Only)", 20000, 300)
         }
         pass
-    def menu_text(self):
+    def menu_text(self, playerInventory: PlayerInventory):
         st : str = ""
         for key in self.menu.keys():
-            st += "[ " + key + " ] " + self.menu[key][0] + " [" + str(self.menu[key][1]) + " gold] [" + str(self.menu[key][2]) + " dabloons] \n"
+
+            if int(key) > 3 and self.menu[key][5] not in playerInventory.item_names_in_inventory.keys():
+                st += "[ " + key + " ] To unlock, aquire "+ colorama.Fore.MAGENTA + self.menu[key][4] + colorama.Fore.RESET
+
+            else:
+                st += "[ " + key + " ] " + colorama.Fore.MAGENTA + self.menu[key][0] + colorama.Fore.RESET + " [" + str(self.menu[key][1]) + " gold] [" + str(self.menu[key][2]) + " dabloons] \n"
+
         return st
 
     def addMenuLine(self, text, gold, dabloons, location_id, req_name: str, req_id: int):
@@ -61,10 +68,10 @@ class Shop:
 
     def info(self, pinvent: PlayerInventory):
         self.ctx.output("===========================================")
-        self.ctx.output("Your Balance" + pinvent.getNominalBalance().displayString())
-        self.ctx.output(self.menu_text())
+        self.ctx.output("Your Balance" + colorama.Fore.YELLOW + pinvent.getNominalBalance().displayString() + colorama.Fore.RESET)
+        self.ctx.output(self.menu_text(pinvent))
         self.ctx.output("===========================================")
-        self.ctx.output("Enter /buy # to purchase.")
+        self.ctx.output("Enter " + colorama.Fore.BLUE + "/buy #" + colorama.Fore.RESET + " to purchase.")
 
     def get_next_hint(self, hints: typing.Dict[str, str]) -> str:
         output: str = ""
@@ -107,7 +114,7 @@ class Shop:
             elif int(menu_line_number) > 3 and int(menu_line_number) <= self.menu_count and self.menu[menu_line_number][0] != "SOLD OUT!":
 
                 if self.menu[menu_line_number][5] not in playerInventory.item_names_in_inventory.keys():
-                    self.ctx.output("Cannot Purchase, first obtain the following items [{}]".format(self.menu[menu_line_number][4]))
+                    self.ctx.output("Cannot Purchase, first obtain the following items [" + colorama.Fore.MAGENTA + "{}".format(self.menu[menu_line_number][4]) + colorama.Fore.RESET + "]")
 
                     #refund
                     playerInventory.add(purchase)
