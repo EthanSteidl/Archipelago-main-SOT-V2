@@ -174,24 +174,24 @@ class SOTWorld(World):
         info = {}
 
         reg = self.multiworld.worlds[self.player].get_region(Regions.R_SHOP_ANCIENT_SPIRE.name)
-        info[reg.name] = self.__addClientShopInformationForRegion(reg)
+        info[reg.name] = self.__addClientShopInformationForRegion(reg, Items.cat_as.name)
         reg = self.multiworld.worlds[self.player].get_region(Regions.R_SHOP_DAGGER_TOOTH.name)
-        info[reg.name] = self.__addClientShopInformationForRegion(reg)
+        info[reg.name] = self.__addClientShopInformationForRegion(reg, Items.cat_dt.name)
         reg = self.multiworld.worlds[self.player].get_region(Regions.R_SHOP_GALLEONS_GRAVE.name)
-        info[reg.name] = self.__addClientShopInformationForRegion(reg)
+        info[reg.name] = self.__addClientShopInformationForRegion(reg, Items.cat_gg.name)
         reg = self.multiworld.worlds[self.player].get_region(Regions.R_SHOP_MORROWS_PEAK.name)
-        info[reg.name] = self.__addClientShopInformationForRegion(reg)
+        info[reg.name] = self.__addClientShopInformationForRegion(reg, Items.cat_mp.name)
         reg = self.multiworld.worlds[self.player].get_region(Regions.R_SHOP_PLUNDER_OUTPOST.name)
-        info[reg.name] = self.__addClientShopInformationForRegion(reg)
+        info[reg.name] = self.__addClientShopInformationForRegion(reg, Items.cat_p.name)
         reg = self.multiworld.worlds[self.player].get_region(Regions.R_SHOP_SANCTUARY_OUTPOST.name)
-        info[reg.name] = self.__addClientShopInformationForRegion(reg)
+        info[reg.name] = self.__addClientShopInformationForRegion(reg, Items.cat_s.name)
 
         return info
 
-    def __addClientShopInformationForRegion(self, reg):
+    def __addClientShopInformationForRegion(self, reg, item_req_name: str):
         ret = {}
         for loc in reg.locations:
-            ret[loc.name] = {"cost": loc.locDetails.cost.toDict(), "id": loc.locDetails.id, "item": loc.item.name}
+            ret[loc.name] = {"cost": loc.locDetails.cost.toDict(), "id": loc.locDetails.id, "item": loc.item.name, "req_name": item_req_name}
         return ret
     def generalHints(self, max):
 

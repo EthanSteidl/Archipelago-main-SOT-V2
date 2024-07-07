@@ -29,9 +29,9 @@ class Shop:
             st += "[ " + key + " ] " + self.menu[key][0] + " [" + str(self.menu[key][1]) + " gold] [" + str(self.menu[key][2]) + " dabloons] \n"
         return st
 
-    def addMenuLine(self, text, gold, dabloons, location_id):
+    def addMenuLine(self, text, gold, dabloons, location_id, item_requirment):
         self.menu_count += 1
-        self.menu[self.menu_count] = (text, gold, dabloons, location_id)
+        self.menu[self.menu_count] = (text, gold, dabloons, location_id, item_requirment)
 
     def set_hints_generic(self, progHints: typing.Dict[str,str]):
         self.hints_generic = progHints
@@ -55,7 +55,8 @@ class Shop:
                 id = items["id"]
                 name = items["name"]
                 text = "{}: {}".format(loc_name, name)
-                self.addMenuLine(text, gold, dabloons, id)
+                item_requirment = items["req_name"]
+                self.addMenuLine(text, gold, dabloons, id, item_requirment)
 
     def info(self, pinvent: PlayerInventory):
         print("===========================================")
@@ -103,10 +104,18 @@ class Shop:
                 playerInventory.add_hint(hint)
 
             elif menu_line_number > 3 and menu_line_number <= self.menu_count and self.menu[menu_line_number][0] != "SOLD OUT!":
-                playerInventory.add_Item(self.menu[menu_line_number][3])
-                tup = self.menu[menu_line_number]
-                tup[0] = "SOLD OUT!"
-                self.menu[menu_line_number] = tup
+
+                if self.menu[menu_line_number][4] not in playerInventory.item_names_in_inventory.keys():
+                    print("Cannot Purchase, first obtain the following items [{}]".format(self.menu[menu_line_number][4]))
+
+                    #refund
+                    playerInventory.add(purchase)
+
+                else:
+                    playerInventory.add_item_to_client(self.menu[menu_line_number][3])
+                    tup = self.menu[menu_line_number]
+                    tup[0] = "SOLD OUT!"
+                    self.menu[menu_line_number] = tup
 
 
             else:

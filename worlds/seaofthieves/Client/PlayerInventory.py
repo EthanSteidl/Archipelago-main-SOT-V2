@@ -14,6 +14,8 @@ class PlayerInventory:
 
         self.itemsToSendToClient = []
 
+        self.item_names_in_inventory = {}
+
     def print_hints(self):
         for hint in self.owned_hints:
             print(hint)
@@ -21,8 +23,11 @@ class PlayerInventory:
     def add_hint(self, txt: str):
         self.owned_hints.append(txt)
 
-    def add_item(self, id: int):
+    def add_item_to_client(self, id: int):
         self.itemsToSendToClient.append(id)
+
+    def add_item(self, name: str):
+        self.item_names_in_inventory[name] = True
 
     def setBalanceSot(self, bal: Balance):
         self.balanceSot = bal
