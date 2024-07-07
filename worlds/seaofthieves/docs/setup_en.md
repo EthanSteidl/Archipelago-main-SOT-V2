@@ -21,12 +21,12 @@
 6. Each player that is connecting to the hosted world must run the client, the Sea of Thieves client can be found in the launcher.
 
 7. Once launched, to run a valid session you must perofrm the following steps: the client will ask for some details. For the clientInput and cookie, provide the absolute filepath to those files on your computer. Your ship id is an integer, not a name. When on the captain website, view your ships and number them from top left to bottom right starting with 0. This is the id of your ship. INSTEAD of entering a ship id, you may enter "NA" to launch in pirate mode
-- Run `/setcookie <filepath>` to set your cookie. Use the absolute path to your cookie.txt file. EX: "C:/Users/Bob/cookie.txt"
-- Run `/setsotci <filepath>` to set your sotci file. Use the absolute path like above.
-- Run `/setmode <mode>` to set your initial game mode to pirate or ship. If you want to run pirate mode, run `/setmode NA`. If you want to run ship mode, run `/setmode #` where # is the integer value of your ship starting at 0. You can figure this number out by opening [view your captaincy](https://www.seaofthieves.com/profile/captaincy) and viewing your ships. Starting left to right, number your ships 0, 1, 2 ... This is the number of your ship.
+   - Run `/setcookie <filepath>` to set your cookie. Use the absolute path to your cookie.txt file. EX: "C:/Users/Bob/cookie.txt"
+   - Run `/setsotci <filepath>` to set your sotci file. Use the absolute path like above.
+   - Run `/setmode <mode>` to set your initial game mode to pirate or ship. If you want to run pirate mode, run `/setmode NA`. If you want to run ship mode, run `/setmode #` where # is the integer value of your ship starting at 0. You can figure this number out by opening [view your captaincy](https://www.seaofthieves.com/profile/captaincy) and viewing your ships. Starting left to right, number your ships 0, 1, 2 ... This is the number of your ship.
 
 8. Enter the IP:PORT you are connecting to and click connect. You should not see any errors and connection should establish
-- If you failed to connect to the room, some details to check are: did you port forward if hosting locally?, did you connect to the right ip:port?
-- If you failed to connect to the Sea of Thieves service, then your cookie may have expired, this is normal. Repeat the cookie step. Make sure you leave the webpage open in browser to prevent expiry early.
+   - If you failed to connect to the room, some details to check are: did you port forward if hosting locally?, did you connect to the right ip:port?
+   - If you failed to connect to the Sea of Thieves service, then your cookie may have expired, this is normal. Repeat the cookie step. Make sure you leave the webpage open in browser to prevent expiry early.
 
 9. If there are no errors in the client, then Open Sea of Thieves and you are all set to play. See the general Sea of Thieves guide for game/client information.
