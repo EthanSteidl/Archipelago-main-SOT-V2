@@ -107,7 +107,7 @@ The following commands are only available when using the Sea of Thieves Client t
 * `/delinkAll`, WIP, Delinks all tracked accounts from the client
 * `/setmode <id>`, Sets the mode of the game. Use and id of "NA" for pirate mode. Use an id of a numeric value to set your corresponding ship to be tracked
 * `/setcookie <filepath>`, Sets your authentication cookie to a string saved in an absolute filepath. EX: "C:\Users\Bob\Desktop\file.txt"
-* `/setsotci <filepath`, Sets your SOTCI options to binary data stored in an absolute filepath. EX: "C:\Users\Bob\Desktop\file.apsmSOTCI"
+* `/setsotci <filepath>`, Sets your SOTCI options to binary data stored in an absolute filepath. EX: "C:\Users\Bob\Desktop\file.apsmSOTCI"
 
 The following commands are debug commands
 
