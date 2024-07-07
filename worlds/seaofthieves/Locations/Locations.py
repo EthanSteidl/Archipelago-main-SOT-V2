@@ -161,7 +161,7 @@ class LocDetails:
         self.increaseReqForCheck = increaseReqForCheck
         self.countCollectable = countCollectable
         self.onlyUnique = onlyUnique
-        self.cost = cost
+        #self.cost = cost
         LocDetails.seedId += 1
 
 
