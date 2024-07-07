@@ -86,7 +86,7 @@ class Items:
 
         pirate_legend = ItemDetail("Pirate Legend", ItemClassification.progression)
 
-        wallet = ItemDetail("Wallet", ItemClassification.progression, 0, 2)
+        wallet = ItemDetail("Progressive Wallet", ItemClassification.progression, 0, 2)
         #upgrade_cnt_gh = ItemDetail("Sell Item (GH)", ItemClassification.progression)
         #upgrade_cnt_ma = ItemDetail("Sell Item (MA)", ItemClassification.progression)
         #upgrade_cnt_oos = ItemDetail("Sell Item (OOS)", ItemClassification.progression)
