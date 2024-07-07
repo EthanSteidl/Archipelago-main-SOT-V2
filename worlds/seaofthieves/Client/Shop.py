@@ -29,10 +29,10 @@ class Shop:
         for key in self.menu.keys():
 
             if int(key) > 3 and self.menu[key][5] not in playerInventory.item_names_in_inventory.keys():
-                st += "[ " + key + " ] To unlock, aquire "+ colorama.Fore.MAGENTA + self.menu[key][4] + colorama.Fore.RESET
+                st += "[ " + key + " ] To unlock, aquire " + self.menu[key][4]
 
             else:
-                st += "[ " + key + " ] " + colorama.Fore.MAGENTA + self.menu[key][0] + colorama.Fore.RESET + " [" + str(self.menu[key][1]) + " gold] [" + str(self.menu[key][2]) + " dabloons] \n"
+                st += "[ " + key + " ] " + self.menu[key][0] + " [" + str(self.menu[key][1]) + " gold] [" + str(self.menu[key][2]) + " dabloons] \n"
 
         return st
 
@@ -68,10 +68,10 @@ class Shop:
 
     def info(self, pinvent: PlayerInventory):
         self.ctx.output("===========================================")
-        self.ctx.output("Your Balance" + colorama.Fore.YELLOW + pinvent.getNominalBalance().displayString() + colorama.Fore.RESET)
+        self.ctx.output("Your Balance" + pinvent.getNominalBalance().displayString())
         self.ctx.output(self.menu_text(pinvent))
         self.ctx.output("===========================================")
-        self.ctx.output("Enter " + colorama.Fore.BLUE + "/buy #" + colorama.Fore.RESET + " to purchase.")
+        self.ctx.output("Enter " + "/buy #" + " to purchase.")
 
     def get_next_hint(self, hints: typing.Dict[str, str]) -> str:
         output: str = ""
@@ -114,7 +114,7 @@ class Shop:
             elif int(menu_line_number) > 3 and int(menu_line_number) <= self.menu_count and self.menu[menu_line_number][0] != "SOLD OUT!":
 
                 if self.menu[menu_line_number][5] not in playerInventory.item_names_in_inventory.keys():
-                    self.ctx.output("Cannot Purchase, first obtain the following items [" + colorama.Fore.MAGENTA + "{}".format(self.menu[menu_line_number][4]) + colorama.Fore.RESET + "]")
+                    self.ctx.output("Cannot Purchase, first obtain the following items [" + "{}".format(self.menu[menu_line_number][4]) + "]")
 
                     #refund
                     playerInventory.add(purchase)
