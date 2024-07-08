@@ -35,7 +35,7 @@ def launch_client() -> None:
 
 LauncherComponents.components.append(
     LauncherComponents.Component(
-        "Sea of Thieves ALPHA Client",
+        "Sea of Thieves ALPHA Client 0.2",
         func=launch_client,
         component_type=LauncherComponents.Type.CLIENT
     )
