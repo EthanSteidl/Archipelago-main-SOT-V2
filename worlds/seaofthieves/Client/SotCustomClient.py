@@ -55,7 +55,7 @@ async def watchGameForever(ctx):
                     ctx.updateAnalyzerWithLocationsPossible()
                     await ctx.collectLocationsAndSendInformation()
                 except Exception as e:
-                    print("Fatal error occurred: ", e)
+                    print("Fatal error occurred: (Ignore errors in the first ~10 seconds)", e)
 
         await asyncio.sleep(1)
 
