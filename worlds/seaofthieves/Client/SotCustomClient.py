@@ -160,10 +160,6 @@ class SOT_CommandProcessor(ClientCommandProcessor):
 
         self.output("Mode set to {}".format(mode))
 
-        #TODO REMOVE
-        self._cmd_setcookie("C:\\Users\\Ethan\\Desktop\\code\\Archipelago-main\\Archipelago-main\\output\cookie.txt")
-        self._cmd_setsotci("C:\\Users\\Ethan\\Desktop\\code\\Archipelago-main\\Archipelago-main\\output\\AP_09142479461226788422\\opt.apsmSOTCI")
-
         self.ctx.buildIfWeCan()
 
     def _cmd_setcookie(self, filepath):
