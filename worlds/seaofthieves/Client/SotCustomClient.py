@@ -31,6 +31,7 @@ from worlds.seaofthieves.Client.NetworkProtocol.PrintJsonPacket import PrintJson
 from worlds.seaofthieves.Client.NetworkProtocol.ReceivedItemsPacket import ReceivedItemsPacket
 from worlds.seaofthieves.Client.NetworkProtocol.SetReply import SetReplyPacket
 import worlds.seaofthieves.Client.Balance as Balance
+import multiprocessing
 class Version(NamedTuple):
     major: int
     minor: int
@@ -125,10 +126,13 @@ class SOT_CommandProcessor(ClientCommandProcessor):
         for loc in loc_details_possible:
             if loc.id not in self.ctx.locations_checked and loc.doRandomize:
                 possible += 1
-        self.output("You can check " + str(possible) + " more locations. And have completed " + str(checked))
+        self.output("\nYou can check " + str(possible) + " more locations. And have completed " + str(checked))
+
+        num = 1
         for loc in loc_details_possible:
             if loc.id not in self.ctx.locations_checked and loc.doRandomize:
-                self.output("{} [{}]".format(loc.name, loc.id))
+                self.output("{}. [{}] {}".format(num, loc.id, loc.name))
+                num += 1
 
     def _cmd_complete(self, locId):
         """Force completes a check. Enter "CANDO" to complete all checks displayed with locs command"""
@@ -155,6 +159,10 @@ class SOT_CommandProcessor(ClientCommandProcessor):
         self.ctx.ship = mode
 
         self.output("Mode set to {}".format(mode))
+
+        #TODO REMOVE
+        self._cmd_setcookie("C:\\Users\\Ethan\\Desktop\\code\\Archipelago-main\\Archipelago-main\\output\cookie.txt")
+        self._cmd_setsotci("C:\\Users\\Ethan\\Desktop\\code\\Archipelago-main\\Archipelago-main\\output\\AP_09142479461226788422\\opt.apsmSOTCI")
 
         self.ctx.buildIfWeCan()
 
@@ -261,6 +269,9 @@ class SOT_Context(CommonContext):
         clientInput.from_fire(filepath)
         return clientInput
 
+
+    async def sendGameFinished(self):
+        await self.send_msgs([{"cmd": "StatusUpdate", "status": ClientStatus.CLIENT_GOAL}])
     async def init_notif(self):
         keys: typing.List[str] = []
 
@@ -283,6 +294,11 @@ class SOT_Context(CommonContext):
         for item in self.items_received:
             id = item.item
             name: str = self.itemCollection.getNameFromId(id)
+
+
+            #if the player has Pirate Legend, mark the game as finished
+            if name == "Pirate Legend":
+                self.finished_game = True
 
             #if the name is null, there is a bug but we should handle it here
             if(name != ""):
@@ -490,6 +506,7 @@ class SOT_Context(CommonContext):
             }
         ]
         await self.send_msgs(msg)
+
 
 
 async def fConnectToRoom(ctx : SOT_Context):

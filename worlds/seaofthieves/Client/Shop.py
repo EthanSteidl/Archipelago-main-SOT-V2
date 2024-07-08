@@ -30,6 +30,8 @@ class Shop:
 
             if int(key) > 3 and self.menu[key][5] not in playerInventory.item_names_in_inventory.keys():
                 st += "[ " + key + " ] **Locked, requires [" + self.menu[key][4] + "]\n"
+            elif self.menu[key][0].startswith("SOLD OUT"):
+                st += "[ " + key + " ] SOLD OUT\n"
 
             else:
                 st += "[ " + key + " ] " + self.menu[key][0] + " [" + str(self.menu[key][1]) + " gold] [" + str(self.menu[key][2]) + " dabloons] \n"

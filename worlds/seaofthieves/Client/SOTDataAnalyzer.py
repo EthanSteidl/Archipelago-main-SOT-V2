@@ -206,8 +206,9 @@ class SOTDataAnalyzer:
         if(loc_detail.id in self.trackedLocations.keys()):
             return
 
-        self.trackedLocations[loc_detail.id] = loc_detail
+
         self.__setInitialValueForLoc(loc_detail)
+        self.trackedLocations[loc_detail.id] = loc_detail
 
     def __setInitialValueForLoc(self, loc_detail: LocDetails) -> None:
         json_data = self.collector.getJson()
@@ -250,6 +251,7 @@ class SOTDataAnalyzer:
 
     def getBalance(self) -> Balance.Balance:
         js: json = self.collector.getBalance()
+        #return Balance.Balance()
         return Balance.fromJson(js)
 
 
