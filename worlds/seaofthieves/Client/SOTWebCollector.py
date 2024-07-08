@@ -84,7 +84,7 @@ class SOTWebCollector:
                 else:
                     self.captain_etag = resp.headers['Etag']
                     text = resp.text
-                    if text is not '':
+                    if text != '':
                         js = json.loads(text)
                         with open('captainData.json', 'w', encoding='utf-8') as f:
                             json.dump(js, f, ensure_ascii=False, indent=4)
@@ -99,7 +99,7 @@ class SOTWebCollector:
                 else:
                     self.balance_etag = resp.headers['Etag']
                     text = resp.text
-                    if text is not '':
+                    if text != '':
                         js = json.loads(text)
                         with open('balanceData.json', 'w', encoding='utf-8') as f:
                             json.dump(js, f, ensure_ascii=False, indent=4)
