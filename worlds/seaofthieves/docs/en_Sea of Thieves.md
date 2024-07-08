@@ -41,7 +41,6 @@ The following items are randomized:
 - Fishing Rod - Allows location rewards for fishing
 - Shovel - Allows location rewards for digging related locations
 - Pirate Legend - Once achieved, you win
-- Voyages of Tales - Allows access to Tall Tale rewards
 - Stove - Allows access to EAT, COOK, BURN checks that would usually require cooking
 - Progressive Wallet (amount = 2) - Increases your fund limit for the client shop
 - Catalog of Ancient Spire - Allows access to the shop

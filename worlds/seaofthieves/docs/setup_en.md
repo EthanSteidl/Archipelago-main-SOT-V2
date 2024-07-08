@@ -16,7 +16,7 @@
 
 4. While on the website, open the developer tools and look at the network information. There is an XHR request named "captaincy", if you do not see one, hard refresh your page (cntrl+F5).
 
-5. View the "Request Headers" section of the "captaincy" HXR GET request. In the header is a field named "Cookie". Copy the value of the "Cookie" filed and save it to a text file on your computer like "cookie.txt". Make sure you do not save extra newlines at the top of the file. At this point you should have two files, the options file and the cookie file. Verify you did not copy "Set-Cookie" but instead the "Cookie" field.
+5. View the "Request Headers" section of the "captaincy" HXR GET request. In the header is a field named "Cookie". Copy the value of the "Cookie" field and save it to a text file on your computer like "cookie.txt". Make sure you do not save extra newlines at the top of the file. At this point you should have two files, the options file and the cookie file. Verify you did not copy "Set-Cookie" but instead the "Cookie" field.
 
 6. Each player that is connecting to the hosted world must run the client, the Sea of Thieves client can be found in the launcher.
 
