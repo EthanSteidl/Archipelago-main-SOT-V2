@@ -136,23 +136,30 @@ class LocationDetailsCollection:
 
 
     def addAll(self) -> None:
-        self.addMenuQuest()
-        self.addVoyageQuestGh()
-        self.addVoyageQuestMa()
-        self.addVoyageQuestOos()
-        self.addVoyageQuestRor()
-        self.addVoyageQuestAthena()
+        self.addLocationsToSelf(MenuQuestAll().getLocations(), "SettingsMenuQuestAll")
+        self.addLocationsToSelf(VoyageQuestGh(self.options.voyageQuestGhSettings).getLocations(), "SettingsVoyageQuestGh")
+        self.addLocationsToSelf(VoyageQuestMa(self.options.voyageQuestMaSettings).getLocations(), "SettingsVoyageQuestMa")
+        self.addLocationsToSelf(VoyageQuestOos(self.options.voyageQuestOosSettings).getLocations(), "SettingsVoyageQuestOos")
+        self.addLocationsToSelf(VoyageQuestRor(self.options.voyageQuestRorSettings).getLocations(), "SettingsVoyageQuestRor")
+        self.addLocationsToSelf(VoyageQuestAthena(self.options.voyageQuestAthenaSettings).getLocations(), "SettingsVoyageQuestAthena")
 
-        self.addAllGoldSeaker()
-        self.addAllHunter()
-        self.addAllFeared()
-        self.addAllRouge()
-        self.addAllGuardian()
-        self.addAllServant()
-        self.addAllIllFated()
-
-        self.addSeals()
-
+        self.addLocationsToSelf(TreasuresSold.TreasuresSold(self.options.treasureSoldSettings).getLocations(), "SettingsTreasuresSold")
+        self.addLocationsToSelf(BurntAboard.HunterBurntAboard(self.options.burntAboardSettings).getLocations(),
+                                "SettingsHunterBurntAboard")
+        self.addLocationsToSelf(CookedAboard.HunterCookedAboard(self.options.cookedAboardSettings).getLocations(),
+                                "SettingsHunterCookedAboard")
+        self.addLocationsToSelf(EatenAboard.HunterEatenAboard(self.options.eatenAboardSettings).getLocations(),
+                                "SettingsHunterEatenAboard")
+        #TODO buggy self.addLocationsToSelf(Total.HunterTotal().getLocations(), "SettingsHunterTotalCooked")
+        self.addLocationsToSelf(FearedQuestSeaForts(self.options.fortressSettings).getLocations(), "SettingsFearedQuestSeaForts")
+        self.addLocationsToSelf(CannonsFired.CannonsFired(self.options.cannonsFiredSettings).getLocations(),
+                                "SettingsCannonsFired")
+        self.addLocationsToSelf(RogueQuestAll(self.options.rougeSettings).getLocations(), "SettingsRogueQuestAll")
+        self.addLocationsToSelf(Guardian.VoyageQuestGa(self.options.guardianSettings).getLocations(), "SettingsVoyageQuesGa")
+        self.addLocationsToSelf(Servant.VoyageQuestSv(self.options.servantSettings).getLocations(),"SettingsVoyageQuesSv")
+        self.addLocationsToSelf(IllFated.IllFated(self.options.illFatedSettings).getLocations(), "SettingsIllFated")
+        #TODO buggy self.addLocationsToSelf(Chests.Chests(self.options.chestSettings).getLocations(), "SettingsChests")
+        self.addLocationsToSelf(Seals.Seals().getLocations(), "SettingsSeals")
         self.addLocationsToSelf(CaptainShipSpotted(self.options.captainShipSettings).getLocations(), "cap_ship")
         self.addLocationsToSelf(DaysAtSea.DaysAtSea(self.options.daysAtSeaSettings).getLocations(), "days_at_sea")
         self.addLocationsToSelf(NauticalMilesSailed.NauticalMiles(self.options.nauticalMilesSailedSettings).getLocations(), "days_at_sea")
@@ -162,92 +169,7 @@ class LocationDetailsCollection:
         self.addLocationsToSelf(Shops.Shops(self.options.shopsSettings, self.random).getLocations(), "shops")
 
         #hints?
-        self.addIslandVisited()
-
-        return
-
-
-    def addAllIllFated(self):
-        self.addLocationsToSelf(IllFated.IllFated(self.options.illFatedSettings).getLocations(), "SettingsIllFated")
-    def addAllServant(self):
-        self.addLocationsToSelf(Servant.VoyageQuestSv(self.options.servantSettings).getLocations(), "SettingsVoyageQuesSv")
-
-    def addAllGuardian(self):
-        self.addLocationsToSelf(Guardian.VoyageQuestGa(self.options.guardianSettings).getLocations(), "SettingsVoyageQuesGa")
-
-
-    def addAllGoldSeaker(self):
-        self.addGoldSeakerTreasuresSold()
-
-        #TODO this is buggy
-        #self.addGoldSeakerChests()
-    def addGoldSeakerTreasuresSold(self):
-        self.addLocationsToSelf(TreasuresSold.TreasuresSold(self.options.treasureSoldSettings).getLocations(), "SettingsTreasuresSold")
-    def addGoldSeakerChests(self):
-        self.addLocationsToSelf(Chests.Chests(self.options.chestSettings).getLocations(), "SettingsChests")
-
-    def addSeals(self):
-        self.addLocationsToSelf(Seals.Seals().getLocations(), "SettingsSeals")
-
-    def addMenuQuest(self):
-
-        self.addLocationsToSelf(MenuQuestAll().getLocations(), "SettingsMenuQuestAll")
-
-    # region voyages
-    def addIslandVisited(self):
         self.addHintsToSelf(VoyageIslandVisited().getLocations(), "HintsIslandsVisited")
 
-    def addVoyageQuestGh(self):
-        self.addLocationsToSelf(VoyageQuestGh(self.options.voyageQuestGhSettings).getLocations(), "SettingsVoyageQuestGh")
-
-    def addVoyageQuestMa(self):
-        self.addLocationsToSelf(VoyageQuestMa(self.options.voyageQuestMaSettings).getLocations(), "SettingsVoyageQuestMa")
-
-    def addVoyageQuestOos(self):
-        self.addLocationsToSelf(VoyageQuestOos(self.options.voyageQuestOosSettings).getLocations(), "SettingsVoyageQuestOos")
-
-    def addVoyageQuestRor(self):
-        self.addLocationsToSelf(VoyageQuestRor(self.options.voyageQuestRorSettings).getLocations(), "SettingsVoyageQuestRor")
-
-    def addVoyageQuestAthena(self):
-        self.addLocationsToSelf(VoyageQuestAthena(self.options.voyageQuestAthenaSettings).getLocations(), "SettingsVoyageQuestAthena")
-    # endregion
-
-    # region Rouge
-    def addAllRouge(self):
-        self.addLocationsToSelf(RogueQuestAll(self.options.rougeSettings).getLocations(), "SettingsRogueQuestAll")
-    # endregion
-
-
-    # region Hunter
-    def addAllHunter(self):
-        self.addHunterBurnt()
-        self.addHunterCooked()
-        #self.addHunterTotal() #This should probably be deleted
-        self.addHunterEaten()
-
-    def addHunterBurnt(self):
-        self.addLocationsToSelf(BurntAboard.HunterBurntAboard(self.options.burntAboardSettings).getLocations(),
-                                "SettingsHunterBurntAboard")
-
-    def addHunterCooked(self):
-        self.addLocationsToSelf(CookedAboard.HunterCookedAboard(self.options.cookedAboardSettings).getLocations(), "SettingsHunterCookedAboard")
-
-    def addHunterTotal(self):
-        self.addLocationsToSelf(Total.HunterTotal().getLocations(), "SettingsHunterTotalCooked")
-
-    def addHunterEaten(self):
-        self.addLocationsToSelf(EatenAboard.HunterEatenAboard(self.options.eatenAboardSettings).getLocations(), "SettingsHunterEatenAboard")
-
-    # endregion
-
-    # region Feared
-
-    def addAllFeared(self):
-        self.addFearedQuestSeaForts()
-        self.addLocationsToSelf(CannonsFired.CannonsFired(self.options.cannonsFiredSettings).getLocations(), "SettingsCannonsFired")
-
-    def addFearedQuestSeaForts(self):
-        self.addLocationsToSelf(FearedQuestSeaForts(self.options.fortressSettings).getLocations(), "SettingsFearedQuestSeaForts")
-    # endregion
+        return
 
