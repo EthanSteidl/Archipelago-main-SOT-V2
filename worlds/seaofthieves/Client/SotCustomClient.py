@@ -155,7 +155,8 @@ class SOT_CommandProcessor(ClientCommandProcessor):
             self.output("Error setting cookie, either could not locate file or file was empty")
 
     def _cmd_setsotci(self, filepath):
-        """Sets configuration related to your settings, pass "Absolute Filepath" to your apsmSOTCI file generated with the world for your player"""
+        """Sets configuration related to your settings, pass "Absolute Filepath" to your apsmSOTCI file generated with
+        the world for your player"""
         client_input: ClientInput = ClientInput()
         try:
             client_input.from_fire(filepath.strip('\"'))
@@ -178,24 +179,15 @@ class SOT_Context(CommonContext):
         self.userInformation = UserInformation.UserInformation()
         self.analyzer: typing.Optional[SOTDataAnalyzer.SOTDataAnalyzer] = SOTDataAnalyzer.SOTDataAnalyzer(
             self.userInformation)
-
-        self.known_items_received = []  # used to track measured received counts
-
-        self.locationDetailsCollection = LocationDetailsCollection()
-
-        self.itemCollection = ItemCollection()
-        self.shop = Shop()
+        self.known_items_received: typing.List = []  # used to track measured received counts
+        self.locationDetailsCollection: LocationDetailsCollection = LocationDetailsCollection()
+        self.itemCollection: ItemCollection = ItemCollection()
+        self.shop: Shop = Shop()
         self.shop.ctx = self
-        self.playerInventory = PlayerInventory.PlayerInventory()
-        self.connected_to_server = False
-
+        self.playerInventory:PlayerInventory = PlayerInventory.PlayerInventory()
+        self.connected_to_server: bool = False
         self.originalBalance: Balance.Balance | None = None
-
-        self.forceUnlock = False
-
-        self.balance_update_interval = 10
-        self.balance_last_update = -10000
-
+        self.forceUnlock: bool = False
         self.active_tasks: typing.List[asyncio.Task] = []
 
     async def updaterLoopa(self):
@@ -223,7 +215,7 @@ class SOT_Context(CommonContext):
         first_pass = True
         while not self.stop_application:
             await asyncio.sleep(1)
-            if self.connected_to_server:  # pretty much the client will start up and the analyzer wont be built yet
+            if self.connected_to_server:
                 if first_pass:
                     await self.init_notif()
                     first_pass = False
@@ -233,7 +225,7 @@ class SOT_Context(CommonContext):
                         self.updateAnalyzerWithLocationsPossible()
                         await self.collectLocationsAndSendInformation()
                     except Exception as e:
-                        print("Fatal error occurred: (Ignore errors in the first ~10 seconds)", e)
+                        print("Error occurred: ", e)
 
         # stop the processes
         if self.analyzer is not None:
@@ -251,8 +243,6 @@ class SOT_Context(CommonContext):
     def output(self, text):
         self.command_processor.output(self.command_processor, text)
 
-    async def sendGameFinished(self):
-        await self.send_msgs([{"cmd": "StatusUpdate", "status": ClientStatus.CLIENT_GOAL}])
 
     async def init_notif(self):
         keys: typing.List[str] = [Items.golden_dragon.name]
@@ -268,10 +258,6 @@ class SOT_Context(CommonContext):
         for item in self.items_received:
             item_id = item.item
             name: str = self.itemCollection.getNameFromId(item_id)
-
-            # if the player has Pirate Legend, mark the game as finished
-            if name == "Pirate Legend":
-                self.finished_game = True
 
             # if the name is null, there is a bug but we should handle it here
             if (name != ""):
@@ -321,6 +307,10 @@ class SOT_Context(CommonContext):
                 self.items_received = received_items_packet.items
                 for item in self.items_received:
                     self.playerInventory.add_item(item.item)
+                    if Items.pirate_legend.id == item.item:
+                        self.finished_game = True
+                        # we could send the signal here to finish the game, but if it got dropped that would be bad
+                        # instead we do it in the main game loop
 
         elif cmd == "PrintJSON":
             printJsonPacket: PrintJsonPacket = PrintJsonPacket(args)
@@ -409,6 +399,11 @@ class SOT_Context(CommonContext):
         self.discoverCheckedLocationsAndStopTracking()  # look at what locations the player has checked
         await self.snd_location_checks()  # notify the server of those locations
         await self.snd_location_souts()  # notify the server of those locations
+        await self.notifyServerIfGameIsFinished() # tell the server if we have finished the game
+
+    async def notifyServerIfGameIsFinished(self):
+        if self.finished_game:
+            await self.snd_game_finished()
 
     def discoverCheckedLocationsAndStopTracking(self):
         # We may not be allowed to query the players url
@@ -499,3 +494,6 @@ class SOT_Context(CommonContext):
             }
         ])
         return
+
+    async def snd_game_finished(self):
+        await self.send_msgs([{"cmd": "StatusUpdate", "status": ClientStatus.CLIENT_GOAL}])

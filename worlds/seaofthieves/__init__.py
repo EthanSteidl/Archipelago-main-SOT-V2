@@ -104,9 +104,6 @@ class SOTWorld(World):
 
         return
 
-    def fill_hook(self, progitempool, usefulitempool, filleritempool, fill_locations):
-        return
-
     def pre_fill(self) -> None:
         self.pre_fill_sail()
         self.pre_fill_seals()
