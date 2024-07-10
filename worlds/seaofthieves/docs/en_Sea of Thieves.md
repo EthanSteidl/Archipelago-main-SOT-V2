@@ -97,7 +97,7 @@ Your personal fake money wallet has a limit though, to increase its size you wil
 
 The following commands are only available when using the Sea of Thieves Client to play with Archipelago. You can list them any time in the client with `/help`.
 
-* `/locs` Shows what checks are possible
+* `/locs` Shows what checks are possible. Add argument "-f" to add filler locations to output
 * `/shop` Opens the shop
 * `/buy #` Buys an item from the shop
 * `/hints` Shows hints purchased from the shop
@@ -112,4 +112,4 @@ The following commands are debug commands
 
 * `/mrkrabs` Gives you a large amount of money
 * `/forceunlock` Removes all logic requirements for every location
-* `/complete <locID>` Force completes a location and rewards its contents. Use "CANDO" as the locID to force complete all locations available with `/locs`
+* `/complete <locID>` Force completes a location and rewards its contents. Use "-all" as the locID to force complete all locations available with `/locs`.  Use "-allf" as the locID to force complete all locations available with `/locs -f`

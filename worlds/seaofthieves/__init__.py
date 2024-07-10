@@ -29,13 +29,13 @@ import worlds.LauncherComponents as LauncherComponents
 
 
 def launch_client() -> None:
-    from .Client.SotCustomClient import launch
+    from .Client.ClientLauncher import launch
     LauncherComponents.launch_subprocess(launch, name="SOTmClient")
 
 
 LauncherComponents.components.append(
     LauncherComponents.Component(
-        "Sea of Thieves ALPHA Client 0.2",
+        "Sea of Thieves ALPHA Client 0.2.1",
         func=launch_client,
         component_type=LauncherComponents.Type.CLIENT
     )

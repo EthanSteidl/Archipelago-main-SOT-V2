@@ -47,6 +47,8 @@ class SOTWebCollector:
         self.json_multi_task = None
         self.balance_multi_task = None
 
+        self.stop_application = False
+
 
     def getHeaders(self, etag: str):
         headers = {
@@ -72,9 +74,9 @@ class SOTWebCollector:
         }
         return headers
 
-    def getJsonMultiTask(self):
+    def getWebDataTask(self):
 
-        while True:
+        while not self.stop_application:
             try:
                 resp = requests.get('https://www.seaofthieves.com/api/profilev2/captaincy',
                                     headers=self.getHeaders(self.captain_etag))
@@ -154,14 +156,14 @@ class SOTWebCollector:
     def getBalance(self):
 
         if self.json_multi_task is None:
-            self.json_multi_task = multiprocessing.Process(target=self.getJsonMultiTask)
+            self.json_multi_task = multiprocessing.Process(target=self.getWebDataTask)
             self.json_multi_task.start()
 
         # if self.balance_multi_task is None:
         #     self.balance_multi_task = multiprocessing.Process(target=self.getBalanceMultiTask)
         #     self.balance_multi_task.start()
 
-        if(self.balance is None or self.lastQueryTimeBalanceSeconds+self.QUERY_PERIOD_SECONDS < time.time() ):
+        if self.balance is None or self.lastQueryTimeBalanceSeconds+self.QUERY_PERIOD_SECONDS < time.time():
             '''
             try:
                 resp = requests.get('https://www.seaofthieves.com/api/profilev2/balance', headers=self.getHeaders(self.balance_etag))
@@ -181,3 +183,8 @@ class SOTWebCollector:
             f = open('balanceData.json', 'r')
             self.balance = json.load(f)
         return self.balance
+
+    def stop_tasks(self):
+        self.stop_application = True
+        if self.json_multi_task is not None:
+            self.json_multi_task.join()

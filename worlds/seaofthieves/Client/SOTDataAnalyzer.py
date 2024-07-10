@@ -151,7 +151,6 @@ class SOTDataAnalyzer:
         self.trackedLocations.pop(key, None)
         self.trackedLocationsData.pop(key, None)
         self.banned[key] = True
-        print("banned ",key)
 
         return
 
@@ -199,6 +198,8 @@ class SOTDataAnalyzer:
             idx = idx+1
     # endregion
 
+    def stop_tasks(self):
+        self.collector.stop_tasks()
     # region Adding a Location
     def allowTrackingOfLocation(self, loc_detail: LocDetails):
 
@@ -251,7 +252,6 @@ class SOTDataAnalyzer:
 
     def getBalance(self) -> Balance.Balance:
         js: json = self.collector.getBalance()
-        #return Balance.Balance()
         return Balance.fromJson(js)
 
 

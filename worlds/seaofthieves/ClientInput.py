@@ -18,3 +18,6 @@ class ClientInput:
             clientInput = pickle.load(f)
         self.sotOptionsDerived = clientInput.sotOptionsDerived
         self.regionRules = clientInput.regionRules
+
+    def hasEnoughToPlay(self) -> bool:
+        return self.sotOptionsDerived is not None and self.regionRules is not None

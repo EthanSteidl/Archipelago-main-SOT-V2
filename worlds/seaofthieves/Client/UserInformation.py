@@ -28,10 +28,14 @@ class SotAnalyzerDetails:
 
 class UserInformation:
 
-    def __init__(self, sotLoginCreds: SotLoginCredentials, sotAnalyzerDetails: SotAnalyzerDetails, address: str, clientInput: ClientInput):
-        self.loginCreds: SotLoginCredentials = sotLoginCreds
-        self.analyzerDetails: SotAnalyzerDetails = sotAnalyzerDetails
-        self.address: str = address
-        self.username: str = clientInput.sotOptionsDerived.player_name
-        self.options: SotOptionsDerived = clientInput.sotOptionsDerived
-        self.regionLogic = clientInput.regionRules
+    def __init__(self, sotLoginCreds: Optional[SotLoginCredentials] = None, sotAnalyzerDetails: Optional[SotAnalyzerDetails] = None,  clientInput: Optional[ClientInput] = None):
+        self.__initialize(sotLoginCreds, sotAnalyzerDetails, clientInput)
+
+    def __initialize(self, sotLoginCreds: Optional[SotLoginCredentials] = None, sotAnalyzerDetails: Optional[SotAnalyzerDetails] = None,  clientInput: Optional[ClientInput] = None):
+        self.loginCreds: Optional[SotLoginCredentials] = sotLoginCreds
+        self.analyzerDetails: Optional[SotAnalyzerDetails] = sotAnalyzerDetails
+        self.generationData: Optional[ClientInput] = ClientInput() if clientInput is None else clientInput
+
+    def hasEnoughToPlay(self) -> bool:
+        return self.generationData.hasEnoughToPlay()
+
