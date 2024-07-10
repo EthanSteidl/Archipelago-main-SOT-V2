@@ -68,7 +68,7 @@ class LocationDetailsCollection:
 
         ret_list: typing.List[LocDetails] = []
 
-        # checks only location requirements, does not includ region reqs
+        # checks only location requirements, does not include region reqs
         for checkTypeKey in self.checkTypeToLocDetail.keys():
             for loc_name in self.checkTypeToLocDetail[checkTypeKey].keys():
 
