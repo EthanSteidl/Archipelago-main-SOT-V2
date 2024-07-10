@@ -8,6 +8,7 @@ from Options import DefaultOnToggle
 
 DefaultOffToggle = Options.Toggle
 
+
 class TreasurySanity(Choice):
     """Adds 'On Treasury Complete' location
     On For Each: replaces the on treasury complete check with on treasury complete for each treasury

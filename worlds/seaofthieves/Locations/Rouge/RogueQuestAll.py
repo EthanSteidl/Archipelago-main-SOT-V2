@@ -5,6 +5,7 @@ from ...Regions.RegionDetails import Regions
 from ...Items.Items import ItemReqEvalOr, ItemReqEvalAnd, Items
 from ..ScreenData import ScreenData
 
+
 class SettingsRogueQuestAll:
 
     def __init__(self, seaShanty=1, grog=1, sleeping=1, sitting=1):
@@ -14,14 +15,11 @@ class SettingsRogueQuestAll:
         self.sitting = sitting
 
 
-
 class RogueQuestAll(LocationsBase):
-
     SHANTY = "Play music for 1 minute (ROUGE)"
     GROG = "Drink 1 grog (ROUGE)"
     SLEEP = "Sleep for 1 minute (ROUGE)"
     SIT = "Sit for 1 minute (ROUGE)"
-
 
     def __init__(self, settings: SettingsRogueQuestAll):
         super().__init__()
@@ -30,7 +28,7 @@ class RogueQuestAll(LocationsBase):
         reg.addFromList([Regions.R_PLAYER_SHIP])
         lgc = ItemReqEvalOr([])
 
-        #TODO we are forcing these to be true because there is not enough locations otherwise?
+        # TODO we are forcing these to be true because there is not enough locations otherwise?
 
         web = WebItemJsonIdentifier(self.x[0], 0, self.x[2])
         wlc = WebLocationCollection([WebLocation(web, reg, lgc, RogueQuestAll.SHANTY, ScreenData(["Becalmed"]))])
@@ -47,4 +45,3 @@ class RogueQuestAll(LocationsBase):
         web = WebItemJsonIdentifier(self.x[0], 3, self.x[2])
         wlc = WebLocationCollection([WebLocation(web, reg, lgc, RogueQuestAll.SIT, ScreenData(["Seat"]))])
         self.locations.append(LocDetails(RogueQuestAll.SIT, wlc, settings.sitting > 0))
-

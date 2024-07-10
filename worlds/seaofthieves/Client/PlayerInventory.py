@@ -1,12 +1,12 @@
 import typing
 
 from worlds.seaofthieves.Client.Balance import Balance
+
+
 class PlayerInventory:
 
-
     def __init__(self):
-
-        #the idea here is to track how much money is made in SOT, how much fake money the client has, and how much total we have spent
+        # the idea here is to track how much money is made in SOT, how much fake money the client has, and how much total we have spent
         self.balanceSot = Balance(0, 0, 0)
         self.balanceClient = Balance(0, 0, 0)
         self.balanceSpent = Balance(0, 0, 0)
@@ -18,7 +18,6 @@ class PlayerInventory:
 
     def get_hints(self):
         return self.owned_hints
-
 
     def add_hint(self, txt: str):
         self.owned_hints.append(txt)

@@ -1,7 +1,5 @@
-
-
-
 from Options import Choice
+
 
 class ChoiceForEach(Choice):
     option_Off = 0

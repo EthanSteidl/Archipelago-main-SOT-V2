@@ -1,6 +1,3 @@
-
-
-
 class RegionDetails:
 
     def __init__(self, name: str, isShop: bool = False):
@@ -9,7 +6,6 @@ class RegionDetails:
 
 
 class Regions(list):
-
     R_MENU: RegionDetails = RegionDetails("Menu")
     R_PLAYER_SHIP: RegionDetails = RegionDetails("Your Ship")
     R_OTHER_SHIP: RegionDetails = RegionDetails("Another's Ship")

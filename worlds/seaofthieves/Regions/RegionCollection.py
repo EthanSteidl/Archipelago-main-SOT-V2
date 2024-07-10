@@ -1,5 +1,5 @@
-
 import typing
+
 
 class RegionNameCollection:
 
@@ -26,6 +26,6 @@ class RegionNameCollection:
 
     def getFirst(self) -> str:
 
-        #TODO make this function return the set and have logic pick one?
+        # TODO make this function return the set and have logic pick one?
         for k in self.regions.keys():
             return k

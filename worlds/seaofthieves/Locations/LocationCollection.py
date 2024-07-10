@@ -30,14 +30,13 @@ from .Voyager import Shipwrecks
 from .Voyager import TallTales
 from .Shops import Shops
 import typing
-class LocationDetailsCollection:
 
+
+class LocationDetailsCollection:
 
     def __init__(self):
         LocDetails.resetSeedId()
         self.options: SotOptionsDerived.SotOptionsDerived = SotOptionsDerived.SotOptionsDerived()
-
-        self.count = 0
 
         # this maps Settings Class -> [locName -> LocDets]
         self.checkTypeToLocDetail: typing.Dict[str, typing.Dict[str, LocDetails]] = {}
@@ -46,65 +45,54 @@ class LocationDetailsCollection:
 
         self.regionDiver: RegionDiver | None = None
 
-        #TODO this may cause bugs.. we should move the prices out of the shops here somehow to decouple this?
+        # TODO this may cause bugs.. we should move the prices out of the shops here somehow to decouple this?
         self.random: random.Random | None = None
 
     def applyRegionDiver(self, connection_details: typing.List[ConnectionDetails]):
         self.regionDiver = RegionDiver()
         self.regionDiver.create_from_rules(connection_details)
 
-    def getLocCount(self):
-        return self.count
-
     def toDict(self) -> typing.Dict[str, int]:
         dic: typing.Dict[str, int] = {}
         for checkTypeKey in self.checkTypeToLocDetail.keys():
             for loc_name in self.checkTypeToLocDetail[checkTypeKey].keys():
-                dic[self.checkTypeToLocDetail[checkTypeKey][loc_name].name] = self.checkTypeToLocDetail[checkTypeKey][loc_name].id
+                dic[self.checkTypeToLocDetail[checkTypeKey][loc_name].name] = self.checkTypeToLocDetail[checkTypeKey][
+                    loc_name].id
 
         return dic
 
     def get_accessible_regions_for_items(self, items: typing.Set[str]):
         return self.regionDiver.get_regions_accessbile(items)
 
-
     def findDetailsCheckable(self, itemSet: typing.Set[str], forceAll: bool = False) -> typing.List[LocDetails]:
 
         ret_list: typing.List[LocDetails] = []
 
-        #checks onlys location requirements, does not includ region reqs
+        # checks only location requirements, does not includ region reqs
         for checkTypeKey in self.checkTypeToLocDetail.keys():
             for loc_name in self.checkTypeToLocDetail[checkTypeKey].keys():
 
                 loc_details = self.checkTypeToLocDetail[checkTypeKey][loc_name]
 
-                #first check if we have access to the region
+                # first check if we have access to the region
                 accessibleRegions = self.get_accessible_regions_for_items(itemSet)
                 loc_region = loc_details.webLocationCollection.getFirstRegion()
 
                 if (forceAll) or (loc_region in accessibleRegions):
-                    #then check item logic
-                    if(forceAll or loc_details.webLocationCollection.isAnyReachable(itemSet)):
+                    # then check item logic
+                    if (forceAll or loc_details.webLocationCollection.isAnyReachable(itemSet)):
                         ret_list.append(loc_details)
-
 
         return ret_list
 
-
     def addLocationToSelf(self, location_detail: LocDetails, settingsClass: str):
-
-
         if settingsClass not in self.checkTypeToLocDetail.keys():
             self.checkTypeToLocDetail[settingsClass] = {}
 
         self.checkTypeToLocDetail[settingsClass][location_detail.name] = location_detail
 
-        self.count = self.count + 1
-
     def addHintToSelf(self, location_detail: LocDetails, settingsClass: str):
         self.hintWebLocations.append(location_detail)
-
-
 
     def addLocationsToSelf(self, lst: typing.List[LocDetails], settingsClass: str):
         for i in range(len(lst)):
@@ -124,7 +112,7 @@ class LocationDetailsCollection:
                 if loc_det.webLocationCollection.getFirstRegion() == regName:
                     loc = SOTLocation(loc_det, player, regName)
                     if not loc_det.doRandomize:
-                        loc.progress_type = 3 #excluded
+                        loc.progress_type = 3  # excluded
                     lst.append(loc)
         return lst
 
@@ -133,43 +121,50 @@ class LocationDetailsCollection:
         self.random = random
         return
 
-
-
     def addAll(self) -> None:
         self.addLocationsToSelf(MenuQuestAll().getLocations(), "SettingsMenuQuestAll")
-        self.addLocationsToSelf(VoyageQuestGh(self.options.voyageQuestGhSettings).getLocations(), "SettingsVoyageQuestGh")
-        self.addLocationsToSelf(VoyageQuestMa(self.options.voyageQuestMaSettings).getLocations(), "SettingsVoyageQuestMa")
-        self.addLocationsToSelf(VoyageQuestOos(self.options.voyageQuestOosSettings).getLocations(), "SettingsVoyageQuestOos")
-        self.addLocationsToSelf(VoyageQuestRor(self.options.voyageQuestRorSettings).getLocations(), "SettingsVoyageQuestRor")
-        self.addLocationsToSelf(VoyageQuestAthena(self.options.voyageQuestAthenaSettings).getLocations(), "SettingsVoyageQuestAthena")
+        self.addLocationsToSelf(VoyageQuestGh(self.options.voyageQuestGhSettings).getLocations(),
+                                "SettingsVoyageQuestGh")
+        self.addLocationsToSelf(VoyageQuestMa(self.options.voyageQuestMaSettings).getLocations(),
+                                "SettingsVoyageQuestMa")
+        self.addLocationsToSelf(VoyageQuestOos(self.options.voyageQuestOosSettings).getLocations(),
+                                "SettingsVoyageQuestOos")
+        self.addLocationsToSelf(VoyageQuestRor(self.options.voyageQuestRorSettings).getLocations(),
+                                "SettingsVoyageQuestRor")
+        self.addLocationsToSelf(VoyageQuestAthena(self.options.voyageQuestAthenaSettings).getLocations(),
+                                "SettingsVoyageQuestAthena")
 
-        self.addLocationsToSelf(TreasuresSold.TreasuresSold(self.options.treasureSoldSettings).getLocations(), "SettingsTreasuresSold")
+        self.addLocationsToSelf(TreasuresSold.TreasuresSold(self.options.treasureSoldSettings).getLocations(),
+                                "SettingsTreasuresSold")
         self.addLocationsToSelf(BurntAboard.HunterBurntAboard(self.options.burntAboardSettings).getLocations(),
                                 "SettingsHunterBurntAboard")
         self.addLocationsToSelf(CookedAboard.HunterCookedAboard(self.options.cookedAboardSettings).getLocations(),
                                 "SettingsHunterCookedAboard")
         self.addLocationsToSelf(EatenAboard.HunterEatenAboard(self.options.eatenAboardSettings).getLocations(),
                                 "SettingsHunterEatenAboard")
-        #TODO buggy self.addLocationsToSelf(Total.HunterTotal().getLocations(), "SettingsHunterTotalCooked")
-        self.addLocationsToSelf(FearedQuestSeaForts(self.options.fortressSettings).getLocations(), "SettingsFearedQuestSeaForts")
+        # TODO buggy self.addLocationsToSelf(Total.HunterTotal().getLocations(), "SettingsHunterTotalCooked")
+        self.addLocationsToSelf(FearedQuestSeaForts(self.options.fortressSettings).getLocations(),
+                                "SettingsFearedQuestSeaForts")
         self.addLocationsToSelf(CannonsFired.CannonsFired(self.options.cannonsFiredSettings).getLocations(),
                                 "SettingsCannonsFired")
         self.addLocationsToSelf(RogueQuestAll(self.options.rougeSettings).getLocations(), "SettingsRogueQuestAll")
-        self.addLocationsToSelf(Guardian.VoyageQuestGa(self.options.guardianSettings).getLocations(), "SettingsVoyageQuesGa")
-        self.addLocationsToSelf(Servant.VoyageQuestSv(self.options.servantSettings).getLocations(),"SettingsVoyageQuesSv")
+        self.addLocationsToSelf(Guardian.VoyageQuestGa(self.options.guardianSettings).getLocations(),
+                                "SettingsVoyageQuesGa")
+        self.addLocationsToSelf(Servant.VoyageQuestSv(self.options.servantSettings).getLocations(),
+                                "SettingsVoyageQuesSv")
         self.addLocationsToSelf(IllFated.IllFated(self.options.illFatedSettings).getLocations(), "SettingsIllFated")
-        #TODO buggy self.addLocationsToSelf(Chests.Chests(self.options.chestSettings).getLocations(), "SettingsChests")
+        self.addLocationsToSelf(Chests.Chests(self.options.chestSettings).getLocations(), "SettingsChests")
         self.addLocationsToSelf(Seals.Seals().getLocations(), "SettingsSeals")
         self.addLocationsToSelf(CaptainShipSpotted(self.options.captainShipSettings).getLocations(), "cap_ship")
         self.addLocationsToSelf(DaysAtSea.DaysAtSea(self.options.daysAtSeaSettings).getLocations(), "days_at_sea")
-        self.addLocationsToSelf(NauticalMilesSailed.NauticalMiles(self.options.nauticalMilesSailedSettings).getLocations(), "days_at_sea")
+        self.addLocationsToSelf(
+            NauticalMilesSailed.NauticalMiles(self.options.nauticalMilesSailedSettings).getLocations(), "days_at_sea")
         self.addLocationsToSelf(Rowboats.Rowboats(self.options.rowboatSettings).getLocations(), "rowboats")
         self.addLocationsToSelf(Shipwrecks.Shipwrecks(self.options.shipreckSettings).getLocations(), "shipwrecks")
         self.addLocationsToSelf(TallTales.TallTales(self.options.tallTaleSettings).getLocations(), "tallTales")
         self.addLocationsToSelf(Shops.Shops(self.options.shopsSettings, self.random).getLocations(), "shops")
 
-        #hints?
+        # hints?
         self.addHintsToSelf(VoyageIslandVisited().getLocations(), "HintsIslandsVisited")
 
         return
-

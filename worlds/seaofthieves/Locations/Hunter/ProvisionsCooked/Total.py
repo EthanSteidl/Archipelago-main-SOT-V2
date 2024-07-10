@@ -4,6 +4,7 @@ from ....Regions.RegionCollection import RegionNameCollection
 from ....Regions.RegionDetails import Regions
 from ....Items.Items import ItemReqEvalOr, ItemReqEvalAnd, Items
 
+
 class SettingsHunterTotalCooked:
 
     def __init__(self, cookBurnAny=1):
@@ -15,15 +16,11 @@ class SettingsHunterTotalCooked:
 
         # default for it to be enabled
         return 1
+
+
 class HunterTotal(LocationsBase):
-
-    #cat names
+    # cat names
     L_H_COOKBURNANY = "Cook or burn anything (H)"
-
-
-
-
-
 
     def __init__(self):
         super().__init__()
@@ -32,9 +29,6 @@ class HunterTotal(LocationsBase):
         reg.addFromList([Regions.R_PLAYER_SHIP])
         lgc = ItemReqEvalOr([])
         wlc = WebLocationCollection([
-            WebLocation(WebItemJsonIdentifier(3, 0, 0,), reg, lgc)
+            WebLocation(WebItemJsonIdentifier(3, 0, 0, ), reg, lgc)
         ])
         self.locations.append(LocDetails(self.L_H_COOKBURNANY, wlc, True))
-
-
-

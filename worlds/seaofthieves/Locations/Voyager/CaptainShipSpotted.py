@@ -4,6 +4,7 @@ from ...Regions.RegionCollection import RegionNameCollection
 from ...Regions.RegionDetails import Regions
 from ...Items.Items import ItemReqEvalOr, ItemReqEvalAnd, Items
 
+
 class SettingsCaptainShipSpotted:
 
     def __init__(self, any=0, sloop=0, brig=0, gall=0):
@@ -14,12 +15,10 @@ class SettingsCaptainShipSpotted:
 
 
 class CaptainShipSpotted(LocationsBase):
-
     L_CAPTAIN_SHIP_SPOTTED = "Spot Captain Ship"
     L_CAPTAIN_SHIP_SPOTTED_SLOOP = "Spot Captain Sloop"
     L_CAPTAIN_SHIP_SPOTTED_BRIG = "Spot Captain Brigantine"
     L_CAPTAIN_SHIP_SPOTTED_GALL = "Spot Captain Galleon"
-
 
     def __init__(self, settings: SettingsCaptainShipSpotted):
         super().__init__()
@@ -27,7 +26,6 @@ class CaptainShipSpotted(LocationsBase):
         reg = RegionNameCollection()
         reg.addFromList([Regions.R_OPEN_SEA])
         lgc = ItemReqEvalOr([])
-
 
         web = WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2])
         wlc = WebLocationCollection([WebLocation(web, reg, lgc)])
@@ -44,4 +42,3 @@ class CaptainShipSpotted(LocationsBase):
         web = WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 2)
         wlc = WebLocationCollection([WebLocation(web, reg, lgc)])
         self.locations.append(LocDetails(self.L_CAPTAIN_SHIP_SPOTTED_GALL, wlc, settings.gall > 0))
-

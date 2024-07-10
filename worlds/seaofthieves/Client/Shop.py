@@ -3,29 +3,31 @@ from worlds.seaofthieves.Client.Balance import Balance
 from worlds.seaofthieves.Client.PlayerInventory import PlayerInventory
 from worlds.seaofthieves.Items.Items import Items, ItemDetail
 import os
+
 HINT_IDX = "HINT_IDX"
 import colorama
+
+
 class Shop:
-
-
 
     def __init__(self):
 
         self.ctx = None
         self.hints_generic: typing.Dict[str, str] = {}
-        self.hints_personal_progression: typing.Dict[str,str] = {}
+        self.hints_personal_progression: typing.Dict[str, str] = {}
         self.hints_other_progression: typing.Dict[str, str] = {}
         self.menu_count = 3
         self.menu = {
-            "1": ["Buy Generic Hint",10000,0],
+            "1": ["Buy Generic Hint", 10000, 0],
             "2": ["Buy Personal Progression Hint", 15000, 25],
             "3": ["Buy Progression Hint for Another", 20000, 100],
-            #"4": ("Move Random Progression Item in your world to Lower Sphere", 20000, 100),
-            #"5": ("Move Random Progression Item in another's world to Lower Sphere (SOT Only)", 20000, 300)
+            # "4": ("Move Random Progression Item in your world to Lower Sphere", 20000, 100),
+            # "5": ("Move Random Progression Item in another's world to Lower Sphere (SOT Only)", 20000, 300)
         }
         pass
+
     def menu_text(self, playerInventory: PlayerInventory):
-        st : str = ""
+        st: str = ""
         for key in self.menu.keys():
 
             if int(key) > 3 and self.menu[key][5] not in playerInventory.item_names_in_inventory.keys():
@@ -34,7 +36,8 @@ class Shop:
                 st += "[ " + key + " ] SOLD OUT\n"
 
             else:
-                st += "[ " + key + " ] " + self.menu[key][0] + " [" + str(self.menu[key][1]) + " gold] [" + str(self.menu[key][2]) + " dabloons] \n"
+                st += "[ " + key + " ] " + self.menu[key][0] + " [" + str(self.menu[key][1]) + " gold] [" + str(
+                    self.menu[key][2]) + " dabloons] \n"
 
         return st
 
@@ -42,19 +45,19 @@ class Shop:
         self.menu_count += 1
         self.menu[str(self.menu_count)] = [text, gold, dabloons, location_id, req_name, req_id]
 
-    def set_hints_generic(self, progHints: typing.Dict[str,str]):
+    def set_hints_generic(self, progHints: typing.Dict[str, str]):
         self.hints_generic = progHints
         self.hints_generic[HINT_IDX] = '0'
 
-    def set_hints_personal_progression(self, progHints: typing.Dict[str,str]):
+    def set_hints_personal_progression(self, progHints: typing.Dict[str, str]):
         self.hints_personal_progression = progHints
         self.hints_personal_progression[HINT_IDX] = '0'
 
-    def set_hints_other_progression(self, progHints: typing.Dict[str,str]):
+    def set_hints_other_progression(self, progHints: typing.Dict[str, str]):
         self.hints_other_progression = progHints
         self.hints_other_progression[HINT_IDX] = '0'
 
-    def set_items_for_sale(self, shopItems: typing.Dict[str,typing.Dict]):
+    def set_items_for_sale(self, shopItems: typing.Dict[str, typing.Dict]):
         for shop in shopItems:
             for loc_name in shopItems[shop]:
                 items = shopItems[shop][loc_name]
@@ -85,7 +88,6 @@ class Shop:
             output = "No hints remaining in this category."
         return output
 
-
     def executeAction(self, menu_line_number: str, playerInventory: PlayerInventory):
         if menu_line_number == "0":
             return
@@ -113,12 +115,14 @@ class Shop:
                 self.ctx.output(hint)
                 playerInventory.add_hint(hint)
 
-            elif int(menu_line_number) > 3 and int(menu_line_number) <= self.menu_count and self.menu[menu_line_number][0] != "SOLD OUT!":
+            elif int(menu_line_number) > 3 and int(menu_line_number) <= self.menu_count and self.menu[menu_line_number][
+                0] != "SOLD OUT!":
 
                 if self.menu[menu_line_number][5] not in playerInventory.item_names_in_inventory.keys():
-                    self.ctx.output("Cannot Purchase, first obtain the following items [" + "{}".format(self.menu[menu_line_number][4]) + "]")
+                    self.ctx.output("Cannot Purchase, first obtain the following items [" + "{}".format(
+                        self.menu[menu_line_number][4]) + "]")
 
-                    #refund
+                    # refund
                     playerInventory.add(purchase)
 
                 else:
@@ -134,4 +138,3 @@ class Shop:
 
         else:
             self.ctx.output("Cannot afford selected option")
-

@@ -7,6 +7,7 @@ from ...Regions.RegionCollection import RegionNameCollection
 from ...Regions.RegionDetails import Regions
 from ...Items.Items import ItemReqEvalOr, ItemReqEvalAnd, Items
 
+
 class SettingsVoyageIslandVisited:
 
     def __init__(self, player=1, islandCount: int = 10):
@@ -14,9 +15,7 @@ class SettingsVoyageIslandVisited:
         self.islandCount = islandCount
 
 
-
 class VoyageIslandVisited(LocationsBase):
-
     L_VISIT_ANCIENT_GOLD_FORTRESS = "Visit Ancient Gold Fortress"
     L_VISIT_ANCIENT_SPIRE_OUTPOST = "Visit Ancient Spire Outpost"
     L_VISIT_ASHEN_REACHES = "Visit Ashen Reaches"
@@ -137,4 +136,3 @@ class VoyageIslandVisited(LocationsBase):
             WebLocation(WebItemJsonIdentifier(1, 12, 0), reg, lgc)
         ])
         self.locations.append(LocDetails(self.L_VISIT_NEW_ISLAND, wlc, DoRand.N, 1, collectableIslandCount))
-

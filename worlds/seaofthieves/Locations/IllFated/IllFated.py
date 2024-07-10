@@ -5,23 +5,22 @@ from ...Regions.RegionDetails import Regions
 from ...Items.Items import ItemReqEvalOr, ItemReqEvalAnd, Items
 from ...Locations.LocationSettingOption import LocationSettingOption
 
+
 class SettingsIllFated:
     class Any(LocationSettingOption):
         pass
+
     def __init__(self, any=Any.DEFAULT):
         self.any = any
 
 
-
 class IllFated(LocationsBase):
-
     L_ILL_DAMAGE_SHP = "Damage your ship"
     L_ILL_DAMAGE_STORM = "Spend a minute in the storm"
     L_ILL_DAMAGE_FIRE = "Spend a minute on fire"
     L_ILL_DAMAGE_REPAIR = "Repair Ship"
     L_ILL_DAMAGE_BAIL = "Bail Ship"
     L_ILL_DAMAGE_SINK = "Sink"
-
 
     def __init__(self, settings: SettingsIllFated):
         super().__init__()

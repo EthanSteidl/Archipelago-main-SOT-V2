@@ -1,21 +1,23 @@
-
 from ..Configurations import SotOptionsDerived
 from BaseClasses import MultiWorld, Region, Entrance, ItemClassification
 from .Items import Items, ItemCollection, SOTItem
 import math
 
-def create_items(world: MultiWorld, location_count: int, options: SotOptionsDerived, itemCollection: ItemCollection, player: int):
 
+def create_items(world: MultiWorld, location_count: int, options: SotOptionsDerived, itemCollection: ItemCollection,
+                 player: int):
     update_items_from_options(options, itemCollection)
 
-    #we know the pre fill locations cannot be used
+    # we know the pre fill locations cannot be used
     location_count = location_count - itemCollection.pre_fill_count
 
     location_count -= __add_main_items(world, itemCollection, player)
     location_count -= __add_fill_and_traps(world, itemCollection, player, location_count, options)
 
-    if(location_count != 0):
-        raise Exception("In item creation, items added to the pool resulted in {} locations remaining.".format(location_count))
+    if (location_count != 0):
+        raise Exception(
+            "In item creation, items added to the pool resulted in {} locations remaining.".format(location_count))
+
 
 def update_items_from_options(options: SotOptionsDerived, itemCollection: ItemCollection):
     itemCollection.informCollectionOfPrefillAction(Items.seal_gh.name, 1)
@@ -25,6 +27,7 @@ def update_items_from_options(options: SotOptionsDerived, itemCollection: ItemCo
     itemCollection.informCollectionOfPrefillAction(Items.seal_oos.name, 1)
     itemCollection.informCollectionOfPrefillAction(Items.pirate_legend.name, 1)
     itemCollection.informCollectionOfPrefillAction(Items.sail.name, 1)
+
 
 def __add_main_items(world: MultiWorld, itemCollection: ItemCollection, player: int) -> int:
     count = 0
@@ -37,8 +40,9 @@ def __add_main_items(world: MultiWorld, itemCollection: ItemCollection, player: 
             count += 1
     return count
 
-def __add_fill_and_traps(world: MultiWorld, itemCollection: ItemCollection, player: int, count: int, options: SotOptionsDerived):
 
+def __add_fill_and_traps(world: MultiWorld, itemCollection: ItemCollection, player: int, count: int,
+                         options: SotOptionsDerived):
     # trap count
     trap_count = int(math.floor(float(count) * (float(options.trapsPercentage) / 100.0)))
     fill_count = count - trap_count

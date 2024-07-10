@@ -14,8 +14,6 @@ from worlds.seaofthieves.Regions.RegionDetails import RegionDetails, Regions
 from worlds.seaofthieves.Regions.ConnectionDetails import ConnectionDetails
 
 
-
-
 class SOTRegion(Region):
     subregions: typing.List[Region] = []
 
@@ -25,9 +23,8 @@ class SOTRegion(Region):
 
 class RegionAdder:
 
-
-
-    def __init__(self, player: int, locationDetailsCollection: LocationDetailsCollection, options: SotOptionsDerived.SotOptionsDerived):
+    def __init__(self, player: int, locationDetailsCollection: LocationDetailsCollection,
+                 options: SotOptionsDerived.SotOptionsDerived):
         self.player = player
 
         self.locationDetailsCollection = locationDetailsCollection
@@ -40,7 +37,7 @@ class RegionAdder:
         temp = world.get_locations(self.player)
         for lll in temp:
 
-            #for some reason, get_location needs to be called and we cant use the return of get_locations
+            # for some reason, get_location needs to be called and we cant use the return of get_locations
             LOC = world.get_location(lll.name, player)
             locDetails = LOC.locDetails
 
@@ -49,14 +46,12 @@ class RegionAdder:
             else:
                 locDetails.setLambda(LOC, player)
 
-
-
-
     def add(self, region_details: RegionDetails, world: MultiWorld):
 
         sotRegion = SOTRegion(region_details.name, self.player, world)
 
-        locations: typing.List[SOTLocation] = self.locationDetailsCollection.getLocationsForRegion(sotRegion.name, self.player)
+        locations: typing.List[SOTLocation] = self.locationDetailsCollection.getLocationsForRegion(sotRegion.name,
+                                                                                                   self.player)
         for loc in locations:
             loc.parent_region = sotRegion
         sotRegion.locations.extend(locations)
@@ -76,10 +71,11 @@ class RegionAdder:
         self.connect(world, details.start.name, details.end.name, details.lamb(self.player))
         self.connect(world, details.end.name, details.start.name, details.lamb(self.player))
 
-#REG_NAME_EM_RB_VOYAGE = "Seas of Bones"
 
-def create_regions(world: MultiWorld, options: SotOptionsDerived.SotOptionsDerived, player: int, locationDetailsCollection: LocationDetailsCollection) -> RegionAdder:
+# REG_NAME_EM_RB_VOYAGE = "Seas of Bones"
 
+def create_regions(world: MultiWorld, options: SotOptionsDerived.SotOptionsDerived, player: int,
+                   locationDetailsCollection: LocationDetailsCollection) -> RegionAdder:
     region_adder = RegionAdder(player, locationDetailsCollection, options)
 
     for region_detail in Regions.__dict__.items():
@@ -87,7 +83,3 @@ def create_regions(world: MultiWorld, options: SotOptionsDerived.SotOptionsDeriv
             region_adder.add(region_detail[1], world)
 
     return region_adder
-
-
-
-

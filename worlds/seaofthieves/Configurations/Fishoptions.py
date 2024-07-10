@@ -7,6 +7,8 @@ from Options import PerGameCommonOptions, Range
 from Options import DefaultOnToggle
 
 DefaultOffToggle = Options.Toggle
+
+
 class FishSanity(Choice):
     """Adds 'On Fish Caught' location
     On For Each: replaces the on caught check with on caught for each fish

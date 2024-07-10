@@ -3,6 +3,8 @@ from ..LocationsBase import LocationsBase
 from ...Regions.RegionCollection import RegionNameCollection
 from ...Regions.RegionDetails import Regions
 from ...Items.Items import ItemReqEvalOr, ItemReqEvalAnd, Items
+
+
 class SettingsFearedQuestSeaForts:
 
     def __init__(self, completeAny=1, royal=1, imp=1, gold=1, brine=1, traitor=1, mercy=1):
@@ -15,7 +17,7 @@ class SettingsFearedQuestSeaForts:
         self.mercy = mercy
 
     def getSettingForLocName(self, name: str):
-        if(name == FearedQuestSeaForts.L_FEARED_COMP_FORTRESS):
+        if (name == FearedQuestSeaForts.L_FEARED_COMP_FORTRESS):
             return self.completeAny
         if (name == FearedQuestSeaForts.L_FEARED_COMP_FORTRESS_ROYAL):
             return self.royal
@@ -30,12 +32,11 @@ class SettingsFearedQuestSeaForts:
         if (name == FearedQuestSeaForts.L_FEARED_COMP_FORTRESS_MERCY):
             return self.mercy
 
-        #default for it to be enabled
+        # default for it to be enabled
         return 1
 
 
 class FearedQuestSeaForts(LocationsBase):
-
     L_FEARED_COMP_FORTRESS = "Defeat Sea Fortress"
     L_FEARED_COMP_FORTRESS_ROYAL = "Defeat Royal Crest Fortress"
     L_FEARED_COMP_FORTRESS_IMP = "Defeat Imperial Crown Fortress"
@@ -44,7 +45,6 @@ class FearedQuestSeaForts(LocationsBase):
     L_FEARED_COMP_FORTRESS_TRAITOR = "Defeat Traitor's Fate Fortress"
     L_FEARED_COMP_FORTRESS_MERCY = "Defeat Mercy's End Fortress"
 
-
     def __init__(self, settings: SettingsFearedQuestSeaForts):
         super().__init__()
         self.x = [4, 17, 1]
@@ -52,7 +52,6 @@ class FearedQuestSeaForts(LocationsBase):
         reg = RegionNameCollection()
         reg.addFromList([Regions.R_FORTRESSES])
         lgc = ItemReqEvalOr([ItemReqEvalAnd([Items.sail, Items.voyage_fortress])])
-
 
         wlc = WebLocationCollection([
             WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2]), reg, lgc)
@@ -95,5 +94,3 @@ class FearedQuestSeaForts(LocationsBase):
         ])
         do_rand: bool = settings.mercy > 0
         self.locations.append(LocDetails(self.L_FEARED_COMP_FORTRESS_MERCY, wlc, do_rand))
-
-

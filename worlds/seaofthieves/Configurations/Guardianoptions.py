@@ -8,6 +8,7 @@ from Options import DefaultOnToggle
 
 DefaultOffToggle = Options.Toggle
 
+
 class GuardianSanity(Choice):
     """Adds 'On Hourglass Servant of Flame Sunk' location
     On For Each: replaces the On Hourglass Servant of Flame Sunk check with a check on Guardian of Fortune sloop, brig, and galleon check

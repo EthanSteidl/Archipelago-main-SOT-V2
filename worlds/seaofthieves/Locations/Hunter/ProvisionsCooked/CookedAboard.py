@@ -4,8 +4,9 @@ from ....Regions.RegionCollection import RegionNameCollection
 from ....Regions.RegionDetails import Regions
 from ....Items.Items import ItemReqEvalOr, ItemReqEvalAnd, Items
 from ....Locations.LocationSettingOption import LocationSettingOption
-class SettingsHunterCookedAboard:
 
+
+class SettingsHunterCookedAboard:
     class Any(LocationSettingOption):
         pass
 
@@ -19,7 +20,8 @@ class SettingsHunterCookedAboard:
     class BigFish(LocationSettingOption):
         pass
 
-    def __init__(self, completeAny=Any.DEFAULT, fishCategory=Fish.DEFAULT, landMeat=LandMeat.DEFAULT, bigFish=BigFish.DEFAULT):
+    def __init__(self, completeAny=Any.DEFAULT, fishCategory=Fish.DEFAULT, landMeat=LandMeat.DEFAULT,
+                 bigFish=BigFish.DEFAULT):
         self.completeAny = completeAny
         self.fishCategory = fishCategory
         self.landMeat = landMeat
@@ -50,9 +52,9 @@ class SettingsHunterCookedAboard:
         # default for it to be enabled
         return 1
 
-class HunterCookedAboard(LocationsBase):
 
-    #cat names
+class HunterCookedAboard(LocationsBase):
+    # cat names
     L_H_CAT_COOK_SPLASHTAIL = "Cook Splashtail (H)"
     L_H_CAT_COOK_PONDIE = "Cook Pondie (H)"
     L_H_CAT_COOK_ISLEHOPPER = "Cook Islehopper (H)"
@@ -66,8 +68,7 @@ class HunterCookedAboard(LocationsBase):
     L_H_CAT_COOK_LAND = "Cook Land Creature (H)"
     L_H_CAT_COOK_BIG = "Cook Shark, Megalodon, or Kraken (H)"
 
-
-    #INDIVIDUAL_NAMES
+    # INDIVIDUAL_NAMES
     L_H_COOK = "Cook Anything (H)"
     L_H_COOK_RubySplashtail = "Cook Ruby Splashtail (H)"
     L_H_COOK_SunnySplashtail = "Cook Sunny Splashtail (H)"
@@ -97,11 +98,6 @@ class HunterCookedAboard(LocationsBase):
     L_H_COOK_OLIP = "Cook Olive Plentifin (H)"
     L_H_COOK_AMBP = "Cook Amber Plentifin (H)"
     L_H_COOK_CLOP = "Cook Cloudy Plentifin (H)"
-
-
-
-
-
 
     def __init__(self, settings: SettingsHunterCookedAboard):
         super().__init__()
@@ -137,9 +133,8 @@ class HunterCookedAboard(LocationsBase):
         self.add_meat_set_land()
 
     def addFishSetLoc(self, name: str, wlc: WebLocationCollection):
-
         do_rand: bool = self.settings.fishCategory == SettingsHunterCookedAboard.Fish.ON
-        #TODO not implemented
+        # TODO not implemented
 
         do_rand: bool = self.settings.fishCategory == SettingsHunterCookedAboard.Fish.CATEGORICAL_NAME
         self.locations.append(LocDetails(name, wlc, do_rand))
@@ -147,9 +142,7 @@ class HunterCookedAboard(LocationsBase):
         do_rand: bool = self.settings.fishCategory == SettingsHunterCookedAboard.Fish.UNIQUE
         self.addUniques(name, wlc, do_rand)
 
-
     def addLandMeatSetLoc(self, name: str, wlc: WebLocationCollection):
-
         do_rand: bool = self.settings.landMeat == SettingsHunterCookedAboard.LandMeat.ON
         self.locations.append(LocDetails(name, wlc, do_rand))
 
@@ -157,13 +150,11 @@ class HunterCookedAboard(LocationsBase):
         self.addUniques(name, wlc, do_rand)
 
     def addBigFishLoc(self, name: str, wlc: WebLocationCollection):
-
         do_rand: bool = self.settings.bigFish == SettingsHunterCookedAboard.BigFish.ON
         self.locations.append(LocDetails(name, wlc, do_rand))
 
         do_rand: bool = self.settings.bigFish == SettingsHunterCookedAboard.BigFish.UNIQUE
         self.addUniques(name, wlc, do_rand)
-
 
     def add_fish_set_pondie(self):
         reg = RegionNameCollection()
@@ -263,7 +254,6 @@ class HunterCookedAboard(LocationsBase):
         ])
         self.addFishSetLoc(self.L_H_CAT_COOK_DEVILFISH, wlc)
 
-
     def add_fish_set_battlegill(self):
         reg = RegionNameCollection()
         reg.addFromList([Regions.R_SHIP_COOKER])
@@ -278,7 +268,6 @@ class HunterCookedAboard(LocationsBase):
         ])
         self.addFishSetLoc(self.L_H_CAT_COOK_BATTLEGILL, wlc)
 
-
     def add_fish_set_wrecker(self):
         reg = RegionNameCollection()
         reg.addFromList([Regions.R_SHIP_COOKER])
@@ -292,7 +281,6 @@ class HunterCookedAboard(LocationsBase):
             WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 53), reg, lgc),
         ])
         self.addFishSetLoc(self.L_H_CAT_COOK_WRECKER, wlc)
-
 
     def add_fish_set_stormfish(self):
         reg = RegionNameCollection()
@@ -332,8 +320,3 @@ class HunterCookedAboard(LocationsBase):
             WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 65), reg, lgc)
         ])
         self.addBigFishLoc(self.L_H_CAT_COOK_BIG, wlc)
-
-
-
-
-

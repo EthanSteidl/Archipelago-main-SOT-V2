@@ -1,9 +1,9 @@
-
 from ..Locations import LocDetails, WebLocation, WebLocationCollection, WebItemJsonIdentifier
 from ..LocationsBase import LocationsBase
 from ...Regions.RegionDetails import Regions
-from ...Items.Items import ItemReqEvalOr, ItemReqEvalAnd,Items
+from ...Items.Items import ItemReqEvalOr, ItemReqEvalAnd, Items
 from ...Regions.RegionCollection import RegionNameCollection
+
 
 class SettingsVoyageQuestRor:
 
@@ -37,15 +37,14 @@ class SettingsVoyageQuestRor:
         # default for it to be enabled
         return 1
 
-class VoyageQuestRor(LocationsBase):
 
+class VoyageQuestRor(LocationsBase):
     L_VOYAGE_COMP_ROR_TOTAL = "Complete Voyage (ROAR)"
     L_VOYAGE_COMP_ROR_X = "Complete Ashen X Marks the Spot Voyage (ROAR)"
     L_VOYAGE_COMP_ROR_RIDDLE = "Complete Ashen Riddle Map Voyage (ROAR)"
     L_VOYAGE_COMP_ROR_WAY = "Complete Ashen Wayfinder Voyage (ROAR)"
     L_VOYAGE_COMP_ROR_BOUNTY = "Complete Ashen Bounty Voyage (ROAR)"
     L_VOYAGE_COMP_ROR_ATHENA = "Complete Ashen Athena Voyage (ROAR)"
-
 
     def __init__(self, settings: SettingsVoyageQuestRor):
         super().__init__()
@@ -79,7 +78,7 @@ class VoyageQuestRor(LocationsBase):
         wlc = WebLocationCollection([WebLocation(web, reg, lgc)])
         self.locations.append(LocDetails(self.L_VOYAGE_COMP_ROR_WAY, wlc, settings.wayfinder > 0))
 
-        #logic changes here
+        # logic changes here
 
         reg: RegionNameCollection = RegionNameCollection()
         reg.addFromList([Regions.R_DOMAIN_OOS_ASHEN])
@@ -94,5 +93,3 @@ class VoyageQuestRor(LocationsBase):
         lgc = ItemReqEvalOr([ItemReqEvalAnd([Items.sail, Items.sail_inferno, Items.voyages_af])])
         wlc = WebLocationCollection([WebLocation(web, reg, lgc)])
         self.locations.append(LocDetails(self.L_VOYAGE_COMP_ROR_ATHENA, wlc, settings.athena > 0))
-
-

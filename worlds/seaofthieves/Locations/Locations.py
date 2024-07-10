@@ -1,4 +1,3 @@
-
 from BaseClasses import Location
 from worlds.seaofthieves.Items.Items import Item, ItemDetail
 import json
@@ -9,8 +8,10 @@ from ...generic.Rules import add_rule, exclusion_rules
 import typing
 from .ScreenData import ScreenData
 
+
 class WebItemJsonIdentifier:
-    def __init__(self, alignment: int, accolade: int, stat:int, substat: int = -1, json_name: typing.Optional[str] = None, valid: bool = True):
+    def __init__(self, alignment: int, accolade: int, stat: int, substat: int = -1,
+                 json_name: typing.Optional[str] = None, valid: bool = True):
         self.alignment = alignment
         self.stat = stat
         self.accolade = accolade
@@ -25,15 +26,18 @@ class WebItemJsonIdentifier:
         dict = {
             "alignment": self.alignment,
             "stat": self.stat,
-            "accolade":self.accolade,
+            "accolade": self.accolade,
             "substat": self.substat,
             "valid": self.valid
         }
         return dict
 
+
 class WebLocation:
 
-    def __init__(self, webJsonIdentifier: WebItemJsonIdentifier, regionCollection: RegionNameCollection, itemLogic: ItemReqEvalOr, name: typing.Optional[str] = None, screenData: typing.Optional[ScreenData] = None, ocr_only: bool = False):
+    def __init__(self, webJsonIdentifier: WebItemJsonIdentifier, regionCollection: RegionNameCollection,
+                 itemLogic: ItemReqEvalOr, name: typing.Optional[str] = None,
+                 screenData: typing.Optional[ScreenData] = None, ocr_only: bool = False):
         self.webJsonIdentifier = webJsonIdentifier
         self.regionCollection = regionCollection
         self.itemLogic: ItemReqEvalOr = itemLogic
@@ -51,6 +55,7 @@ class WebLocation:
         if self.screenData.hasMatch(text):
             return True
         return False
+
     def lamb(self, player: int):
 
         def compute(state):
@@ -75,7 +80,6 @@ class WebLocation:
         return self
 
 
-
 class WebLocationCollection(typing.List[WebLocation]):
 
     def __init__(self, lst: typing.List[WebLocation]):
@@ -87,14 +91,13 @@ class WebLocationCollection(typing.List[WebLocation]):
 
     def isAnyReachable(self, itemSet: typing.Set[str]) -> bool:
         for web_loc in self:
-           if(web_loc.evaluate(itemSet)):
-               return True
+            if (web_loc.evaluate(itemSet)):
+                return True
         return False
 
     def lamb(self, player: int):
 
         def compute(state):
-
             boolean_evaluation = True
             for web_location in self:
                 boolean_evaluation = boolean_evaluation and web_location.lamb(player)(state)
@@ -111,7 +114,7 @@ class WebLocationCollection(typing.List[WebLocation]):
         cnt = 0
         for i in self:
             dic[cnt] = i.toDic()
-            cnt = cnt+1
+            cnt = cnt + 1
         return dic
     # def mergeOrLogic(self):
     #     cum_conditions: typing.List[ItemReqEvalAnd] = []
@@ -142,6 +145,7 @@ class Cost:
         ret["dabloons"] = self.dabloons
         ret["ancient_coins"] = self.ancient_coins
         return ret
+
     def toJSON(self):
         return json.dumps(
             self,
@@ -149,11 +153,13 @@ class Cost:
             sort_keys=True,
             indent=4)
 
+
 class LocDetails:
     seedId: int = 9000000
 
-
-    def __init__(self, name: str, webLocationCollection: WebLocationCollection, doRandomize: bool = True, increaseReqForCheck: int = 1, countCollectable: int = 1, onlyUnique = True, cost: typing.Optional[Cost] = None ):
+    def __init__(self, name: str, webLocationCollection: WebLocationCollection, doRandomize: bool = True,
+                 increaseReqForCheck: int = 1, countCollectable: int = 1, onlyUnique=True,
+                 cost: typing.Optional[Cost] = None):
         self.name = name
         self.id = LocDetails.seedId
         self.webLocationCollection = webLocationCollection
@@ -164,18 +170,14 @@ class LocDetails:
         self.cost: typing.Optional[Cost] = cost
         LocDetails.seedId += 1
 
-
     def setLambda(self, loc, player):
-
         def compute(state):
             return self.webLocationCollection.lamb(player)(state)
-
 
         add_rule(loc, compute)
 
     def getLambda(self, player: int):
         return self.webLocationCollection.getLambda(player)
-
 
     def toDic(self):
         dict = {
@@ -197,4 +199,3 @@ class SOTLocation(Location):
     def __init__(self, locDetails: LocDetails, player: int, region):
         super().__init__(player, locDetails.name, locDetails.id, region)
         self.locDetails = locDetails
-

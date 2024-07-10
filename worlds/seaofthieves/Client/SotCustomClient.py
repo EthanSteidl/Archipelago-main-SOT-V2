@@ -4,7 +4,7 @@ import random
 import time
 
 # CommonClient import first to trigger ModuleUpdater
-#import winsound
+# import winsound
 from worlds.seaofthieves.Locations.LocationCollection import LocationDetailsCollection, LocDetails
 from worlds.seaofthieves.Items.Items import ItemCollection
 from worlds.seaofthieves.Items.Items import Items, ItemDetail
@@ -17,7 +17,8 @@ import CommonClient
 from CommonClient import CommonContext, server_loop, ClientCommandProcessor, gui_enabled, get_base_parser
 import worlds.seaofthieves.Client.SOTDataAnalyzer as SOTDataAnalyzer
 import typing
-from NetUtils import ClientStatus, NetworkItem, JSONtoTextParser, JSONMessagePart, add_json_item, add_json_location, add_json_text, JSONTypes
+from NetUtils import ClientStatus, NetworkItem, JSONtoTextParser, JSONMessagePart, add_json_item, add_json_location, \
+    add_json_text, JSONTypes
 import worlds.seaofthieves.Client.UserInformation as UserInformation
 import asyncio
 import Utils
@@ -47,7 +48,6 @@ class SOT_CommandProcessor(ClientCommandProcessor):
         """Removes all location logic restrictions"""
         self.output("All location restrictions removed, tracking all. (Activates in 10 seconds)")
         self.ctx.forceUnlock = True
-
 
     def _cmd_linkShip(self, command: str) -> bool:
         """Tracks another ship on this world"""
@@ -84,7 +84,6 @@ class SOT_CommandProcessor(ClientCommandProcessor):
                 else:
                     possible_filler_locations += 1
 
-
         show_fillers: bool = arg == "-f"
 
         num = 1
@@ -97,11 +96,9 @@ class SOT_CommandProcessor(ClientCommandProcessor):
             "Total Locations Remaining: {}".format(possible_progression_locations + possible_filler_locations),
             "Total Locations w/ possible progression: {}".format(possible_progression_locations),
             "Total Locations w/ filler: {}".format(possible_filler_locations)
-            ]
+        ]
         for ln in display_strings:
             self.output(ln)
-
-
 
     def _cmd_complete(self, locId):
         """Force completes a check. Enter "-all" to complete all checks displayed with locs command"""
@@ -122,11 +119,12 @@ class SOT_CommandProcessor(ClientCommandProcessor):
             self.output("Stop, you must first upload your SOTCI file!")
             return False
         else:
-           asyncio.create_task(self.ctx.connect(address))
+            asyncio.create_task(self.ctx.connect(address))
+
     def _cmd_mrkrabs(self):
         """Gives you alot of money"""
         self.output("You now have alot of money.")
-        self.ctx.playerInventory.addBalanceClient(Balance.Balance(100000000,100000000,10000000))
+        self.ctx.playerInventory.addBalanceClient(Balance.Balance(100000000, 100000000, 10000000))
 
     def _cmd_setmode(self, mode):
         """Sets mode, pass "NA" for pirate mode, or pass your ship number for ship mode"""
@@ -135,7 +133,7 @@ class SOT_CommandProcessor(ClientCommandProcessor):
         pirate = None
         if ship == "NA":
             ship = None
-            pirate = "pirateMode" #this just needs to be not null
+            pirate = "pirateMode"  # this just needs to be not null
 
         self.ctx.userInformation.analyzerDetails = UserInformation.SotAnalyzerDetails(ship, pirate)
         self.output("Mode set to {}".format(mode))
@@ -155,6 +153,7 @@ class SOT_CommandProcessor(ClientCommandProcessor):
             self.output("Cookie Set Successfully")
         else:
             self.output("Error setting cookie, either could not locate file or file was empty")
+
     def _cmd_setsotci(self, filepath):
         """Sets configuration related to your settings, pass "Absolute Filepath" to your apsmSOTCI file generated with the world for your player"""
         client_input: ClientInput = ClientInput()
@@ -165,9 +164,9 @@ class SOT_CommandProcessor(ClientCommandProcessor):
         self.ctx.userInformation.generationData = client_input
         self.output("SOTCI Set Successfully")
 
+
 class SOT_Context(CommonContext):
     command_processor = SOT_CommandProcessor
-
 
     def __init__(self, serverAddress: typing.Optional[str] = None, serverPassword: typing.Optional[str] = None):
         super().__init__(serverAddress, serverPassword)
@@ -177,9 +176,10 @@ class SOT_Context(CommonContext):
         self.webOptions: SotWebOptions = SotWebOptions()
 
         self.userInformation = UserInformation.UserInformation()
-        self.analyzer: typing.Optional[SOTDataAnalyzer.SOTDataAnalyzer] = SOTDataAnalyzer.SOTDataAnalyzer(self.userInformation)
+        self.analyzer: typing.Optional[SOTDataAnalyzer.SOTDataAnalyzer] = SOTDataAnalyzer.SOTDataAnalyzer(
+            self.userInformation)
 
-        self.known_items_received = [] #used to track measured received counts
+        self.known_items_received = []  # used to track measured received counts
 
         self.locationDetailsCollection = LocationDetailsCollection()
 
@@ -200,6 +200,7 @@ class SOT_Context(CommonContext):
 
     async def updaterLoopa(self):
         await self.updaterLoop()
+
     def create_tasks(self):
         self.active_tasks.append(asyncio.create_task(CommonClient.server_loop(self), name="server loop"))
         self.active_tasks.append(asyncio.create_task(self.updaterLoopa(), name="game watcher"))
@@ -212,10 +213,12 @@ class SOT_Context(CommonContext):
     async def application_exit(self):
         await self.exit_event.wait()
         await self.end_tasks()
+
     async def end_tasks(self):
         self.stop_application = True
         for task in self.active_tasks:
             await task
+
     async def updaterLoop(self):
         first_pass = True
         while not self.stop_application:
@@ -245,8 +248,6 @@ class SOT_Context(CommonContext):
             self.userInformation.loginCreds = value
             self.webOptions.setQueries(True)
 
-
-
     def output(self, text):
         self.command_processor.output(self.command_processor, text)
 
@@ -273,12 +274,10 @@ class SOT_Context(CommonContext):
                 self.finished_game = True
 
             # if the name is null, there is a bug but we should handle it here
-            if(name != ""):
+            if (name != ""):
                 currentItems.add(name)
 
-
         return self.locationDetailsCollection.findDetailsCheckable(currentItems, forceUnlock)
-
 
     def on_package(self, cmd: str, args: dict):
         if cmd == "RoomInfo":
@@ -338,16 +337,17 @@ class SOT_Context(CommonContext):
 
                 print(random.choice(puns))
 
-            #self.playAudio(setReplyPacket.key)
+            # self.playAudio(setReplyPacket.key)
 
         else:
             self.output("Error: Server requested unsupported feature '{0}'".format(cmd))
             # this is where you read slot data if any
+
     def applyMoneyIfMoney(self, itm: NetworkItem):
 
         gold_ids: typing.Dict[int, int] = {Items.gold_50.id: Items.gold_50.numeric_value,
-                    Items.gold_100.id: Items.gold_100.numeric_value,
-                    Items.gold_500.id: Items.gold_500.numeric_value}
+                                           Items.gold_100.id: Items.gold_100.numeric_value,
+                                           Items.gold_500.id: Items.gold_500.numeric_value}
 
         dabloon_ids: typing.Dict[int, int] = {Items.dabloons_25.id: Items.dabloons_25.numeric_value}
 
@@ -360,7 +360,8 @@ class SOT_Context(CommonContext):
             self.playerInventory.addBalanceClient(Balance.Balance(ac, db, gold_val))
 
         elif item_id == Items.golden_dragon:
-            self.output("Captain! The legendary " + colorama.Fore.YELLOW + Items.golden_dragon.name + colorama.Style.RESET_ALL + " is coming for your " + colorama.Fore.GREEN + "COINS" + colorama.Fore.RESET + ". You are now broke.")
+            self.output(
+                "Captain! The legendary " + colorama.Fore.YELLOW + Items.golden_dragon.name + colorama.Style.RESET_ALL + " is coming for your " + colorama.Fore.GREEN + "COINS" + colorama.Fore.RESET + ". You are now broke.")
             self.playerInventory.setBalanceSot(Balance.Balance(-10000, -10000, -10000))
             self.snd_add(Items.golden_dragon.name)
 
@@ -404,10 +405,10 @@ class SOT_Context(CommonContext):
 
     async def collectLocationsAndSendInformation(self):
 
-        await self.snd_sync()                           # get items from the server
+        await self.snd_sync()  # get items from the server
         self.discoverCheckedLocationsAndStopTracking()  # look at what locations the player has checked
-        await self.snd_location_checks()                # notify the server of those locations
-        await self.snd_location_souts()                 # notify the server of those locations
+        await self.snd_location_checks()  # notify the server of those locations
+        await self.snd_location_souts()  # notify the server of those locations
 
     def discoverCheckedLocationsAndStopTracking(self):
         # We may not be allowed to query the players url
@@ -431,12 +432,14 @@ class SOT_Context(CommonContext):
                 "keys": keys,
             }
         ])
+
     async def snd_sync(self):
         await self.send_msgs([
             {
                 "cmd": "Sync"
             }
         ])
+
     async def snd_location_checks(self):
         msg = [
             {
@@ -445,6 +448,7 @@ class SOT_Context(CommonContext):
             }
         ]
         await self.send_msgs(msg)
+
     async def snd_location_souts(self):
         msg = [
             {
@@ -495,5 +499,3 @@ class SOT_Context(CommonContext):
             }
         ])
         return
-
-

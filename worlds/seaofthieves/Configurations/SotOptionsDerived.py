@@ -15,10 +15,11 @@ from ..Locations.Goldseaker import TreasuresSold
 from ..Locations.Voyager import VoyageQuestAthena, VoyageQuestGh, VoyageQuestMa, VoyageQuestOos, VoyageQuestRor
 from ..Locations.Rouge import RogueQuestAll
 from ..Configurations import Trapsoptions
-from ..Locations.Voyager import CaptainShipSpotted,DaysAtSea,NauticalMilesSailed,Rowboats,Shipwrecks,TallTales
+from ..Locations.Voyager import CaptainShipSpotted, DaysAtSea, NauticalMilesSailed, Rowboats, Shipwrecks, TallTales
 from ..Locations.Shops import Shops
-class SotOptionsDerived:
 
+
+class SotOptionsDerived:
 
     def __init__(self, sotOptions: typing.Optional[SOTOptions] = None):
         self.burntAboardSettings: BurntAboard.SettingsHunterBurntAboard
@@ -52,7 +53,7 @@ class SotOptionsDerived:
         self.trapsPercentage: int
         self.player_name: str
 
-        if(sotOptions == None):
+        if (sotOptions == None):
             self.burntAboardSettings = BurntAboard.SettingsHunterBurntAboard()
             self.cookedAboardSettings = CookedAboard.SettingsHunterCookedAboard()
             self.eatenAboardSettings = EatenAboard.SettingsHunterEatenAboard()
@@ -80,7 +81,7 @@ class SotOptionsDerived:
             self.tallTaleSettings = TallTales.SettingsTallTales()
             self.shopsSettings = Shops.SettingsShops()
 
-            self.trapsPercentage = 3 #put this in a better place?
+            self.trapsPercentage = 3  # put this in a better place?
             self.experimentals: bool = False
             self.screenCapture: bool = False
             self.player_name = ""
@@ -117,8 +118,7 @@ class SotOptionsDerived:
             self.screenCapture = bool(sotOptions.screenCapture.value)
             self.player_name = ""
 
-            #options without a ui element created
-
+            # options without a ui element created
 
     def __getCaptainShipSpottedSettings(self, sotOptions: SOTOptions):
 
@@ -172,13 +172,13 @@ class SotOptionsDerived:
         return Shops.SettingsShops(shop_item_number=count, cost_low=low_cost, cost_high=high_cost)
 
     def __getChestSettings(self, sotOptions: SOTOptions):
-        #gh_count: int = sotOptions.sellSettingsGh
-        #ma_count: int = sotOptions.sellSettingsMa
-        #oos_count: int = sotOptions.sellSettingsOos
-        #af_count: int = sotOptions.sellSettingsAf
-        #rb_count: int = sotOptions.sellSettingsRb
+        # gh_count: int = sotOptions.sellSettingsGh
+        # ma_count: int = sotOptions.sellSettingsMa
+        # oos_count: int = sotOptions.sellSettingsOos
+        # af_count: int = sotOptions.sellSettingsAf
+        # rb_count: int = sotOptions.sellSettingsRb
 
-        #return Chests.SettingsChest(gh_count, ma_count, oos_count, rb_count, af_count)
+        # return Chests.SettingsChest(gh_count, ma_count, oos_count, rb_count, af_count)
         return Chests.SettingsChest(0, 0, 0, 0, 0)
 
     def __getRougeSettings(self, sotOptions: SOTOptions):
@@ -263,10 +263,9 @@ class SotOptionsDerived:
         g = voyage_count >= 7
         h = voyage_count >= 8
         i = voyage_count >= 9
-        j = voyage_count >= 10 # Always include skull? TODO
+        j = voyage_count >= 10  # Always include skull? TODO
 
         return VoyageQuestAthena.SettingsVoyageQuestAthena(0, a, b, c, d, e, f, g, h, i, j)
-
 
     def __getCannonsFiredSettings(self, sotOptions: SOTOptions):
 
@@ -275,20 +274,22 @@ class SotOptionsDerived:
         phantom: int = int(sotOptions.cannonSanityPhantom)
 
         return CannonsFired.SettingsCannonsFired(balls, cursed, phantom)
+
     def __getIllFatedSettings(self, sotOptions: SOTOptions):
         return IllFated.SettingsIllFated(sotOptions.illFated)
+
     def __getGuadianSettings(self, sotOptions: SOTOptions):
         compAny: int
         sloop: int
         brig: int
         gal: int
 
-        if(sotOptions.guardianSanity == 2):
+        if (sotOptions.guardianSanity == 2):
             compAny = 0
             sloop = 1
             brig = 1
             gal = 1
-        elif(sotOptions.guardianSanity == 1):
+        elif (sotOptions.guardianSanity == 1):
             compAny = 1
             sloop = 0
             brig = 0
@@ -317,11 +318,11 @@ class SotOptionsDerived:
         traitor: int = 0
         mercy: int = 0
 
-        if(sotOptions.fortressSanity == 0):
+        if (sotOptions.fortressSanity == 0):
             pass
-        elif(sotOptions.fortressSanity == 1):
+        elif (sotOptions.fortressSanity == 1):
             completeAny = 1
-        elif(sotOptions.fortressSanity == 2):
+        elif (sotOptions.fortressSanity == 2):
             royal = 1
             imp = 1
             gold = 1
@@ -337,8 +338,8 @@ class SotOptionsDerived:
         seamonster: int = int(sotOptions.burnSanitySeamonster)
         landAnimal: int = int(sotOptions.burnSanityLandAnimal)
 
-        #if we have foodsanity on, we dont want a generic check if we want specific things
-        if( fish + seamonster + landAnimal > 0):
+        # if we have foodsanity on, we dont want a generic check if we want specific things
+        if (fish + seamonster + landAnimal > 0):
             compAny = 0
 
         return BurntAboard.SettingsHunterBurntAboard(compAny, fish, landAnimal, seamonster)
@@ -364,7 +365,7 @@ class SotOptionsDerived:
         fruit: int = int(sotOptions.foodSanityFruit)
 
         # if we have foodsanity on, we dont want a generic check if we want specific things
-        if (fish + seamonster + landAnimal + bug + fruit> 0):
+        if (fish + seamonster + landAnimal + bug + fruit > 0):
             compAny = 0
 
         return EatenAboard.SettingsHunterEatenAboard(compAny, fish, landAnimal, seamonster, fruit, bug)
@@ -375,12 +376,12 @@ class SotOptionsDerived:
         brig: int
         gal: int
 
-        if(sotOptions.servantSanity == 2):
+        if (sotOptions.servantSanity == 2):
             compAny = 0
             sloop = 1
             brig = 1
             gal = 1
-        elif(sotOptions.servantSanity == 1):
+        elif (sotOptions.servantSanity == 1):
             compAny = 1
             sloop = 0
             brig = 0
@@ -392,6 +393,3 @@ class SotOptionsDerived:
             gal = 0
 
         return Servant.SettingsVoyageQuestSv(compAny, sloop, brig, gal)
-
-
-

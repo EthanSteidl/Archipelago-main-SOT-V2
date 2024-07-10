@@ -8,8 +8,8 @@ from Options import DefaultOnToggle
 
 DefaultOffToggle = Options.Toggle
 
+
 class ShipwreckOptions(DefaultOffToggle):
     """Adds 'Discover Shipwreck'
     """
     display_name = "Shipwrecks"
-

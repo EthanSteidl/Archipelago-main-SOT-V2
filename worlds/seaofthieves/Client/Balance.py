@@ -1,5 +1,6 @@
 import json
 
+
 class Balance:
 
     def __init__(self, ancientCoins: int = 0, dabloons: int = 0, gold: int = 0):
@@ -27,6 +28,7 @@ class Balance:
 
     def displayString(self) -> str:
         return "Gold: {} Dabloons: {} AncientCoins: {}".format(self.gold, self.dabloons, self.ancientCoins)
+
 
 def fromJson(js: json) -> Balance:
     return Balance(js["ancientCoins"], js["doubloons"], js["gold"])

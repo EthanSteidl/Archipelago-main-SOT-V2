@@ -4,6 +4,7 @@ from ...Regions.RegionCollection import RegionNameCollection
 from ...Regions.RegionDetails import Regions
 from ...Items.Items import ItemReqEvalOr, ItemReqEvalAnd, Items
 
+
 class SettingsTreasuresSold:
 
     def __init__(self, allowAny=1, allowSimple=1, allowRare=0):
@@ -12,9 +13,7 @@ class SettingsTreasuresSold:
         self.allowRare = allowRare
 
 
-
 class TreasuresSold(LocationsBase):
-
     L_GS_SELL_ANY = "Sell Anything"
     L_GS_SELL_CHEST = "Sell Chest"
     L_GS_SELL_SKULL = "Sell Skull"
@@ -34,7 +33,6 @@ class TreasuresSold(LocationsBase):
     L_GS_SELL_ASHEN_TOMB = "Sell Ashen Tomb"
     L_GS_SELL_REAPER_CHEST = "Sell Reaper's Chest"
     L_GS_SELL_BOX_OF_WONDERS = "Sell Box of Wondrous Secrets"
-
 
     def __init__(self, settings: SettingsTreasuresSold):
         super().__init__()
@@ -132,4 +130,3 @@ class TreasuresSold(LocationsBase):
         web = WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 17)
         wlc = WebLocationCollection([WebLocation(web, reg_rb, lgc)])
         self.locations.append(LocDetails(self.L_GS_SELL_BOX_OF_WONDERS, wlc, settings.allowRare > 0))
-

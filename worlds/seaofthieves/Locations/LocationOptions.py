@@ -1,4 +1,3 @@
-
 from .Feared import FearedQuestSeaForts
 from .Hunter.ProvisionsCooked import BurntAboard, CookedAboard, Total
 from .Hunter.ProvisionsEaten import EatenAboard

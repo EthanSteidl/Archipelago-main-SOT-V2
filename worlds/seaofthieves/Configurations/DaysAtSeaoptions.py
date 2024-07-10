@@ -8,8 +8,8 @@ from Options import DefaultOnToggle
 
 DefaultOffToggle = Options.Toggle
 
+
 class DaysAtSeaOptions(DefaultOffToggle):
     """Adds 'Spend Day at Sea'
     """
     display_name = "Days at Sea"
-

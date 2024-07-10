@@ -1,5 +1,3 @@
-
-
 class SotWebOptions:
     def __init__(self):
 
@@ -7,7 +5,6 @@ class SotWebOptions:
 
         self._allowBalanceQuery: bool = False
         self._allowCaptainQuery: bool = False
-
 
     def setQueries(self, value: bool):
         self.allowBalanceQuery = value
@@ -32,4 +29,3 @@ class SotWebOptions:
     @allowCaptainQuery.setter
     def allowCaptainQuery(self, value: bool):
         self._allowCaptainQuery = value
-

@@ -8,6 +8,7 @@ from Options import DefaultOnToggle
 
 DefaultOffToggle = Options.Toggle
 
+
 class ShopSanity(Choice):
     """Adds a client shop with items for sale"""
     display_name = "Shopsanity"

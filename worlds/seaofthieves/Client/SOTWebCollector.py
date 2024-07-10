@@ -1,5 +1,3 @@
-
-
 import requests
 import time
 import random
@@ -7,6 +5,7 @@ import json
 import worlds.seaofthieves.Client.UserInformation as UserInformation
 import typing
 import multiprocessing
+
 
 class SOTWebCollector:
     AUTH = r'www.seaofthieves.com'
@@ -17,7 +16,7 @@ class SOTWebCollector:
     ACCEPT_ENCODING = r'gzip, deflate, br, zstd'
     ACCEPT_LANGUAGE = r'en-US,en;q=0.9'
 
-    #this e tag should be used and overriden TODO
+    # this e tag should be used and overriden TODO
     IF_NONE_MATCH = r'W/"48e7b-Aia4dpCjBkRq7clT7iALW7VKlcg"'
     REFERER = r'https://www.seaofthieves.com/profile/captaincy'
     SEE_CH_UA = r'"Google Chrome";v="123", "Not:A-Brand";v="8", "Chromium";v="123"'
@@ -36,7 +35,6 @@ class SOTWebCollector:
         self.lastQueryTimeBalanceSeconds = -10000
         self.balance = {}
 
-
         self.QUERY_PERIOD_SECONDS = 7
         if QUERY_PERIOD_SECONDS is not None:
             self.QUERY_PERIOD_SECONDS = QUERY_PERIOD_SECONDS
@@ -48,7 +46,6 @@ class SOTWebCollector:
         self.balance_multi_task = None
 
         self.stop_application = False
-
 
     def getHeaders(self, etag: str):
         headers = {
@@ -91,10 +88,12 @@ class SOTWebCollector:
                         with open('captainData.json', 'w', encoding='utf-8') as f:
                             json.dump(js, f, ensure_ascii=False, indent=4)
             except:
-                print("The query to the web server failed, resolution steps: (1) enter the correct cookie (2) open the Captaincy page on www.seaofthieves.com")
+                print(
+                    "The query to the web server failed, resolution steps: (1) enter the correct cookie (2) open the Captaincy page on www.seaofthieves.com")
 
             try:
-                resp = requests.get('https://www.seaofthieves.com/api/profilev2/balance', headers=self.getHeaders(self.balance_etag))
+                resp = requests.get('https://www.seaofthieves.com/api/profilev2/balance',
+                                    headers=self.getHeaders(self.balance_etag))
                 if resp.status_code == 304 and self.balance is not None and len(self.balance) > 0:
                     # do not update anything
                     x = 4
@@ -106,12 +105,14 @@ class SOTWebCollector:
                         with open('balanceData.json', 'w', encoding='utf-8') as f:
                             json.dump(js, f, ensure_ascii=False, indent=4)
             except:
-                print("The query to the web server failed, resolution steps: (1) enter the correct cookie (2) open the Captaincy page on www.seaofthieves.com")
+                print(
+                    "The query to the web server failed, resolution steps: (1) enter the correct cookie (2) open the Captaincy page on www.seaofthieves.com")
 
             time.sleep(self.QUERY_PERIOD_SECONDS)
+
     def getJson(self):
 
-        if(self.json is None or self.lastQueryTimeSeconds+self.QUERY_PERIOD_SECONDS < time.time() ):
+        if (self.json is None or self.lastQueryTimeSeconds + self.QUERY_PERIOD_SECONDS < time.time()):
             '''
             try:
                 
@@ -134,6 +135,7 @@ class SOTWebCollector:
             f = open('captainData.json', 'r')
             self.json = json.load(f)
         return self.json
+
     # def getBalanceMultiTask(self):
     #
     #     while True:
@@ -163,7 +165,7 @@ class SOTWebCollector:
         #     self.balance_multi_task = multiprocessing.Process(target=self.getBalanceMultiTask)
         #     self.balance_multi_task.start()
 
-        if self.balance is None or self.lastQueryTimeBalanceSeconds+self.QUERY_PERIOD_SECONDS < time.time():
+        if self.balance is None or self.lastQueryTimeBalanceSeconds + self.QUERY_PERIOD_SECONDS < time.time():
             '''
             try:
                 resp = requests.get('https://www.seaofthieves.com/api/profilev2/balance', headers=self.getHeaders(self.balance_etag))

@@ -1,5 +1,3 @@
-
-
 import json
 import time
 
@@ -11,7 +9,9 @@ from worlds.seaofthieves.Locations.Locations import WebLocation
 from worlds.seaofthieves.Locations.LocationCollection import LocationDetailsCollection, LocDetails
 from worlds.seaofthieves.Items.Items import ItemCollection
 import worlds.seaofthieves.Client.Balance as Balance
-#from worlds.seaofthieves.Client.windowcapture import  WindowCapture
+
+
+# from worlds.seaofthieves.Client.windowcapture import  WindowCapture
 
 class SOTDataAnalyzerSettings:
 
@@ -29,27 +29,27 @@ class OldNewValues:
     old: int = 0
     new: int = 0
 
+
 class SOTDataAnalyzer:
     counter = 0
-    collector : SOTWebCollector
-    settings : SOTDataAnalyzerSettings
+    collector: SOTWebCollector
+    settings: SOTDataAnalyzerSettings
 
     def __init__(self, userInfo: UserInformation.UserInformation, queryperiod: typing.Optional[int] = None):
         self.collector = SOTWebCollector.SOTWebCollector(userInfo.loginCreds, queryperiod)
         self.settings = SOTDataAnalyzerSettings(userInfo.analyzerDetails)
-        self.trackedLocations: typing.Dict[int,LocDetails] = {}
-        #maps item id -> idx -> value
-        self.trackedLocationsData: typing.Dict[int,typing.Dict[int,OldNewValues]] = {}
+        self.trackedLocations: typing.Dict[int, LocDetails] = {}
+        # maps item id -> idx -> value
+        self.trackedLocationsData: typing.Dict[int, typing.Dict[int, OldNewValues]] = {}
 
-        self.banned: typing.Dict[int,bool] = {}
-        #self.window_capture: WindowCapture = WindowCapture()
+        self.banned: typing.Dict[int, bool] = {}
+        # self.window_capture: WindowCapture = WindowCapture()
         self.last_screenshot_time = -1000
         self.screenshot_second_interval = 2
 
         self.screenshot_hand = None
         self.screenshot_bottom_text = None
         self.bottom_text: str = ""
-
 
     def __readElementFromScreenText(self, web_location: WebLocation) -> bool:
 
@@ -92,13 +92,8 @@ class SOTDataAnalyzer:
             # Therefore, as long as the "Dont track until it should be" logic works, this code will reward fake items with specific conditions
             # at the correct moment during play (granted, it happens up to 'server polling time' after the check actually happens)
 
-
-            SOTDataAnalyzer.counter = SOTDataAnalyzer.counter+1
+            SOTDataAnalyzer.counter = SOTDataAnalyzer.counter + 1
             return SOTDataAnalyzer.counter
-
-
-
-
 
         v = None
         alignment = web_location.webJsonIdentifier.alignment
@@ -106,16 +101,15 @@ class SOTDataAnalyzer:
         stat = web_location.webJsonIdentifier.stat
         sub_stat = web_location.webJsonIdentifier.substat
 
-
-        #for each pirate
+        # for each pirate
         if self.settings.get_name_pirate() is not None:
             v = json_data['Pirate']['Alignments'][alignment]['Accolades'][accolade]['Stats'][stat]
         elif self.settings.get_name_ship() is not None:
-            v = json_data['Ships'][int(self.settings.get_name_ship())]['Alignments'][alignment]['Accolades'][accolade]['Stats'][stat]
+            v = json_data['Ships'][int(self.settings.get_name_ship())]['Alignments'][alignment]['Accolades'][accolade][
+                'Stats'][stat]
         else:
             print("Error: Web Parser: No pirate Name or Ship Name defined")
             return 0
-
 
         try:
             read_element = v
@@ -133,15 +127,15 @@ class SOTDataAnalyzer:
                     if secondary_json_name == web_location.webJsonIdentifier.json_name:
                         loc_ids = "{} {} {} {}".format(alignment, accolade, stat, sub_stat)
                         web_location.webJsonIdentifier.stat = secondary_sub_stat
-                        #print("Warning: Web Parser: {} at {} has name {}, but we found {} at {}, using this instead.".format(web_location.webJsonIdentifier.json_name, loc_ids, json_name, secondary_json_name, secondary_value))
+                        # print("Warning: Web Parser: {} at {} has name {}, but we found {} at {}, using this instead.".format(web_location.webJsonIdentifier.json_name, loc_ids, json_name, secondary_json_name, secondary_value))
                         return secondary_value
-
-
 
             return value
 
         except:
-            print("Error: Web Parser: Please submit bug report for fix, this location will be awarded to the correct player right now. Web Location not found for - " + "{} {} {} {}".format(alignment, accolade, stat, sub_stat))
+            print(
+                "Error: Web Parser: Please submit bug report for fix, this location will be awarded to the correct player right now. Web Location not found for - " + "{} {} {} {}".format(
+                    alignment, accolade, stat, sub_stat))
 
             # The idea here is to award the player for completing the check
             SOTDataAnalyzer.counter = SOTDataAnalyzer.counter + 1
@@ -162,17 +156,17 @@ class SOTDataAnalyzer:
     def __updateWebDataForAll(self, json_data) -> None:
         for loc_det in self.trackedLocations.keys():
 
-            #skip shop items
+            # skip shop items
             if self.trackedLocations[loc_det].cost is None:
                 self.__updateWebDataForLocation(self.trackedLocations[loc_det], json_data)
 
     def __updateWebDataForLocation(self, loc_details: LocDetails, json_data) -> None:
 
-        #just make sure we are not banned
+        # just make sure we are not banned
         if loc_details.id in self.banned.keys():
             return
 
-        #we need to check if at least 1 web location value has been updated
+        # we need to check if at least 1 web location value has been updated
         idx = 0
         for web_loc in loc_details.webLocationCollection:
             scrren_caped = False
@@ -184,10 +178,11 @@ class SOTDataAnalyzer:
             # except Exception as e:
             #     print("Fatal Error: " + str(e))
             if scrren_caped:
-                #then we detected the check event
-                self.trackedLocationsData[loc_details.id][idx].new = self.trackedLocationsData[loc_details.id][idx].old + 1
+                # then we detected the check event
+                self.trackedLocationsData[loc_details.id][idx].new = self.trackedLocationsData[loc_details.id][
+                                                                         idx].old + 1
             elif not web_loc.ocr_only:
-                #since the screen event is likely faster, we need to account for that here
+                # since the screen event is likely faster, we need to account for that here
                 value = self.__readElementFromWebLocation(web_loc, json_data)
                 if value < self.trackedLocationsData[loc_details.id][idx].new:
                     # we know it was updated in a different way
@@ -195,18 +190,19 @@ class SOTDataAnalyzer:
                 else:
                     self.trackedLocationsData[loc_details.id][idx].new = value
 
-            idx = idx+1
+            idx = idx + 1
+
     # endregion
 
     def stop_tasks(self):
         self.collector.stop_tasks()
+
     # region Adding a Location
     def allowTrackingOfLocation(self, loc_detail: LocDetails):
 
         # do not add twice
-        if(loc_detail.id in self.trackedLocations.keys()):
+        if (loc_detail.id in self.trackedLocations.keys()):
             return
-
 
         self.__setInitialValueForLoc(loc_detail)
         self.trackedLocations[loc_detail.id] = loc_detail
@@ -217,20 +213,18 @@ class SOTDataAnalyzer:
         for web_loc in loc_detail.webLocationCollection:
             value = self.__readElementFromWebLocation(web_loc, json_data)
 
-            if(loc_detail.id not in self.trackedLocationsData.keys()):
+            if (loc_detail.id not in self.trackedLocationsData.keys()):
                 self.trackedLocationsData[loc_detail.id] = {}
 
             oldNewVals: OldNewValues = OldNewValues()
             oldNewVals.old = value
             oldNewVals.new = value
             self.trackedLocationsData[loc_detail.id][idx] = oldNewVals
-            idx = idx+1
+            idx = idx + 1
 
     # endregion
 
     # region Get completed stuff
-
-
 
     def getAllCompletedChecks(self) -> typing.Dict[int, bool]:
 
@@ -241,17 +235,13 @@ class SOTDataAnalyzer:
                 continue
             for index in self.trackedLocationsData[locId].keys():
                 oldNewData: OldNewValues = self.trackedLocationsData[locId][index]
-                if(oldNewData.old != oldNewData.new):
+                if (oldNewData.old != oldNewData.new):
                     returndict[locId] = True
 
         return returndict
-
-
 
     # endregion
 
     def getBalance(self) -> Balance.Balance:
         js: json = self.collector.getBalance()
         return Balance.fromJson(js)
-
-

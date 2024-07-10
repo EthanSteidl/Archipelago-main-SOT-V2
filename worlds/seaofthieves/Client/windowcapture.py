@@ -8,6 +8,7 @@ from PIL import Image
 import math
 import pytesseract
 
+
 class WindowCapture:
 
     def __init__(self):
@@ -19,12 +20,12 @@ class WindowCapture:
         BOTTOM_TEXT = 1
         BOTTOM_RIGHT_HAND = 2
 
-    def get_screenshot_2(self, isRgb = True, output_w_h = None, capture_type: int = SotCaptureType.FULL_SCREEN):
-        hwnd_target = self.get_sot_hwnd()#0x30dbe # Try SOT?
+    def get_screenshot_2(self, isRgb=True, output_w_h=None, capture_type: int = SotCaptureType.FULL_SCREEN):
+        hwnd_target = self.get_sot_hwnd()  # 0x30dbe # Try SOT?
 
         left, top, right, bot = win32gui.GetWindowRect(hwnd_target)
 
-        #TODO this is wrong?
+        # TODO this is wrong?
         right = 3840
         bot = 2160
 
@@ -34,7 +35,7 @@ class WindowCapture:
         if capture_type == self.SotCaptureType.FULL_SCREEN:
             pass
         elif capture_type == self.SotCaptureType.BOTTOM_TEXT:
-            #In this type, we get the bottom 10% of the screen to save compute power
+            # In this type, we get the bottom 10% of the screen to save compute power
             top = int((bot - top) * 0.9) + top
             h = bot - top
         elif capture_type == self.SotCaptureType.BOTTOM_RIGHT_HAND:
@@ -44,9 +45,8 @@ class WindowCapture:
             left = int((right - left) * 0.5) + left
             w = right - left
 
-
-        #win32gui.SetForegroundWindow(hwnd_target)
-        #time.sleep(1.0)
+        # win32gui.SetForegroundWindow(hwnd_target)
+        # time.sleep(1.0)
 
         hdesktop = win32gui.GetDesktopWindow()
         hwndDC = win32gui.GetWindowDC(hdesktop)
@@ -63,32 +63,32 @@ class WindowCapture:
         bmpinfo = saveBitMap.GetInfo()
         bmpstr = saveBitMap.GetBitmapBits(True)
 
-        #get the image
+        # get the image
         im = Image.frombuffer(
             'RGB',
             (bmpinfo['bmWidth'], bmpinfo['bmHeight']),
             bmpstr, 'raw', 'BGRX', 0, 1)
 
-        #cleanup
+        # cleanup
         win32gui.DeleteObject(saveBitMap.GetHandle())
         saveDC.DeleteDC()
         mfcDC.DeleteDC()
         win32gui.ReleaseDC(hdesktop, hwndDC)
 
-        #resize if needed
+        # resize if needed
         if output_w_h is not None:
             im = im.resize((output_w_h[0], output_w_h[1]))
 
-        #modify colors if needed
+        # modify colors if needed
 
         if isRgb:
             pass
         else:
 
-            #im = im.convert('1') #THIS converts to 0-255 black white
+            # im = im.convert('1') #THIS converts to 0-255 black white
 
             white_threshold = 200
-            fn = lambda  x : 0 if x > white_threshold else 255
+            fn = lambda x: 0 if x > white_threshold else 255
             im = im.convert('L').point(fn, mode='1')
 
         return im
@@ -97,16 +97,17 @@ class WindowCapture:
         def winEnumHandler(hwnd, ctx):
             if win32gui.IsWindowVisible(hwnd):
                 print(hex(hwnd), win32gui.GetWindowText(hwnd))
+
         win32gui.EnumWindows(winEnumHandler, None)
 
     def get_sot_hwnd(self):
         return win32gui.FindWindow(None, "Sea of Thieves")
 
-    def get_screenshot_bottom_text(self, isRgb = True, output_w_h = (200, 100)):
+    def get_screenshot_bottom_text(self, isRgb=True, output_w_h=(200, 100)):
         return self.get_screenshot_2(isRgb, output_w_h, self.SotCaptureType.BOTTOM_TEXT)
 
-    def get_screenshot_right_hand(self, isRgb = True, output_w_h = (80, 80)):
+    def get_screenshot_right_hand(self, isRgb=True, output_w_h=(80, 80)):
         return self.get_screenshot_2(isRgb, output_w_h, self.SotCaptureType.BOTTOM_RIGHT_HAND)
 
-    def get_text_from_screenshgot(self,img):
+    def get_text_from_screenshgot(self, img):
         return pytesseract.image_to_string(img, config='--psm 3').lower()

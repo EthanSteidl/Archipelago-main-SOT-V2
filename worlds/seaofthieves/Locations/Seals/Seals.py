@@ -4,6 +4,7 @@ from ...Regions.RegionCollection import RegionNameCollection
 from ...Regions.RegionDetails import Regions
 from ...Items.Items import ItemReqEvalOr, ItemReqEvalAnd, Items
 
+
 class SettingsSeals:
 
     def __init__(self, gh_amt=10000, ma_amt=10000, oos_amt=10000, af_amt=10000, rb_amt=10000):
@@ -29,15 +30,11 @@ class SettingsSeals:
 
 
 class Seals(LocationsBase):
-
-
     L_VOYAGE_COMP_GH_TOTAL = "Complete Voyage (GH)"
     L_VOYAGE_COMP_MA_TOTAL = "Complete Voyage (MA)"
     L_VOYAGE_COMP_OOS_TOTAL = "Complete Voyage (OOS)"
     L_VOYAGE_COMP_AF_TOTAL = "Complete Voyage (AF)"
     L_VOYAGE_COMP_RB_TOTAL = "Complete Voyage (RB)"
-
-
 
     def __init__(self):
         super().__init__()
@@ -75,7 +72,7 @@ class Seals(LocationsBase):
         ])
         self.locations.append(LocDetails(self.L_VOYAGE_COMP_AF_TOTAL, wlc, True))
 
-        #RB is to sell a reaper chest/bounty?
+        # RB is to sell a reaper chest/bounty?
         reg = RegionNameCollection()
         reg.addFromList([Regions.R_DOMAIN_RB])
         lgc = ItemReqEvalOr([ItemReqEvalAnd([Items.voyages_rb])])
@@ -84,5 +81,3 @@ class Seals(LocationsBase):
             WebLocation(WebItemJsonIdentifier(0, 6, 1, 1), reg, lgc)
         ])
         self.locations.append(LocDetails(self.L_VOYAGE_COMP_RB_TOTAL, wlc, True))
-
-

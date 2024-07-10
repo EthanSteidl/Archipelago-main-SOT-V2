@@ -8,6 +8,7 @@ from Options import DefaultOnToggle
 
 DefaultOffToggle = Options.Toggle
 
+
 class TallTaleoptions(Choice):
     """Adds 'On Complete Tall Tale' location
     On For Each: replaces this check with a check each Tall Tale's completion

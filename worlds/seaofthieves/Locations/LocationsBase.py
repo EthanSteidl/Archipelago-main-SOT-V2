@@ -1,9 +1,8 @@
-
-
 from .Locations import LocDetails, WebLocationCollection
 import typing
-class LocationsBase:
 
+
+class LocationsBase:
 
     # def __init__(self):
     #     self.locations: typing.List[LocDetails] = []

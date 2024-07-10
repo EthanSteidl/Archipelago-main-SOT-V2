@@ -13,8 +13,8 @@ from .Configurations import Guardianoptions
 from .Configurations import IllFatedoptions, Cannonsoptions, Selloptions
 from .Configurations import Trapsoptions
 from .Configurations import EmVoyageoptions
-from .Configurations import Shipoptions, Shopoptions, CaptainShipoptions, DaysAtSeaoptions, Rowboatoptions, Shipwreckoptions, TallTaleoptions
-
+from .Configurations import Shipoptions, Shopoptions, CaptainShipoptions, DaysAtSeaoptions, Rowboatoptions, \
+    Shipwreckoptions, TallTaleoptions
 
 
 class ExperimentalFeatures(Toggle):
@@ -23,14 +23,15 @@ class ExperimentalFeatures(Toggle):
     default = 0
     display_name = "Experimental Features"
 
+
 class ScreenCapture(Toggle):
     """Captures screen events to aid in determining check completion"""
     default = 0
     display_name = "Allow Screen Capture"
 
+
 @dataclass
 class SOTOptions(PerGameCommonOptions):
-
     sealCount: SealsRequired
     voyageEmGh: EmVoyageoptions.VoyageCountSpecificGh
     voyageEmMa: EmVoyageoptions.VoyageCountSpecificMa
@@ -46,11 +47,11 @@ class SOTOptions(PerGameCommonOptions):
 
     fishSanity: Fishoptions.FishSanity
     shopSanity: Shopoptions.ShopSanity
-    #sellSettingsGh: Selloptions.GhSellRange
-    #sellSettingsMa: Selloptions.MaSellRange
-    #sellSettingsOos: Selloptions.OosSellRange
-    #sellSettingsAf: Selloptions.AfSellRange
-    #sellSettingsRb: Selloptions.RbSellRange
+    # sellSettingsGh: Selloptions.GhSellRange
+    # sellSettingsMa: Selloptions.MaSellRange
+    # sellSettingsOos: Selloptions.OosSellRange
+    # sellSettingsAf: Selloptions.AfSellRange
+    # sellSettingsRb: Selloptions.RbSellRange
 
     cannonSanityBalls: Cannonsoptions.CannonSanityBalls
     cannonSanityCursed: Cannonsoptions.CannonSanityCursed
@@ -79,7 +80,3 @@ class SOTOptions(PerGameCommonOptions):
     trapsPercentage: Trapsoptions.TrapPercentage
     experimentals: ExperimentalFeatures
     screenCapture: ScreenCapture
-
-
-
-

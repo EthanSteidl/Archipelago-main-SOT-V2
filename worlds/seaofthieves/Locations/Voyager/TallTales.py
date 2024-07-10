@@ -4,6 +4,7 @@ from ...Regions.RegionCollection import RegionNameCollection
 from ...Regions.RegionDetails import Regions
 from ...Items.Items import ItemReqEvalOr, ItemReqEvalAnd, Items
 
+
 class SettingsTallTales:
 
     def __init__(self, count=0, include_unique=0):
@@ -11,10 +12,7 @@ class SettingsTallTales:
         self.include_unique = include_unique
 
 
-
-
 class TallTales(LocationsBase):
-
     L_TT = "Complete A Tall Tale (TT)"
 
     L_TT_0 = "Complete The Shroudbreaker (TT)"
@@ -39,8 +37,6 @@ class TallTales(LocationsBase):
     L_TT_17 = "Complete The Quest for Guybrush (TT)"
     L_TT_18 = "Complete The Lair of LeChuck (TT)"
 
-
-
     def __init__(self, settings: SettingsTallTales):
         super().__init__()
         self.x = [1, 9, 1]
@@ -50,7 +46,6 @@ class TallTales(LocationsBase):
 
         reg_ashen = RegionNameCollection()
         reg_ashen.addFromList([Regions.R_DOMAIN_TT_ASHEN])
-
 
         web = WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2])
         wlc = WebLocationCollection([WebLocation(web, reg, lgc)])
@@ -131,5 +126,3 @@ class TallTales(LocationsBase):
         web = WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 18)
         wlc = WebLocationCollection([WebLocation(web, reg, lgc)])
         self.locations.append(LocDetails(self.L_TT_18, wlc, settings.include_unique > 0))
-
-

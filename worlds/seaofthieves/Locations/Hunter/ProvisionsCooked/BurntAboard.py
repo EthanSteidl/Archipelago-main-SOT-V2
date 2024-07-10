@@ -6,8 +6,8 @@ from ....Items.Items import ItemReqEvalOr, ItemReqEvalAnd, Items
 from ....Locations.LocationSettingOption import LocationSettingOption
 from enum import Enum
 
-class SettingsHunterBurntAboard:
 
+class SettingsHunterBurntAboard:
     class Any(LocationSettingOption):
         pass
 
@@ -21,8 +21,8 @@ class SettingsHunterBurntAboard:
     class BigFish(LocationSettingOption):
         pass
 
-
-    def __init__(self, completeAny=Any.DEFAULT, fishCategory=Fish.DEFAULT, landMeat=LandMeat.DEFAULT, bigFish=BigFish.DEFAULT):
+    def __init__(self, completeAny=Any.DEFAULT, fishCategory=Fish.DEFAULT, landMeat=LandMeat.DEFAULT,
+                 bigFish=BigFish.DEFAULT):
         self.completeAny = completeAny
         self.fishCategory = fishCategory
         self.landMeat = landMeat
@@ -71,7 +71,6 @@ class HunterBurntAboard(LocationsBase):
     L_H_CAT_BURN_LAND = "Burn Land Creature (H)"
     L_H_CAT_BURN_BIG = "Burn Shark, Megalodon, or Kraken (H)"
 
-
     def __init__(self, settings: SettingsHunterBurntAboard):
         super().__init__()
         self.x = [3, 0, 2]
@@ -107,18 +106,16 @@ class HunterBurntAboard(LocationsBase):
         self.add_meat_set_land()
 
     def addFishSetLoc(self, name: str, wlc: WebLocationCollection):
-
         setting = int(self.settings.fishCategory)
 
         do_rand: bool = setting == SettingsHunterBurntAboard.Fish.ON
-        #TODO not implemented
+        # TODO not implemented
 
         do_rand: bool = setting == SettingsHunterBurntAboard.Fish.CATEGORICAL_NAME
         self.locations.append(LocDetails(name, wlc, do_rand))
 
         do_rand: bool = setting == SettingsHunterBurntAboard.Fish.UNIQUE
         self.addUniques(name, wlc, do_rand)
-
 
     def addLandMeatSetLoc(self, name: str, wlc: WebLocationCollection):
         setting = int(self.settings.landMeat)
@@ -129,14 +126,12 @@ class HunterBurntAboard(LocationsBase):
         self.addUniques(name, wlc, do_rand)
 
     def addBigFishLoc(self, name: str, wlc: WebLocationCollection):
-
         setting = int(self.settings.bigFish)
         do_rand: bool = setting == SettingsHunterBurntAboard.BigFish.ON
         self.locations.append(LocDetails(name, wlc, do_rand))
 
         do_rand: bool = setting == SettingsHunterBurntAboard.BigFish.UNIQUE
         self.addUniques(name, wlc, do_rand)
-
 
     def add_fish_set_pondie(self):
         reg = RegionNameCollection()

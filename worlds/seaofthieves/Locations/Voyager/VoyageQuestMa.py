@@ -3,6 +3,8 @@ from ..LocationsBase import LocationsBase
 from ...Regions.RegionCollection import RegionNameCollection
 from ...Regions.RegionDetails import Regions
 from ...Items.Items import ItemReqEvalOr, ItemReqEvalAnd, Items
+
+
 class SettingsVoyageQuestMa:
 
     def __init__(self, completeAny=1, tradeGoods=1, shipment=1):
@@ -12,7 +14,6 @@ class SettingsVoyageQuestMa:
 
 
 class VoyageQuestMa(LocationsBase):
-
     L_VOYAGE_COMP_MA_TRADE = "Complete Trade Good Voyage (MA)"
     L_VOYAGE_COMP_MA_SHIPMENT = "Complete Lost Shipment Voyage (MA)"
 
@@ -20,21 +21,18 @@ class VoyageQuestMa(LocationsBase):
         super().__init__()
         self.x = [1, 2, 1]
 
-
-
         reg = RegionNameCollection()
         reg.addFromList([Regions.R_DOMAIN_MA])
         lgc = ItemReqEvalOr([ItemReqEvalAnd([Items.voyages_ma, Items.sail])])
         wlc = WebLocationCollection([
-            WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 0) , reg, lgc)
+            WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 0), reg, lgc)
         ])
         self.locations.append(LocDetails(self.L_VOYAGE_COMP_MA_TRADE, wlc, settings.tradeGoods > 0))
 
-
         reg = RegionNameCollection()
         reg.addFromList([Regions.R_DOMAIN_MA])
         lgc = ItemReqEvalOr([ItemReqEvalAnd([Items.voyages_ma, Items.sail])])
         wlc = WebLocationCollection([
-            WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 1) , reg, lgc)
+            WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], 1), reg, lgc)
         ])
         self.locations.append(LocDetails(self.L_VOYAGE_COMP_MA_SHIPMENT, wlc, settings.shipment > 0))

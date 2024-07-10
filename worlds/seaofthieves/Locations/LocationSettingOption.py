@@ -1,7 +1,4 @@
-
-
 class LocationSettingOption:
-
     DEFAULT = 0
 
     OFF = 0

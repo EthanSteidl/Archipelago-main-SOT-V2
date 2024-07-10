@@ -3,14 +3,14 @@ import typing
 from ..Configurations import SotOptionsDerived
 from BaseClasses import MultiWorld
 import copy
-from ..Items.Items import Items,ItemCollection, ItemDetail
+from ..Items.Items import Items, ItemCollection, ItemDetail
 from ..Regions.RegionDetails import Regions
 from ..Regions.ConnectionDetails import ConnectionDetails
-from ..Items.Items import ItemCollection,ItemReqEvalOr,ItemReqEvalAnd, ItemDetail
+from ..Items.Items import ItemCollection, ItemReqEvalOr, ItemReqEvalAnd, ItemDetail
 import collections
 
-class RegionDiver:
 
+class RegionDiver:
 
     def __init__(self):
         # IN form
@@ -18,39 +18,36 @@ class RegionDiver:
         self.region_map = {}
         self.visited = set()
 
-
         self.initDone = False
         self.items_player_has: typing.Set[str] = set()
 
-
-    def __can_i_traverse(self,start: typing.Optional[str], end: str, current_items: typing.Set[str]) -> bool:
+    def __can_i_traverse(self, start: typing.Optional[str], end: str, current_items: typing.Set[str]) -> bool:
         if start is None:
             return True
         itm_logic: ItemReqEvalOr = self.region_map[start][end]
         return itm_logic.evaluate(current_items)
 
-
-
     def __dfs_util(self, to_node: str):
         self.visited.clear()
         self.__dfs(to_node, None)
+
     def __dfs(self, to_node: str, from_node: typing.Optional[str]):
         if (to_node not in self.visited) and self.__can_i_traverse(from_node, to_node, self.items_player_has):
             self.visited.add(to_node)
-            #visit here
+            # visit here
 
-            #end ^
+            # end ^
             if to_node in self.region_map.keys():
                 for n in self.region_map[to_node]:
                     self.__dfs(n, to_node)
 
-                    #walk out here
+                    # walk out here
 
-                    #end ^
+                    # end ^
 
     def update(self, items: typing.Set[str]):
 
-        #if the items are the same, then the length should not change
+        # if the items are the same, then the length should not change
         if len(items) == len(self.items_player_has) and self.initDone:
             return
 
@@ -63,7 +60,6 @@ class RegionDiver:
         self.update(items)
         return self.visited
 
-
     def create_from_rules(self, rules: typing.List[ConnectionDetails]):
         for connection_detail in rules:
             # here to there needs these items
@@ -72,36 +68,31 @@ class RegionDiver:
             self.region_map[connection_detail.start.name][connection_detail.end.name] = connection_detail.itemLogic
 
 
-
-
-
-
 def create_rules(options: SotOptionsDerived, world: MultiWorld):
-
     rules: typing.List[ConnectionDetails] = []
 
     rules.append(ConnectionDetails(Regions.R_MENU, Regions.R_PLAYER_SHIP, ItemReqEvalOr([])))
-    #rules.append(ConnectionDetails(Regions.R_PLAYER_SHIP, Regions.R_OPEN_SEA, ItemReqEvalOr([])))
+    # rules.append(ConnectionDetails(Regions.R_PLAYER_SHIP, Regions.R_OPEN_SEA, ItemReqEvalOr([])))
     rules.append(ConnectionDetails(Regions.R_PLAYER_SHIP, Regions.R_OPEN_SEA,
-                                                        ItemReqEvalOr([ItemReqEvalAnd([Items.sail])])))
+                                   ItemReqEvalOr([ItemReqEvalAnd([Items.sail])])))
     rules.append(ConnectionDetails(Regions.R_OPEN_SEA, Regions.R_OPEN_SEA_ASHEN,
-                                                         ItemReqEvalOr([ItemReqEvalAnd([Items.sail_inferno])])))
+                                   ItemReqEvalOr([ItemReqEvalAnd([Items.sail_inferno])])))
     rules.append(ConnectionDetails(Regions.R_OPEN_SEA, Regions.R_OPEN_SEA_SHARED, ItemReqEvalOr([])))
     rules.append(ConnectionDetails(Regions.R_OPEN_SEA_ASHEN, Regions.R_OPEN_SEA_SHARED, ItemReqEvalOr([])))
     rules.append(ConnectionDetails(Regions.R_OPEN_SEA, Regions.R_DOMAIN_EM,
-                                                         ItemReqEvalOr([
-                                                             ItemReqEvalAnd([Items.emissary_ma]),
-                                                             ItemReqEvalAnd([Items.emissary_gh]),
-                                                             ItemReqEvalAnd([Items.emissary_oos]),
-                                                             ItemReqEvalAnd([Items.emissary_af]),
-                                                             ItemReqEvalAnd([Items.emissary_rb])]
-                                                         )))
+                                   ItemReqEvalOr([
+                                       ItemReqEvalAnd([Items.emissary_ma]),
+                                       ItemReqEvalAnd([Items.emissary_gh]),
+                                       ItemReqEvalAnd([Items.emissary_oos]),
+                                       ItemReqEvalAnd([Items.emissary_af]),
+                                       ItemReqEvalAnd([Items.emissary_rb])]
+                                   )))
     rules.append(ConnectionDetails(Regions.R_DOMAIN_EM, Regions.R_DOMAIN_AF,
-                                                         ItemReqEvalOr([
-                                                             ItemReqEvalAnd([
-                                                                 Items.sail, Items.voyages_af, Items.emissary_af]
-                                                             )]
-                                                         )))
+                                   ItemReqEvalOr([
+                                       ItemReqEvalAnd([
+                                           Items.sail, Items.voyages_af, Items.emissary_af]
+                                       )]
+                                   )))
     rules.append(ConnectionDetails(Regions.R_DOMAIN_EM, Regions.R_DOMAIN_RB,
                                    ItemReqEvalOr([
                                        ItemReqEvalAnd([
@@ -190,7 +181,7 @@ def create_rules(options: SotOptionsDerived, world: MultiWorld):
     rules.append(ConnectionDetails(Regions.R_OPEN_SEA, Regions.R_FORTRESSES,
                                    ItemReqEvalOr([ItemReqEvalAnd([Items.sail])])))
 
-    #shops
+    # shops
     rules.append(ConnectionDetails(Regions.R_OPEN_SEA, Regions.R_SHOP_ANCIENT_SPIRE,
                                    ItemReqEvalOr([ItemReqEvalAnd([Items.cat_as])])))
     rules.append(ConnectionDetails(Regions.R_OPEN_SEA, Regions.R_SHOP_DAGGER_TOOTH,
@@ -205,12 +196,12 @@ def create_rules(options: SotOptionsDerived, world: MultiWorld):
                                    ItemReqEvalOr([ItemReqEvalAnd([Items.cat_s])])))
 
     required_seals: typing.List[ItemDetail] = [
-            Items.seal_gh,
-            Items.seal_ma,
-            Items.seal_af,
-            Items.seal_rb,
-            Items.seal_oos
-        ]
+        Items.seal_gh,
+        Items.seal_ma,
+        Items.seal_af,
+        Items.seal_rb,
+        Items.seal_oos
+    ]
     world.random.shuffle(required_seals)
     for i in range(len(required_seals) - options.menuSettings.fodSealRequirement):
         required_seals.pop()

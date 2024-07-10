@@ -1,19 +1,21 @@
 import typing
-#import cv2
+
+
+# import cv2
 
 
 class ScreenData:
 
-
-    def __init__(self, text_group: typing.Optional[typing.List[str]] = None, cascade_classifier_xml: typing.Optional[str] = None):
+    def __init__(self, text_group: typing.Optional[typing.List[str]] = None,
+                 cascade_classifier_xml: typing.Optional[str] = None):
         self.text_group = text_group if text_group is not None else []
         for i in range(len(self.text_group)):
             self.text_group[i] = self.text_group[i].lower()
 
         self.cascade_classifier_xml = cascade_classifier_xml
-        #self.classifier = cv2.CascadeClassifier(self.cascade_classifier_xml) if self.cascade_classifier_xml is not None else None
+        # self.classifier = cv2.CascadeClassifier(self.cascade_classifier_xml) if self.cascade_classifier_xml is not None else None
 
-    def hasMatch(self, text: str = None, image = None):
+    def hasMatch(self, text: str = None, image=None):
         if text is not None and self.__hasTextMatch(text):
             return True
         if image is not None and self.__hasImageMatch(image):

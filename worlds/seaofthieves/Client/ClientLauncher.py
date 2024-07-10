@@ -9,6 +9,7 @@ async def main():
     ctx.run_gui_and_cli()
     await ctx.application_exit()
 
+
 def launch():
     asyncio.run(main())
 

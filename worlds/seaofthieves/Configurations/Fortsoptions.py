@@ -8,6 +8,7 @@ from Options import DefaultOnToggle
 
 DefaultOffToggle = Options.Toggle
 
+
 class FortressSanity(Choice):
     """Adds 'On Fortress Complete' location
     On For Each: replaces the on fortress complete check with on fortress complete for each fortress

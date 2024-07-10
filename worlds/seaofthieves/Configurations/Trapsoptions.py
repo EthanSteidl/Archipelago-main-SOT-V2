@@ -1,11 +1,7 @@
-
-
-
 import typing
 from dataclasses import dataclass
 from Options import PerGameCommonOptions, Range
 from Options import Toggle
-
 
 
 class TrapPercentage(Range):
@@ -15,4 +11,3 @@ class TrapPercentage(Range):
     default = 1
     range_start = 0
     range_end = 100
-

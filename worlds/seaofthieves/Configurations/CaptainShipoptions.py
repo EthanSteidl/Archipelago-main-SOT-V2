@@ -8,6 +8,7 @@ from Options import DefaultOnToggle
 
 DefaultOffToggle = Options.Toggle
 
+
 class CaptainShipoptions(Choice):
     """Adds 'On Captain Ship Spotted' location
     On For Each: replaces this check with a check on spotting a Sloop, Brig, and Galleon
