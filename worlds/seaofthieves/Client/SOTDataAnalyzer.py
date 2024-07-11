@@ -142,9 +142,12 @@ class SOTDataAnalyzer:
             return SOTDataAnalyzer.counter
 
     def stopTracking(self, key: int):
-        self.trackedLocations.pop(key, None)
-        self.trackedLocationsData.pop(key, None)
-        self.banned[key] = True
+        try:
+            self.trackedLocations.pop(key, None)
+            self.trackedLocationsData.pop(key, None)
+            self.banned[key] = True
+        except:
+            return
 
         return
 

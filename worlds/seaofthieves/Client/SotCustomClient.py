@@ -44,6 +44,11 @@ class SOT_CommandProcessor(ClientCommandProcessor):
             self.output(hint)
         return True
 
+    def _cmd_tracker(self) -> bool:
+        """Displays autotracker"""
+        self.output("Auto tracker is on if true: " +str(self.ctx.message_displayed))
+        return True
+
     def _cmd_forceunlock(self) -> bool:
         """Removes all location logic restrictions"""
         self.output("All location restrictions removed, tracking all. (Activates in 10 seconds)")
@@ -62,7 +67,6 @@ class SOT_CommandProcessor(ClientCommandProcessor):
     def _cmd_shop(self) -> bool:
         """Opens the shop"""
         self.ctx.shop.info(self.ctx.playerInventory)
-        self.ctx.ui.print_json()
         return True
 
     def _cmd_buy(self, menu_line_number):
@@ -189,6 +193,7 @@ class SOT_Context(CommonContext):
         self.originalBalance: Balance.Balance | None = None
         self.forceUnlock: bool = False
         self.active_tasks: typing.List[asyncio.Task] = []
+        self.message_displayed = False
 
     async def updaterLoopa(self):
         await self.updaterLoop()
@@ -225,7 +230,7 @@ class SOT_Context(CommonContext):
                         self.updateAnalyzerWithLocationsPossible()
                         await self.collectLocationsAndSendInformation()
                     except Exception as e:
-                        print("Error occurred: ", e)
+                        self.output("Error occurred: " + str(e))
 
         # stop the processes
         if self.analyzer is not None:
@@ -307,6 +312,7 @@ class SOT_Context(CommonContext):
                 self.items_received = received_items_packet.items
                 for item in self.items_received:
                     self.playerInventory.add_item(item.item)
+                    self.applyMoneyIfMoney(item)
                     if Items.pirate_legend.id == item.item:
                         self.finished_game = True
                         # we could send the signal here to finish the game, but if it got dropped that would be bad
@@ -386,6 +392,10 @@ class SOT_Context(CommonContext):
 
         if not self.webOptions.allowBalanceQuery:
             return
+
+        if self.message_displayed == False:
+            self.output("AUTO TRACKER ENABLED")
+            self.message_displayed = True
 
         new_balance = self.analyzer.getBalance()
         if self.originalBalance is None:

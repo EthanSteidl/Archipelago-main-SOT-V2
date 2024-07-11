@@ -22,6 +22,7 @@ import collections
 from .ClientInput import ClientInput
 from .Items.ItemAdder import create_items
 from .Regions.RegionDetails import Regions
+from .Hint import create_hint
 import subprocess
 import asyncio
 import pickle
@@ -35,22 +36,11 @@ def launch_client() -> None:
 
 LauncherComponents.components.append(
     LauncherComponents.Component(
-        "Sea of Thieves ALPHA Client 0.2.1",
+        "Sea of Thieves",
         func=launch_client,
         component_type=LauncherComponents.Type.CLIENT
     )
 )
-
-
-# def launch_client():
-#     from .Client.SotCustomClient import launch
-#     p = Process(target=launch)
-#     p.start()
-#
-#
-# components.append(Component('Sea of Thieves Client REAL', 'SOTClientreal', cli=True, icon='sot', component_type=Type.CLIENT, func=launch_client))
-# #components.append(Component("Sot Client", "SotClient", func=launch_client, component_type=Type.CLIENT))
-#
 
 
 class SOTWeb(WebWorld):
@@ -153,14 +143,14 @@ class SOTWorld(World):
                 # "location_to_item": {self.location_name_to_id[i.name] : self.item_name_to_id[i.item.name] for i in self.multiworld.get_locations()},
             }
 
-            filename = f"{self.multiworld.get_out_file_name_base(self.player)}.apsmSOT"
+            filename = f"{self.multiworld.get_out_file_name_base(self.player)}.sot"
             with open(os.path.join(output_directory, filename), 'w') as f:
                 json.dump(data, f)
 
         clientInputs: ClientInput = ClientInput()
         clientInputs.sotOptionsDerived = self.sotOptionsDerived
         clientInputs.regionRules = self.region_rules
-        client_file = f"{self.multiworld.get_out_file_name_base(self.player)}.apsmSOTCI"
+        client_file = f"{self.multiworld.get_out_file_name_base(self.player)}.sotci"
         output_file_and_directory = os.path.join(output_directory, client_file)
         clientInputs.to_file(output_file_and_directory)
 
@@ -207,6 +197,7 @@ class SOTWorld(World):
         cnt = 0
         hints = {}
 
+        self.multiworld.start_hints
         for sphere in self.multiworld.get_spheres():
             for sphere_location in sphere:
                 if (sphere_location.player == self.player or sphere_location.item.player == self.player):
