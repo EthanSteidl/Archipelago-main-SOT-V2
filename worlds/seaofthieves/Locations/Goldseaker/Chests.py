@@ -1,10 +1,4 @@
-import copy
-
-from ..Locations import LocDetails, WebLocation, WebLocationCollection, WebItemJsonIdentifier, DoRand
 from ..LocationsBase import LocationsBase
-from ...Regions.RegionCollection import RegionNameCollection
-from ...Regions.RegionDetails import Regions
-from ...Items.Items import ItemReqEvalOr, ItemReqEvalAnd, Items
 
 
 class SettingsChest:

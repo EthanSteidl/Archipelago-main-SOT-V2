@@ -1,11 +1,6 @@
-import typing
-from dataclasses import dataclass
 
 import Options
-from Options import Choice
 from .OptionsBase import ChoiceForEach
-from Options import PerGameCommonOptions, Range
-from Options import DefaultOnToggle
 
 DefaultOffToggle = Options.Toggle
 

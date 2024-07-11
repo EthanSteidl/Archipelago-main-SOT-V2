@@ -2,8 +2,6 @@ import copy
 import typing
 
 from BaseClasses import MultiWorld, Region, Entrance
-from worlds.seaofthieves.Options import SOTOptions
-from .Name import Name
 from worlds.seaofthieves.Locations.Locations import *
 from ..Locations.LocationCollection import LocationDetailsCollection
 from ...generic.Rules import add_rule, exclusion_rules
