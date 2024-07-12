@@ -26,7 +26,7 @@ from typing import NamedTuple
 from worlds.seaofthieves.Client.NetworkProtocol.PrintJsonPacket import PrintJsonPacket
 from worlds.seaofthieves.Client.NetworkProtocol.ReceivedItemsPacket import ReceivedItemsPacket
 from worlds.seaofthieves.Client.NetworkProtocol.SetReply import SetReplyPacket
-import worlds.seaofthieves.Client.Balance as Balance
+import worlds.seaofthieves.Shop.Balance as Balance
 
 
 class Version(NamedTuple):
@@ -281,10 +281,10 @@ class SOT_Context(CommonContext):
         elif cmd == "Connected":
 
             self.connected_to_server = True
-            self.shop.set_hints_generic(args["slot_data"]['HINTS_GENERAL'])
-            self.shop.set_hints_personal_progression(args["slot_data"]['HINTS_PERSONAL_PROG'])
-            self.shop.set_hints_other_progression(args["slot_data"]['HINTS_OTHER_PROG'])
-            self.shop.set_items_for_sale(args["slot_data"]['SHOP'])
+            #self.shop.set_hints_generic(args["slot_data"]['HINTS_GENERAL'])
+            #self.shop.set_hints_personal_progression(args["slot_data"]['HINTS_PERSONAL_PROG'])
+            #self.shop.set_hints_other_progression(args["slot_data"]['HINTS_OTHER_PROG'])
+            #self.shop.set_items_for_sale(args["slot_data"]['SHOP'])
 
             self.locationDetailsCollection.applyOptions(self.userInformation.generationData.sotOptionsDerived
                                                         , random.Random())

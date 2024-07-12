@@ -1,6 +1,6 @@
 import typing
 
-from worlds.seaofthieves.Client.Balance import Balance
+from worlds.seaofthieves.Shop.Balance import Balance
 
 
 class PlayerInventory:

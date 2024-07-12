@@ -22,36 +22,14 @@ import collections
 from .ClientInput import ClientInput
 from .Items.ItemAdder import create_items
 from .Regions.RegionDetails import Regions
-from .Hint import create_hint
+from .MultiworldHints import MultiworldHints
+from .Website import SotWebWorld
+from .Client.Launcher.SotLauncherComponent import add_sot_to_client_laucher
 import subprocess
 import asyncio
 import pickle
-import worlds.LauncherComponents as LauncherComponents
 
-
-def launch_client() -> None:
-    from .Client.ClientLauncher import launch
-    LauncherComponents.launch_subprocess(launch, name="SOTmClient")
-
-
-LauncherComponents.components.append(
-    LauncherComponents.Component(
-        "Sea of Thieves",
-        func=launch_client,
-        component_type=LauncherComponents.Type.CLIENT
-    )
-)
-
-
-class SOTWeb(WebWorld):
-    tutorials = [Tutorial(
-        "Multiworld Setup Guide",
-        "A guide to setting up Sea of Thieves for MultiWorld.",
-        "English",
-        "setup_en.md",
-        "setup/en",
-        ["Ethan Steidl"]
-    )]
+add_sot_to_client_laucher()
 
 
 class SOTWorld(World):
@@ -63,7 +41,7 @@ class SOTWorld(World):
     game = "Sea of Thieves"
     topology_present = False
 
-    web = SOTWeb()
+    web = SotWebWorld.SotWebWorld()
 
     sotOptionsDerived: SotOptionsDerived.SotOptionsDerived
 
@@ -80,7 +58,10 @@ class SOTWorld(World):
     options_dataclass = SOTOptions
     regionAdder: RegionAdder
 
+    clientInputs: ClientInput = ClientInput()
+
     def generate_early(self) -> None:
+
         self.sotOptionsDerived = SotOptionsDerived.SotOptionsDerived(self.options)
 
         self.itemCollection = ItemCollection()
@@ -120,52 +101,17 @@ class SOTWorld(World):
     def get_filler_item_name(self) -> str:
         return self.itemCollection.getFillerItemName()
 
+    def post_fill(self) -> None:
+        self.clientInputs.sotOptionsDerived = self.sotOptionsDerived
+        self.clientInputs.regionRules = self.region_rules
+
+        hint_limit: int = 50
+        self.clientInputs.multiworldHints = MultiworldHints(self.multiworld, self.player, self.multiworld.random, hint_limit)
+
     def generate_output(self, output_directory: str):
-
-        Utils.visualize_regions(self.multiworld.get_region("Menu", self.player),
-                                f"{self.multiworld.get_out_file_name_base(self.player)}.svg")
-        if self.sotOptionsDerived.experimentals:
-            self.mapss = {}
-            self.locSequence = {}
-            for i in self.multiworld.get_locations(self.player):
-                locId = i.name
-                if (i.item == None):
-                    item_name = self.get_filler_item_name()
-                else:
-                    item_name = i.item.name
-                self.mapss[locId] = item_name
-                self.locSequence[i.address] = i.name
-
-            data = {
-                "slot_data": self.fill_slot_data(),
-                "Location_to_item": self.mapss,
-                "locSequence": self.locSequence,
-                # "location_to_item": {self.location_name_to_id[i.name] : self.item_name_to_id[i.item.name] for i in self.multiworld.get_locations()},
-            }
-
-            filename = f"{self.multiworld.get_out_file_name_base(self.player)}.sot"
-            with open(os.path.join(output_directory, filename), 'w') as f:
-                json.dump(data, f)
-
-        clientInputs: ClientInput = ClientInput()
-        clientInputs.sotOptionsDerived = self.sotOptionsDerived
-        clientInputs.regionRules = self.region_rules
-        client_file = f"{self.multiworld.get_out_file_name_base(self.player)}.sotci"
-        output_file_and_directory = os.path.join(output_directory, client_file)
-        clientInputs.to_file(output_file_and_directory)
-
-    def fill_slot_data(self):
-        # The client needs to know where each seal is
-        dic = {}
-        hint_max = 200
-
-        # dic["SEAL"] = self.sealHints()
-        dic["HINTS_GENERAL"] = self.generalHints(hint_max)
-        dic["HINTS_PERSONAL_PROG"] = self.personalProgressionHints(hint_max)
-        dic["HINTS_OTHER_PROG"] = self.otherProgressionHints(hint_max)
-        dic["SHOP"] = self.clientShopInformation()
-
-        return dic
+        file_name = f"{self.multiworld.get_out_file_name_base(self.player)}.sotci"
+        output_file_and_directory = os.path.join(output_directory, file_name)
+        self.clientInputs.to_file(output_file_and_directory)
 
     def clientShopInformation(self):
         info = {}
@@ -191,71 +137,6 @@ class SOTWorld(World):
             ret[loc.name] = {"cost": loc.locDetails.cost.toDict(), "id": loc.locDetails.id, "item_name": loc.item.name,
                              "item_id": loc.item.code, "req_name": item_req.name, "req_id": item_req.id}
         return ret
-
-    def generalHints(self, max):
-
-        cnt = 0
-        hints = {}
-
-        self.multiworld.start_hints
-        for sphere in self.multiworld.get_spheres():
-            for sphere_location in sphere:
-                if (sphere_location.player == self.player or sphere_location.item.player == self.player):
-
-                    hints[str(cnt)] = self.create_hint(sphere_location)
-                    cnt += 1
-                    if (cnt >= max):
-                        return hints
-
-        return hints
-
-    def personalProgressionHints(self, max):
-        cnt = 0
-        hints = {}
-
-        for sphere in self.multiworld.get_spheres():
-            for sphere_location in sphere:
-                if (
-                        sphere_location.player == self.player or sphere_location.item.player == self.player) and sphere_location.item.classification == ItemClassification.progression:
-
-                    hints[str(cnt)] = self.create_hint(sphere_location)
-                    cnt += 1
-                    if (cnt >= max):
-                        return hints
-        return hints
-
-    def otherProgressionHints(self, max):
-        cnt = 0
-        hints = {}
-
-        for sphere in self.multiworld.get_spheres():
-            for sphere_location in sphere:
-                if (
-                        sphere_location.player != self.player and sphere_location.item.player != self.player) and sphere_location.item.classification == ItemClassification.progression:
-
-                    hints[str(cnt)] = self.create_hint(sphere_location)
-                    cnt += 1
-                    if (cnt >= max):
-                        return hints
-        return hints
-
-    def sealHints(self):
-
-        # TODO hints specific to SEALS
-        return {}
-
-    def create_hint(self, loc: Location) -> str:
-        loc_name = loc.name
-        item_name = loc.item.name
-        for_player = loc.item.player
-        sending_world = loc.player
-
-        for_player_name = self.multiworld.player_name[for_player]
-        sending_player_name = self.multiworld.player_name[sending_world]
-
-        if (for_player == self.player):
-            return '{} in {}\'s world holds your {}'.format(loc_name, sending_player_name, item_name)
-        return '{} holds {} for {}'.format(loc_name, item_name, for_player_name)
 
     def pre_fill_seals(self) -> int:
 

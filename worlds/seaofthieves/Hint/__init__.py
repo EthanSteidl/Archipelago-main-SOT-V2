@@ -3,5 +3,10 @@ import random
 from .Hint import Hint
 from BaseClasses import Location, Item, Region
 
-def create_hint(itm: Item, rand: random.Random):
+
+def hint_from_item(itm: Item) -> Hint:
     return Hint(itm)
+
+
+def hint_from_location(loc: Location) -> Hint:
+    return Hint(loc.item)
