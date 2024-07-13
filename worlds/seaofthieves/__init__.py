@@ -3,7 +3,11 @@ import random
 
 import Utils
 import json
-from worlds.seaofthieves.Items.Items import *
+import typing
+
+from .Items.Items import Items, SOTItem
+from .Items.ItemCollection import ItemCollection
+from .Items.ItemDetail import ItemDetail
 from .Options import SOTOptions
 from .Rules import set_rules
 from BaseClasses import Location
@@ -24,6 +28,7 @@ from .Items.ItemAdder import create_items
 from .Regions.RegionDetails import Regions
 from .MultiworldHints import MultiworldHints
 from .Website import SotWebWorld
+from .Items.ItemCollection import ItemCollection
 from .Client.Launcher.SotLauncherComponent import add_sot_to_client_laucher
 import subprocess
 import asyncio
@@ -84,6 +89,7 @@ class SOTWorld(World):
     def create_regions(self):
         self.regionAdder: RegionAdder = create_regions(self.multiworld, self.sotOptionsDerived, self.player,
                                                        self.locationCollection)
+        self.regionAdder.link_regions_and_locations()
 
     def set_rules(self):
         self.region_rules = set_rules(self.multiworld, self.sotOptionsDerived, self.player, self.regionAdder)
@@ -105,49 +111,23 @@ class SOTWorld(World):
         self.clientInputs.sotOptionsDerived = self.sotOptionsDerived
         self.clientInputs.regionRules = self.region_rules
 
-        hint_limit: int = 50
-        self.clientInputs.multiworldHints = MultiworldHints(self.multiworld, self.player, self.multiworld.random, hint_limit)
+
 
     def generate_output(self, output_directory: str):
-        file_name = f"{self.multiworld.get_out_file_name_base(self.player)}.sotci"
-        output_file_and_directory = os.path.join(output_directory, file_name)
-        self.clientInputs.to_file(output_file_and_directory)
-
-    def clientShopInformation(self):
-        info = {}
-
-        reg = self.multiworld.worlds[self.player].get_region(Regions.R_SHOP_ANCIENT_SPIRE.name)
-        info[reg.name] = self.__addClientShopInformationForRegion(reg, Items.cat_as)
-        reg = self.multiworld.worlds[self.player].get_region(Regions.R_SHOP_DAGGER_TOOTH.name)
-        info[reg.name] = self.__addClientShopInformationForRegion(reg, Items.cat_dt)
-        reg = self.multiworld.worlds[self.player].get_region(Regions.R_SHOP_GALLEONS_GRAVE.name)
-        info[reg.name] = self.__addClientShopInformationForRegion(reg, Items.cat_gg)
-        reg = self.multiworld.worlds[self.player].get_region(Regions.R_SHOP_MORROWS_PEAK.name)
-        info[reg.name] = self.__addClientShopInformationForRegion(reg, Items.cat_mp)
-        reg = self.multiworld.worlds[self.player].get_region(Regions.R_SHOP_PLUNDER_OUTPOST.name)
-        info[reg.name] = self.__addClientShopInformationForRegion(reg, Items.cat_p)
-        reg = self.multiworld.worlds[self.player].get_region(Regions.R_SHOP_SANCTUARY_OUTPOST.name)
-        info[reg.name] = self.__addClientShopInformationForRegion(reg, Items.cat_s)
-
-        return info
-
-    def __addClientShopInformationForRegion(self, reg, item_req: ItemDetail):
-        ret = {}
-        for loc in reg.locations:
-            ret[loc.name] = {"cost": loc.locDetails.cost.toDict(), "id": loc.locDetails.id, "item_name": loc.item.name,
-                             "item_id": loc.item.code, "req_name": item_req.name, "req_id": item_req.id}
-        return ret
+        # Uses self.random based on function generate_output's comment
+        self.clientInputs.multiworldHints = MultiworldHints(self.multiworld, self.player, self.random, 50)
+        self.clientInputs.to_file(self.multiworld.get_out_file_name_base(self.player), output_directory)
 
     def pre_fill_seals(self) -> int:
 
         # right now we just have seals, so this works, but it wont soon
 
         seal_items = [
-            self.create_item(Items.seal_gh.name),
-            self.create_item(Items.seal_ma.name),
-            self.create_item(Items.seal_af.name),
-            self.create_item(Items.seal_rb.name),
-            self.create_item(Items.seal_oos.name)
+            SOTItem(Items.seal_gh.name, Items.seal_gh.classification, Items.seal_gh.id, self.player),
+            SOTItem(Items.seal_ma.name, Items.seal_ma.classification, Items.seal_ma.id, self.player),
+            SOTItem(Items.seal_af.name, Items.seal_af.classification, Items.seal_af.id, self.player),
+            SOTItem(Items.seal_rb.name, Items.seal_rb.classification, Items.seal_rb.id, self.player),
+            SOTItem(Items.seal_oos.name, Items.seal_oos.classification, Items.seal_oos.id, self.player)
         ]
         seal_locations = [
             self.multiworld.get_location(Seals.Seals.L_VOYAGE_COMP_GH_TOTAL, self.player),
@@ -177,7 +157,7 @@ class SOTWorld(World):
 
     def pre_fill_sail(self) -> int:
 
-        itm = SOTItem(Items.sail.name, ItemClassification.progression, Items.sail.id, self.player)
+        itm = SOTItem(Items.sail.name, Items.sail.classification, Items.sail.id, self.player)
         sail_item_list: typing.List[SOTItem] = [itm]
 
         locs = []

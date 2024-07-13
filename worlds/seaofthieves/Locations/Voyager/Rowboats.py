@@ -3,7 +3,8 @@ from ..Locations import ScreenData
 from ..LocationsBase import LocationsBase
 from ...Regions.RegionCollection import RegionNameCollection
 from ...Regions.RegionDetails import Regions
-from ...Items.Items import ItemReqEvalOr, ItemReqEvalAnd, Items
+from ...Items.ItemReqEvalAnd import ItemReqEvalAnd
+from ...Items.ItemReqEvalOr import ItemReqEvalOr
 
 
 class SettingsRowboat:

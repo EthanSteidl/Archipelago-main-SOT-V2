@@ -2,7 +2,9 @@ from ..Locations import LocDetails, WebLocation, WebLocationCollection, WebItemJ
 from ..LocationsBase import LocationsBase
 from ...Regions.RegionCollection import RegionNameCollection
 from ...Regions.RegionDetails import Regions
-from ...Items.Items import ItemReqEvalOr, ItemReqEvalAnd, Items
+from ...Items.Items import Items
+from ...Items.ItemReqEvalAnd import ItemReqEvalAnd
+from ...Items.ItemReqEvalOr import ItemReqEvalOr
 
 
 class SettingsMenuQuestAll:
@@ -14,6 +16,7 @@ class SettingsMenuQuestAll:
 class MenuQuestAll(LocationsBase):
     L_PIRATE_POCKET = "Item in your pocket"
     L_PIRATE_FOD = "Defeat Graymarrow"
+    descriptor = "MenuQuestAll"
 
     def __init__(self):
         super().__init__()
@@ -34,3 +37,4 @@ class MenuQuestAll(LocationsBase):
             WebLocation(WebItemJsonIdentifier(self.x[0], self.x[1], self.x[2], self.x[3], None, False), reg, lgc)
         ])
         self.locations.append(LocDetails(self.L_PIRATE_FOD, wlc, True))
+

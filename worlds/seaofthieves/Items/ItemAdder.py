@@ -1,6 +1,7 @@
 from ..Configurations import SotOptionsDerived
 from BaseClasses import MultiWorld, Region, Entrance, ItemClassification
-from .Items import Items, ItemCollection, SOTItem
+from ..Items.Items import Items, SOTItem
+from ..Items.ItemCollection import ItemCollection
 import math
 
 

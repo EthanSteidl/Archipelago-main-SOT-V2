@@ -1,5 +1,5 @@
 from ..Regions.RegionDetails import RegionDetails
-from ..Items.Items import ItemReqEvalOr
+from ..Items.ItemReqEvalOr import ItemReqEvalOr
 
 
 class ConnectionDetails:

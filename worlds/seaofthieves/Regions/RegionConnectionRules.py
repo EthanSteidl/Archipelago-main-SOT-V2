@@ -3,10 +3,13 @@ import typing
 from ..Configurations import SotOptionsDerived
 from BaseClasses import MultiWorld
 import copy
-from ..Items.Items import Items, ItemCollection, ItemDetail
+from ..Items.ItemCollection import ItemCollection
+from ..Items.Items import Items
+from ..Items.ItemDetail import ItemDetail
 from ..Regions.RegionDetails import Regions
 from ..Regions.ConnectionDetails import ConnectionDetails
-from ..Items.Items import ItemCollection, ItemReqEvalOr, ItemReqEvalAnd, ItemDetail
+from ..Items.ItemReqEvalOr import ItemReqEvalOr
+from ..Items.ItemReqEvalAnd import ItemReqEvalAnd
 import collections
 
 

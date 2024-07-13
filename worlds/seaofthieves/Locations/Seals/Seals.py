@@ -2,7 +2,9 @@ from ..Locations import LocDetails, WebLocation, WebLocationCollection, WebItemJ
 from ..LocationsBase import LocationsBase
 from ...Regions.RegionCollection import RegionNameCollection
 from ...Regions.RegionDetails import Regions
-from ...Items.Items import ItemReqEvalOr, ItemReqEvalAnd, Items
+from ...Items.Items import Items
+from ...Items.ItemReqEvalAnd import ItemReqEvalAnd
+from ...Items.ItemReqEvalOr import ItemReqEvalOr
 
 
 class SettingsSeals:
@@ -14,19 +16,6 @@ class SettingsSeals:
         self.af_amt = af_amt
         self.rb_amt = rb_amt
 
-    def getSettingForLocName(self, name: str):
-        if (name == Seals.L_SEAL_AF):
-            return self.gh_amt
-        if (name == Seals.L_SEAL_RB):
-            return self.ma_amt
-        if (name == Seals.L_SEAL_GH):
-            return self.oos_amt
-        if (name == Seals.L_SEAL_MA):
-            return self.af_amt
-        if (name == Seals.L_SEAL_OOS):
-            return self.rb_amt
-        # default for it to be enabled
-        return 10000
 
 
 class Seals(LocationsBase):

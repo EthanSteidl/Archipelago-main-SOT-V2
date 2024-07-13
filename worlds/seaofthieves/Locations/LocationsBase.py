@@ -1,8 +1,12 @@
 from .Locations import LocDetails, WebLocationCollection
 import typing
 
+from ..Items.ItemReqEvalAnd import ItemReqEvalAnd
+from ..Items.ItemReqEvalOr import ItemReqEvalOr
 
 class LocationsBase:
+
+    descriptor: str = ""
 
     # def __init__(self):
     #     self.locations: typing.List[LocDetails] = []
@@ -23,9 +27,6 @@ class LocationsBase:
 
     def getLocations(self):
         return self.locations
-
-    def update_doRand(self, conditional: bool):
-        self.doRand = conditional
 
     def addUniques(self, name: str, wlc, doRand: bool):
         count = 1

@@ -1,12 +1,12 @@
 from BaseClasses import Location
-from worlds.seaofthieves.Items.Items import Item, ItemDetail
 import json
 from enum import Enum
-from ..Items.Items import ItemReqEvalOr, ItemReqEvalAnd
+from ..Items.ItemReqEvalOr import ItemReqEvalOr
 from ..Regions.RegionCollection import RegionNameCollection
-from ...generic.Rules import add_rule, exclusion_rules
+from ...generic.Rules import add_rule
 import typing
 from .ScreenData import ScreenData
+from .Shop.Balance import Balance
 
 
 class WebItemJsonIdentifier:
@@ -116,14 +116,7 @@ class WebLocationCollection(typing.List[WebLocation]):
             dic[cnt] = i.toDic()
             cnt = cnt + 1
         return dic
-    # def mergeOrLogic(self):
-    #     cum_conditions: typing.List[ItemReqEvalAnd] = []
-    #     for wloc in self:
-    #         cum_conditions.extend(wloc.itemLogic.conditions)
-    #     self.mergedLogic = ItemReqEvalOr(cum_conditions)
-    #
-    # def evaluate(self):
-    #     self.mergedLogic.evaluate()
+
 
 
 class DoRand(Enum):
@@ -131,27 +124,27 @@ class DoRand(Enum):
     N = 0,
     SAME = -1
 
-
-class Cost:
-
-    def __init__(self, gold: int = 0, dabloons: int = 0, ancient_coins: int = 0):
-        self.gold = gold
-        self.dabloons = dabloons
-        self.ancient_coins = ancient_coins
-
-    def toDict(self):
-        ret = {}
-        ret["gold"] = self.gold
-        ret["dabloons"] = self.dabloons
-        ret["ancient_coins"] = self.ancient_coins
-        return ret
-
-    def toJSON(self):
-        return json.dumps(
-            self,
-            default=lambda o: o.__dict__,
-            sort_keys=True,
-            indent=4)
+#
+# class Cost:
+#
+#     def __init__(self, gold: int = 0, dabloons: int = 0, ancient_coins: int = 0):
+#         self.gold = gold
+#         self.dabloons = dabloons
+#         self.ancient_coins = ancient_coins
+#
+#     def toDict(self):
+#         ret = {}
+#         ret["gold"] = self.gold
+#         ret["dabloons"] = self.dabloons
+#         ret["ancient_coins"] = self.ancient_coins
+#         return ret
+#
+#     def toJSON(self):
+#         return json.dumps(
+#             self,
+#             default=lambda o: o.__dict__,
+#             sort_keys=True,
+#             indent=4)
 
 
 class LocDetails:
@@ -159,7 +152,7 @@ class LocDetails:
 
     def __init__(self, name: str, webLocationCollection: WebLocationCollection, doRandomize: bool = True,
                  increaseReqForCheck: int = 1, countCollectable: int = 1, onlyUnique=True,
-                 cost: typing.Optional[Cost] = None):
+                 cost: typing.Optional[Balance] = None):
         self.name = name
         self.id = LocDetails.seedId
         self.webLocationCollection = webLocationCollection
@@ -167,7 +160,7 @@ class LocDetails:
         self.increaseReqForCheck = increaseReqForCheck
         self.countCollectable = countCollectable
         self.onlyUnique = onlyUnique
-        self.cost: typing.Optional[Cost] = cost
+        self.cost: typing.Optional[Balance] = cost
         LocDetails.seedId += 1
 
     def setLambda(self, loc, player):

@@ -2,8 +2,10 @@ from ...Locations import LocDetails, WebLocation, WebLocationCollection, WebItem
 from ...LocationsBase import LocationsBase
 from ....Regions.RegionCollection import RegionNameCollection
 from ....Regions.RegionDetails import Regions
-from ....Items.Items import ItemReqEvalOr, ItemReqEvalAnd, Items
+from ....Items.Items import Items
 from ....Locations.LocationSettingOption import LocationSettingOption
+from ....Items.ItemReqEvalOr import ItemReqEvalOr
+from ....Items.ItemReqEvalAnd import ItemReqEvalAnd
 from enum import Enum
 
 

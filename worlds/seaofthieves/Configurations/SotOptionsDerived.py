@@ -17,6 +17,7 @@ from ..Locations.Rouge import RogueQuestAll
 from ..Configurations import Trapsoptions
 from ..Locations.Voyager import CaptainShipSpotted, DaysAtSea, NauticalMilesSailed, Rowboats, Shipwrecks, TallTales
 from ..Locations.Shops import Shops
+from ..Locations.Shop import Balance
 
 
 class SotOptionsDerived:
@@ -166,8 +167,8 @@ class SotOptionsDerived:
     def __getShopSettings(self, sotOptions: SOTOptions):
 
         count: int = int(sotOptions.shopSanity.value)
-        low_cost: Shops.Cost = Shops.Cost(0, 0, 0)
-        high_cost: Shops.Cost = Shops.Cost(10000, 50, 0)
+        low_cost: Balance.Balance = Balance.Balance(0, 0, 0)
+        high_cost: Balance.Balance = Balance.Balance(0, 50, 10000)
 
         return Shops.SettingsShops(shop_item_number=count, cost_low=low_cost, cost_high=high_cost)
 

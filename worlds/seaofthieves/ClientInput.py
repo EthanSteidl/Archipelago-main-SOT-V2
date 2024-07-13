@@ -6,13 +6,15 @@ from .MultiworldHints import MultiworldHints
 
 class ClientInput:
 
+    FILE_SUFFIX = "apsot"
+
     def __init__(self):
         self.sotOptionsDerived = None
         self.regionRules = None
         self.multiworldHints: typing.Optional[MultiworldHints] = None
 
-    def to_file(self, filename: str):
-        with open(filename, 'wb') as f:
+    def to_file(self, name: str, directory: str):
+        with open("{}{}.{}".format(directory, name, self.FILE_SUFFIX), 'wb') as f:
             pickle.dump(self, f)
 
     def from_fire(self, filename: str):

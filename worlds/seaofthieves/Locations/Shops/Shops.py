@@ -1,9 +1,15 @@
-from ..Locations import LocDetails, WebLocation, WebLocationCollection, WebItemJsonIdentifier, Cost
+from ..Locations import LocDetails, WebLocation, WebLocationCollection, WebItemJsonIdentifier
 from ..LocationsBase import LocationsBase
 from ...Regions.RegionCollection import RegionNameCollection
 from ...Regions.RegionDetails import Regions
-from ...Items.Items import ItemReqEvalOr, ItemReqEvalAnd, Items
+from ...Items.Items import Items
+from ...Items.ItemReqEvalAnd import ItemReqEvalAnd
+from ...Items.ItemReqEvalOr import ItemReqEvalOr
 import random
+from ..Shop.ShopWarehouse import ShopWarehouse
+from ..Shop.ShopLocationList import ShopLocationList
+from ..Shop.ShopLocation import ShopLocation
+from ..Shop.Balance import Balance
 
 
 class SettingsShops:
@@ -17,11 +23,11 @@ class SettingsShops:
             self.min = 0
             self.max = 0
 
-    def __init__(self, shop_count=7, shop_item_number=4, cost_low=Cost(), cost_high=Cost()):
-        self.shop_count = shop_count
-        self.shop_item_number = shop_item_number
-        self.cost_low = cost_low
-        self.cost_high = cost_high
+    def __init__(self, shop_count=7, shop_item_number=4, cost_low=Balance(), cost_high=Balance()):
+        self.shop_count: int = shop_count
+        self.shop_item_number: int = shop_item_number
+        self.cost_low: Balance = cost_low
+        self.cost_high: Balance = cost_high
 
 
 class Shops(LocationsBase):
@@ -48,7 +54,7 @@ class Shops(LocationsBase):
         for i in range(self.settings.SHOP_MAX):
             doRand: bool = (i < self.settings.shop_item_number)
             self.locations.append(
-                LocDetails(self.L_SHOP_AS_OUTPOST + " " + str(i + 1), wlc, doRand, cost=self.getCost()))
+                LocDetails(self.L_SHOP_AS_OUTPOST + " " + str(i + 1), wlc, doRand, cost=self.get_balance()))
 
         reg = RegionNameCollection()
         reg.addFromList([Regions.R_SHOP_DAGGER_TOOTH])
@@ -56,7 +62,7 @@ class Shops(LocationsBase):
         for i in range(self.settings.SHOP_MAX):
             doRand: bool = (i < self.settings.shop_item_number)
             self.locations.append(
-                LocDetails(self.L_SHOP_DT_OUTPOST + " " + str(i + 1), wlc, doRand, doRand, cost=self.getCost()))
+                LocDetails(self.L_SHOP_DT_OUTPOST + " " + str(i + 1), wlc, doRand, doRand, cost=self.get_balance()))
 
         reg = RegionNameCollection()
         reg.addFromList([Regions.R_SHOP_GALLEONS_GRAVE])
@@ -64,7 +70,7 @@ class Shops(LocationsBase):
         for i in range(self.settings.SHOP_MAX):
             doRand: bool = (i < self.settings.shop_item_number)
             self.locations.append(
-                LocDetails(self.L_SHOP_GG_OUTPOST + " " + str(i + 1), wlc, doRand, cost=self.getCost()))
+                LocDetails(self.L_SHOP_GG_OUTPOST + " " + str(i + 1), wlc, doRand, cost=self.get_balance()))
 
         reg = RegionNameCollection()
         reg.addFromList([Regions.R_SHOP_MORROWS_PEAK])
@@ -72,7 +78,7 @@ class Shops(LocationsBase):
         for i in range(self.settings.SHOP_MAX):
             doRand: bool = (i < self.settings.shop_item_number)
             self.locations.append(
-                LocDetails(self.L_SHOP_MP_OUTPOST + " " + str(i + 1), wlc, doRand, cost=self.getCost()))
+                LocDetails(self.L_SHOP_MP_OUTPOST + " " + str(i + 1), wlc, doRand, cost=self.get_balance()))
 
         reg = RegionNameCollection()
         reg.addFromList([Regions.R_SHOP_PLUNDER_OUTPOST])
@@ -80,7 +86,7 @@ class Shops(LocationsBase):
         for i in range(self.settings.SHOP_MAX):
             doRand: bool = (i < self.settings.shop_item_number)
             self.locations.append(
-                LocDetails(self.L_SHOP_P_OUTPOST + " " + str(i + 1), wlc, doRand, cost=self.getCost()))
+                LocDetails(self.L_SHOP_P_OUTPOST + " " + str(i + 1), wlc, doRand, cost=self.get_balance()))
 
         reg = RegionNameCollection()
         reg.addFromList([Regions.R_SHOP_SANCTUARY_OUTPOST])
@@ -88,7 +94,7 @@ class Shops(LocationsBase):
         for i in range(self.settings.SHOP_MAX):
             doRand: bool = (i < self.settings.shop_item_number)
             self.locations.append(
-                LocDetails(self.L_SHOP_S_OUTPOST + " " + str(i + 1), wlc, doRand, cost=self.getCost()))
+                LocDetails(self.L_SHOP_S_OUTPOST + " " + str(i + 1), wlc, doRand, cost=self.get_balance()))
 
     def roundPrice(self, low_val: int, high_val: int):
         val = self.random.randint(low_val, high_val)
@@ -102,8 +108,8 @@ class Shops(LocationsBase):
             val -= val // 5
         return val
 
-    def getCost(self):
-        cost = Cost(self.roundPrice(self.settings.cost_low.gold, self.settings.cost_high.gold),
+    def get_balance(self):
+        balance = Balance(self.roundPrice(self.settings.cost_low.ancient_coins, self.settings.cost_high.ancient_coins),
                     self.roundPrice(self.settings.cost_low.dabloons, self.settings.cost_high.dabloons),
-                    self.roundPrice(self.settings.cost_low.ancient_coins, self.settings.cost_high.ancient_coins))
-        return cost
+                    self.roundPrice(self.settings.cost_low.gold, self.settings.cost_high.gold))
+        return balance

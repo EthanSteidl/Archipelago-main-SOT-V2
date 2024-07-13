@@ -30,10 +30,12 @@ from .Voyager import Shipwrecks
 from .Voyager import TallTales
 from .Shops import Shops
 import typing
+from .Shop import ShopWarehouse, ShopLocationList, ShopLocation
 
 
 class LocationDetailsCollection:
 
+    SHOP_DESCRIPTOR = "shop"
     def __init__(self):
         LocDetails.resetSeedId()
         self.options: SotOptionsDerived.SotOptionsDerived = SotOptionsDerived.SotOptionsDerived()
@@ -47,6 +49,9 @@ class LocationDetailsCollection:
 
         # TODO this may cause bugs.. we should move the prices out of the shops here somehow to decouple this?
         self.random: random.Random | None = None
+
+        self.shops: ShopWarehouse = ShopWarehouse.ShopWarehouse()
+
 
     def applyRegionDiver(self, connection_details: typing.List[ConnectionDetails]):
         self.regionDiver = RegionDiver()
@@ -90,6 +95,10 @@ class LocationDetailsCollection:
             self.checkTypeToLocDetail[settingsClass] = {}
 
         self.checkTypeToLocDetail[settingsClass][location_detail.name] = location_detail
+
+        # if we have a shop item, then we need to inform the shop warehouse
+        #if settingsClass == self.SHOP_DESCRIPTOR:
+            #self.shops.add_location_detail(location_detail)
 
     def addHintToSelf(self, location_detail: LocDetails, settingsClass: str):
         self.hintWebLocations.append(location_detail)
@@ -162,7 +171,7 @@ class LocationDetailsCollection:
         self.addLocationsToSelf(Rowboats.Rowboats(self.options.rowboatSettings).getLocations(), "rowboats")
         self.addLocationsToSelf(Shipwrecks.Shipwrecks(self.options.shipreckSettings).getLocations(), "shipwrecks")
         self.addLocationsToSelf(TallTales.TallTales(self.options.tallTaleSettings).getLocations(), "tallTales")
-        self.addLocationsToSelf(Shops.Shops(self.options.shopsSettings, self.random).getLocations(), "shops")
+        self.addLocationsToSelf(Shops.Shops(self.options.shopsSettings, self.random).getLocations(), self.SHOP_DESCRIPTOR)
 
         # hints?
         self.addHintsToSelf(VoyageIslandVisited().getLocations(), "HintsIslandsVisited")

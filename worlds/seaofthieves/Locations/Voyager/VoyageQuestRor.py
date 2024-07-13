@@ -1,7 +1,9 @@
 from ..Locations import LocDetails, WebLocation, WebLocationCollection, WebItemJsonIdentifier
 from ..LocationsBase import LocationsBase
 from ...Regions.RegionDetails import Regions
-from ...Items.Items import ItemReqEvalOr, ItemReqEvalAnd, Items
+from ...Items.Items import Items
+from ...Items.ItemReqEvalAnd import ItemReqEvalAnd
+from ...Items.ItemReqEvalOr import ItemReqEvalOr
 from ...Regions.RegionCollection import RegionNameCollection
 
 

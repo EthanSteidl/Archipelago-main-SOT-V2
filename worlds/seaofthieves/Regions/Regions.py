@@ -27,6 +27,8 @@ class RegionAdder:
 
         self.locationDetailsCollection = locationDetailsCollection
         self.options: SotOptionsDerived.SotOptionsDerived = options
+
+        self.__added_regions: typing.List[SOTRegion] = list()
         pass
 
     def addRulesForLocationsInRegions(self, world: MultiWorld):
@@ -45,15 +47,18 @@ class RegionAdder:
                 locDetails.setLambda(LOC, player)
 
     def add(self, region_details: RegionDetails, world: MultiWorld):
-
         sotRegion = SOTRegion(region_details.name, self.player, world)
-
-        locations: typing.List[SOTLocation] = self.locationDetailsCollection.getLocationsForRegion(sotRegion.name,
-                                                                                                   self.player)
-        for loc in locations:
-            loc.parent_region = sotRegion
-        sotRegion.locations.extend(locations)
         world.regions.append(sotRegion)
+        self.__added_regions.append(sotRegion)
+
+    def link_regions_and_locations(self):
+        for region in self.__added_regions:
+            locations: typing.List[SOTLocation] = self.locationDetailsCollection.getLocationsForRegion(region.name,
+                                                                                                       self.player)
+            for loc in locations:
+                loc.parent_region = region
+            region.locations.extend(locations)
+
 
     def connect(self, world: MultiWorld, source: str, target: str, rule=None) -> None:
         sourceRegion = world.get_region(source, self.player)
