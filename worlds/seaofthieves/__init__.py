@@ -29,6 +29,7 @@ from .Regions.RegionDetails import Regions
 from .MultiworldHints import MultiworldHints
 from .Website import SotWebWorld
 from .Items.ItemCollection import ItemCollection
+from .Hint import Hint, HintLibrary, hint_from_location
 from .Client.Launcher.SotLauncherComponent import add_sot_to_client_laucher
 import subprocess
 import asyncio
@@ -121,6 +122,7 @@ class SOTWorld(World):
         self.clientInputs.regionRules = self.region_rules
         self.clientInputs.shopWarehouse = self.locationCollection.shops
         self.clientInputs.shopWarehouse.remove_non_pickle_members()
+        self.clientInputs.hintLibrary = self.buildHintLibrary().getStringLibrary(self.random)
         self.clientInputs.multiworldHints = MultiworldHints(self.multiworld, self.player, self.random, 50)
         self.clientInputs.to_file(output_file_and_directory)
 
@@ -161,6 +163,17 @@ class SOTWorld(World):
 
         return 5 + 1
 
+    def buildHintLibrary(self) -> HintLibrary:
+        hl = HintLibrary()
+        for location in self.multiworld.get_locations(self.player):
+            hint: Hint = hint_from_location(location)
+            classification: HintLibrary.Type = HintLibrary.Type.PROGRESSIVE
+            if location.item.classification == ItemClassification.filler:
+                classification = HintLibrary.Type.FILLER
+            elif location.item.classification == ItemClassification.trap:
+                classification = HintLibrary.Type.TRAP
+            hl.add(hint, classification)
+        return hl
     def pre_fill_sail(self) -> int:
 
         itm = SOTItem(Items.sail.name, Items.sail.classification, Items.sail.id, self.player)

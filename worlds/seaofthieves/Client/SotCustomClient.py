@@ -316,7 +316,6 @@ class SOT_Context(CommonContext):
 
     def locationsReachableWithCurrentItems(self, forceUnlock: bool = False) -> typing.List[LocDetails]:
 
-        returnList: typing.Set[str] = set()
         currentItems: typing.Set[str] = set()
 
         # check out our current items
@@ -341,17 +340,13 @@ class SOT_Context(CommonContext):
         elif cmd == "Connected":
 
             self.connected_to_server = True
-            #self.shop.set_hints_generic(args["slot_data"]['HINTS_GENERAL'])
-            #self.shop.set_hints_personal_progression(args["slot_data"]['HINTS_PERSONAL_PROG'])
-            #self.shop.set_hints_other_progression(args["slot_data"]['HINTS_OTHER_PROG'])
-            #self.shop.set_items_for_sale(args["slot_data"]['SHOP'])
-
             self.locationDetailsCollection.applyOptions(self.userInformation.generationData.sotOptionsDerived
                                                         , random.Random())
             self.locationDetailsCollection.addAll()
             self.locationDetailsCollection.applyRegionDiver(self.userInformation.generationData.regionRules)
             self.locations_checked = set(args["checked_locations"])
             self.shop.addWarehouse(self.userInformation.generationData.shopWarehouse, self.playerInventory)
+            self.shop.addHintLibarary(self.userInformation.generationData.hintLibrary, self.playerInventory)
 
 
         elif cmd == "LocationInfo":
