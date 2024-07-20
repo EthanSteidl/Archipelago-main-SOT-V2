@@ -192,16 +192,16 @@ class SOT_CommandProcessor(ClientCommandProcessor):
         else:
             self.output("Error setting cookie, either could not locate file or file was empty")
 
-    def _cmd_setsotci(self, filepath):
-        """Sets configuration related to your settings, pass "Absolute Filepath" to your apsmSOTCI file generated with
-        the world for your player"""
-        client_input: ClientInput = ClientInput()
-        try:
-            client_input.from_fire(filepath.strip('\"'))
-        except Exception as e:
-            self.output("Error uploading sotci file, was your filepath correct? {}".format(e))
-        self.ctx.userInformation.generationData = client_input
-        self.output("SOTCI Set Successfully")
+    # def _cmd_setsotci(self, filepath):
+    #     """Sets configuration related to your settings, pass "Absolute Filepath" to your apsmSOTCI file generated with
+    #     the world for your player"""
+    #     client_input: ClientInput = ClientInput()
+    #     try:
+    #         client_input.from_fire(filepath.strip('\"'))
+    #     except Exception as e:
+    #         self.output("Error uploading sotci file, was your filepath correct? {}".format(e))
+    #     self.ctx.userInformation.generationData = client_input
+    #     self.output("SOTCI Set Successfully")
 
 
 class SOT_Context(CommonContext):
@@ -331,11 +331,14 @@ class SOT_Context(CommonContext):
 
     def on_package(self, cmd: str, args: dict):
         if cmd == "RoomInfo":
-            if not self.userInformation.hasEnoughToPlay():
-                self.output("\nConnection prevented. You must first upload your SOTCI file!")
-                asyncio.create_task(self.disconnect())
-                return
-            asyncio.create_task(self.snd_connect())
+            try:
+                if not self.userInformation.hasEnoughToPlay():
+                    self.output("\nConnection prevented. You must first upload your SOTCI file!")
+                    asyncio.create_task(self.disconnect())
+                    return
+                asyncio.create_task(self.snd_connect())
+            except Exception as e:
+                self.output("There was an issue where you did not select an input file at launch or it was not detected. Please close launcher and retry {}".format(e))
 
         elif cmd == "Connected":
 
@@ -444,7 +447,7 @@ class SOT_Context(CommonContext):
                 try:
                     self.analyzer.allowTrackingOfLocation(loc_detail)
                 except Exception as e:
-                    self.output("Recoverable error - Auto-tracker failed for: {} [{}]".format(loc_detail.name, loc_detail.id))
+                    self.output("Recoverable error, did you /setmode? - Auto-tracker failed for: {} [{}]".format(loc_detail.name, loc_detail.id))
 
 
         self.acknowledgeItemsReceived()
