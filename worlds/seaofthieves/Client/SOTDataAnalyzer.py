@@ -196,6 +196,8 @@ class SOTDataAnalyzer:
 
     # endregion
 
+    def rebuild_web_collector(self, loginCreds: SOTWebCollector.UserInformation.SotLoginCredentials):
+        self.collector.loginCreds = loginCreds
     def stop_tasks(self):
         self.collector.stop_tasks()
 

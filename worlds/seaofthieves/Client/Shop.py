@@ -46,7 +46,7 @@ class Shop:
                 shopLoc: ShopLocation = self.menu[key][4]
                 isReachable: bool = self.isLocationReachable(shopLoc, playerInventory)
                 if not isReachable:
-                    st += "[{}] -- Locked by logic -> {}".format(str(key), shopLoc.locDetails.webLocationCollection.logicToString())
+                    st += "[ {} ] -- Locked by logic -> {}\n".format(str(key), shopLoc.locDetails.webLocationCollection.logicToString())
                 else:
                     st += "[ " + str(key) + " ] " + self.menu[key][0] + " [" + str(self.menu[key][1]) + " gold] [" + str(
                         self.menu[key][2]) + " dabloons] \n"
@@ -106,8 +106,9 @@ class Shop:
 
     def info(self, pinvent: PlayerInventory):
         self.ctx.output("===========================================")
-        self.ctx.output("Your Balance" + pinvent.getNominalBalance().displayString())
+        self.ctx.output("Your Balance " + pinvent.getNominalBalance().displayString())
         self.ctx.output(self.menu_text(pinvent))
+        self.ctx.output("Your Balance " + pinvent.getNominalBalance().displayString())
         self.ctx.output("===========================================")
         self.ctx.output("Enter " + "/buy #" + " to purchase.")
 
@@ -121,14 +122,14 @@ class Shop:
             output = "No hints remaining in this category."
         return output
 
-    def executeAction(self, menu_line_number: str, playerInventory: PlayerInventory):
+    def executeAction(self, menu_line_number: str, playerInventory: PlayerInventory) -> typing.Optional[int]:
         menu_line_number: int = int(menu_line_number)
         if menu_line_number == 0:
-            return
+            return None
 
         if menu_line_number < 1 or menu_line_number > self.total_count:
             self.ctx.output("Invalid Option")
-            return
+            return None
 
         purchase: Balance = Balance(0, self.menu[menu_line_number][2], self.menu[menu_line_number][1])
         if playerInventory.canAfford(purchase):
@@ -138,16 +139,19 @@ class Shop:
                 hint = self.get_next_hint(self.hints_generic)
                 self.ctx.output(hint)
                 playerInventory.add_hint(hint)
+                return 1
 
             elif menu_line_number == 2:
                 hint = self.get_next_hint(self.hints_personal_progression)
                 self.ctx.output(hint)
                 playerInventory.add_hint(hint)
+                return 2
 
             elif menu_line_number == 3:
                 hint = self.get_next_hint(self.hints_other_progression)
                 self.ctx.output(hint)
                 playerInventory.add_hint(hint)
+                return 3
 
             elif menu_line_number > self.menu_count and menu_line_number <= self.total_count and self.menu[menu_line_number][0] != "SOLD OUT!":
 
@@ -164,14 +168,19 @@ class Shop:
                     self.menu[menu_line_number][0] = "SOLD OUT!"
                     self.menu[menu_line_number][2] = 0
                     self.menu[menu_line_number][1] = 0
+                    return menu_line_number
 
 
             else:
                 self.ctx.output("Shop error, refunding tokens")
                 playerInventory.add(purchase)
 
+            return menu_line_number
+
         else:
             self.ctx.output("Cannot afford selected option")
+
+        return None
 
     def isLocationReachable(self, shopLocation: ShopLocation, playerInventory: PlayerInventory) -> bool:
         return shopLocation.locDetails.webLocationCollection.isAnyReachable(playerInventory.get_item_names_in_inventory())

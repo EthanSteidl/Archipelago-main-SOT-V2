@@ -3,6 +3,8 @@ from ..LocationsBase import LocationsBase
 from ...Regions.RegionCollection import RegionNameCollection
 from ...Regions.RegionDetails import Regions
 from ...Items.ItemReqEvalOr import ItemReqEvalOr
+from ...Items.ItemReqEvalAnd import ItemReqEvalAnd
+from ...Items.Items import Items
 import random
 from ..Shop.Balance import Balance
 
@@ -41,7 +43,7 @@ class Shops(LocationsBase):
 
         reg = RegionNameCollection()
         reg.addFromList([Regions.R_SHOP_ANCIENT_SPIRE])
-        lgc = ItemReqEvalOr([])
+        lgc = ItemReqEvalOr([ItemReqEvalAnd([Items.cat_as])])
 
         web = WebItemJsonIdentifier(0, 0, 0, 0, None, False)
         wlc = WebLocationCollection([WebLocation(web, reg, lgc)])
@@ -53,6 +55,7 @@ class Shops(LocationsBase):
 
         reg = RegionNameCollection()
         reg.addFromList([Regions.R_SHOP_DAGGER_TOOTH])
+        lgc = ItemReqEvalOr([ItemReqEvalAnd([Items.cat_dt])])
         wlc = WebLocationCollection([WebLocation(web, reg, lgc)])
         for i in range(self.settings.SHOP_MAX):
             doRand: bool = (i < self.settings.shop_item_number)
@@ -61,6 +64,7 @@ class Shops(LocationsBase):
 
         reg = RegionNameCollection()
         reg.addFromList([Regions.R_SHOP_GALLEONS_GRAVE])
+        lgc = ItemReqEvalOr([ItemReqEvalAnd([Items.cat_gg])])
         wlc = WebLocationCollection([WebLocation(web, reg, lgc)])
         for i in range(self.settings.SHOP_MAX):
             doRand: bool = (i < self.settings.shop_item_number)
@@ -69,6 +73,7 @@ class Shops(LocationsBase):
 
         reg = RegionNameCollection()
         reg.addFromList([Regions.R_SHOP_MORROWS_PEAK])
+        lgc = ItemReqEvalOr([ItemReqEvalAnd([Items.cat_mp])])
         wlc = WebLocationCollection([WebLocation(web, reg, lgc)])
         for i in range(self.settings.SHOP_MAX):
             doRand: bool = (i < self.settings.shop_item_number)
@@ -77,6 +82,7 @@ class Shops(LocationsBase):
 
         reg = RegionNameCollection()
         reg.addFromList([Regions.R_SHOP_PLUNDER_OUTPOST])
+        lgc = ItemReqEvalOr([ItemReqEvalAnd([Items.cat_p])])
         wlc = WebLocationCollection([WebLocation(web, reg, lgc)])
         for i in range(self.settings.SHOP_MAX):
             doRand: bool = (i < self.settings.shop_item_number)
@@ -85,6 +91,7 @@ class Shops(LocationsBase):
 
         reg = RegionNameCollection()
         reg.addFromList([Regions.R_SHOP_SANCTUARY_OUTPOST])
+        lgc = ItemReqEvalOr([ItemReqEvalAnd([Items.cat_s])])
         wlc = WebLocationCollection([WebLocation(web, reg, lgc)])
         for i in range(self.settings.SHOP_MAX):
             doRand: bool = (i < self.settings.shop_item_number)

@@ -94,7 +94,8 @@ class SOT_CommandProcessor(ClientCommandProcessor):
             self.output("Connect to server before issuing this command.")
             return True
         menu_line_number = str(menu_line_number)
-        self.ctx.shop.executeAction(menu_line_number, self.ctx.playerInventory)
+        menu_lin_numbeer_executed: typing.Optional[int] = self.ctx.shop.executeAction(menu_line_number, self.ctx.playerInventory)
+
 
     def _cmd_locs(self, arg: typing.Optional[str] = None):
         """Displays locations you can currently complete (argument -f adds display of filler locations)"""
@@ -172,6 +173,7 @@ class SOT_CommandProcessor(ClientCommandProcessor):
             pirate = "pirateMode"  # this just needs to be not null
 
         self.ctx.userInformation.analyzerDetails = UserInformation.SotAnalyzerDetails(ship, pirate)
+        self.ctx.analyzer.settings = SOTDataAnalyzer.SOTDataAnalyzerSettings(self.ctx.userInformation.analyzerDetails)
         self.output("Mode set to {}".format(mode))
 
     def _cmd_setcookie(self, filepath):
@@ -227,6 +229,8 @@ class SOT_Context(CommonContext):
         self.active_tasks: typing.List[asyncio.Task] = []
         self.message_displayed = False
 
+        self.shop_history_queue: typing.List[int] = list()
+
     async def updaterLoopa(self):
         await self.updaterLoop()
 
@@ -266,6 +270,7 @@ class SOT_Context(CommonContext):
                 if self.connected_to_server:
                     if first_pass:
                         await self.init_notif()
+                        #await self.init_shop_history()
                         first_pass = False
                     else:
                         try:
@@ -290,12 +295,19 @@ class SOT_Context(CommonContext):
             self.userInformation.loginCreds = None
             self.webOptions.setQueries(False)
         else:
-            self.userInformation.loginCreds = value
+            self.userInformation.loginCreds = UserInformation.SotLoginCredentials(value)
             self.webOptions.setQueries(True)
+
+        self.analyzer.rebuild_web_collector(self.userInformation.loginCreds)
 
     def output(self, text):
         self.command_processor.output(self.command_processor, text)
 
+    # async def init_shop_history(self):
+    #
+    #     #28 is number of items in shop. This needs to be a TODO to fix this value
+    #     lst = [i for i in range(0,28)]
+    #     await self.snd_get(lst)
 
     async def init_notif(self):
         keys: typing.List[str] = [Items.kraken.name]
@@ -340,6 +352,7 @@ class SOT_Context(CommonContext):
             self.locationDetailsCollection.applyRegionDiver(self.userInformation.generationData.regionRules)
             self.locations_checked = set(args["checked_locations"])
             self.shop.addWarehouse(self.userInformation.generationData.shopWarehouse, self.playerInventory)
+
 
         elif cmd == "LocationInfo":
             pass
@@ -433,7 +446,11 @@ class SOT_Context(CommonContext):
 
         if self.webOptions.allowCaptainQuery:
             for loc_detail in loc_details_possible:
-                self.analyzer.allowTrackingOfLocation(loc_detail)
+                try:
+                    self.analyzer.allowTrackingOfLocation(loc_detail)
+                except Exception as e:
+                    self.output("Recoverable error - Auto-tracker failed for: {} [{}]".format(loc_detail.name, loc_detail.id))
+
 
         self.acknowledgeItemsReceived()
 
@@ -459,6 +476,15 @@ class SOT_Context(CommonContext):
         await self.snd_location_checks()  # notify the server of those locations
         await self.snd_location_souts()  # notify the server of those locations
         await self.notifyServerIfGameIsFinished() # tell the server if we have finished the game
+        await self.save_client_volitile_data_to_server_for_backup() # save data that would be destroyed on client close that we would like to keep
+
+    async def save_client_volitile_data_to_server_for_backup(self):
+
+        # save shop history
+        while len(self.shop_history_queue) > 0:
+            value = self.shop_history_queue.pop()
+            await self.snd_add(value)
+        return
 
     async def notifyServerIfGameIsFinished(self):
         if self.finished_game:
@@ -512,6 +538,13 @@ class SOT_Context(CommonContext):
         ]
         await self.send_msgs(msg)
 
+    async def snd_get(self, list_keys):
+        # Sync server items to us
+        await self.send_msgs([
+            {
+                "keys": list_keys,
+            }
+        ])
     async def snd_add(self, key):
         # Sync server items to us
         await self.send_msgs([
