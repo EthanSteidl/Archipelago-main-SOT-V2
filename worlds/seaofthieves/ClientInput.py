@@ -3,6 +3,7 @@ import typing
 import pickle
 from .Regions.ConnectionDetails import ConnectionDetails
 from .MultiworldHints import MultiworldHints
+from .Locations.Shop.ShopWarehouse import ShopWarehouse
 
 class ClientInput:
 
@@ -12,10 +13,11 @@ class ClientInput:
         self.sotOptionsDerived = None
         self.regionRules = None
         self.multiworldHints: typing.Optional[MultiworldHints] = None
+        self.shopWarehouse: typing.Optional[ShopWarehouse] = None
 
-    def to_file(self, name: str, directory: str):
-        with open("{}{}.{}".format(directory, name, self.FILE_SUFFIX), 'wb') as f:
-            pickle.dump(self, f)
+    def to_file(self, output_file_and_directory: str):
+        with open(output_file_and_directory, 'wb') as f:
+           pickle.dump(self, f)
 
     def from_fire(self, filename: str):
         with open(filename, 'rb') as f:
@@ -23,6 +25,7 @@ class ClientInput:
         self.sotOptionsDerived = clientInput.sotOptionsDerived
         self.regionRules = clientInput.regionRules
         self.multiworldHints = clientInput.multiworldHints
+        self.shopWarehouse = clientInput.shopWarehouse
 
     def hasEnoughToPlay(self) -> bool:
         return self.sotOptionsDerived is not None and self.regionRules is not None

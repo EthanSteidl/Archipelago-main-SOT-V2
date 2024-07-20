@@ -15,7 +15,7 @@ class Balance:
         return Balance(ac, db, g)
 
     def __add__(self, other):
-        ac = self.ancient_coins + other.ancientCoins
+        ac = self.ancient_coins + other.ancient_coins
         db = self.dabloons + other.dabloons
         g = self.gold + other.gold
         return Balance(ac, db, g)

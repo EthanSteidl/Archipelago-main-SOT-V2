@@ -43,6 +43,7 @@ class Regions(list):
     R_SHIP_CANNONS: RegionDetails = RegionDetails("Ship Cannons")
     R_SHIP_COOKER: RegionDetails = RegionDetails("Ship Stove")
 
+    R_SHOP_ALL: RegionDetails = RegionDetails("Shops")
     R_SHOP_ANCIENT_SPIRE: RegionDetails = RegionDetails("Ancient Spire Outpost Shop", True)
     R_SHOP_DAGGER_TOOTH: RegionDetails = RegionDetails("Dagger Tooth Outpost Shop", True)
     R_SHOP_GALLEONS_GRAVE: RegionDetails = RegionDetails("Galleon's Grave Outpost Shop", True)

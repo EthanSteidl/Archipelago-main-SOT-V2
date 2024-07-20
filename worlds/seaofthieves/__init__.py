@@ -100,7 +100,6 @@ class SOTWorld(World):
         return item
 
     def create_items(self):
-        # thisWorldsLocCount = self.locationCollection.getLocCount()
         create_items(self.multiworld, len(self.location_name_to_id.keys()), self.sotOptionsDerived, self.itemCollection,
                      self.player)
 
@@ -108,15 +107,22 @@ class SOTWorld(World):
         return self.itemCollection.getFillerItemName()
 
     def post_fill(self) -> None:
-        self.clientInputs.sotOptionsDerived = self.sotOptionsDerived
-        self.clientInputs.regionRules = self.region_rules
+        pass
+
 
 
 
     def generate_output(self, output_directory: str):
-        # Uses self.random based on function generate_output's comment
+        client_file = f"{self.multiworld.get_out_file_name_base(self.player)}.apsot"
+        output_file_and_directory = os.path.join(output_directory, client_file)
+
+        #Uses self.random based on function generate_output's comment
+        self.clientInputs.sotOptionsDerived = self.sotOptionsDerived
+        self.clientInputs.regionRules = self.region_rules
+        self.clientInputs.shopWarehouse = self.locationCollection.shops
+        self.clientInputs.shopWarehouse.remove_non_pickle_members()
         self.clientInputs.multiworldHints = MultiworldHints(self.multiworld, self.player, self.random, 50)
-        self.clientInputs.to_file(self.multiworld.get_out_file_name_base(self.player), output_directory)
+        self.clientInputs.to_file(output_file_and_directory)
 
     def pre_fill_seals(self) -> int:
 

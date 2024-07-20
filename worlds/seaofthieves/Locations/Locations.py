@@ -51,6 +51,9 @@ class WebLocation:
     def evaluate(self, itemSet: typing.Set[str]) -> bool:
         return self.itemLogic.evaluate(itemSet)
 
+    def logicToString(self) -> str:
+        return self.itemLogic.logicToString()
+
     def isScreenDataMatch(self, text: str) -> bool:
         if self.screenData.hasMatch(text):
             return True
@@ -86,8 +89,24 @@ class WebLocationCollection(typing.List[WebLocation]):
         super().__init__()
         self.extend(lst)
 
+    def killLambda(self):
+        for web_loc in self:
+            web_loc.itemLogic.lambdaFunction = None
     def getFirstRegion(self):
         return self[0].regionCollection.getFirst()
+
+    def logicToString(self) -> str:
+        st = ""
+        first = True
+        for web_loc in self:
+            if not first:
+                st += " or ["
+            else:
+                first = False
+                st += "["
+            st += web_loc.logicToString()
+            st += "] "
+        return st
 
     def isAnyReachable(self, itemSet: typing.Set[str]) -> bool:
         for web_loc in self:
@@ -163,6 +182,9 @@ class LocDetails:
         self.cost: typing.Optional[Balance] = cost
         LocDetails.seedId += 1
 
+    def killLambda(self):
+        self.webLocationCollection.killLambda()
+
     def setLambda(self, loc, player):
         def compute(state):
             return self.webLocationCollection.lamb(player)(state)
@@ -180,6 +202,7 @@ class LocDetails:
 
         }
         return dict
+
 
     @classmethod
     def resetSeedId(cls):

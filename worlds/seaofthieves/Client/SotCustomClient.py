@@ -6,8 +6,9 @@ import time
 # CommonClient import first to trigger ModuleUpdater
 # import winsound
 from worlds.seaofthieves.Locations.LocationCollection import LocationDetailsCollection, LocDetails
-from worlds.seaofthieves.Items.Items import ItemCollection
-from worlds.seaofthieves.Items.Items import Items, ItemDetail
+from worlds.seaofthieves.Items.ItemCollection import ItemCollection
+from worlds.seaofthieves.Items.Items import Items
+from worlds.seaofthieves.Items.ItemDetail import ItemDetail
 from worlds.seaofthieves.Client.Shop import Shop
 from worlds.seaofthieves.Client.SotWebOptions import SotWebOptions
 from worlds.seaofthieves import ClientInput
@@ -26,7 +27,7 @@ from typing import NamedTuple
 from worlds.seaofthieves.Client.NetworkProtocol.PrintJsonPacket import PrintJsonPacket
 from worlds.seaofthieves.Client.NetworkProtocol.ReceivedItemsPacket import ReceivedItemsPacket
 from worlds.seaofthieves.Client.NetworkProtocol.SetReply import SetReplyPacket
-import worlds.seaofthieves.Shop.Balance as Balance
+import worlds.seaofthieves.Locations.Shop.Balance as Balance
 
 
 class Version(NamedTuple):
@@ -40,42 +41,66 @@ class SOT_CommandProcessor(ClientCommandProcessor):
 
     def _cmd_hints(self) -> bool:
         """Displays hints you have purchased"""
+        if not self.ctx.connected_to_server:
+            self.output("Connect to server before issuing this command.")
+            return True
         for hint in self.ctx.playerInventory.get_hints():
             self.output(hint)
         return True
 
     def _cmd_tracker(self) -> bool:
         """Displays autotracker"""
+        if not self.ctx.connected_to_server:
+            self.output("Connect to server before issuing this command.")
+            return True
         self.output("Auto tracker is on if true: " +str(self.ctx.message_displayed))
         return True
 
     def _cmd_forceunlock(self) -> bool:
         """Removes all location logic restrictions"""
+        if not self.ctx.connected_to_server:
+            self.output("Connect to server before issuing this command.")
+            return True
         self.output("All location restrictions removed, tracking all. (Activates in 10 seconds)")
         self.ctx.forceUnlock = True
 
     def _cmd_linkShip(self, command: str) -> bool:
         """Tracks another ship on this world"""
+        if not self.ctx.connected_to_server:
+            self.output("Connect to server before issuing this command.")
+            return True
         self.output("Not Implemented")
         return False
 
     def _cmd_linkPirate(self, command: str) -> bool:
         """Tracks another pirate on this world"""
+        if not self.ctx.connected_to_server:
+            self.output("Connect to server before issuing this command.")
+            return True
         self.output("Not Implemented")
         return False
 
     def _cmd_shop(self) -> bool:
         """Opens the shop"""
+        if not self.ctx.connected_to_server:
+            self.output("Connect to server before issuing this command.")
+            return True
         self.ctx.shop.info(self.ctx.playerInventory)
         return True
 
     def _cmd_buy(self, menu_line_number):
         """Allows you to buy an item from the shop"""
+        if not self.ctx.connected_to_server:
+            self.output("Connect to server before issuing this command.")
+            return True
         menu_line_number = str(menu_line_number)
         self.ctx.shop.executeAction(menu_line_number, self.ctx.playerInventory)
 
     def _cmd_locs(self, arg: typing.Optional[str] = None):
         """Displays locations you can currently complete (argument -f adds display of filler locations)"""
+        if not self.ctx.connected_to_server:
+            self.output("Connect to server before issuing this command.")
+            return True
         loc_details_possible: typing.List[LocDetails] = self.ctx.locationsReachableWithCurrentItems()
 
         possible_progression_locations = 0
@@ -106,6 +131,9 @@ class SOT_CommandProcessor(ClientCommandProcessor):
 
     def _cmd_complete(self, locId):
         """Force completes a check. Enter "-all" to complete all checks displayed with locs command"""
+        if not self.ctx.connected_to_server:
+            self.output("Connect to server before issuing this command.")
+            return True
 
         if locId == "-all" or locId == "-allf":
             loc_details_possible: typing.List[LocDetails] = self.ctx.locationsReachableWithCurrentItems()
@@ -126,11 +154,15 @@ class SOT_CommandProcessor(ClientCommandProcessor):
             asyncio.create_task(self.ctx.connect(address))
 
     def _cmd_mrkrabs(self):
+        if not self.ctx.connected_to_server:
+            self.output("Connect to server before issuing this command.")
+            return True
         """Gives you alot of money"""
         self.output("You now have alot of money.")
         self.ctx.playerInventory.addBalanceClient(Balance.Balance(100000000, 100000000, 10000000))
 
     def _cmd_setmode(self, mode):
+
         """Sets mode, pass "NA" for pirate mode, or pass your ship number for ship mode"""
         ship = mode
 
@@ -200,6 +232,15 @@ class SOT_Context(CommonContext):
 
     def create_tasks(self):
         self.active_tasks.append(asyncio.create_task(CommonClient.server_loop(self), name="server loop"))
+
+        try:
+            apsot_file = Utils.open_filename('Select APSOT file', (('APSOT File', ('.apsot',)),))
+            client_input: ClientInput = ClientInput()
+            client_input.from_fire(apsot_file)
+            self.userInformation.generationData = client_input
+        except Exception as e:
+            self.output("Error uploading sotci file, was your filepath correct? {}".format(e))
+            exit(1)
         self.active_tasks.append(asyncio.create_task(self.updaterLoopa(), name="game watcher"))
 
     def run_gui_and_cli(self):
@@ -218,19 +259,26 @@ class SOT_Context(CommonContext):
 
     async def updaterLoop(self):
         first_pass = True
+        exception_attempts = 0
         while not self.stop_application:
-            await asyncio.sleep(1)
-            if self.connected_to_server:
-                if first_pass:
-                    await self.init_notif()
-                    first_pass = False
-                else:
-                    try:
-                        self.updateSotPlayerBalance()
-                        self.updateAnalyzerWithLocationsPossible()
-                        await self.collectLocationsAndSendInformation()
-                    except Exception as e:
-                        self.output("Error occurred: " + str(e))
+            try:
+                await asyncio.sleep(1)
+                if self.connected_to_server:
+                    if first_pass:
+                        await self.init_notif()
+                        first_pass = False
+                    else:
+                        try:
+                            self.updateSotPlayerBalance()
+                            self.updateAnalyzerWithLocationsPossible()
+                            await self.collectLocationsAndSendInformation()
+                        except Exception as e:
+                            self.output("Error occurred: " + str(e))
+            except Exception as e:
+                self.output("Updater Loop Unrecoverable Failure (Stopping Application after 3 attempts): " + str(e))
+                exception_attempts += 1
+                if exception_attempts == 3:
+                    self.stop_application = True
 
         # stop the processes
         if self.analyzer is not None:
@@ -250,7 +298,7 @@ class SOT_Context(CommonContext):
 
 
     async def init_notif(self):
-        keys: typing.List[str] = [Items.golden_dragon.name]
+        keys: typing.List[str] = [Items.kraken.name]
         await self.snd_notify(keys)
         return
 
@@ -291,6 +339,7 @@ class SOT_Context(CommonContext):
             self.locationDetailsCollection.addAll()
             self.locationDetailsCollection.applyRegionDiver(self.userInformation.generationData.regionRules)
             self.locations_checked = set(args["checked_locations"])
+            self.shop.addWarehouse(self.userInformation.generationData.shopWarehouse, self.playerInventory)
 
         elif cmd == "LocationInfo":
             pass
@@ -311,7 +360,7 @@ class SOT_Context(CommonContext):
             if received_items_packet.items is not None:
                 self.items_received = received_items_packet.items
                 for item in self.items_received:
-                    self.playerInventory.add_item(item.item)
+                    self.playerInventory.add_item(item.item, self.itemCollection.getNameFromId(item.item))
                     self.applyMoneyIfMoney(item)
                     if Items.pirate_legend.id == item.item:
                         self.finished_game = True
@@ -355,11 +404,11 @@ class SOT_Context(CommonContext):
             db = 0
             self.playerInventory.addBalanceClient(Balance.Balance(ac, db, gold_val))
 
-        elif item_id == Items.golden_dragon:
+        elif item_id == Items.kraken:
             self.output(
-                "Captain! The legendary " + colorama.Fore.YELLOW + Items.golden_dragon.name + colorama.Style.RESET_ALL + " is coming for your " + colorama.Fore.GREEN + "COINS" + colorama.Fore.RESET + ". You are now broke.")
+                "Captain! The legendary " + colorama.Fore.YELLOW + Items.kraken.name + colorama.Style.RESET_ALL + " is coming for your " + colorama.Fore.GREEN + "COINS" + colorama.Fore.RESET + ". You are now broke.")
             self.playerInventory.setBalanceSot(Balance.Balance(-10000, -10000, -10000))
-            self.snd_add(Items.golden_dragon.name)
+            self.snd_add(Items.kraken.name)
 
         elif item_id in dabloon_ids.keys():
             gold_val = 0

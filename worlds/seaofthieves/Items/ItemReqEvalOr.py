@@ -18,6 +18,20 @@ class ItemReqEvalOr:
                 return True
         return False
 
+    def logicToString(self) -> str:
+        st = ""
+        first = True
+        for andLgc in self.conditions:
+            if not first:
+                st += " or ("
+            else:
+                st += "("
+                first = False
+            st += andLgc.logicToString()
+            st += ")"
+        return st
+
+
     def addAndLogic(self, detail: ItemDetail):
         for andLgc in self.conditions:
             andLgc.addAndLogic(detail)

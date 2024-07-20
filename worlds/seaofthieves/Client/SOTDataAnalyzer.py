@@ -7,8 +7,7 @@ import typing
 import worlds.seaofthieves.Client.UserInformation as UserInformation
 from worlds.seaofthieves.Locations.Locations import WebLocation
 from worlds.seaofthieves.Locations.LocationCollection import LocationDetailsCollection, LocDetails
-from worlds.seaofthieves.Items.Items import ItemCollection
-import worlds.seaofthieves.Client.Balance as Balance
+import worlds.seaofthieves.Locations.Shop.Balance as Balance
 
 
 # from worlds.seaofthieves.Client.windowcapture import  WindowCapture

@@ -29,6 +29,7 @@ from .Voyager import Rowboats
 from .Voyager import Shipwrecks
 from .Voyager import TallTales
 from .Shops import Shops
+from .Shop import ShopLocation, Balance
 import typing
 from .Shop import ShopWarehouse, ShopLocationList, ShopLocation
 
@@ -50,7 +51,7 @@ class LocationDetailsCollection:
         # TODO this may cause bugs.. we should move the prices out of the shops here somehow to decouple this?
         self.random: random.Random | None = None
 
-        self.shops: ShopWarehouse = ShopWarehouse.ShopWarehouse()
+        self.shops: typing.Optional[ShopWarehouse] = None
 
 
     def applyRegionDiver(self, connection_details: typing.List[ConnectionDetails]):
@@ -113,13 +114,25 @@ class LocationDetailsCollection:
 
     def getLocationsForRegion(self, regName: str, player: int) -> typing.List[SOTLocation]:
 
+        if self.shops == None:
+            self.shops = ShopWarehouse.ShopWarehouse()
+
+
+
         lst: typing.List[SOTLocation] = []
         for settingString in self.checkTypeToLocDetail.keys():
+
             for locName in self.checkTypeToLocDetail[settingString].keys():
 
                 loc_det: LocDetails = self.checkTypeToLocDetail[settingString][locName]
+
                 if loc_det.webLocationCollection.getFirstRegion() == regName:
-                    loc = SOTLocation(loc_det, player, regName)
+                    if settingString == self.SHOP_DESCRIPTOR:
+                        loc: ShopLocation.ShopLocation = ShopLocation.ShopLocation(loc_det, player, regName,
+                                                                                   loc_det.cost)
+                        self.shops.add_location(loc)
+                    else:
+                        loc: SOTLocation = SOTLocation(loc_det, player, regName)
                     if not loc_det.doRandomize:
                         loc.progress_type = 3  # excluded
                     lst.append(loc)

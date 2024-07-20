@@ -1,6 +1,6 @@
 import typing
 
-from worlds.seaofthieves.Shop.Balance import Balance
+from worlds.seaofthieves.Locations.Shop.Balance import Balance
 
 
 class PlayerInventory:
@@ -14,7 +14,7 @@ class PlayerInventory:
 
         self.itemsToSendToClient = []
 
-        self.item_names_in_inventory = {}
+        self.item_ids_in_inventory: typing.Dict[int, str] = {}
 
     def get_hints(self):
         return self.owned_hints
@@ -25,8 +25,14 @@ class PlayerInventory:
     def add_item_to_client(self, id: int):
         self.itemsToSendToClient.append(id)
 
-    def add_item(self, id: int):
-        self.item_names_in_inventory[id] = True
+    def add_item(self, id: int, name: str):
+        self.item_ids_in_inventory[id] = name
+
+    def get_item_names_in_inventory(self) -> typing.Set:
+        s = set()
+        for key in self.item_ids_in_inventory.keys():
+            s.add(self.item_ids_in_inventory[key])
+        return s
 
     def setBalanceSot(self, bal: Balance):
         self.balanceSot = bal

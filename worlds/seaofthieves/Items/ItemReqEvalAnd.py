@@ -16,6 +16,16 @@ class ItemReqEvalAnd:
                 return False
         return True
 
+    def logicToString(self) -> str:
+        st = ""
+        first = True
+        for det in self.condition:
+            if not first:
+                st += ", "
+            else:
+                first = False
+            st += det.name
+        return st
     def addAndLogic(self, item: ItemDetail):
         self.condition.append(item)
 
