@@ -192,16 +192,6 @@ class SOT_CommandProcessor(ClientCommandProcessor):
         else:
             self.output("Error setting cookie, either could not locate file or file was empty")
 
-    # def _cmd_setsotci(self, filepath):
-    #     """Sets configuration related to your settings, pass "Absolute Filepath" to your apsmSOTCI file generated with
-    #     the world for your player"""
-    #     client_input: ClientInput = ClientInput()
-    #     try:
-    #         client_input.from_fire(filepath.strip('\"'))
-    #     except Exception as e:
-    #         self.output("Error uploading sotci file, was your filepath correct? {}".format(e))
-    #     self.ctx.userInformation.generationData = client_input
-    #     self.output("SOTCI Set Successfully")
 
 
 class SOT_Context(CommonContext):
@@ -303,11 +293,6 @@ class SOT_Context(CommonContext):
     def output(self, text):
         self.command_processor.output(self.command_processor, text)
 
-    # async def init_shop_history(self):
-    #
-    #     #28 is number of items in shop. This needs to be a TODO to fix this value
-    #     lst = [i for i in range(0,28)]
-    #     await self.snd_get(lst)
 
     async def init_notif(self):
         keys: typing.List[str] = [Items.kraken.name]
@@ -384,7 +369,7 @@ class SOT_Context(CommonContext):
 
         elif cmd == "SetReply":
             setReplyPacket: SetReplyPacket = SetReplyPacket(args)
-            if setReplyPacket.key is Items.golden_dragon.name:
+            if setReplyPacket.key is Items.kraken.name:
                 puns = [
                     "Captain! " + colorama.Fore.YELLOW + "Another Player " + colorama.Fore.RESET + "leveraged to much naval real estate and succumbed to collections",
                     "Captain! " + colorama.Fore.YELLOW + "Another Player " + colorama.Fore.RESET + "invested their money in an MLM",
