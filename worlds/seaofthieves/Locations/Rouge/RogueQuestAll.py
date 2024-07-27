@@ -45,5 +45,5 @@ class RogueQuestAll(LocationsBase):
         self.locations.append(LocDetails(RogueQuestAll.SLEEP, wlc, settings.sleeping > 0))
 
         web = WebItemJsonIdentifier(self.x[0], 3, self.x[2])
-        wlc = WebLocationCollection([WebLocation(web, reg, lgc, RogueQuestAll.SIT, ScreenData(["Seat"]))])
+        wlc = WebLocationCollection([WebLocation(web, reg, lgc, RogueQuestAll.SIT, ScreenData(["Take a Seat"]))])
         self.locations.append(LocDetails(RogueQuestAll.SIT, wlc, settings.sitting > 0))

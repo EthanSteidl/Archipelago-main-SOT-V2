@@ -176,10 +176,12 @@ class SOT_CommandProcessor(ClientCommandProcessor):
         self.ctx.analyzer.settings = SOTDataAnalyzer.SOTDataAnalyzerSettings(self.ctx.userInformation.analyzerDetails)
         self.output("Mode set to {}".format(mode))
 
-    def _cmd_setcookie(self, filepath):
+    def _cmd_setcookie(self):
         """Sets msCookie, pass "Absolute Filepath" to cookie without quotes"""
+
         try:
-            file = open(filepath.strip('\"'), "r")
+            cookie_file_name = Utils.open_filename('Select Cookie.txt file', (('APSOT File', ('.txt',)),))
+            file = open(cookie_file_name, "r")
             real_cookie = str(file.read())
             file.close()
         except Exception as e:
@@ -212,7 +214,7 @@ class SOT_Context(CommonContext):
         self.itemCollection: ItemCollection = ItemCollection()
         self.shop: Shop = Shop()
         self.shop.ctx = self
-        self.playerInventory:PlayerInventory = PlayerInventory.PlayerInventory()
+        self.playerInventory: PlayerInventory = PlayerInventory.PlayerInventory()
         self.connected_to_server: bool = False
         self.originalBalance: Balance.Balance | None = None
         self.forceUnlock: bool = False
@@ -432,7 +434,8 @@ class SOT_Context(CommonContext):
                 try:
                     self.analyzer.allowTrackingOfLocation(loc_detail)
                 except Exception as e:
-                    self.output("Recoverable error, did you /setmode? - Auto-tracker failed for: {} [{}]".format(loc_detail.name, loc_detail.id))
+                    pass
+                    #self.output("Recoverable error, did you /setmode? - Auto-tracker failed for: {} [{}]".format(loc_detail.name, loc_detail.id))
 
 
         self.acknowledgeItemsReceived()

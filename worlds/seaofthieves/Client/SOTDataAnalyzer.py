@@ -10,7 +10,7 @@ from worlds.seaofthieves.Locations.LocationCollection import LocationDetailsColl
 import worlds.seaofthieves.Locations.Shop.Balance as Balance
 
 
-# from worlds.seaofthieves.Client.windowcapture import  WindowCapture
+#from worlds.seaofthieves.Client.windowcapture import  WindowCapture
 
 class SOTDataAnalyzerSettings:
 
@@ -42,7 +42,7 @@ class SOTDataAnalyzer:
         self.trackedLocationsData: typing.Dict[int, typing.Dict[int, OldNewValues]] = {}
 
         self.banned: typing.Dict[int, bool] = {}
-        # self.window_capture: WindowCapture = WindowCapture()
+        #self.window_capture: WindowCapture = WindowCapture()
         self.last_screenshot_time = -1000
         self.screenshot_second_interval = 2
 
@@ -52,9 +52,7 @@ class SOTDataAnalyzer:
 
     def __readElementFromScreenText(self, web_location: WebLocation) -> bool:
 
-        return False
 
-        '''
         #check if there is a screen element on the web location
         if web_location.screenData is None:
             return False
@@ -64,23 +62,24 @@ class SOTDataAnalyzer:
             self.last_screenshot_time = time.time()
 
             try:
-                self.screenshot_hand = self.window_capture.get_screenshot_right_hand()
-                self.screenshot_hand.save("temp_hand.png")
+                #self.screenshot_hand = self.window_capture.get_screenshot_right_hand()
+                #self.screenshot_hand.save("temp_hand.png")
                 #self.screenshot_hand.show()
-                self.screenshot_bottom_text = self.window_capture.get_screenshot_bottom_text()
-                self.bottom_text = self.window_capture.get_text_from_screenshgot(self.screenshot_bottom_text)
+                #self.bottom_text = self.window_capture.get_bt()
+                print(self.bottom_text)
+                #self.bottom_text = self.window_capture.get_text_from_screenshgot(self.screenshot_bottom_text)
 
             except Exception as e:
 
-                    print("Game window not found - report as bug if game is running")
+                    print("Game window not found - report as bug if game is running {}".format(e))
 
 
-        if web_location.screenData.hasMatch(self.bottom_text, self.screenshot_hand):
-            print("Found match!!")
-            return True
+        # if web_location.screenData.hasMatch(self.bottom_text, self.screenshot_hand):
+        #     print("Found match!!")
+        #     return True
 
         return False
-        '''
+
 
     def __readElementFromWebLocation(self, web_location: WebLocation, json_data):
 
@@ -172,8 +171,8 @@ class SOTDataAnalyzer:
         idx = 0
         for web_loc in loc_details.webLocationCollection:
             scrren_caped = False
-            #
-            # TODO this is the screen compare logic, WIP
+
+            # # TODO this is the screen compare logic, WIP
             #
             # try:
             #     scrren_caped = self.__readElementFromScreenText(web_loc)

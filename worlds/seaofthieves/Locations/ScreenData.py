@@ -1,6 +1,6 @@
 import typing
 
-
+#from thefuzz import fuzz
 # import cv2
 
 
@@ -23,13 +23,15 @@ class ScreenData:
         return False
 
     def __hasTextMatch(self, txt: str):
-        if txt == '':
-            return False
-        for text_str in self.text_group:
-            if text_str in txt:
-                return True
-
         return False
+        # if txt == '':
+        #     return False
+        # for text_str in self.text_group:
+        #     score: int = fuzz.partial_ratio(txt, text_str)
+        #     if score > 90:
+        #         return True
+        #
+        # return False
 
     def __hasImageMatch(self, image_scr) -> bool:
         return False
