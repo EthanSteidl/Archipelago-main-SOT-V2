@@ -32,28 +32,28 @@ When completing a location, you are only rewarded the item at the location if yo
 location.
 The following items are randomized:
 
+Sails
 - Sail - Unlocks the ability to check locations away from the starting island
-- Inferno Sail - Unlocks the ability to check locations in the Devil's Roar
-- Voyages of Fortresses - Allows location rewards related to Fortresses
+- Ashen Sail - Unlocks the ability to check locations in the Devil's Roar
+
+Voyage Bundles
+- Voyages of Sea Forts - Allows location rewards related to Fortresses
 - Voyages of Gold Hoarders - Allows location rewards for completing Voyages
 - Voyages of Merchants - Allows location rewards for completing voyages
 - Voyages of Souls - Allows location rewards for completing voyages
 - Voyages of Athena - Allows location rewards for completing voyages
 - Voyages of Reaper - Allows location rewards for selling any Reaper chest
 - Voyages of Tall Tales - Allows location rewards for completeing Tall Tales
+- Voyages of Destiny - Allows access to the Skull of Destiny (required for Fort of the Damned Entry)
+
+Emissary Flags
 - Emissary of Gold Hoarders - Allows location rewards for emmissary actions
 - Emissary of Merchants - Allows location rewards for emmissary actions
 - Emissary of Souls - Allows location rewards for emmissary actions
 - Emissary of Athena - Allows location rewards for emmissary actions
 - Emissary of Reaper - Allows location rewards for emmissary actions
-- Voyages of Destiny - Allows access to Fort of the Damned
-- Personal Weapons - Allows access to pirate combat related loctions (ex: Kill Skeleton quest)
-- Ship Weapons - Allows access to ship combat related locations (ex: Ghost Ship voyage)
-- Fishing Rod - Allows location rewards for fishing
-- Shovel - Allows location rewards for digging related locations
-- Pirate Legend - Once achieved, you win
-- Stove - Allows access to EAT, COOK, BURN checks that would usually require cooking
-- Progressive Wallet (amount = 2) - Increases your fund limit for the client shop
+
+Shop Catelogs
 - Catalog of Ancient Spire - Allows access to the shop
 - Catalog of Dagger Tooth - Allows access to the shop
 - Catalog of Galleon's Grave - Allows access to the shop
@@ -61,15 +61,30 @@ The following items are randomized:
 - Catalog of Plunder - Allows access to the shop
 - Catalog of Sanctuary - Allows access to the shop
 
-The following items are filler:
+Barrels
+- Food Barrel - Allows access to locations that expect you to have food (note read Stove)
+- Cannon Barrel - Allows access to locations that expect you to have cannonballs (note read Ship Weapons)
+- Wood Barrel - Allows access to locations that would expect you to repair the ship
 
-1. Gold Coins
-2. Ancient Coins
-3. Dabloons
+Misc. Items
+- Personal Weapons - Allows access to pirate combat related loctions (ex: Kill Skeleton quest)
+- Ship Weapons - Allows access to ship combat related locations (ex: Ghost Ship voyage)
+- Fishing Rod - Allows location rewards for fishing
+- Shovel - Allows location rewards for digging related locations
+- Stove - Allows access to EAT, COOK, BURN checks that would usually require cooking
+- Progressive Wallet (amount = 2) - Increases your fund limit for the client shop
+
+Victory Condition
+- Pirate Legend - Once achieved, you win. This items is awarded on FOTD completion 
+
+The following items are filler:
+- Gold Coins
+- Ancient Coins
+- Dabloons
 
 The following items are traps:
 
-1. Kraken - Makes you lose your client money sent to your session
+- Kraken - Makes you lose your client money sent to your session
 
 ## What can you do with Gold, Dabloon, and Ancient Coin?
 
@@ -119,25 +134,18 @@ Your personal fake money wallet has a limit though, to increase its size you wil
 The following commands are only available when using the Sea of Thieves Client to play with Archipelago. You can list
 them any time in the client with `/help`.
 
-* `/locs` Shows what checks are possible. Add argument "-f" to add filler locations to output
+* `/hints` Shows hints you have purchased with `/buy` in the `/shop`
+* `/tracker` Shows the status of the autotracker
+* `/forceunlock` Removes all logic requirements for every location. Only use if the game logic is buggy and preventing you from accessing a location
 * `/shop` Opens the shop
 * `/buy #` Buys an item from the shop
-* `/hints` Shows hints purchased from the shop
-* `/linkShip --name <ship_name> --mscookie <#>`, WIP, Adds tracking of another ship to your multiworld as your player (
-  If you want two players to be able to perform checks on different ships with a shared item/location pool)
-* `/linkPirate --name <pirate_name> --mscookie <#>`, WIP, Adds tracking of another pirate to your multiworld as your
-  player (If you want two players to be able to perform checks on different ships with a shared item/location pool)
-* `/delinkAll`, WIP, Delinks all tracked accounts from the client
+* `/locs` Shows all possible locations with your current items that were not excluded by game settings.
+* `/locs -f` Shows all possible locations with your current items
+* `/complete <locID>` Force completes a location. You can use any variation of `/locs` to see the location ids
+* `/complete -all` Force completes all locations currently shown by `/locs`
+* `/complete -allf` Force completes all locations currently shown by `/locs -f`
+* `/connect <ip:port>` Connects to host
+* `/mrkrabs` Gives you a large amount of money
 * `/setmode <id>`, Sets the mode of the game. Use and id of "NA" for pirate mode. Use an id of a numeric value to set
   your corresponding ship to be tracked
-* `/setcookie <filepath>`, Sets your authentication cookie to a string saved in an absolute filepath. EX: "C:
-  \Users\Bob\Desktop\file.txt"
-* `/setsotci <filepath>`, Sets your SOTCI options to binary data stored in an absolute filepath. EX: "C:
-  \Users\Bob\Desktop\file.apsmSOTCI"
-
-The following commands are debug commands
-
-* `/mrkrabs` Gives you a large amount of money
-* `/forceunlock` Removes all logic requirements for every location
-* `/complete <locID>` Force completes a location and rewards its contents. Use "-all" as the locID to force complete all
-  locations available with `/locs`. Use "-allf" as the locID to force complete all locations available with `/locs -f`
+* `/setcookie`, Sets your authentication cookie for the auto-tracker

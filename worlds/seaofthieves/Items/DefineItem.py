@@ -67,7 +67,7 @@ class Define:
 
             @staticmethod
             def fortress():
-                itm = ItemDetail("Voyages of Fortresses", ItemClassification.progression)
+                itm = ItemDetail("Voyages of Sea Forts", ItemClassification.progression)
                 return itm
 
             @staticmethod

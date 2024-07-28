@@ -64,21 +64,21 @@ class SOT_CommandProcessor(ClientCommandProcessor):
         self.output("All location restrictions removed, tracking all. (Activates in 10 seconds)")
         self.ctx.forceUnlock = True
 
-    def _cmd_linkShip(self, command: str) -> bool:
-        """Tracks another ship on this world"""
-        if not self.ctx.connected_to_server:
-            self.output("Connect to server before issuing this command.")
-            return True
-        self.output("Not Implemented")
-        return False
-
-    def _cmd_linkPirate(self, command: str) -> bool:
-        """Tracks another pirate on this world"""
-        if not self.ctx.connected_to_server:
-            self.output("Connect to server before issuing this command.")
-            return True
-        self.output("Not Implemented")
-        return False
+    # def _cmd_linkShip(self, command: str) -> bool:
+    #     """Tracks another ship on this world"""
+    #     if not self.ctx.connected_to_server:
+    #         self.output("Connect to server before issuing this command.")
+    #         return True
+    #     self.output("Not Implemented")
+    #     return False
+    #
+    # def _cmd_linkPirate(self, command: str) -> bool:
+    #     """Tracks another pirate on this world"""
+    #     if not self.ctx.connected_to_server:
+    #         self.output("Connect to server before issuing this command.")
+    #         return True
+    #     self.output("Not Implemented")
+    #     return False
 
     def _cmd_shop(self) -> bool:
         """Opens the shop"""
