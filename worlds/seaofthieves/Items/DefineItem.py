@@ -40,12 +40,27 @@ class Define:
 
             @staticmethod
             def sail_inferno():
-                itm = ItemDetail("Inferno Sail", ItemClassification.progression)
+                itm = ItemDetail("Ashen Sail", ItemClassification.progression)
                 return itm
 
             @staticmethod
             def stove():
                 itm = ItemDetail("Stove", ItemClassification.progression)
+                return itm
+
+            @staticmethod
+            def food_barrel():
+                itm = ItemDetail("Food Barrel", ItemClassification.progression)
+                return itm
+
+            @staticmethod
+            def wood_barrel():
+                itm = ItemDetail("Wood Barrel", ItemClassification.progression)
+                return itm
+
+            @staticmethod
+            def cannon_barrel():
+                itm = ItemDetail("Cannon Barrel", ItemClassification.progression)
                 return itm
 
         class Voyage:

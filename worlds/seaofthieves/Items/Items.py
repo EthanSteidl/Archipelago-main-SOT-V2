@@ -20,6 +20,9 @@ class Items:
     sail = Define.Item.Ship.sail()
     sail_inferno = Define.Item.Ship.sail_inferno()
     stove = Define.Item.Ship.stove()
+    barrel_food = Define.Item.Ship.food_barrel()
+    barrel_cannon = Define.Item.Ship.cannon_barrel()
+    barrel_wood = Define.Item.Ship.wood_barrel()
 
     voyage_fortress = Define.Item.Voyage.fortress()
     voyages_gh = Define.Item.Voyage.gh()

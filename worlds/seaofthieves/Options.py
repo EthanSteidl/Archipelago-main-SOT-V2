@@ -47,11 +47,6 @@ class SOTOptions(PerGameCommonOptions):
 
     fishSanity: Fishoptions.FishSanity
     shopSanity: Shopoptions.ShopSanity
-    # sellSettingsGh: Selloptions.GhSellRange
-    # sellSettingsMa: Selloptions.MaSellRange
-    # sellSettingsOos: Selloptions.OosSellRange
-    # sellSettingsAf: Selloptions.AfSellRange
-    # sellSettingsRb: Selloptions.RbSellRange
 
     cannonSanityBalls: Cannonsoptions.CannonSanityBalls
     cannonSanityCursed: Cannonsoptions.CannonSanityCursed

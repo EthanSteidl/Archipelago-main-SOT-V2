@@ -189,4 +189,5 @@ class LocationDetailsCollection:
         # hints?
         self.addHintsToSelf(VoyageIslandVisited().getLocations(), "HintsIslandsVisited")
 
+        LocDetails.resetSeedId()
         return

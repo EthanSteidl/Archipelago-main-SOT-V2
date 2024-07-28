@@ -11,6 +11,7 @@ from ..Regions.ConnectionDetails import ConnectionDetails
 from ..Items.ItemReqEvalOr import ItemReqEvalOr
 from ..Items.ItemReqEvalAnd import ItemReqEvalAnd
 import collections
+from itertools import combinations_with_replacement
 
 
 class RegionDiver:
@@ -75,13 +76,50 @@ def create_rules(options: SotOptionsDerived, world: MultiWorld):
     rules: typing.List[ConnectionDetails] = []
 
     rules.append(ConnectionDetails(Regions.R_MENU, Regions.R_PLAYER_SHIP, ItemReqEvalOr([])))
-    # rules.append(ConnectionDetails(Regions.R_PLAYER_SHIP, Regions.R_OPEN_SEA, ItemReqEvalOr([])))
+
     rules.append(ConnectionDetails(Regions.R_PLAYER_SHIP, Regions.R_OPEN_SEA,
                                    ItemReqEvalOr([ItemReqEvalAnd([Items.sail])])))
+
+    add_rules_sea_2_sea_logic(rules)    # Connects the Sea, Ashen Sea, and the Shared Sea together
+    add_rules_sea_2_em(rules)           # Connect Sea to Em Sea
+    add_rules_asea_2_aem(rules)
+    add_rules_sea_2_islands(rules)      # Connect Sea to islands
+    add_rules_asea_2_aislands(rules)
+    add_rules_sea_2_fort(rules)         # Connect Sea to forts
+    add_rules_asea_2_afort(rules)
+    add_rules_sea_2_talltales(rules)    # Connect Sea to tall tales
+    add_rules_asea_2_atalltales(rules)
+    add_rules_seas_2_shops(rules)       # Connects the Shared sea to the Shops
+    add_rules_sea_2_fod(rules, options, world)  # Connect sea to FOD
+    add_rules_sea_2_othership(rules)  # Connects sea to other pirate ships
+    add_rules_pship_2_onboard(rules)    # Connects player ship to ship contents
+
+    return rules
+
+def add_rules_sea_2_sea_logic(rules):
     rules.append(ConnectionDetails(Regions.R_OPEN_SEA, Regions.R_OPEN_SEA_ASHEN,
                                    ItemReqEvalOr([ItemReqEvalAnd([Items.sail_inferno])])))
     rules.append(ConnectionDetails(Regions.R_OPEN_SEA, Regions.R_OPEN_SEA_SHARED, ItemReqEvalOr([])))
     rules.append(ConnectionDetails(Regions.R_OPEN_SEA_ASHEN, Regions.R_OPEN_SEA_SHARED, ItemReqEvalOr([])))
+
+def add_rules_sea_2_fod(rules, options: SotOptionsDerived.SotOptionsDerived, world: MultiWorld):
+    game_seals: typing.List[ItemDetail] = [
+        Items.seal_gh,
+        Items.seal_ma,
+        Items.seal_af,
+        Items.seal_rb,
+        Items.seal_oos
+    ]
+
+    # generates all valid seal combinations and allows them in logic
+    allowable_seal_combinations: typing.List = list(combinations_with_replacement(game_seals, options.menuSettings.fodSealRequirement))
+    orable_list: typing.List[ItemReqEvalAnd] = []
+    for i in allowable_seal_combinations:
+        orable_list.append(ItemReqEvalAnd(i))
+
+    rules.append(ConnectionDetails(Regions.R_OPEN_SEA, Regions.R_FORT_OF_THE_DAMNED,
+                                   ItemReqEvalOr(orable_list)))
+def add_rules_sea_2_em(rules):
     rules.append(ConnectionDetails(Regions.R_OPEN_SEA, Regions.R_DOMAIN_EM,
                                    ItemReqEvalOr([
                                        ItemReqEvalAnd([Items.emissary_ma]),
@@ -134,9 +172,7 @@ def create_rules(options: SotOptionsDerived, world: MultiWorld):
                                            Items.personal_weapons, Items.emissary_af]
                                        )],
                                    )))
-    # endregion
-
-    # region Connect Ashen Sea Emissary
+def add_rules_asea_2_aem(rules):
     rules.append(ConnectionDetails(Regions.R_OPEN_SEA_ASHEN, Regions.R_DOMAIN_EM_ASHEN,
                                    ItemReqEvalOr([
                                        ItemReqEvalAnd([Items.emissary_ma]),
@@ -175,17 +211,25 @@ def create_rules(options: SotOptionsDerived, world: MultiWorld):
                                            Items.sail, Items.voyages_oos, Items.emissary_oos]
                                        )]
                                    )))
-    # endregion
+def add_rules_asea_2_aislands(rules):
+    rules.append(ConnectionDetails(Regions.R_OPEN_SEA, Regions.R_ISLANDS_ASHEN,
+                                   ItemReqEvalOr([ItemReqEvalAnd([Items.sail])])))
 
-    # region Connect Open Sea to Things Within
+def add_rules_asea_2_afort(rules):
+    rules.append(ConnectionDetails(Regions.R_OPEN_SEA, Regions.R_FORTRESSES_ASHEN,
+                                   ItemReqEvalOr([ItemReqEvalAnd([Items.sail])])))
 
+
+def add_rules_sea_2_islands(rules):
     rules.append(ConnectionDetails(Regions.R_OPEN_SEA, Regions.R_ISLANDS,
                                    ItemReqEvalOr([ItemReqEvalAnd([Items.sail])])))
+
+def add_rules_sea_2_fort(rules):
     rules.append(ConnectionDetails(Regions.R_OPEN_SEA, Regions.R_FORTRESSES,
                                    ItemReqEvalOr([ItemReqEvalAnd([Items.sail])])))
+def add_rules_seas_2_shops(rules):
+    rules.append(ConnectionDetails(Regions.R_OPEN_SEA_SHARED, Regions.R_SHOP_ALL, ItemReqEvalOr([ItemReqEvalAnd([])])))
 
-    # shops
-    rules.append(ConnectionDetails(Regions.R_OPEN_SEA, Regions.R_SHOP_ALL, ItemReqEvalOr([ItemReqEvalAnd([])])))
     rules.append(ConnectionDetails(Regions.R_SHOP_ALL, Regions.R_SHOP_ANCIENT_SPIRE,
                                    ItemReqEvalOr([ItemReqEvalAnd([Items.cat_as])])))
     rules.append(ConnectionDetails(Regions.R_SHOP_ALL, Regions.R_SHOP_DAGGER_TOOTH,
@@ -198,45 +242,24 @@ def create_rules(options: SotOptionsDerived, world: MultiWorld):
                                    ItemReqEvalOr([ItemReqEvalAnd([Items.cat_p])])))
     rules.append(ConnectionDetails(Regions.R_SHOP_ALL, Regions.R_SHOP_SANCTUARY_OUTPOST,
                                    ItemReqEvalOr([ItemReqEvalAnd([Items.cat_s])])))
+def add_rules_sea_2_talltales(rules):
+    rules.append(ConnectionDetails(Regions.R_OPEN_SEA, Regions.R_DOMAIN_TT,
+                                   ItemReqEvalOr([ItemReqEvalAnd([Items.voyages_tt])])))
 
-    required_seals: typing.List[ItemDetail] = [
-        Items.seal_gh,
-        Items.seal_ma,
-        Items.seal_af,
-        Items.seal_rb,
-        Items.seal_oos
-    ]
-    world.random.shuffle(required_seals)
-    for i in range(len(required_seals) - options.menuSettings.fodSealRequirement):
-        required_seals.pop()
+def add_rules_asea_2_atalltales(rules):
+    rules.append(ConnectionDetails(Regions.R_OPEN_SEA_ASHEN, Regions.R_DOMAIN_TT_ASHEN,
+                                   ItemReqEvalOr([ItemReqEvalAnd([Items.voyages_tt])])))
+def add_rules_pship_2_onboard(rules):
+    rules.append(ConnectionDetails(Regions.R_PLAYER_SHIP, Regions.R_SHIP_CANNONS,
+                                   ItemReqEvalOr([ItemReqEvalAnd([Items.ship_weapons, Items.barrel_cannon])])))
+    rules.append(ConnectionDetails(Regions.R_PLAYER_SHIP, Regions.R_SHIP_COOKER,
+                                   ItemReqEvalOr([ItemReqEvalAnd([Items.stove, Items.barrel_food])])))
 
-    rules.append(ConnectionDetails(Regions.R_OPEN_SEA, Regions.R_FORT_OF_THE_DAMNED,
-                                   ItemReqEvalOr([ItemReqEvalAnd(required_seals)])))
-    # endregion
-
-    # region Connect Ashen Sea to Things Within
-
-    rules.append(ConnectionDetails(Regions.R_OPEN_SEA, Regions.R_ISLANDS_ASHEN,
-                                   ItemReqEvalOr([ItemReqEvalAnd([Items.sail])])))
-    rules.append(ConnectionDetails(Regions.R_OPEN_SEA, Regions.R_FORTRESSES_ASHEN,
-                                   ItemReqEvalOr([ItemReqEvalAnd([Items.sail])])))
-    # endregion
-
-    # region Connect Shared Sea to Things Within
+def add_rules_pship_2_onboard(rules):
+    rules.append(ConnectionDetails(Regions.R_PLAYER_SHIP, Regions.R_SHIP_CANNONS,
+                                   ItemReqEvalOr([ItemReqEvalAnd([Items.ship_weapons, Items.barrel_cannon])])))
+    rules.append(ConnectionDetails(Regions.R_PLAYER_SHIP, Regions.R_SHIP_COOKER,
+                                   ItemReqEvalOr([ItemReqEvalAnd([Items.stove, Items.barrel_food])])))
+def add_rules_sea_2_othership(rules):
     rules.append(ConnectionDetails(Regions.R_OPEN_SEA_SHARED, Regions.R_OTHER_SHIP,
                                    ItemReqEvalOr([ItemReqEvalAnd([Items.sail])])))
-    # endregion
-
-    # region Tall Tales
-    rules.append(ConnectionDetails(Regions.R_OPEN_SEA_SHARED, Regions.R_DOMAIN_TT,
-                                   ItemReqEvalOr([ItemReqEvalAnd([Items.voyages_tt])])))
-    rules.append(ConnectionDetails(Regions.R_OPEN_SEA_SHARED, Regions.R_DOMAIN_TT_ASHEN,
-                                   ItemReqEvalOr([ItemReqEvalAnd([Items.voyages_tt])])))
-    # endregion
-
-    rules.append(ConnectionDetails(Regions.R_PLAYER_SHIP, Regions.R_SHIP_CANNONS,
-                                   ItemReqEvalOr([ItemReqEvalAnd([Items.ship_weapons])])))
-    rules.append(ConnectionDetails(Regions.R_PLAYER_SHIP, Regions.R_SHIP_COOKER,
-                                   ItemReqEvalOr([ItemReqEvalAnd([Items.stove])])))
-
-    return rules

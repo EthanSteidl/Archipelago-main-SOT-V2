@@ -41,7 +41,7 @@ class Regions(list):
     R_DOMAIN_TT_ASHEN: RegionDetails = RegionDetails("Sea of Ashen Tales")
 
     R_SHIP_CANNONS: RegionDetails = RegionDetails("Ship Cannons")
-    R_SHIP_COOKER: RegionDetails = RegionDetails("Ship Stove")
+    R_SHIP_COOKER: RegionDetails = RegionDetails("Cookables")
 
     R_SHOP_ALL: RegionDetails = RegionDetails("Shops")
     R_SHOP_ANCIENT_SPIRE: RegionDetails = RegionDetails("Ancient Spire Outpost Shop", True)

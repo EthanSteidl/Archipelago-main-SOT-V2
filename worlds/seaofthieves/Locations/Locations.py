@@ -143,29 +143,6 @@ class DoRand(Enum):
     N = 0,
     SAME = -1
 
-#
-# class Cost:
-#
-#     def __init__(self, gold: int = 0, dabloons: int = 0, ancient_coins: int = 0):
-#         self.gold = gold
-#         self.dabloons = dabloons
-#         self.ancient_coins = ancient_coins
-#
-#     def toDict(self):
-#         ret = {}
-#         ret["gold"] = self.gold
-#         ret["dabloons"] = self.dabloons
-#         ret["ancient_coins"] = self.ancient_coins
-#         return ret
-#
-#     def toJSON(self):
-#         return json.dumps(
-#             self,
-#             default=lambda o: o.__dict__,
-#             sort_keys=True,
-#             indent=4)
-
-
 class LocDetails:
     seedId: int = 9000000
 
