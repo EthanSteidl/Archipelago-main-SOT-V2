@@ -17,3 +17,4 @@ class FortressSanity(Choice):
     option_Off = 0
     option_On = 1
     option_On_For_Each = 2
+    default = option_On_For_Each

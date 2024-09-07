@@ -108,6 +108,11 @@ class SOTWebCollector:
             time.sleep(self.QUERY_PERIOD_SECONDS)
 
     def getJson(self):
+
+        if self.json_multi_task is None:
+            self.json_multi_task = multiprocessing.Process(target=self.getWebDataTask)
+            self.json_multi_task.start()
+
         return self.json
 
     def getBalance(self):
@@ -116,7 +121,7 @@ class SOTWebCollector:
             self.json_multi_task = multiprocessing.Process(target=self.getWebDataTask)
             self.json_multi_task.start()
 
-        return self.json
+        return self.balance
 
     def stop_tasks(self):
         self.stop_application = True

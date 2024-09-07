@@ -22,53 +22,55 @@ class ChoiceForEachSpecies(ChoiceForEach):
 class MunchSanityFruit(ChoiceForEach):
     """If shuffle EAT, removes on eat fruit check, adds a check on each fruit"""
     display_name = "(EAT) Fruit"
+    default = 2
 
 
 class MunchSanityFish(ChoiceForEachSpecies):
     """If shuffle EAT, removes on eat fish check, adds a check on each type of fish"""
     display_name = "(EAT) Fish"
-
+    default = 1
 
 class MunchSanitySeamonster(ChoiceForEach):
     """If shuffle EAT, removes on eat seamonster check, adds a check on each seamonster"""
     display_name = "(EAT) Seamonster"
-
+    default = 1
 
 class MunchSanityLandAnimal(ChoiceForEach):
     """If shuffle EAT, removes on eat land animal check, adds a check on each land animal"""
     display_name = "(EAT) Animal"
-
+    default = 1
 
 class MunchSanityBug(ChoiceForEach):
     """If shuffle EAT, removes on eat Bug check, adds a check on each Bug"""
     display_name = "(EAT) Bug"
-
+    default = 2
 
 class CookSanityFish(ChoiceForEachSpecies):
     """If shuffle COOK, removes on cook fish check, adds a check on each fish"""
     display_name = "(COOK) Fish"
-
+    default = 1
 
 class CookSanitySeamonster(ChoiceForEach):
     """If shuffle COOK, removes on cook fish check, adds a check on each type of fish"""
     display_name = "(COOK) Seamonster"
-
+    default = 1
 
 class CookSanityLandAnimal(ChoiceForEach):
     """If shuffle COOK, removes on cook land animal check, adds a check on each land animal"""
     display_name = "(COOK) Animal"
-
+    default = 1
 
 class BurnSanityFish(ChoiceForEachSpecies):
     """If shuffle Burn, removes on Burn fish check, adds a check on each fish"""
     display_name = "(BURN) Fish"
-
+    default = 1
 
 class BurnSanitySeamonster(ChoiceForEach):
     """If shuffle Burn, removes on Burn fish check, adds a check on each type of fish"""
     display_name = "(BURN) Seamonster"
-
+    default = 1
 
 class BurnSanityLandAnimal(ChoiceForEach):
     """If shuffle Burn, removes on Burn land animal check, adds a check on each land animal"""
     display_name = "(BURN) land animal"
+    default = 1
