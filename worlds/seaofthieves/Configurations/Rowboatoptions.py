@@ -2,7 +2,7 @@ import typing
 from dataclasses import dataclass
 
 import Options
-from OptionsBase import ChoiceForEach
+from .OptionsBase import ChoiceForEach
 
 DefaultOffToggle = Options.Toggle
 
