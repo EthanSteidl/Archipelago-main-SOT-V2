@@ -1,7 +1,7 @@
 import typing
 
 from worlds.seaofthieves.Locations.Shop.Balance import Balance
-
+from worlds.seaofthieves.Items.ItemHelpers import CurrencyTypeAndValue, CurrencyType
 
 class PlayerInventory:
 
@@ -39,6 +39,22 @@ class PlayerInventory:
 
     def addBalanceClient(self, bal: Balance):
         self.balanceClient = self.balanceClient + bal
+
+    def addBalanceClientFromCurrency(self, typeVal: CurrencyTypeAndValue):
+        match typeVal.type:
+            case CurrencyType.GOLD:
+                self.addBalanceClient(Balance(0, 0, typeVal.value))
+                return
+            case CurrencyType.DABLOON:
+                self.addBalanceClient(Balance(0, typeVal.value, 0))
+                return
+            case CurrencyType.ANCIENT_COIN:
+                self.addBalanceClient(Balance(typeVal.value, 0, 0))
+                return
+            case CurrencyType.NONE:
+                return
+
+        return
 
     def getNominalBalance(self) -> Balance:
         return self.balanceSot + self.balanceClient - self.balanceSpent

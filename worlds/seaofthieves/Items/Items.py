@@ -62,5 +62,3 @@ class Items:
     cat_s = Define.Shop.sanctuary()
 
 
-
-

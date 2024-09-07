@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import random
+import threading
 import time
 
 # CommonClient import first to trigger ModuleUpdater
@@ -28,7 +29,7 @@ from worlds.seaofthieves.Client.NetworkProtocol.PrintJsonPacket import PrintJson
 from worlds.seaofthieves.Client.NetworkProtocol.ReceivedItemsPacket import ReceivedItemsPacket
 from worlds.seaofthieves.Client.NetworkProtocol.SetReply import SetReplyPacket
 import worlds.seaofthieves.Locations.Shop.Balance as Balance
-
+from worlds.seaofthieves.Items.ItemHelpers import ItemHelpers, CurrencyType, CurrencyTypeAndValue
 
 class Version(NamedTuple):
     major: int
@@ -387,39 +388,7 @@ class SOT_Context(CommonContext):
             # this is where you read slot data if any
 
     def applyMoneyIfMoney(self, itm: NetworkItem):
-
-        gold_ids: typing.Dict[int, int] = {Items.gold_50.id: Items.gold_50.numeric_value,
-                                           Items.gold_100.id: Items.gold_100.numeric_value,
-                                           Items.gold_500.id: Items.gold_500.numeric_value}
-
-        dabloon_ids: typing.Dict[int, int] = {Items.dabloons_25.id: Items.dabloons_25.numeric_value}
-
-        coin_ids: typing.Dict[int, int] = {Items.ancient_coins_10.id: Items.ancient_coins_10.numeric_value}
-        item_id = itm.item
-        if item_id in gold_ids.keys():
-            gold_val = gold_ids[item_id]
-            ac = 0
-            db = 0
-            self.playerInventory.addBalanceClient(Balance.Balance(ac, db, gold_val))
-
-        elif item_id == Items.kraken:
-            self.output(
-                "Captain! The legendary " + colorama.Fore.YELLOW + Items.kraken.name + colorama.Style.RESET_ALL + " is coming for your " + colorama.Fore.GREEN + "COINS" + colorama.Fore.RESET + ". You are now broke.")
-            self.playerInventory.setBalanceSot(Balance.Balance(-10000, -10000, -10000))
-            self.snd_add(Items.kraken.name)
-
-        elif item_id in dabloon_ids.keys():
-            gold_val = 0
-            ac = 0
-            db = dabloon_ids[item_id]
-            self.playerInventory.addBalanceClient(Balance.Balance(ac, db, gold_val))
-
-        elif item_id in coin_ids.keys():
-            gold_val = 0
-            ac = coin_ids[item_id]
-            db = 0
-            self.playerInventory.addBalanceClient(Balance.Balance(ac, db, gold_val))
-
+        self.playerInventory.addBalanceClientFromCurrency(ItemHelpers.getCurrencyTypeAndValueFromItemId(itm.item))
         return
 
     def acknowledgeItemsReceived(self):
@@ -445,15 +414,12 @@ class SOT_Context(CommonContext):
         if not self.webOptions.allowBalanceQuery:
             return
 
-        if self.message_displayed == False:
-            self.output("AUTO TRACKER ENABLED")
-            self.message_displayed = True
-
         new_balance = self.analyzer.getBalance()
         if self.originalBalance is None:
             self.originalBalance = new_balance
         new_balance = new_balance - self.originalBalance
         self.playerInventory.setBalanceSot(new_balance)
+
 
     async def collectLocationsAndSendInformation(self):
 
